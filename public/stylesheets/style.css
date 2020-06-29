@@ -3263,8 +3263,8 @@ a.btn1-goback:hover {
 }
 
 .cart-delete .close {
-  padding: 15px;
-  padding-left: 10px;
+  padding: 5px;
+  font-size: 17px;
   background-color: #FE696A;
 }
 

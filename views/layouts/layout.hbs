@@ -368,7 +368,7 @@
                                                 <div class="media align-items-center">
                                                     {{#if productImage}}
                                                     <a class="d-block mr-2" href="/product/{{this.link}}">
-                                                        <img width="64" src="{{this.productImage}}"
+                                                        <img width="64" src="{{this.productImage.[0].path}}"
                                                             alt="{{this.title}} product image">
                                                     </a>
                                                     {{else}}
