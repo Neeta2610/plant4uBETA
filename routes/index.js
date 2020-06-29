@@ -994,7 +994,7 @@ router.get('/:page?', async (req, res, next) => {
                 menu: sortMenu(await getMenu(db))
             });
         }else{
-            res.status(404).render('error', {
+            res.status(404).render('404', {
                 title: '404 Error - Page not found',
                 config: req.app.config,
                 message: '404 Error - Page not found',

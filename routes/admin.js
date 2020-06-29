@@ -314,7 +314,7 @@ router.get('/admin/settings/pages/edit/:page', csrfProtection, restrict, checkAc
     const page = await db.pages.findOne({ _id: common.getId(req.params.page) });
     const menu = common.sortMenu(await common.getMenu(db));
     if(!page){
-        res.status(404).render('error', {
+        res.status(404).render('404', {
             title: '404 Error - Page not found',
             config: req.app.config,
             message: '404 Error - Page not found',
