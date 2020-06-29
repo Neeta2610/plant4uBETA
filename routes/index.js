@@ -739,7 +739,7 @@ router.post('/product/addtocart', async (req, res, next) => {
         req.session.cartSubscription = product.productSubscription;
     }
 
-    return res.status(200).json({
+    res.status(200).json({
         message: 'Cart successfully updated',
         cartId: productCartId,
         totalCartItems: req.session.totalCartItems
