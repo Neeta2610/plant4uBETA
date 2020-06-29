@@ -408,11 +408,21 @@ if(app.get('env') === 'development'){
     app.use((err, req, res, next) => {
         console.error(colors.red(err.stack));
         res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err,
-            helpers: handlebars.helpers
-        });
+        if(err.status == 404){
+            res.render('404', {
+                title: '404 Not Found',
+                message: err.message,
+                error: {},
+                helpers: handlebars.helpers
+            });
+        }
+        else{
+            res.render('error', {
+                message: err.message,
+                error: err,
+                helpers: handlebars.helpers
+            });
+        }
     });
 }
 
@@ -421,11 +431,21 @@ if(app.get('env') === 'development'){
 app.use((err, req, res, next) => {
     console.error(colors.red(err.stack));
     res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {},
-        helpers: handlebars.helpers
-    });
+    if(err.status == 404){
+        res.render('404', {
+            title: '404 Not Found',
+            message: err.message,
+            error: {},
+            helpers: handlebars.helpers
+        });
+    }
+    else{
+        res.render('error', {
+            message: err.message,
+            error: err,
+            helpers: handlebars.helpers
+        });
+    }
 });
 
 // Nodejs version check
