@@ -53,7 +53,9 @@ svg {
 .page-header {
   padding-bottom: 5px;
 }
-
+.mtr-8 {
+  margin-top: 8rem !important;
+}
 .cart-contents-title {
   font-size: 18px;
   font-weight: 700;

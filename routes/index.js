@@ -4,6 +4,9 @@ const colors = require('colors');
 const stripHtml = require('string-strip-html');
 const moment = require('moment');
 const _ = require('lodash');
+const common = require('../lib/common');
+const { indexOrders } = require('../lib/indexing');
+const numeral = require('numeral');
 const {
     getId,
     hooker,
@@ -21,6 +24,129 @@ const {
     getCountryList
 } = require('../lib/common');
 const countryList = getCountryList();
+
+//This is how we take checkout action
+
+router.post('/checkout_action', (req, res, next) => {
+    const db = req.app.db;
+    const config = req.app.config;
+ //   const stripeConfig = common.getPaymentConfig();
+
+    // Create the Stripe payload
+   /* const chargePayload = {
+        amount: numeral(req.session.totalCartAmount).format('0.00').replace('.', ''),
+        currency: stripeConfig.stripeCurrency.toLowerCase(),
+        source: req.body.stripeToken,
+        description: stripeConfig.stripeDescription,
+        shipping: {
+            name: `${req.session.customerFirstname} ${req.session.customerFirstname}`,
+            address: {
+                line1: req.session.customerAddress1,
+                line2: req.session.customerAddress2,
+                postal_code: req.session.customerPostcode,
+                state: req.session.customerState,
+                country: req.session.customerCountry
+            }
+        }
+    };  */
+
+    // charge via stripe
+   /* stripe.charges.create(chargePayload, (err, charge) => {
+        if(err){
+            console.info(err.stack);
+            req.session.messageType = 'danger';
+            req.session.message = 'Your payment has declined. Please try again';
+            req.session.paymentApproved = false;
+            req.session.paymentDetails = '';
+            res.redirect('/checkout/payment');
+            return;
+        }
+   */
+        // order status
+        let paymentStatus = 'Paid';
+       /* if(charge.paid !== true){
+            paymentStatus = 'Declined';
+        } */
+
+        // new order doc
+        const orderDoc = {
+           // orderPaymentId: charge.id,
+          //  orderPaymentGateway: 'Stripe',
+           // orderPaymentMessage: charge.outcome.seller_message,
+            orderTotal: req.session.totalCartAmount,
+            orderShipping: req.session.totalCartShipping,
+            orderItemCount: req.session.totalCartItems,
+            orderProductCount: req.session.totalCartProducts,
+            orderCustomer: common.getId(req.session.customerId),
+            orderEmail: req.session.customerEmail,
+           // orderCompany: req.session.customerCompany,
+            orderFirstname: req.session.customerFirstname,
+            orderLastname: req.session.customerLastname,
+            orderAddr1: req.session.customerAddress1,
+           // orderAddr2: req.session.customerAddress2,
+          //  orderCountry: req.session.customerCountry,
+            orderState: req.session.customerState,
+            orderPostcode: req.session.customerPostcode,
+            orderPhoneNumber: req.session.customerPhone,
+            //orderComment: req.session.orderComment,
+            orderStatus: paymentStatus,
+            orderDate: new Date(),
+            orderProducts: req.session.cart,
+            orderType: 'Single'
+        };
+
+        // insert order into DB
+        db.orders.insertOne(orderDoc, (err, newDoc) => {
+            if(err){
+                console.info(err.stack);
+            }
+
+            // get the new ID
+            const newId = newDoc.insertedId;
+
+            // add to lunr index
+            indexOrders(req.app)
+            .then(() => {
+                // if approved, send email etc
+                    // set the results
+                    req.session.messageType = 'success';
+                    req.session.message = 'Your payment was successfully completed';
+                    req.session.paymentEmailAddr = newDoc.ops[0].orderEmail;
+                    req.session.paymentApproved = true;
+                    req.session.paymentDetails = '<p><strong>Order ID: </strong>' + newId ;
+
+                    // set payment results for email
+                    const paymentResults = {
+                        message: req.session.message,
+                        messageType: req.session.messageType,
+                        paymentEmailAddr: req.session.paymentEmailAddr,
+                        paymentApproved: true,
+                        paymentDetails: req.session.paymentDetails
+                    };
+
+                    // clear the cart
+                    if(req.session.cart){
+                        common.emptyCart(req, res, 'function');
+                    }
+
+                    // send the email with the response
+                    // TODO: Should fix this to properly handle result
+                    common.sendEmail(req.session.paymentEmailAddr, 'Your payment with ' + config.cartTitle, common.getEmailTemplate(paymentResults));
+
+                    // redirect to outcome
+                    res.redirect('/payment/' + newId);
+                /*else{
+                    // redirect to failure
+                    req.session.messageType = 'danger';
+                    req.session.message = 'Your payment has declined. Please try again';
+                    req.session.paymentApproved = false;
+                    req.session.paymentDetails = '<p><strong>Order ID: </strong>' + newId + '</p><p><strong>Transaction ID: </strong>' + charge.id + '</p>';
+                    res.redirect('/payment/' + newId);
+                } */
+            });
+        });
+    });
+// });
 
 // These is the customer facing routes
 router.get('/payment/:orderId', async (req, res, next) => {
@@ -102,7 +228,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
     };
     let paymentView = `${config.themeViews}payment-complete`;
     if(order.orderPaymentGateway === 'Blockonomics') paymentView = `${config.themeViews}payment-complete-blockonomics`;
-    res.render(paymentView, {
+    res.render('success', {
         title: 'Payment complete',
         config: req.app.config,
         session: req.session,

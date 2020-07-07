@@ -18,13 +18,6 @@
             "type": "string",
             "isNotEmpty": true
         },
-        "address2": {
-            "type": "string"
-        },
-        "country": {
-            "type": "string",
-            "isNotEmpty": true
-        },
         "state": {
             "type": "string",
             "isNotEmpty": true
@@ -47,7 +40,6 @@
         "firstName",
         "lastName",
         "address1",
-        "country",
         "state",
         "postcode",
         "phone",
