@@ -19,7 +19,7 @@ const { restrict } = require('../lib/auth');
 
 //*********************************//
 
-const authy = require('authy')('process.env.Authy_Key');
+const authy = require('authy')(process.env.Authy_Key);
 
 const apiLimiter = rateLimit({
     windowMs: 300000, // 5 minutes
