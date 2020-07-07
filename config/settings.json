@@ -17,7 +17,7 @@
     "customCss": "",
     "currencySymbol": "₹",
     "paymentGateway": "stripe",
-    "databaseConnectionString": "mongodb://localhost:27017/expresscart",
+    "databaseConnectionString": "mongodb://jammubasket:jammubasket1@ds021979.mlab.com:21979/heroku_4331w2kh",
     "theme": "Cloth",
     "trackStock": false,
     "orderHook": "",
