@@ -78,6 +78,14 @@ $(document).ready(function () {
       e.stopPropagation();
     });
   });
+  $('.password-show').on('click',function(e) {
+    if(e.currentTarget.form[1].type == 'password'){
+      e.currentTarget.form[1].type = 'text';
+    }
+    else{
+      e.currentTarget.form[1].type = 'password';
+    }
+  });
   $(".btn1").on('click', function () {
     $(".form-signin").toggleClass("form-signin-left");
     $(".form-signup").toggleClass("form-signup-left");

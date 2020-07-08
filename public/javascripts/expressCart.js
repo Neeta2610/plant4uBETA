@@ -257,6 +257,26 @@ $(document).ready(function () {
         }
         e.preventDefault();
     });
+    $('#customerloginForm2').on('click', function (e) {
+        if (!e.isDefaultPrevented()) {
+            e.preventDefault();
+            $.ajax({
+                    method: 'POST',
+                    url: '/customer/login_action',
+                    data: {
+                        loginEmail: $('#email2').val(),
+                        loginPassword: $('#password2').val()
+                    }
+                })
+                .done(function (msg) {
+                    window.location = '/customer/account';
+                })
+                .fail(function (msg) {
+                    showNotification(msg.responseJSON.message, 'danger');
+                });
+        }
+        e.preventDefault();
+    });
 
     // call update settings API
     $('#customerLogin').on('click', function (e) {
