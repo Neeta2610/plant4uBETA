@@ -23,6 +23,7 @@ const { addSchemas } = require('./lib/schema');
 const { initDb, getDbUri } = require('./lib/db');
 let handlebars = require('express-handlebars');
 const i18n = require('i18n');
+const compression = require('compression');
 
 // Validate our settings schema
 const Ajv = require('ajv');
@@ -364,6 +365,9 @@ app.use(bodyParser.json({
 
 // Set locales from session
 app.use(i18n.init);
+
+//compression
+app.use(compression());
 
 // serving static content
 app.use(express.static(path.join(__dirname, 'public')));

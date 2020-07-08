@@ -37,6 +37,7 @@
     "cheerio": "^1.0.0-rc.3",
     "cloudinary": "^1.22.0",
     "colors": "^1.4.0",
+    "compression": "^1.7.4",
     "connect-mongodb-session": "^2.3.2",
     "cookie-parser": "^1.4.5",
     "countries-list": "^2.5.4",

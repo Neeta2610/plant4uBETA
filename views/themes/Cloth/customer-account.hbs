@@ -162,64 +162,64 @@
                                     </button>
                                 </p>
                             </div>
-                            <div id="collapse{{this._id}}" class="collapse" aria-labelledby="headingOne"
+                            <div id="collapse{{this._id}}" class="collapse orderScroll" aria-labelledby="headingOne"
                                 data-parent="#accordion">
                                 <div class="card-body">
                                     <ul class="list-group">
                                         <li class="list-group-item list-group-input-pad">
-                                            <strong> Order status: </strong><span
+                                            <strong class="float-left"> Order status: </strong><span
                                                 class="text-{{getStatusColor this.orderStatus}} float-right">{{this.orderStatus}}</span>
                                         </li>
-                                        <li class="list-group-item"><strong> {{ @root.__ "Order date" }}:
+                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Order date" }}:
                                             </strong><span
                                                 class="float-right">{{formatDate result.orderDate "DD/MM/YYYY hh:mmA"}}</span>
                                         </li>
-                                        <li class="list-group-item"><strong> {{ @root.__ "Order ID" }}:
+                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Order ID" }}:
                                             </strong><span class="float-right">{{this._id}}</span></li>
                                         {{#if result.orderExpectedBtc }}
-                                        <li class="list-group-item"><strong> {{ @root.__ "Order Expected BTC" }}:
+                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Order Expected BTC" }}:
                                             </strong><span class="float-right">{{this.orderExpectedBtc}}</span></li>
                                         {{/if}}
                                         {{#if this.orderReceivedBtc }}
-                                        <li class="list-group-item"><strong> {{ @root.__ "Order Received BTC" }}:
+                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Order Received BTC" }}:
                                             </strong><span class="float-right">{{this.orderReceivedBtc}}</span></li>
                                         {{/if}}
                                         {{#if this.orderBlockonomicsTxid }}
-                                        <li class="list-group-item"><strong>
+                                        <li class="list-group-item"><strong class="float-left">
                                                 {{ @root.__ "Order Blockonomics Txid" }}: </strong><span
                                                 class="float-right">{{this.orderBlockonomicsTxid}}</span></li>
                                         {{/if}}
-                                        <li class="list-group-item"><strong> {{ @root.__ "Order net amount" }}:
+                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Order net amount" }}:
                                             </strong><span
-                                                class="float-right">{{currencySymbol config.currencySymbol}}{{formatAmount (math this.orderTotal '-' this.orderShipping)}}</span>
+                                                class="float-right">{{currencySymbol @root.config.currencySymbol}}{{formatAmount (math this.orderTotal '-' this.orderShipping)}}</span>
                                         </li>
-                                        <li class="list-group-item"><strong> {{ @root.__ "Order shipping amount" }}:
+                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Order shipping amount" }}:
                                             </strong><span
-                                                class="float-right">{{currencySymbol config.currencySymbol}}{{formatAmount this.orderShipping}}</span>
+                                                class="float-right">{{currencySymbol @root.config.currencySymbol}}{{formatAmount this.orderShipping}}</span>
                                         </li>
-                                        <li class="list-group-item"><strong> {{ @root.__ "Order total amount" }}:
+                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Order total amount" }}:
                                             </strong><span
-                                                class="float-right">{{currencySymbol config.currencySymbol}}{{formatAmount this.orderTotal}}</span>
+                                                class="float-right">{{currencySymbol @root.config.currencySymbol}}{{formatAmount this.orderTotal}}</span>
                                         </li>
-                                        <li class="list-group-item"><strong> {{ @root.__ "Email address" }}:
+                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Email address" }}:
                                             </strong><span class="float-right">{{this.orderEmail}}</span></li>
-                                        <li class="list-group-item"><strong> {{ @root.__ "Company" }}:
-                                            </strong><span class="float-right">{{this.orderCompany}}</span></li>
-                                        <li class="list-group-item"><strong> {{ @root.__ "First name" }}:
-                                            </strong><span class="float-right">{{this.orderFirstname}}</span></li>
-                                        <li class="list-group-item"><strong> {{ @root.__ "Last name" }}:
-                                            </strong><span class="float-right">{{this.orderLastname}}</span></li>
-                                        <li class="list-group-item"><strong> {{ @root.__ "Address 1" }}:
-                                            </strong><span class="float-right">{{this.orderAddr1}}</span></li>
-                                        <li class="list-group-item"><strong> {{ @root.__ "Address 2" }}:
-                                            </strong><span class="float-right">{{this.orderAddr2}}</span></li>
-                                        <li class="list-group-item"><strong> {{ @root.__ "Country" }}:
-                                            </strong><span class="float-right">{{this.orderCountry}}</span></li>
-                                        <li class="list-group-item"><strong> {{ @root.__ "State" }}: </strong><span
-                                                class="float-right">{{this.orderState}}</span></li>
-                                        <li class="list-group-item"><strong> {{ @root.__ "Postcode" }}:
-                                            </strong><span class="float-right">{{this.orderPostcode}}</span></li>
-                                        <li class="list-group-item"><strong> {{ @root.__ "Phone number" }}:
+                                        {{!-- <li class="list-group-item"><strong> {{ @root.__ "Company" }}:
+                                            </strong><span class="float-right">{{this.orderCompany}}</span></li> --}}
+                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Name" }}:
+                                            </strong><span class="float-right">{{this.orderFirstname}} {{this.orderLastname}}</span></li>
+                                        {{!-- <li class="list-group-item"><strong> {{ @root.__ "Last name" }}:
+                                            </strong><span class="float-right">{{this.orderLastname}}</span></li> --}}
+                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Address" }}:
+                                            </strong><span class="float-right">{{this.orderAddr1}}, {{this.orderState}}, {{this.orderPostcode}}</span></li>
+                                        {{!-- <li class="list-group-item"><strong> {{ @root.__ "Address 2" }}:
+                                            </strong><span class="float-right">{{this.orderAddr2}}</span></li> --}}
+                                        {{!-- <li class="list-group-item"><strong> {{ @root.__ "Country" }}:
+                                            </strong><span class="float-right">{{this.orderCountry}}</span></li> --}}
+                                        {{!-- <li class="list-group-item"><strong> {{ @root.__ "State" }}: </strong><span
+                                                class="float-right">{{this.orderState}}</span></li> --}}
+                                        {{!-- <li class="list-group-item"><strong> {{ @root.__ "Postcode" }}:
+                                            </strong><span class="float-right">{{this.orderPostcode}}</span></li> --}}
+                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Phone number" }}:
                                             </strong><span class="float-right">{{this.orderPhoneNumber}}</span></li>
                                         <li class="list-group-item">&nbsp;</li>
                                         <li class="list-group-item"><strong
