@@ -670,7 +670,7 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
         fs.unlinkSync(file.path);
 
         const imagePath = path.join('/uploads', productPath, file.originalname.replace(/ /g, '_'));
-        var hostingurl = "https://jammubasket.herokuapp.com"
+        var hostingurl = "https://plant4ubeta.herokuapp.com"
         var tempImagePath = hostingurl.concat(imagePath);
         cloudinary.uploader.upload(tempImagePath, 
         async function(error, result) {
