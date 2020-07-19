@@ -17,9 +17,9 @@ const csrfProtection = csrf({ cookie: true });
 var cloudinary = require('cloudinary').v2;
 
 cloudinary.config({ 
-    cloud_name: 'hoiuqedcf', 
-    api_key: '849651669432825', 
-    api_secret: 'FdsuCdcqhNFa-7vCU8GZfExKA_Y' 
+    cloud_name: 'plant4u', 
+    api_key: '125951334984627', 
+    api_secret: 'fIREsPkXsg5cpWyksHDnoykVHYM' 
   });
 
 // Regex
@@ -63,8 +63,7 @@ router.get('/admin/login', async (req, res) => {
             config: req.app.config,
             message: common.clearSessionValue(req.session, 'message'),
             messageType: common.clearSessionValue(req.session, 'messageType'),
-            helpers: req.handlebars.helpers,
-            showFooter: 'showFooter'
+            helpers: req.handlebars.helpers
         });
     }else{
         // if there are no users set the "needsSetup" session

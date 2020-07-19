@@ -6,14 +6,16 @@ $(document).ready(function() {
       $(this).width(50);
     });
     $('.expand-filter').on('click',function(){
+      if($('.Wrapper-product .filter').css('display') == 'none'){
         $('.Wrapper-product .filter').css('display','block');
         $('body').css('overflow','hidden');
         $('.closefilter').css('display','block');
-    });
-    $('.closefilter button').on('click',function(){
+      }
+      else{
         $('.closefilter').css('display','none');
         $('.Wrapper-product .filter').css('display','none');
         $('body').css('overflow','auto');
+      }
     });
     var rangeSlider = document.getElementById('slider-range');
     var moneyFormat = wNumb({

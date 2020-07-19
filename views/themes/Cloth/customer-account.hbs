@@ -1,14 +1,6 @@
-<div id="background" class="grocery-background">
-</div>
-<div id="account" class="col-md-10 offset-md-1 col-sm-12">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/"><i class="fa fa-home"></i></a></li>
-            <li class="breadcrumb-item active" aria-current="page"><a href="/customer/account">Account</a></li>
-        </ol>
-    </nav>
+<div id="account" class="col-md-10 offset-md-1 col-sm-12 top-marg-150 back-user">
     <div class="row">
-        <div id="content" class="col-md-6 ">
+        <div id="content" class="col-md-6 bg-light1">
 
             <div class="account-right">
 
@@ -64,54 +56,54 @@
     </div>
 
     {{!-- Details Section --}}
-    <div id="detailsForm" class="pagewrap">
+    <div id="detailsForm" class="pagewrap checkout_details_area">
         <form id="customer-form" class="form formAccount" role="form" data-toggle="validator" novalidate="false">
             <a href="#" class="close-button">&#10006;</a>
             <div class="container">
-                <input type="email" class="container__input customerDetails" id="shipEmail" name="shipEmail"
+                <input type="email" class="container__input customerDetails form-control" id="shipEmail" name="shipEmail"
                     placeholder="Email address" value="{{@root.session.customerEmail}}" required>
 
                 <label id="userLabel" for="email" class="container__label">eMail</label></div>
 
             <div class="container">
-                <input type="text" class="container__input customerDetails" id="shipFirstname" name="shipFirstname"
+                <input type="text" class="container__input customerDetails form-control" id="shipFirstname" name="shipFirstname"
                     placeholder="First name" value="{{@root.session.customerFirstname}}" required>
                 <label id="userLabel" for="FirstName" class="container__label">First Name</label></div>
 
             <div class="container">
-                <input type="text" class="container__input customerDetails" id="shipLastname" name="shipLastname"
+                <input type="text" class="container__input customerDetails form-control" id="shipLastname" name="shipLastname"
                     placeholder="Last name" value="{{@root.session.customerLastname}}" required>
                 <label id="userLabel" for="LastName" class="container__label">Last Name</label></div>
-            <button class="form__submit" id="customerSave" type="button" value="submit">Submit</button>
+            <button class="btn amado-btn" id="customerSave" type="button" value="submit">Submit</button>
         </form>
     </div>
 
     {{!-- address Section --}}
     <div id="addressForm" class="pagewrap formAddress">
-        <form id="customer-form" class="form formAccount" role="form" data-toggle="validator" novalidate="false">
+        <form id="customer-form" class="form formAccount checkout_details_area" role="form" data-toggle="validator" novalidate="false">
             <a href="#" class="close-button">&#10006;</a>
             {{> themes/Cloth/shipping-form}}
 
-            <button class="form__submit" id="addressSave" type="button" value="submit">Submit</button>
+            <button class="btn amado-btn" id="addressSave" type="button" value="submit">Submit</button>
         </form>
     </div>
 
     {{!-- Password Section --}}
-    <div id="passwordForm" class="pagewrap">
+    <div id="passwordForm" class="pagewrap checkout_details_area">
         <form id="customer-form" class="form formAccount" role="form" data-toggle="validator" novalidate="false">
             <a href="#" class="close-button">&#10006;</a>
             <div class="container">
-                <input type="password" class="container__input customerDetails" id="" name="" placeholder="Password"
+                <input type="password" class="container__input customerDetails form-control" id="" name="" placeholder="Password"
                     value="" required>
 
                 <label id="userLabel" for="pass" class="container__label">password</label></div>
 
             <div class="container">
-                <input type="password" class="container__input customerDetails" id="" name=""
+                <input type="password" class="container__input customerDetails form-control" id="" name=""
                     placeholder="Confirm Pasword" value="" required>
                 <label id="userLabel" for="confirmPass" class="container__label">Confirm</label></div>
 
-            <button class="form__submit" id="passwordSave" type="button" value="submit">Submit</button>
+            <button class="btn amado-btn" id="passwordSave" type="button" value="submit">Submit</button>
         </form>
     </div>
 
@@ -139,7 +131,7 @@
             <div class="card top-marg-15">
                 <div class="card-body">
                     <a href="#" class="close-button">&#10006;</a>
-                    <h5 class="card-heading">{{ @root.__ "Orders" }}</h5>
+                    <h5 class="card-heading bottom-marg-10">{{ @root.__ "Orders" }}</h5>
                     <div id="accordion">
                         {{#unless orders}}
                         <div class="card mb-3">
@@ -175,7 +167,7 @@
                                                 class="float-right">{{formatDate result.orderDate "DD/MM/YYYY hh:mmA"}}</span>
                                         </li>
                                         <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Order ID" }}:
-                                            </strong><span class="float-right">{{this._id}}</span></li>
+                                            </strong><span class="float-right" style="word-break: break-all;">{{this._id}}</span></li>
                                         {{#if result.orderExpectedBtc }}
                                         <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Order Expected BTC" }}:
                                             </strong><span class="float-right">{{this.orderExpectedBtc}}</span></li>
@@ -202,7 +194,7 @@
                                                 class="float-right">{{currencySymbol @root.config.currencySymbol}}{{formatAmount this.orderTotal}}</span>
                                         </li>
                                         <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Email address" }}:
-                                            </strong><span class="float-right">{{this.orderEmail}}</span></li>
+                                            </strong><span class="float-right" style="word-break: break-all;">{{this.orderEmail}}</span></li>
                                         {{!-- <li class="list-group-item"><strong> {{ @root.__ "Company" }}:
                                             </strong><span class="float-right">{{this.orderCompany}}</span></li> --}}
                                         <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Name" }}:

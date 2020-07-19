@@ -1,128 +1,193 @@
-<div class="product-layout col-sm-9 offset-sm-1">
-    <div class="row">
-        {{!-- Product Images --}}
-        <div class="col-sm-12 col-md-6 m-auto">
-            {{#if result.productImage}}
+<div class="product-layout col-sm-9 offset-sm-1 top-marg-100">
+    
+       <div class="single-product-area section-padding-100 clearfix">
+            <div class="container-fluid">
 
-            <div class="row bg-scr">
-                <ul id="etalage">
-                    {{#each result.productImage}}
-                    <li>
-                        <img class="etalage_thumb_image" src="{{this.path}}">
-                        <img class="etalage_source_image" src="{{this.path}}">
-                    </li>
-                    {{/each}}
-                </ul>
-            </div>
-
-            <div class="row sm-scr">
-                <ul id="etalage1">
-                    {{#each result.productImage}}
-                    <li>
-                        <img class="etalage_thumb_image" src="{{this.path}}">
-                        <img class="etalage_source_image" src="{{this.path}}">
-                    </li>
-                    {{/each}}
-                </ul>
-            </div>
-
-            {{else}}
-            <div class="title-image-container">
-                <img src="/uploads/placeholder.png" id="product-title-image" class="product-title-image img-fluid"
-                    alt="...">
-            </div>
-            {{/if}}
-        </div>
-
-
-        {{!-- Product Details --}}
-        <div class="col-sm-12 col-md-6 pro-details m-auto">
-            <div class="row">
-                <h1 class="col-md-10 product-title text-truncate">{{result.productTitle}}</h1>
-                {{#if variants}}
-                <h4 class="col-md-10 product-price mp-0">{{currencySymbol config.currencySymbol}}{{variants.0.price}}
-                </h4>
-                {{else}}
-                <div class="d-inline-flex">
-                    <p class="col-md-10 mrp-top"> <span class="price">M.R.P: </span>
-                        <span class="mrp">{{currencySymbol config.currencySymbol}} 496</span></p>
-
-                    <h4 class="col-md-10 product-price mp-0"> <span class="price">Price: </span>
-                        {{currencySymbol config.currencySymbol}}{{result.productPrice}}</h4>
-                </div>
-
-                <p class="taxes col-md-10">Inclusive of all taxes</p>
-                {{/if}}
-                {{#if variants}}
-                <h4 class="col-md-10 product-option">{{ @root.__ "Options" }}</h4>
-                <div class="col-md-10">
-                    <select id="product_variant" class="form-control">
-                        {{#each variants}}
-                        <option value="{{this._id}}" data-price="{{this.price}}">{{this.title}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-                {{/if}}
-                {{#if config.trackStock}}
-                {{#ifCond result.productStock '==' 0}}
-                <div class="col-md-10">
-                    <h4 class="text-danger text-center">
-                        Out of stock
-                    </h4>
-                </div>
-                {{/ifCond}}
-                {{/if}}
-                <div class="col-md-10 productOptions">
-                    <div class="input-group">
-                        <div class="input-group-prepend input-btn">
-                            <button class="form-control pull-left btn-number qty-btn-minus" type="button">
-                                <i class="fa fa-minus" aria-hidden="true"></i>
-                            </button>
+                <div class="row">
+                    <div class="col-12 col-lg-7">
+                        <div class="single_product_thumb">
+                            <div id="product_details_slider" class="carousel slide" data-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    {{#if result.productImage}}
+                                    {{#each result.productImage}}
+                                    <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url("+{{this.path}}+");">
+                                    </li>
+                                    {{/each}}
+                                    {{else}}
+                                    <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url(/images/p1.jpg);">
+                                    </li>
+                                    <li data-target="#product_details_slider" data-slide-to="1" style="background-image: url(/images/p5.jpg);">
+                                    </li>
+                                    <li data-target="#product_details_slider" data-slide-to="2" style="background-image: url(/images/p5.jpg);">
+                                    </li>
+                                    <li data-target="#product_details_slider" data-slide-to="3" style="background-image: url(/images/p1.jpg);">
+                                    </li>
+                                    {{/if}}
+                                </ol>
+                                <div class="carousel-inner">
+                                    {{#if result.productImage}}
+                                    {{#each result.productImage}}
+                                    <div class="carousel-item active">
+                                        <a class="gallery_img" href="{{this.path}}">
+                                            <img class="d-block w-100" src="{{this.path}}" alt="First slide">
+                                        </a>
+                                    </div>
+                                    {{/each}}
+                                    {{else}}
+                                    <div class="carousel-item active">
+                                        <a class="gallery_img" href="/images/p1.jpg">
+                                            <img class="d-block w-100" src="/images/p1.jpg" alt="First slide">
+                                        </a>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <a class="gallery_img" href="/images/p5.jpg">
+                                            <img class="d-block w-100" src="/images/p5.jpg" alt="Second slide">
+                                        </a>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <a class="gallery_img" href="/images/p5.jpg">
+                                            <img class="d-block w-100" src="/images/p5.jpg" alt="Third slide">
+                                        </a>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <a class="gallery_img" href="/images/p1.jpg">
+                                            <img class="d-block w-100" src="/images/p1.jpg" alt="Fourth slide">
+                                        </a>
+                                    </div>
+                                    {{/if}}
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-quan">
-                            <input type="number" class="form-control add-color text-center dropdown no-pad"
-                                id="product_quantity" min="1" max="10" value="1">
-                        </div>
-                        <div class="input-group-append input-btn">
-                            <button class="form-control pull-left btn-number qty-btn-plus" type="button">
-                                <i class="fa fa-plus" aria-hidden="true"></i>
-                            </button>
-                        </div>
+                    </div>
+                    <div class="col-12 col-lg-5">
+                        <div class="single_product_desc">
+                            <!-- Product Meta Data -->
+                            <div class="product-meta-data">
+                                <div class="line"></div>
+                                <p class="product-price">{{currencySymbol config.currencySymbol}}{{result.productPrice}}</p>
+                                <a href="#">
+                                    <h6>{{result.productTitle}}</h6>
+                                </a>
+                                <!-- Ratings & Review -->
+                                <div class="ratings-review mb-15 d-flex align-items-center justify-content-between">
+                                    <div class="ratings">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="review">
+                                        <a href="#">Write A Review</a>
+                                    </div>
+                                </div>
+                                <!-- Avaiable -->
+                                <p class="avaibility"><i class="fa fa-circle"></i> In Stock</p>
+                            </div>
 
-                        <div class="col-md-4 btnAddToCart">
-                            <button class="btn btn-primary btn-block product-add-to-cart"
-                                type="button">{{ @root.__ "Add to cart" }}</button>
+                            <div class="short_overview my-5">
+                                <p>{{{fixTags result.productDescription}}}</p>
+                            </div>
+
+                            <!-- Add to Cart Form -->
+                            <div class="cart clearfix">
+                                <div class="cart-btn d-flex bottom-marg-50">
+                                    <p>Qty</p>
+                                    <div class="quantity">
+                                        <span class="qty-minus" onclick="var effect = document.getElementById('product_quantity'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-caret-down" aria-hidden="true"></i></span>
+                                        <input type="number" class="qty-text" id="product_quantity" step="1" min="1" max="300" name="quantity" value="1">
+                                        <span class="qty-plus" onclick="var effect = document.getElementById('product_quantity'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                                <button  name="addtocart" value="5" class="btn amado-btn product-add-to-cart">Add to cart</button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
-                <div class="features">
-                    <h1 class="heading">Features</h1>
-                    <div class="body_text">
-                        <ul>
-                            <li>Removes stains effectively</li>
-                            <li>Leaves a pleasant fragrance</li>
-                            <li>Has the power of 10 hands</li>
-                        </ul>
-                    </div>
-                </div>
-                {{!-- {{#if result.productComment}}
-                <div class="col-md-10">
-                    {{ @root.__ "Leave a comment?" }}
-                    <textarea class="form-control" id="product_comment"></textarea>
-                </div>
-                {{/if}} --}}
-
             </div>
         </div>
-    </div>
-    <hr>
     <div class="row pl-0">
-        <div class="description col">
-            <h1 class="heading">Description</h1>
-            <div class="body_text">
-                {{{fixTags result.productDescription}}}
-            </div>
-        </div>
+    <div class="descproduct">
+		<div class="descheading">
+			<h3>Description</h3>
+			<h3>Reviews</h3>
+			<h3>Policy</h3>
+		</div>
+		<div class="descriptionmain desccont">
+			<h2>Description</h2>
+			<p>{{{fixTags result.productDescription}}}</p>
+			<h2>How To Take Care</h2>
+			<ul>
+				<li>Do not give water for 15 days</li>
+				<li>Water cannot be given more than 500ml at each time.</li>
+				<li>Do not through at any place.</li>
+				<li>I am sure you are not going to follow any of the above instruction.</li>
+			</ul>
+		</div>
+		<div class="reviewmain desccont">
+			<div class="reviewinner">
+				<h4>Customer Reviews <a>WRITE A REVIEW</a></h4>
+				<div class="star">
+						<i class="fas fa-star i"></i>
+						<i class="fas fa-star i"></i>
+						<i class="fas fa-star i"></i>
+						<i class="fas fa-star i"></i>
+						<i class="far fa-star i"></i>
+						<b>Based on 1 Review</b>
+				</div>
+			</div>
+			<div class="reviewinput displaynone">
+				<h4>Write A Review</h4>
+				<div class="input1">
+					<label for="username">Name</label><br>
+					<input type="text" id="username" name="username" placeholder="Enter Your Name" value="">
+				</div>
+				<div class="input1">
+					<label for="title">Review Title</label><br>
+					<input type="text" id="title" name="title" value="" placeholder="Enter Review Title">
+				</div>
+				<label for="">Rating</label>
+				<div class="star">
+						<i class="far fa-star i"></i>
+						<i class="far fa-star i"></i>
+						<i class="far fa-star i"></i>
+						<i class="far fa-star i"></i>
+						<i class="far fa-star i"></i>
+				</div>
+				<div class="inputtextarea">
+					<label for="textarea">Review Must Not Exceed 150 Words</label><br>
+					<textarea name="review" id="textarea" value="" placeholder="Enter the Review"></textarea>
+				</div>
+				<div class="submit">
+					<input type="submit" value="Submit">
+				</div>
+			</div>
+			<div class="reviewabc">
+					<div class="star">
+							<i class="fas fa-star i"></i>
+							<i class="fas fa-star i"></i>
+							<i class="fas fa-star i"></i>
+							<i class="fas fa-star i"></i>
+							<i class="far fa-star i"></i>
+					</div>
+					<h2>Good Plant For Room Refreshment</h2>
+					<h5>Shriom on <span>17 Oct 2019</span></h5>
+					<p>good </p>
+			</div>
+		</div>
+		<div class="shippingpolicymain desccont">
+			<h2>Shipping Policy Of Company</h2>
+	
+			<ul>
+				<li>Delivery can take 3-5 business days</li>
+				<li>Item cannot be returned after 1 day</li>
+				<li>24/7 Live Support</li>
+				<li>You Are Under Our Control</li>
+			</ul>
+		</div>
+</div>
+
     </div>
     <hr>
 
@@ -136,27 +201,54 @@
         </h3>
         <div class="parent-box owl-carousel">
             {{#each relatedProducts}}
+<div class="col-12 col-sm-6 col-md-12 col-xl-3">
+                        <div class="single-product-wrapper">
+                            <!-- Product Image -->
+                            <div class="product-img">
+                                {{#if productImage}}
+                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <!-- Hover Thumb -->
+                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                {{else}}
+                                    <img src="/images/p5.jpg" alt="First Image">
+                                    <!-- Hover Thumb -->
+                                    <img class="hover-img" src="/images/p1.jpg" alt="Second Image">
+                                {{/if}}
+                            </div>
 
-            <div class="box">
-                <div class="single-product">
-                    <div class="product-thumb">
-                        {{#if productImage}}
-                        <img src="{{this.productImage.[0].path}}" alt="...">
-                        {{else}}
-                        <img src="/uploads/placeholder.png" alt="...">
-                        {{/if}}
-                        <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
+                            <!-- Product Description -->
+                            <div class="product-description d-flex align-items-center justify-content-between">
+                                <!-- Product Meta Data -->
+                                <div class="product-meta-data">
+                                    <div class="line"></div>
+                                    <p class="product-price">{{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</p>
+                                    {{#if productPermalink}}
+                                    <a href="/product/{{this.productPermalink}}">
+                                        <h6>{{this.productTitle}}</h6>
+                                    </a>
+                                    {{else}}
+                                    <a href="/product/{{this._id}}">
+                                        <h6>{{this.productTitle}}</h6>
+                                    </a>
+                                    {{/if}}
+                                </div>
+                                <!-- Ratings & Cart -->
+                                <div class="ratings-cart text-right">
+                                    <div class="ratings">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="cart">
+                                        <a class="btn-round" data-toggle="tooltip" data-placement="left" title="Add to Cart" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}"><img src="/images/cart.png" alt=""></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="product-title">
-                        <h3><a href="/product/{{this._id}}">{{this.productTitle}}</a></h3>
-                        <p>{{currencySymbol ../config.currencySymbol}}{{formatAmount productPrice}}
-                            <span>{{currencySymbol ../config.currencySymbol}}496</span>
-                        </p>
-                        <span class="save">Save ₹80</span>
-                    </div>
-                </div>
-            </div>
+            
             {{/each}}
         </div>
     </div>

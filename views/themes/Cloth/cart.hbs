@@ -1,13 +1,11 @@
-    <div class="page-title-overlap bg-dark pt-4">
+    <div class="page-title-overlap bg-dark2 pt-4">
         <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
             <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
                 <nav aria-label="breadcrumb">
                     <ol
                         class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
-                        <li class="breadcrumb-item"><a class="text-nowrap" href="/"><i class="czi-home"></i>Home</a>
+                        <li class="breadcrumb-item"><a class="text-nowrap" href="/"><i class="fas fa-home"></i>Home</a>
                         </li>
-                        </li>
-                        <li class="breadcrumb-item text-nowrap active" aria-current="page">Cart</li>
                     </ol>
                 </nav>
             </div>
@@ -24,21 +22,71 @@
             <section class="col-lg-8">
                 <div class="d-flex justify-content-between align-items-center pt-3 pb-2 pb-sm-5 mt-1">
                     <h2 class="h6 text-light mb-0">Products</h2>
-                    <a class="btn btn-outline-primary btn-sm pl-2" href="/"><i class="czi-arrow-left mr-2"></i>Continue
+                    <a class="btn amado-btn" href="/"><i class="fas fa-left"></i>Continue
                         shopping</a>
                 </div>
 
                 <div class="cartBodyWrapper">
                     <!-- Item-->
                     {{#each @root.session.cart}}
-                    <div class="d-sm-flex justify-content-between align-items-center my-4 pb-3 border-bottom">
+                     <div class="">
+                        <div class="cart-table-area cart-table-area2">
+                            <table class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="cart_product_img">
+                                            <a href="/product/{{this.link}}">
+                                            {{#if productImage}}
+                                            <img src="{{this.productImage.[0].path}}" alt="{{this.title}} product image"></a>
+                                            {{else}}
+                                            <img src="/images/p5.jpg" alt="{{this.title}} product image"></a>
+                                            {{/if}}</a>
+                                        </td>
+                                        <td class="cart_product_desc">
+                                            <h5>{{this.title}}</h5>
+                                        </td>
+                                        <td class="price">
+                                            <span>{{currencySymbol @root.config.currencySymbol}}{{formatAmount this.totalItemPrice}}</span>
+                                        </td>
+                                        <td class="qty">
+                                            <div class="qty-btn d-flex">
+                                                <p>Qty</p>
+                                                {{!-- <div class="quantity">
+                                                    <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-minus" aria-hidden="true"></i></span>
+                                                    <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
+                                                    <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                                </div> --}}
+                                                <div class="quantity">
+                                                    <span class="btn-qty-minus qty-minus" type="button"><i class="fas fa-minus"></i></span>
+                                                    <input type="number" class="cart-product-quantity qty-text"
+                                                        data-cartid="{{@key}}" data-id="{{../this.productId}}" maxlength="2"
+                                                        value="{{../this.quantity}}">
+                                                    <span class="btn-qty-add qty-plus" type="button"><i class="fas fa-plus"></i></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {{!-- <div class="d-sm-flex justify-content-between align-items-center my-4 pb-3 border-bottom">
                         <div class="media media-ie-fix d-block d-sm-flex align-items-center text-center text-sm-left">
                             <a class="d-inline-block mx-auto mr-sm-4" href="/product/{{this.link}}"
                                 style="width: 10rem;">
                                 {{#if productImage}}
                                 <img src="{{this.productImage.[0].path}}" alt="{{this.title}} product image"></a>
                             {{else}}
-                            <img src="/uploads/placeholder.png" alt="{{this.title}} product image"></a>
+                            <img src="/images/p5.jpg" alt="{{this.title}} product image"></a>
                             {{/if}}
                             </div>
                             <div class="media-body pt-2">
@@ -77,12 +125,8 @@
                            
                         
                     </div>
-                    {{/each}}
-                </div>
-                {{#if @root.session.cart}}
-                <button id="empty-cart" class="btn btn-outline-danger btn-block cart-empty-align" type="button">
-                    <i class="czi-trash font-size-base mr-2 cart-contents-shipping"></i>Empty cart</button>
-                {{/if}}
+                </div> --}}
+                {{/each}}
             </section>
             <!-- Sidebar-->
             <aside class="col-lg-4 pt-4 pt-lg-0">
@@ -115,18 +159,11 @@
                         </div>
                      
                     </div>
-                    <div class="form-group mb-4">
-                        <label class="mb-3" for="order-comments"><span
-                                class="badge badge-info font-size-xs mr-2">Note</span><span
-                                class="font-weight-medium">Additional comments</span></label>
-                        <textarea class="form-control" rows="6" id="order-comments"></textarea>
-                    </div>
                     <div class="accordion" id="order-options">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="accordion-heading"><a href="#promo-code" role="button" data-toggle="collapse"
-                                        aria-expanded="true" aria-controls="promo-code">Apply promo code<span
-                                            class="accordion-indicator"></span></a></h3>
+                                        aria-expanded="true" aria-controls="promo-code">Apply promo code <i class="fas fa-sort-up"></i></a></h3>
                             </div>
                             <div class="collapse show" id="promo-code" data-parent="#order-options">
                                 <form class="card-body needs-validation" method="post" novalidate>
@@ -140,8 +177,8 @@
                             </div>
                         </div>
                     </div>
-                    <a class="btn btn-primary btn-shadow btn-block mt-4" href="/checkout/information">
-                        <i class="czi-card font-size-lg mr-2"></i>Proceed to Checkout</a>
+                    <a class="btn amado-btn marg-17" href="/checkout/information">
+                        <i class="fas fa-wallet" style="margin-right: 7px;"></i>Proceed to Checkout</a>
                     {{else}}
                     <div id="cart-empty" class="d-flex flex-row cart-empty-align">
                         <div class="cart-contents-shipping col-md-12 no-pad-left">

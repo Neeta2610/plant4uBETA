@@ -10,9 +10,9 @@ const path = require('path');
 const router = express.Router();
 var cloudinary = require('cloudinary').v2;
 cloudinary.config({ 
-    cloud_name: 'hoiuqedcf', 
-    api_key: '849651669432825', 
-    api_secret: 'FdsuCdcqhNFa-7vCU8GZfExKA_Y' 
+    cloud_name: 'plant4u', 
+    api_key: '125951334984627', 
+    api_secret: 'fIREsPkXsg5cpWyksHDnoykVHYM' 
   });
 
 router.get('/admin/products/:page?', restrict, async (req, res, next) => {
@@ -336,13 +336,7 @@ router.post('/admin/product/update', restrict, checkAccess, async (req, res) => 
 
     // Remove productId from doc
     delete productDoc.productId;
-
-    // if no featured image
-    if(!product.productImage){
-        productDoc.productImage = '/uploads/placeholder.png';
-    }else{
-        productDoc.productImage = product.productImage;
-    }
+    productDoc.productImage = product.productImage;
 
     try{
         await db.products.updateOne({ _id: common.getId(req.body.productId) }, { $set: productDoc }, {});
