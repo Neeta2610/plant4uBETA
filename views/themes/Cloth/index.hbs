@@ -84,542 +84,261 @@
 
 
 <div class="Categories">
-  <h3>Categories
+  <h3>New Arrival
     <hr>
   </h3>
-  <div class="carousel-category owl-carousel">
-    <div>
-      <a href="/category/flour"><img src="/images/flour.jpg" alt=""></a>
-    </div>
-    <div>
-      <a href="/category/fruit"><img src="/images/fruit.jpg" alt=""></a>
-    </div>
-    <div>
-      <a href="/category/eggs"><img src="/images/eggs.jpg" alt=""></a>
-    </div>
-    <div>
-      <a href="/category/milk"><img src="/images/milk.jpg" alt=""></a>
-    </div>
-    <div>
-      <a href="/category/veget"><img src="/images/veget.jpg" alt=""></a>
-    </div>
-    <div>
-      <a href="/category/vegetables"><img src="/images/vegetables.jpg" alt=""></a>
-    </div>
-    <div>
-      <a href="/category/flour"><img src="/images/flour.jpg" alt=""></a>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-<div class="productslider1">
-            <h3 class="title">Most Discount
-                <hr>
-            </h3>
-
-
-
-    {{#if filtered}}
-        <div class="product-layout product-results col-sm-12">
-            {{#ifCond @root.paginateUrl '==' 'category'}}
-            <h1>{{ @root.__ "Category" }}: <strong>{{@root.searchTerm}}</strong></h1>
-            {{else}}
-            <h1>{{ @root.__ "Search results" }}: <strong>{{@root.searchTerm}}</strong></h1>
-            {{/ifCond}}
-        </div>
-    {{/if}}
-      
-            
-    <div class="parent-box owl-carousel">
-               
-  
-        {{#ifCond results.length '==' 0}}
+  <div class="row top-marg-25">
+      {{#ifCond results.length '==' 0}}
             <div class="col-sm-12">
                 <p class="text-danger">{{ @root.__ "No products found" }}</p>
             </div>
         {{/ifCond}}
-        
-        
-        {{#each results}}
-        <div class="box">
-         <div class="single-product"> 
-           
-             
-                    {{#if productPermalink}}
-                        
-                            <a href="/product/{{this.productPermalink}}">
-                                <div class="product-thumb">
-                                    {{#if productImage}}
-                                        <img src="{{this.productImage.[0].path}}" alt="...">
-                                    {{else}}
-                                        <img src="/uploads/placeholder.png" alt="...">
-                                    {{/if}}
-                                     <a class="btn-round" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}" role="button"><i class="fa fa-shopping-cart"></i></a>
-                                  </div>
-                                
-                                <div class="product-title">
-                                  <h3>
-                                    {{this.productTitle}}
-                                  </h3>
-                                     {{#if variants}}
-                       
-                            {{#if @root.config.showHomepageVariants}}
-                            <select id="productVariant-{{this._id}}">
-                            {{#each variants}}
-                              <option value="{{this._id}}" data-price="{{this.price}}">{{this.title}} - {{currencySymbol @root.config.currencySymbol}}{{this.price}}</option>
-                            {{/each}}
-                            </select>
-                            {{else}}
-                            <p>
-                                {{currencySymbol @root.config.currencySymbol}}{{formatAmount variants.0.price}}
-                            </p>
-                            {{/if}}
-                
-                    {{else}}
-                        <p>
-                            {{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}
-                            <span>₹950</span>
-                        </p>
-                    {{/if}}
-                    <span class="save">Save ₹32</span>
-                                </div>
-                            </a>
-                        
-                    {{else}}
-                        <a href="/product/{{this._id}}">
-                            <div class="product-thumb">
+    {{#each results}}
+    <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                        <div class="single-product-wrapper">
+                            <!-- Product Image -->
+                            <div class="product-img">
                                 {{#if productImage}}
-                                    <img src="{{this.productImage.[0].path}}" alt="...">
+                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <!-- Hover Thumb -->
+                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
                                 {{else}}
-                                    <img src="/uploads/placeholder.png" alt="...">
+                                    <img src="/images/p5.jpg" alt="First Image">
+                                    <!-- Hover Thumb -->
+                                    <img class="hover-img" src="/images/p1.jpg" alt="Second Image">
                                 {{/if}}
-                                 <a class="btn-round" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}" role="button"><i class="fa fa-shopping-cart"></i></a>
-                           </div>
+                            </div>
 
-                           <div class="product-title">
-                           <h3>         {{this.productTitle}}
-                           </h3>
-                              {{#if variants}}
-                       
-                            {{#if @root.config.showHomepageVariants}}
-                            <select id="productVariant-{{this._id}}">
-                            {{#each variants}}
-                              <option value="{{this._id}}" data-price="{{this.price}}">{{this.title}} - {{currencySymbol @root.config.currencySymbol}}{{this.price}}</option>
-                            {{/each}}
-                            </select>
-                            {{else}}
-                            <p>
-                                {{currencySymbol @root.config.currencySymbol}}{{formatAmount variants.0.price}}
-                            </p>
-                            {{/if}}
-                
-                    {{else}}
-                        <p>
-                            {{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}
-                            <span>₹950</span>
-                        </p>
-                    {{/if}}
-                          <span class="save">Save ₹32</span>
-                           </div>
-                        
-                        </a>
-                    
-                    {{/if}}
-                 
-          </div>
-        </div>
-        {{/each}}
-    
-    </div>
-</div> 
-
-
-<div class="offers1">
-  <a href="/category/vegetable"><img src="/images/offer2.jpg" alt=""></a>
-  <a href="/category/fruit"><img src="/images/offer1.jpg" alt=""></a>
-</div>
-
-
-
-{{!-- Purva's Code --}}
-
-<div class="productslider1">
-  <h3 class="title">Trending Products
-    <hr>
-  </h3>
-  <div class="parent-box owl-carousel">
-
-    <div class="box">
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/product3.jpeg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Mobile Phone</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-
-      </div>
-    </div>
-
-
-    <div class="box">
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/product4.jpg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Face Wash</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-      </div>
-    </div>
-
-
-
-    <div class="box">
-
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/1.png">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Mango Three</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="box">
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/2.jpg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Some pack</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="box">
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/3.jpg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Other Pack</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-
-      </div>
-    </div>
-
-
-    <div class="box">
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/product.jpg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Not Pack</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="box">
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/product1.jpeg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Orange Three</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-
-      </div>
-    </div>
-    <div class="box">
-
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/product.jpg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Orange One</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="box">
-
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/product1.jpeg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-
-        </div>
-
-        <div class="product-title">
-          <h3>Apple Two</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="box">
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/product2.jpg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Something</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-
-      </div>
-    </div>
-
+                            <!-- Product Description -->
+                            <div class="product-description d-flex align-items-center justify-content-between">
+                                <!-- Product Meta Data -->
+                                <div class="product-meta-data">
+                                    <div class="line"></div>
+                                    <p class="product-price">{{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</p>
+                                    {{#if productPermalink}}
+                                    <a href="/product/{{this.productPermalink}}">
+                                        <h6>{{this.productTitle}}</h6>
+                                    </a>
+                                    {{else}}
+                                    <a href="/product/{{this._id}}">
+                                        <h6>{{this.productTitle}}</h6>
+                                    </a>
+                                    {{/if}}
+                                </div>
+                                <!-- Ratings & Cart -->
+                                <div class="ratings-cart text-right">
+                                    <div class="ratings">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="cart">
+                                        <a class="btn-round" data-toggle="tooltip" data-placement="left" title="Add to Cart" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}"><img src="/images/cart.png" alt=""></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+{{/each}}
   </div>
 </div>
 
-<div class="offer2">
-  <a href=""><img src="/images/shopping4.jpeg" alt=""></a>
-  <a href=""><img src="/images/shopping4.jpeg" alt=""></a>
-  <a href=""><img src="/images/shopping4.jpeg" alt=""></a>
+
+
+<div class="offers1">
+  <div class="fix-container">
+    <div class="single-products-catagory hi-100">
+    <a href="/category/newarrival"><img class="hi-100" src="/images/slider1-side.jpg" alt="">
+    <div class="hover-content">
+        <div class="line"></div>
+        <p>From ₹149</p>
+        <h4>New Plants for decoration</h4>
+    </div>
+    </a>
+    </div>
+  </div>
+  <div class="float-container">
+    <div class="floatinner">
+              <div class="products-catagories-area">
+            <div class="amado-pro-catagory">
+
+                {{!-- Insider slider 1 --}}
+
+                <div class="inside-slider1">
+                               <!-- Single Catagory -->
+                <div class="single-products-catagory clearfix">
+                    <a href="/category/roomrefresher">
+                        <img src="/images/2.jpg" alt="">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>From ₹149</p>
+                            <h4>Room Refreshing Plants</h4>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Single Catagory -->
+                <div class="single-products-catagory clearfix">
+                    <a href="/category/top5indoorplant">
+                        <img src="/images/5.jpg" alt="">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>From ₹149</p>
+                            <h4>Top 5 Indoor Plants</h4>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Single Catagory -->
+                <div class="single-products-catagory clearfix">
+                    <a href="/category/giftingplants">
+                        <img src="/images/4.jpg" alt="">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>From ₹149</p>
+                            <h4>Gifting Plants</h4>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Single Catagory -->
+                <div class="single-products-catagory clearfix">
+                    <a href="/category/herbalplants">
+                        <img src="/images/6.jpg" alt="">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>From ₹149</p>
+                            <h4>Herbal Plants</h4>
+                        </div>
+                    </a>
+                </div> 
+                  </div>
+                {{!-- Insider Slider 2 --}}
+                <div class="inside-slider2">
+                      <!-- Single Catagory -->
+                <div class="single-products-catagory clearfix">
+                    <a href="/category/officedeskplant">
+                        <img src="/images/4.jpg" alt="">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>From ₹149</p>
+                            <h4>Office Desk Plants</h4>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Single Catagory -->
+                <div class="single-products-catagory clearfix">
+                    <a href="/category/decorativeplant">
+                        <img src="/images/6.jpg" alt="">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>From ₹149</p>
+                            <h4>Decorative Plant</h4>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Single Catagory -->
+                <div class="single-products-catagory clearfix">
+                    <a href="/category/bonsai">
+                        <img src="/images/2.jpg" alt="">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>From ₹449</p>
+                            <h4>Bonsai Plants</h4>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Single Catagory -->
+                <div class="single-products-catagory clearfix">
+                    <a href="/category/flowering">
+                        <img src="/images/5.jpg" alt="">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>From ₹149</p>
+                            <h4>Flowering Plants</h4>
+                        </div>
+                    </a>
+                </div>        
+
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
 </div>
 
-<div class="productslider1">
-  <h3 class="title">Special Deals
+<div class="Categories">
+  <h3>Best Buy
     <hr>
   </h3>
-  <div class="parent-box owl-carousel">
+    <div class="row top-marg-25">
+      {{#ifCond results.length '==' 0}}
+            <div class="col-sm-12">
+                <p class="text-danger">{{ @root.__ "No products found" }}</p>
+            </div>
+        {{/ifCond}}
+    {{#each results}}
+    <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                        <div class="single-product-wrapper">
+                            <!-- Product Image -->
+                            <div class="product-img">
+                                {{#if productImage}}
+                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <!-- Hover Thumb -->
+                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                {{else}}
+                                    <img src="/images/p5.jpg" alt="First Image">
+                                    <!-- Hover Thumb -->
+                                    <img class="hover-img" src="/images/p1.jpg" alt="Second Image">
+                                {{/if}}
+                            </div>
 
-    <div class="box">
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/product3.jpeg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Mobile Phone</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-
-      </div>
-    </div>
-
-
-    <div class="box">
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/product4.jpg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Face Wash</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-      </div>
-    </div>
-
-
-
-    <div class="box">
-
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/1.png">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Mango Three</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="box">
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/2.jpg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Some pack</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="box">
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/3.jpg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Other Pack</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-
-      </div>
-    </div>
-
-
-    <div class="box">
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/product.jpg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Not Pack</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="box">
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/product1.jpeg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Orange Three</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-
-      </div>
-    </div>
-    <div class="box">
-
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/product.jpg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Orange One</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="box">
-
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/product1.jpeg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-
-        </div>
-
-        <div class="product-title">
-          <h3>Apple Two</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="box">
-      <div class="single-product">
-        <div class="product-thumb">
-          <img src="/images/product2.jpg">
-          <a href="#" class="btn-round"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-
-        <div class="product-title">
-          <h3>Something</h3>
-
-          <p>₹900<span>₹950</span></p>
-          <span class="save">Save ₹32</span>
-        </div>
-
-      </div>
-    </div>
-
+                            <!-- Product Description -->
+                            <div class="product-description d-flex align-items-center justify-content-between">
+                                <!-- Product Meta Data -->
+                                <div class="product-meta-data">
+                                    <div class="line"></div>
+                                    <p class="product-price">{{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</p>
+                                    {{#if productPermalink}}
+                                    <a href="/product/{{this.productPermalink}}">
+                                        <h6>{{this.productTitle}}</h6>
+                                    </a>
+                                    {{else}}
+                                    <a href="/product/{{this._id}}">
+                                        <h6>{{this.productTitle}}</h6>
+                                    </a>
+                                    {{/if}}
+                                </div>
+                                <!-- Ratings & Cart -->
+                                <div class="ratings-cart text-right">
+                                    <div class="ratings">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="cart">
+                                        <a class="btn-round" data-toggle="tooltip" data-placement="left" title="Add to Cart" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}"><img src="/images/cart.png" alt=""></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+{{/each}}
   </div>
 </div>
 
@@ -632,18 +351,3 @@
   <div id="pager" class="d-flex justify-content-center"></div>
 </div> --}}
 
-<div class="newsletter">
-  <div class="side">
-    <i class="fas fa-mail-bulk"></i>
-    <div class="signupnews">
-      <h4>Sign Up for Newsletter</h4>
-      <small>Keep me updated</small>
-    </div>
-  </div>
-  <div class="right-side">
-    <form action="">
-      <input type="text" placeholder="Enter your Email Address">
-      <button type="submit"><i class="far fa-paper-plane"></i></button>
-    </form>
-  </div>
-</div>

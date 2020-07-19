@@ -51,8 +51,10 @@
     <link rel="stylesheet" href="/stylesheets/admin{{config.env}}.css">
     {{/if}}
     <link rel="stylesheet" href="/stylesheets/owl.carousel.min.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/font-awesome.css">
     {{!-- <link rel="stylesheet" href="/stylesheets/vendor.css"> --}}
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/templatemo-lava.css">
     {{!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -237,14 +239,37 @@
     <body>
         {{/if}}
         {{#unless admin}}
-        <!-- Sign in / sign up modal-->
-        <div class="modal fade" id="signin-modal" tabindex="-1" role="dialog">
+ 
+
+    {{!-- Search Wrapper --}}
+
+        <div class="search-wrapper padding-100">
+        <div class="search-close">
+            <i class="fa fa-close" aria-hidden="true"></i>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="search-content">
+                        <form >
+                            <input type="search" name="frm_search" id="frm_search" placeholder="Type your keyword...">
+                            <button id="btn_search" type="submit"><i class="fas fa-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ***** Header Area Start ***** -->
+
+            <div class="modal fade" id="signin-modal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <ul class="nav nav-tabs card-header-tabs" role="tablist">
                             <li class="nav-item"><a class="nav-link active" href="#signin-tab" data-toggle="tab"
-                                    role="tab" aria-selected="true"><i class="czi-unlocked mr-2 mt-n1"></i>Sign in</a>
+                                    role="tab" aria-selected="true"><i class="fas fa-unlock marg-right-7"></i>Sign in</a>
                             </li>
                             {{!-- <li class="nav-item"><a class="nav-link" href="#signup-tab" data-toggle="tab" role="tab"
                                     aria-selected="false"><i class="czi-user mr-2 mt-n1"></i>Sign up</a></li> --}}
@@ -252,22 +277,20 @@
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
                     </div>
-                    <div class="modal-body tab-content py-4">
+                    <div class="modal-body tab-content py-4 checkout_details_area">
                         <form class="needs-validation tab-pane fade show active" autocomplete="off" novalidate
                             id="signin-tab">
                             <div class="form-group">
-                                <label for="si-email">Email address</label>
                                 <input class="form-control" type="email" id="email" name="email"
                                     placeholder="johndoe@example.com" required>
                                 <div class="invalid-feedback">Please provide a valid email address.</div>
                             </div>
                             <div class="form-group">
-                                <label for="si-password">Password</label>
                                 <div class="password-toggle">
-                                    <input class="form-control" type="password" id="password" name="password" required>
+                                    <input class="form-control" type="password" id="password" name="password" placeholder="Password" required>
                                     <label class="password-toggle-btn">
                                         <input class="custom-control-input password-show" type="checkbox"><i
-                                            class="czi-eye password-toggle-indicator"></i><span class="sr-only">Show
+                                            class="fas fa-eye"></i><span class="sr-only">Show
                                             password</span>
                                     </label>
                                 </div>
@@ -278,7 +301,7 @@
                                     <label class="custom-control-label" for="si-remember">Remember me</label>
                                 </div><a class="font-size-sm" href="/customer/forgot-password">Forgot password?</a>
                             </div>
-                            <button class="btn btn-primary btn-block btn-shadow" id="customerloginForm"
+                            <button class="btn amado-btn" id="customerloginForm"
                                 type="submit">Sign in</button>
                         </form>
                     </div>
@@ -286,398 +309,75 @@
             </div>
         </div>
 
-        <header class="box-shadow-sm fixed-top" id="top">
-            <div class="bg-light">
-                <div class="navbar navbar-expand-lg navbar-light">
-                    <div class="container"><a class="navbar-brand d-none d-sm-block mr-3 flex-shrink-0" href="/"
-                            style="min-width: 7rem;"><img width="142" src="/images/300Light.png"
-                                alt="Cartzilla" /></a><a class="navbar-brand d-sm-none mr-2" href="/"
-                            style="min-width: 4.625rem;"><img width="55" src="/images/200Light.png"
-                                alt="Cartzilla" /></a>
-                        <form class="input-group-overlay d-none d-lg-flex mx-4">
-                            <input class="form-control appended-form-control" name="frm_search" id="frm_search" type="search" aria-label="Search"
-                                placeholder="Search for products">
-                            <button class="input-group-append-overlay search-button" id="btn_search" type="submit"><span class="input-group-text"><i
-                                        class="czi-search"></i></span></button>
-                   </form>
-                        {{!-- <div class="input-group">
-                            <input class="form-control"  placeholder="{{ @root.__ "Search shop" }}" >
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-success" >{{ @root.__ "Search" }}</button>
-                            </div>
-                        </div> --}}
-                        <div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
-                            <button class="navbar-toggler" type="button" data-toggle="collapse"
-                                data-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button><a
-                                class="navbar-tool navbar-stuck-toggler" href="#"><span
-                                    class="navbar-tool-tooltip">Expand menu</span>
-                                <div class="navbar-tool-icon-box"><i class="navbar-tool-icon czi-menu"></i></div>
-                            </a><a class="navbar-tool d-none d-lg-flex" href="account-wishlist.html"><span
-                                    class="navbar-tool-tooltip">Wishlist</span>
-                                <div class="navbar-tool-icon-box"><i class="navbar-tool-icon czi-heart"></i></div>
-                            </a>
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <a href="/" class="logo">
+                            Plant4U
+                        </a>
+                        <ul class="nav">
+                            <li class="submenu">
+                                <a href="javascript:;">Shop By Category</a>
+                                <ul>
+                                    <li><a href="/category/indoorplant" class="menu-item">Indoor Plant</a></li>
+                                    <li><a href="/category/newarrival" class="menu-item">New Arrival</a></li>
+                                    <li><a href="/category/mostbuy" class="menu-item">Most Buy</a></li>
+                                    <li><a href="/category/herbs" class="menu-item">Herbs Plant</a></li>
+                                </ul>
+                            </li>
+                            <li class="submenu">
+                                <a href="javascript:;">Shop By Price</a>
+                                <ul>
+                                    <li><a href="" class="menu-item">Below 150</a></li>
+                                    <li><a href="" class="menu-item">150 - 300</a></li>
+                                    <li><a href="" class="menu-item">300 - 1000</a></li>
+                                    <li><a href="" class="menu-item">Above 1000</a></li>
+                                </ul>
+                            </li>
+                            <li class="submenu">
+                                <a href="javascript:;">Amazing Deals</a>
+                                <ul>
+                                    <li><a href="" class="menu-item">10% Discount</a></li>
+                                    <li><a href="" class="menu-item">Free Delivery</a></li>
+                                </ul>
+                            </li>
                             {{#if @root.session.customerPresent}}
-                            <div class="dropdown ml-1 ml-lg-0 mr-n1 mr-lg-2">
-                                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="navbar-tool-icon czi-user"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><a class="dropdown-item" href="/customer/account">Account</a></li>
-                                    <li><a class="dropdown-item" href="/checkout/cart">Cart</a></li>
-                                    <li><a class="dropdown-item" href="/customer/logout">Logout</a></li>
-                                </div>
-                            </div>
+                            <li class="submenu">
+                                <a href="javascript:;">My Account <i class="far fa-user"></i></a>
+                                <ul>
+                                    <li><a href="/customer/account" class="menu-item">Profile</a></li>
+                                    <li><a href="/checkout/cart" class="menu-item">Cart</a></li>
+                                    <li><a href="/customer/logout" class="menu-item">Logout</a></li>
+                                </ul>
+                            </li>
                             {{else}}
-                            <a class="navbar-tool ml-1 ml-lg-0 mr-n1 mr-lg-2" href="#signin-modal" data-toggle="modal">
-                                <div class="navbar-tool-icon-box"><i class="navbar-tool-icon czi-user"></i></div>
-                                <div class="navbar-tool-text ml-n3"><small>Hello, Sign in</small>My Account</div>
-                            </a>
+                             <li class="scroll-to-section"><a class="menu-item" href="#signin-modal" data-toggle="modal">
+                               My Account <i class="far fa-user"></i>
+                            </a></li>
                             {{/if}}
-
-                            {{!-- Cart Starts here --}}
-                            <div class="navbar-tool dropdown ml-3">
-                                {{#if @root.session.cart}}
-                                <a class="navbar-tool-icon-box bg-secondary dropdown-toggle" href="/checkout/information">
-                                    <span class="navbar-tool-label"
-                                        id="cart-count">{{@root.session.totalCartItems}}</span>
-                                    <i class="navbar-tool-icon czi-cart"></i>
+                            <li class="scroll-to-section">  
+                                <a class="" href="/checkout/cart">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <span class="">My
+                                        Cart</span>
                                 </a>
-                                <a class="navbar-tool-text" href="/checkout/information"><small>My
-                                        Cart</small>{{currencySymbol config.currencySymbol}}{{formatAmount @root.session.totalCartAmount}}</a>
-                                {{else}}
-                                <a class="navbar-tool-icon-box bg-secondary dropdown-toggle" href="/checkout/information">
-                                    <span class="navbar-tool-label" id="cart-count">0</span>
-                                    <i class="navbar-tool-icon czi-cart"></i>
-                                </a>
-                                <a class="navbar-tool-text" href="/checkout/information"><small>My
-                                        Cart</small>{{currencySymbol @root.config.currencySymbol}}0</a>
-                                {{/if}}
-                                <!-- Cart dropdown-->
-                                <div class="dropdown-menu dropdown-menu-right" style="width: 20rem;">
-                                    <div class="widget widget-cart px-3 pt-2 pb-3">
-                                        <div data-simplebar data-simplebar-auto-hide="false">
-                                            {{#each @root.session.cart}}
-                                            <div class="widget-cart-item py-2 border-bottom">
-                                                <div class="cart-delete">
-                                                    <button class="close btn-delete-from-cart"
-                                                        data-cartid="{{@key}}"
-                                                        type="button"><span class="czi-trash"
-                                                            aria-hidden="true"></span></button>
-                                                </div>
-                                                <div class="media align-items-center">
-                                                    {{#if productImage}}
-                                                    <a class="d-block mr-2" href="/product/{{this.link}}">
-                                                        <img width="64" src="{{this.productImage}}"
-                                                            alt="{{this.title}} product image">
-                                                    </a>
-                                                    {{else}}
-                                                    <a class="d-block mr-2" href="/product/{{this.link}}">
-                                                        <img width="64" src="/uploads/placeholder.png"
-                                                            alt="{{this.title}} product image">
-                                                    </a>
-                                                    {{/if}}
-                                                    <div class="media-body">
-                                                        <h6 class="widget-product-title"><a
-                                                                href="/product/{{this.link}}">{{this.title}}</a>
-                                                        </h6>
-                                                        <div class="widget-product-meta cart-buttons">
-                                                            {{currencySymbol @root.config.currencySymbol}} <span
-                                                                class="text-accent mr-2">{{formatAmount this.totalItemPrice}}</span>
-                                                            {{#ifCond @root.cartReadOnly '!=' true}}
-                                                            <div class="cart-quantity">
-                                                                <button class="btn-qty-minus" type="button"><i
-                                                                        class="fas fa-minus"></i></button>
-                                                                <input type="number"
-                                                                    class="cart-product-quantity text-center"
-                                                                    data-cartid="{{@key}}"
-                                                                    data-id="{{../this.productId}}" maxlength="2"
-                                                                    value="{{../this.quantity}}">
-                                                                <button class="btn-qty-add" type="button"><i
-                                                                        class="fas fa-plus"></i></button>
-                                                            </div>
-
-                                                            {{else}}
-                                                            <div
-                                                                class="col-4 col-md-6 col-lg-5 col-xl-7 no-pad-left mb-2">
-                                                            </div>
-                                                            {{/ifCond}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {{/each}}
-                                        </div>
-
-                                        <div class="d-flex flex-wrap justify-content-between align-items-center py-3">
-                                            <div class="font-size-sm mr-2 py-2"><span
-                                                    class="text-muted">Subtotal:</span><span
-                                                    class="text-accent font-size-base ml-1">{{currencySymbol @root.config.currencySymbol}}{{formatAmount @root.session.totalCartAmount}}</span>
-                                            </div>
-                                        </div><a class="btn btn-primary btn-sm btn-block" href="/checkout/information"><i
-                                                class="czi-card mr-2 font-size-base align-middle"></i>Checkout</a>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="navbar navbar-expand-lg navbar-light navbar-stuck-menu mt-n2 pt-0 pb-2">
-                    <div class="container">
-                        <div class="collapse navbar-collapse" id="navbarCollapse">
-                            <!-- Search-->
-                            <div class="input-group-overlay d-lg-none my-3">
-                                <div class="input-group-prepend-overlay search"><span class="input-group-text"><i
-                                            class="czi-search"></i></span></div>
-                                <input class="form-control prepended-form-control" type="search"
-                                    placeholder="Search for products" aria-label="Search">
-                            </div>
-
-                            <!-- Primary menu-->
-                            <ul class="navbar-nav mx-auto">
-                                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#"
-                                        data-toggle="dropdown">Fruits</a>
-                                    <ul class="dropdown-menu">
-                                        <li class="dropdown position-static mb-0"><a
-                                                class="dropdown-item py-2 border-bottom"
-                                                href="home-fashion-store-v1.html"><span
-                                                    class="d-block text-heading">Fashion Store v.1</span><small
-                                                    class="d-block text-muted">Classic shop layout</small></a>
-                                            <div class="dropdown-menu h-100 animation-0 mt-0 p-3"><a class="d-block"
-                                                    href="home-fashion-store-v1.html" style="width: 250px;"><img
-                                                        src="img/home/preview/th01.jpg" alt="Fashion Store v.1" /></a>
-                                            </div>
-                                        </li>
-                                        <li class="dropdown position-static mb-0"><a
-                                                class="dropdown-item py-2 border-bottom"
-                                                href="home-fashion-store-v2.html"><span
-                                                    class="d-block text-heading">Fashion Store v.2</span><small
-                                                    class="d-block text-muted">Slider + Featured categories</small></a>
-                                            <div class="dropdown-menu h-100 animation-0 mt-0 p-3"><a class="d-block"
-                                                    href="home-fashion-store-v2.html" style="width: 250px;"><img
-                                                        src="img/home/preview/th02.jpg" alt="Fashion Store v.2" /></a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#"
-                                        data-toggle="dropdown">Beverages</a>
-                                    <div class="dropdown-menu p-0">
-                                        <div class="d-flex flex-wrap flex-md-nowrap px-2">
-                                            <div class="mega-dropdown-column py-4 px-3">
-                                                <div class="widget widget-links mb-3">
-                                                    <h6 class="font-size-base mb-3">Shop layouts</h6>
-                                                    <ul class="widget-list">
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="shop-grid-ls.html">Shop Grid - Left Sidebar</a>
-                                                        </li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="shop-grid-rs.html">Shop Grid - Right Sidebar</a>
-                                                        </li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="shop-grid-ft.html">Shop Grid - Filters on Top</a>
-                                                        </li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="shop-list-ls.html">Shop List - Left Sidebar</a>
-                                                        </li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="shop-list-rs.html">Shop List - Right Sidebar</a>
-                                                        </li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="shop-list-ft.html">Shop List - Filters on Top</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="widget widget-links">
-                                                    <h6 class="font-size-base mb-3">Marketplace</h6>
-                                                    <ul class="widget-list">
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="marketplace-category.html">Category Page</a></li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="marketplace-single.html">Single Item Page</a></li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="marketplace-vendor.html">Vendor Page</a></li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="marketplace-cart.html">Cart</a></li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="marketplace-checkout.html">Checkout</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="mega-dropdown-column py-4 px-3">
-                                                <div class="widget widget-links">
-                                                    <h6 class="font-size-base mb-3">Shop pages</h6>
-                                                    <ul class="widget-list">
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="shop-categories.html">Shop Categories</a></li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="shop-single-v1.html">Product Page v.1</a></li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="shop-single-v2.html">Product Page v.2</a></li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="shop-cart.html">Cart</a></li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="checkout-details.html">Checkout - Details</a></li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="checkout-shipping.html">Checkout - Shipping</a>
-                                                        </li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="checkout-payment.html">Checkout - Payment</a></li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="checkout-review.html">Checkout - Review</a></li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="checkout-complete.html">Checkout - Complete</a>
-                                                        </li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="order-tracking.html">Order Tracking</a></li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="comparison.html">Product Comparison</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="mega-dropdown-column py-4 pr-3">
-                                                <div class="widget widget-links mb-3">
-                                                    <h6 class="font-size-base mb-3">Grocery store</h6>
-                                                    <ul class="widget-list">
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="grocery-catalog.html">Product Catalog</a></li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="grocery-single.html">Single Product Page</a></li>
-                                                        <li class="widget-list-item pb-1"><a class="widget-list-link"
-                                                                href="grocery-checkout.html">Checkout</a></li>
-                                                    </ul>
-                                                </div><a class="d-block" href="#"><img src="img/shop/menu-banner.jpg"
-                                                        alt="Promo banner" /></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#"
-                                        data-toggle="dropdown">Flours</a>
-                                    <ul class="dropdown-menu">
-                                        <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#"
-                                                data-toggle="dropdown">Navbar Variants</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="navbar-1-level-light.html">1 Level
-                                                        Light</a></li>
-                                                <li><a class="dropdown-item" href="navbar-1-level-dark.html">1 Level
-                                                        Dark</a></li>
-                                                <li><a class="dropdown-item" href="navbar-2-level-light.html">2 Level
-                                                        Light</a></li>
-                                                <li><a class="dropdown-item" href="navbar-2-level-dark.html">2 Level
-                                                        Dark</a></li>
-                                                <li><a class="dropdown-item" href="navbar-3-level-light.html">3 Level
-                                                        Light</a></li>
-                                                <li><a class="dropdown-item" href="navbar-3-level-dark.html">3 Level
-                                                        Dark</a></li>
-                                                <li><a class="dropdown-item"
-                                                        href="home-electronics-store.html">Electronics Store</a></li>
-                                                <li><a class="dropdown-item"
-                                                        href="home-marketplace.html">Marketplace</a></li>
-                                                <li><a class="dropdown-item" href="home-grocery-store.html">Side Menu
-                                                        (Grocery)</a></li>
-                                                <li><a class="dropdown-item"
-                                                        href="home-single-store.html">Transparent</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item" href="about.html">About Us</a></li>
-                                        <li><a class="dropdown-item" href="contacts.html">Contacts</a></li>
-                                        <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#"
-                                                data-toggle="dropdown">Help Center</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="help-topics.html">Help Topics</a>
-                                                </li>
-                                                <li><a class="dropdown-item" href="help-single-topic.html">Single
-                                                        Topic</a></li>
-                                                <li><a class="dropdown-item" href="help-submit-request.html">Submit a
-                                                        Request</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#"
-                                                data-toggle="dropdown">404 Not Found</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="404-simple.html">404 - Simple
-                                                        Text</a></li>
-                                                <li><a class="dropdown-item" href="404-illustration.html">404 -
-                                                        Illustration</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#"
-                                        data-toggle="dropdown">Dairy Products</a>
-                                    <ul class="dropdown-menu">
-                                        <li class="dropdown position-static mb-0"><a
-                                                class="dropdown-item py-2 border-bottom"
-                                                href="home-fashion-store-v1.html"><span
-                                                    class="d-block text-heading">Fashion Store v.1</span><small
-                                                    class="d-block text-muted">Classic shop layout</small></a>
-                                            <div class="dropdown-menu h-100 animation-0 mt-0 p-3"><a class="d-block"
-                                                    href="home-fashion-store-v1.html" style="width: 250px;"><img
-                                                        src="img/home/preview/th01.jpg" alt="Fashion Store v.1" /></a>
-                                            </div>
-                                        </li>
-                                        <li class="dropdown position-static mb-0"><a
-                                                class="dropdown-item py-2 border-bottom"
-                                                href="home-fashion-store-v2.html"><span
-                                                    class="d-block text-heading">Fashion Store v.2</span><small
-                                                    class="d-block text-muted">Slider + Featured categories</small></a>
-                                            <div class="dropdown-menu h-100 animation-0 mt-0 p-3"><a class="d-block"
-                                                    href="home-fashion-store-v2.html" style="width: 250px;"><img
-                                                        src="img/home/preview/th02.jpg" alt="Fashion Store v.2" /></a>
-                                            </div>
-                                        </li>
-                                        <li class="dropdown position-static mb-0"><a
-                                                class="dropdown-item py-2 border-bottom"
-                                                href="home-electronics-store.html"><span
-                                                    class="d-block text-heading">Electronics Store</span><small
-                                                    class="d-block text-muted">Slider + Promo banners</small></a>
-                                            <div class="dropdown-menu h-100 animation-0 mt-0 p-3"><a class="d-block"
-                                                    href="home-electronics-store.html" style="width: 250px;"><img
-                                                        src="img/home/preview/th03.jpg" alt="Electronics Store" /></a>
-                                            </div>
-                                        </li>
-                                        <li class="dropdown position-static mb-0"><a
-                                                class="dropdown-item py-2 border-bottom"
-                                                href="home-marketplace.html"><span
-                                                    class="d-block text-heading">Marketplace</span><small
-                                                    class="d-block text-muted">Multi-vendor, digital goods</small></a>
-                                            <div class="dropdown-menu h-100 animation-0 mt-0 p-3"><a class="d-block"
-                                                    href="home-marketplace.html" style="width: 250px;"><img
-                                                        src="img/home/preview/th04.jpg" alt="Marketplace" /></a></div>
-                                        </li>
-                                        <li class="dropdown position-static mb-0"><a
-                                                class="dropdown-item py-2 border-bottom"
-                                                href="home-single-store.html"><span class="d-block text-heading">Single
-                                                    Product Store</span><small class="d-block text-muted">Single product
-                                                    / mono brand</small></a>
-                                            <div class="dropdown-menu h-100 animation-0 mt-0 p-3"><a class="d-block"
-                                                    href="home-single-store.html" style="width: 250px;"><img
-                                                        src="img/home/preview/th05.jpg"
-                                                        alt="Single Product / Brand Store" /></a></div>
-                                        </li>
-                                        <li class="dropdown position-static mb-0"><a class="dropdown-item py-2"
-                                                href="home-grocery-store.html"><span
-                                                    class="d-block text-heading">Grocery Store</span><small
-                                                    class="d-block text-muted">Full width + Side menu</small></a>
-                                            <div class="dropdown-menu h-100 animation-0 mt-0 p-3"><a class="d-block"
-                                                    href="home-grocery-store.html" style="width: 250px;"><img
-                                                        src="img/home/preview/th06.jpg" alt="Grocery Store" /></a></div>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                            </li>
+                            <li class="scroll-to-section">
+                                <a href="#" class="search-nav"><i class="fas fa-search"></i> Search</a>
+                            </li>
+                        </ul>
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                    </nav>
                 </div>
             </div>
-        </header>
         </div>
-        {{/unless}}
+    </header>
+    <!-- ***** Header Area End ***** -->
+    {{/unless}}
         <div class="site-overlay"></div>
 
         {{!-- Full Cart Page --}}
@@ -726,6 +426,8 @@
             </div>
         </div>
         {{/if}}
+
+
         <input type="hidden" id="input_notify_message" value="{{message}}">
         <input type="hidden" id="input_notify_messageType" value="{{messageType}}">
         <input type="hidden" id="cartCheckout" value="{{checkout}}">
@@ -735,69 +437,82 @@
             value="{{@root.config.maxQuantity}}">{{/if}}
         <div id="notify_message"></div>
         {{#if showFooter}}
-        <div class="footer">
-            <div class="upper-footer">
-                <div class="contactus navbar-expand-lg">
-                    <h3>Contact Us
-                        <hr>
-                    </h3>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#address"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="far fa-plus-square"></i>
-                    </button>
-                    <ul class="collapse navbar-collapse" id="address">
-                        <li><i class="fas fa-street-view"></i> Some Random Address, Khatoli</li>
-                        <li><i class="fas fa-envelope"></i> abcd@xyz.com</li>
-                        <li><i class="fas fa-phone"></i> 1234567890</li>
-                    </ul>
-                </div>
-                <div class="extra navbar-expand-lg">
-                    <h3>Extra
-                        <hr>
-                    </h3>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#extras"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="far fa-plus-square"></i>
-                    </button>
-                    <ul class="collapse navbar-collapse" id="extras">
-                        <li><a href="/customer/aboutus">About Us</a></li>
-                        <li><a href="/customer/contact">Contact Us</a></li>
-                        <li><a href="/customer/privacy">Privacy Policy</a></li>
-                        <li><a href="/customer/delivery">Delivery Information</a></li>
-                        <li><a href="/customer/terms">Terms & Conditions</a></li>
-                    </ul>
-                </div>
-                <div class="Account navbar-expand-lg">
-                    <h3>Account
-                        <hr>
-                    </h3>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myaccount"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="far fa-plus-square"></i>
-                    </button>
-                    <ul class="collapse navbar-collapse" id="myaccount">
-                        <li><a href="/customer/account">My Account</a></li>
-                        <li><a href="/checkout/cart">Cart</a></li>
-                        <li><a href="/customer/account">Order History</a></li>
-                    </ul>
-                </div>
-            </div>
-          
-            <div class="lower-footer">
-                <ul>
-                    <li><a href=""><i class="fab fa-facebook-square"></i></a></li>
-                    <li><a href=""><i class="fab fa-twitter-square"></i></a></li>
-                    <li><a href=""><i class="fab fa-instagram-square"></i></a></li>
-                    <li><a href=""><i class="fab fa-linkedin"></i></a></li>
-                </ul>
-            </div>
-            <div class="most-lower">
-                <h5>Made with love by Shri Shri Om Tyagi © 2020</h5>
-                <a href="#top"><i class="fas fa-caret-up"></i></a>
-            </div>
-        </div>
+        
 
+               {{!-- newsletter section --}}
+        <section class="newsletter-area top-pad-100">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Newsletter Text -->
+                <div class="col-12 col-lg-6 col-xl-7">
+                    <div class="newsletter-text bottom-marg-100">
+                        <h2>Subscribe for a <span>25% Discount</span></h2>
+                        <p>Nulla ac convallis lorem, eget euismod nisl. Donec in libero sit amet mi vulputate consectetur. Donec auctor interdum purus, ac finibus massa bibendum nec.</p>
+                    </div>
+                </div>
+                <!-- Newsletter Form -->
+                <div class="col-12 col-lg-6 col-xl-5">
+                    <div class="newsletter-form bottom-marg-100">
+                        <form action="#" method="post">
+                            <input type="email" name="email" class="nl-email" placeholder="Your E-mail">
+                            <input type="submit" value="Subscribe">
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
+
+    
+            <footer class="footer_area">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Single Widget Area -->
+                <div class="col-12 col-lg-4">
+                    <div class="single_widget_area">
+                        <!-- Logo -->
+                        <div class="footer-logo mr-50">
+                            <a href="/"><img src="/images/300Dark.png" alt=""></a>
+                        </div>
+                        <!-- Copywrite Text -->
+                        <p class="copywrite"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This Website is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="/" target="_blank">Plant4U</a> team<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                    </div>
+                </div>
+                <!-- Single Widget Area -->
+                <div class="col-12 col-lg-8">
+                    <div class="single_widget_area">
+                        <!-- Footer Menu -->
+                        <div class="footer_menu">
+                            <nav class="navbar navbar-expand-lg justify-content-end">
+                                <button class="navbar-toggler bg-orange" type="button" data-toggle="collapse" data-target="#footerNavContent" aria-controls="footerNavContent" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
+                                <div class="collapse navbar-collapse" id="footerNavContent">
+                                    <ul class="navbar-nav ml-auto">
+                                        <li class="nav-item active">
+                                            <a class="nav-link" href="/customer/contact">Contact Us</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/customer/aboutus">About</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="">Explore</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/checkout/cart">Cart</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/customer/account">Account</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+        
         {{/if}}
         <script src="/javascripts/pushy.min.js"></script>
         <script src="/javascripts/owl.carousel.min.js"></script>

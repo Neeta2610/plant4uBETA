@@ -1,27 +1,72 @@
-<div class="Wrapper-product">
+<div class="Wrapper-product top-marg-150" >
 <div class="filter">
-<div class="filterinner">
-        <div class="closefilter">
-        <button>Close <i class="fas fa-times"></i></button>
-    </div>
-        <div class="filter-title">
-        <h3>Filter</h3>
-        <button><i class="fas fa-sync-alt"></i> Clear All</button>
-    </div>
-    <div class="price-range filter-com">
-        <h4>Price</h4>
-        <div class="container">
+
+        <div class="shop_sidebar_area">
+
+            <!-- ##### Single Widget ##### -->
+            <div class="widget catagory bottom-marg-50">
+                <!-- Widget Title -->
+                <h6 class="widget-title mb-30">Catagories</h6>
+
+                <!--  Catagories  -->
+                <div class="catagories-menu">
+                    <ul>
+                        <li class="active"><a href="#">All Indoor Plants</a></li>
+                        <li><a href="#">Best Selling Plants</a></li>
+                        <li><a href="#">New Arrival</a></li>
+                        <li><a href="#">Room Freshner</a></li>
+                        <li><a href="#">Minimal Care</a></li>
+                        <li><a href="#">Gifting Plants</a></li>
+                        <li><a href="#">Herbal Plants</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ##### Single Widget ##### -->
+            <div class="widget brands bottom-marg-50">
+                <!-- Widget Title -->
+                <h6 class="widget-title mb-30">Water Schedule</h6>
+
+                <div class="widget-desc">
+                    <!-- Single Form Check -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="amado">
+                        <label class="form-check-label" for="amado">Every alternative day</label>
+                    </div>
+                    <!-- Single Form Check -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="ikea">
+                        <label class="form-check-label" for="ikea">Once a day</label>
+                    </div>
+                    <!-- Single Form Check -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="furniture">
+                        <label class="form-check-label" for="furniture">Once a week</label>
+                    </div>
+                    <!-- Single Form Check -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="factory">
+                        <label class="form-check-label" for="factory">In two weeks</label>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ##### Single Widget ##### -->
+            <div class="widget price bottom-marg-50">
+                <!-- Widget Title -->
+                <h6 class="widget-title mb-30">Price</h6>
+
+                <div class="widget-desc">
+                       <div class="container">
             <div class="row">
                 <div class="col-sm-12">
                 <div id="slider-range"></div>
                 </div>
             </div>
             <div class="row slider-labels">
-                <div class="col-xs-6 caption">
-                <strong>Min:</strong> <span id="slider-range-value1"></span>
-                </div>
-                <div class="col-xs-6 caption">
-                <strong>Max:</strong> <span id="slider-range-value2"></span>
+                <div class="col-xs-12 caption">
+                <span class="form-check-label" id="slider-range-value1"></span> - <span class="form-check-label" id="slider-range-value2"></span>
                 </div>
             </div>
             <div class="row">
@@ -33,64 +78,9 @@
                 </div>
             </div>
     </div>
-    </div>
-    <div class="filter-stock filter-com">
-        <h4>Stock</h4>
-        <div class="checkinner">
-            <input type="checkbox" name="instock" id="instock">
-            <label for="instock">In Stock</label>
+                </div>
+            </div>
         </div>
-        <div class="checkinner">
-            <input type="checkbox" name="outstock" id="outstock">
-            <label for="instock">Out of Stock</label>
-        </div>
-    </div>
-     <div class="filter-common filter-com">
-        <h4>Discount</h4>
-        <div class="checkinner">
-            <input type="checkbox" name="instock" id="instock">
-            <label for="instock">5% - 15%</label>
-        </div>
-        <div class="checkinner">
-            <input type="checkbox" name="instock" id="instock">
-            <label for="instock">15% - 25%</label>
-        </div>
-        <div class="checkinner">
-            <input type="checkbox" name="instock" id="instock">
-            <label for="instock">Above 25%</label>
-        </div>
-    </div>
-     <div class="filter-common filter-com">
-        <h4>Pack Size</h4>
-        <div class="checkinner">
-            <input type="checkbox" name="instock" id="instock">
-            <label for="instock">Below 100g</label>
-        </div>
-        <div class="checkinner">
-            <input type="checkbox" name="instock" id="instock">
-            <label for="instock">100g - 500g</label>
-        </div>
-        <div class="checkinner">
-            <input type="checkbox" name="instock" id="instock">
-            <label for="instock">500g - 1000g</label>
-        </div>
-        <div class="checkinner">
-            <input type="checkbox" name="instock" id="instock">
-            <label for="instock">Above 1Kg</label>
-        </div>
-    </div>
-    <div class="filter-common filter-com">
-        <h4>Sort By</h4>
-        <div class="checkinner">
-            <input type="checkbox" name="instock" id="instock">
-            <label for="instock">Most Buy</label>
-        </div>
-        <div class="checkinner">
-            <input type="checkbox" name="instock" id="instock">
-            <label for="instock">New Products</label>
-        </div>
-    </div>
-</div>
 </div>
 <div class="productsWrapper">
     {{#if filtered}}
@@ -120,34 +110,53 @@
             </div>
         {{/ifCond}}
         {{#each results}}
-            <div class="box">
-                <div class="single-product">
-                        <div class="product-wrapper">
-                                <div class="product-thumb">
-                                    {{#if productImage}}
-                                        <img src="{{this.productImage.[0].path}}" alt="...">
+          <div class="col-12 col-sm-6 col-lg-5 col-xl-4">
+                        <div class="single-product-wrapper">
+                            <!-- Product Image -->
+                            <div class="product-img">
+                                {{#if productImage}}
+                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <!-- Hover Thumb -->
+                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                {{else}}
+                                    <img src="/images/p5.jpg" alt="First Image">
+                                    <!-- Hover Thumb -->
+                                    <img class="hover-img" src="/images/p1.jpg" alt="Second Image">
+                                {{/if}}
+                            </div>
+
+                            <!-- Product Description -->
+                            <div class="product-description d-flex align-items-center justify-content-between">
+                                <!-- Product Meta Data -->
+                                <div class="product-meta-data">
+                                    <div class="line"></div>
+                                    <p class="product-price">{{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</p>
+                                    {{#if productPermalink}}
+                                    <a href="/product/{{this.productPermalink}}">
+                                        <h6>{{this.productTitle}}</h6>
+                                    </a>
                                     {{else}}
-                                        <img src="/uploads/placeholder.png" alt="...">
+                                    <a href="/product/{{this._id}}">
+                                        <h6>{{this.productTitle}}</h6>
+                                    </a>
                                     {{/if}}
-                                    <a class="btn-round" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}" role="button"><i class="fa fa-shopping-cart"></i></a>
                                 </div>
+                                <!-- Ratings & Cart -->
+                                <div class="ratings-cart text-right">
+                                    <div class="ratings">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="cart">
+                                        <a class="btn-round" data-toggle="tooltip" data-placement="left" title="Add to Cart" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}"><img src="/images/cart.png" alt=""></a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    <div class="product-title">
-                        <h3>
-                            {{#if productPermalink}}
-                                <a href="/product/{{this.productPermalink}}">{{this.productTitle}}</a>
-                            {{else}}
-                                <a href="/product/{{this._id}}">{{this.productTitle}}</a>             
-                            {{/if}}
-                            </h3>
-                            <p>
-                            {{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}
-                            <span>{{currencySymbol @root.config.currencySymbol}}</span>
-                        </p>
-                            <span class="save">Save ₹32</span>
                     </div>
-                </div>
-            </div>
         {{/each}}
     </div>
 </div> 
