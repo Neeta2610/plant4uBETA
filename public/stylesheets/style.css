@@ -1007,6 +1007,9 @@ hr{
 
 
 /* Product card css */
+.btn-round {
+  cursor: pointer;
+}
 .single-product-wrapper {
   position: relative;
   z-index: 1;

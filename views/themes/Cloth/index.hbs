@@ -97,8 +97,11 @@
     <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
                         <div class="single-product-wrapper">
                             <!-- Product Image -->
+                             {{#if productPermalink}}
+                             <a href="/product/{{this.productPermalink}}">
                             <div class="product-img">
                                 {{#if productImage}}
+                                
                                     <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
                                     <!-- Hover Thumb -->
                                     <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
@@ -108,6 +111,23 @@
                                     <img class="hover-img" src="/images/p1.jpg" alt="Second Image">
                                 {{/if}}
                             </div>
+                            </a>
+                            {{else}}
+                            <a href="/product/{{this._id}}">
+                            <div class="product-img">
+                                {{#if productImage}}
+                                
+                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <!-- Hover Thumb -->
+                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                {{else}}
+                                    <img src="/images/p5.jpg" alt="First Image">
+                                    <!-- Hover Thumb -->
+                                    <img class="hover-img" src="/images/p1.jpg" alt="Second Image">
+                                {{/if}}
+                            </div>
+                            </a>
+                            {{/if}}
 
                             <!-- Product Description -->
                             <div class="product-description d-flex align-items-center justify-content-between">
@@ -294,8 +314,11 @@
     <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
                         <div class="single-product-wrapper">
                             <!-- Product Image -->
+                                {{#if productPermalink}}
+                             <a href="/product/{{this.productPermalink}}">
                             <div class="product-img">
                                 {{#if productImage}}
+                                
                                     <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
                                     <!-- Hover Thumb -->
                                     <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
@@ -305,6 +328,23 @@
                                     <img class="hover-img" src="/images/p1.jpg" alt="Second Image">
                                 {{/if}}
                             </div>
+                            </a>
+                            {{else}}
+                            <a href="/product/{{this._id}}">
+                            <div class="product-img">
+                                {{#if productImage}}
+                                
+                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <!-- Hover Thumb -->
+                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                {{else}}
+                                    <img src="/images/p5.jpg" alt="First Image">
+                                    <!-- Hover Thumb -->
+                                    <img class="hover-img" src="/images/p1.jpg" alt="Second Image">
+                                {{/if}}
+                            </div>
+                            </a>
+                            {{/if}}
 
                             <!-- Product Description -->
                             <div class="product-description d-flex align-items-center justify-content-between">
