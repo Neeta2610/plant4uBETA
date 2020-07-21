@@ -453,7 +453,6 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.btn-round', function (e) {
-        console.log('clicked');
         $.ajax({
                 method: 'POST',
                 url: '/product/addtocart',
@@ -729,117 +728,8 @@ function updateCartDiv() {
         })
         .done(function (result) {
             // Update the cart div
-            var cart = result.cart;
-            var session = result.session;
-            var productHtml = '';
-            var totalAmount = numeral(session.totalCartAmount).format('0.00');
-
-            // Work out the shipping
-            var shippingTotalAmt = numeral(session.totalCartShipping).format('0.00');
-            var shippingTotal = `${session.shippingMessage} :<strong id="shipping-amount">${result.currencySymbol}${shippingTotalAmt}</strong>`;
-            if (session.totalCartShipping === 0) {
-                shippingTotal = `<span id="shipping-amount">${session.shippingMessage}</span>`;
-            }
-
-            var discountTotalAmt = numeral(session.totalCartDiscount).format('0.00');
-            var discountTotal = '';
-            if (session.totalCartDiscount > 0) {
-                discountTotal = `
-                <div class="text-right">
-                    Discount: <strong id="discount-amount">${result.currencySymbol}${discountTotalAmt}</strong>
-                </div>`;
-            }
-
-            // If the cart has contents
-            if (cart) {
-                $('#cart-empty').empty();
-                Object.keys(cart).forEach(function (cartId) {
-                    var item = cart[cartId];
-                    // Setup the product
-                    var productTotalAmount = numeral(item.totalItemPrice).format('0.00');
-                    var variantHtml = '';
-                    if (item.variantId) {
-                        variantHtml += `<strong>Option:</strong> ${item.variantTitle}`;
-                    }
-                    var productImage = `<img class="img-fluid" src="/uploads/placeholder.png" alt="${item.title} product image"></img>`;
-                    if (item.productImage) {
-                        productImage = `<img class="img-fluid" src="${item.productImage}" alt="${item.title} product image"></img>`;
-                    }
-
-                    // Setup the product html
-                    productHtml += ` 
-                <div class="cartBodyWrapper">
-                <div class="d-sm-flex justify-content-between align-items-center my-4 pb-3 border-bottom">
-                  <div class="media media-ie-fix d-block d-sm-flex align-items-center text-center text-sm-left">
-                    <a class="d-inline-block mx-auto mr-sm-4" href="/product/${item.link}" style="width: 5rem;">
-                      ${productImage}
-                    </a>
-                    <div class="media-body pt-2">
-                      <h3 class="product-title font-size-base mb-1"><a
-                          href="/product/${item.link}">${item.title}</a></h3>
-                      <div class="font-size-lg text-accent">
-                      ${result.currencySymbol}${productTotalAmount}</div>
-                    </div>
-                  </div>
-                  <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left"
-                    style="max-width: 9rem;">
-                    <div class="form-group mb-0">
-                      <label class="font-weight-medium" for="quantity1">Quantity</label>
-                      <div class="cart-quantity">
-                        <button class="btn-qty-minus" type="button"><i class="fas fa-minus"></i></button>
-                        <input type="number" class="cart-product-quantity text-center" data-cartid="${cartId}"
-                          data-id="${item.productId}" maxlength="2" value="${item.quantity}">
-                        <button class="btn-qty-add" type="button"><i class="fas fa-plus"></i></button>
-                      </div>
-                    </div>
-                    <button data-cartid="{${cartId}" class="btn btn-link px-0 text-danger btn-delete-from-cart"
-                      type="button">
-                      <i class="czi-close-circle mr-2"></i>
-                      <span class="font-size-sm">Remove</span>
-                    </button>
-                  </div>
-                </div>
-              </div>`
-                });
-
-                $('.cartBodyWrapper').html(productHtml);
-            } else {
-                $('.cartBodyWrapper').html('');
-            }
-
-            $('#cart-count').text(session.totalCartItems);
-
-            // Set the totals section
-            var cartTotalsHtml = `
-            <div class="d-flex flex-row">
-                <div class="cart-contents-shipping col-md-12 no-pad-right">
-                    <div class="text-right">
-                        ${shippingTotal}
-                    </div>
-                    ${discountTotal}
-                    <div class="text-right">
-                        Total:
-                        <strong id="total-cart-amount">${result.currencySymbol}${totalAmount}</strong>
-                    </div>
-                </div>
-            </div>`;
-
-            var cartTotalsEmptyHtml = `
-            <div id="cart-empty" class="d-flex flex-row">
-                <div class="cart-contents-shipping col-md-12 no-pad-left>
-                    Cart empty
-                </div>
-            </div>`;
-
-            // Set depending on cart contents
-            if (cart) {
-                $('.cartTotalsWrapper').html(cartTotalsHtml);
-                $('.cart-buttons').removeClass('d-none');
-            } else {
-                $('.cartTotalsWrapper').html(cartTotalsEmptyHtml);
-                $('.cart-buttons').addClass('d-none');
-            }
-            feather.replace();
+            window.location.reload();
+            showNotification("Succesfully Updated the Cart", 'success');
         })
         .fail(function (result) {
             showNotification(result.responseJSON.message, 'danger');

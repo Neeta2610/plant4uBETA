@@ -323,7 +323,7 @@ router.get('/checkout/shipping', async (req, res, next) => {
 
 router.get('/checkout/cart', (req, res) => {
     const config = req.app.config;
-
+    
     res.render(`${config.themeViews}checkout-cart`, {
         title: 'Checkout - Cart',
         page: req.query.path,

@@ -28,7 +28,7 @@
 
                 <div class="cartBodyWrapper">
                     <!-- Item-->
-                    {{#each @root.session.cart}}
+                    
                      <div class="">
                         <div class="cart-table-area cart-table-area2">
                             <table class="table table-responsive">
@@ -41,6 +41,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                {{#each @root.session.cart}}
                                     <tr>
                                         <td class="cart_product_img">
                                             <a href="/product/{{this.link}}">
@@ -59,74 +60,21 @@
                                         <td class="qty">
                                             <div class="qty-btn d-flex">
                                                 <p>Qty</p>
-                                                {{!-- <div class="quantity">
-                                                    <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                                                    <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
-                                                    <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-plus" aria-hidden="true"></i></span>
-                                                </div> --}}
                                                 <div class="quantity">
                                                     <span class="btn-qty-minus qty-minus" type="button"><i class="fas fa-minus"></i></span>
                                                     <input type="number" class="cart-product-quantity qty-text"
-                                                        data-cartid="{{@key}}" data-id="{{../this.productId}}" maxlength="2"
-                                                        value="{{../this.quantity}}">
+                                                        data-cartid="{{@key}}" data-id="{{this.productId}}" maxlength="2"
+                                                        value="{{this.quantity}}">
                                                     <span class="btn-qty-add qty-plus" type="button"><i class="fas fa-plus"></i></span>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
-                                    
+                                {{/each}} 
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    {{!-- <div class="d-sm-flex justify-content-between align-items-center my-4 pb-3 border-bottom">
-                        <div class="media media-ie-fix d-block d-sm-flex align-items-center text-center text-sm-left">
-                            <a class="d-inline-block mx-auto mr-sm-4" href="/product/{{this.link}}"
-                                style="width: 10rem;">
-                                {{#if productImage}}
-                                <img src="{{this.productImage.[0].path}}" alt="{{this.title}} product image"></a>
-                            {{else}}
-                            <img src="/images/p5.jpg" alt="{{this.title}} product image"></a>
-                            {{/if}}
-                            </div>
-                            <div class="media-body pt-2">
-                                <h3 class="product-title font-size-base mb-2"><a
-                                        href="/product/{{this.link}}">{{this.title}}</a></h3>
-                                <div class="font-size-lg text-accent pt-2">
-                                    {{currencySymbol @root.config.currencySymbol}}
-                                    <span>{{formatAmount this.totalItemPrice}}</span></div>
-                            </div>
-                     
-                        <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left"
-                            style="max-width: 9rem;">
-                            <div class="form-group mb-0">
-                                <label class="font-weight-medium" for="quantity1">Quantity</label>
-                                {{#ifCond @root.cartReadOnly '!=' true}}
-                                <div class="cart-quantity">
-                                    <button class="btn-qty-minus" type="button"><i class="fas fa-minus"></i></button>
-                                    <input type="number" class="cart-product-quantity text-center"
-                                        data-cartid="{{@key}}" data-id="{{../this.productId}}" maxlength="2"
-                                        value="{{../this.quantity}}">
-                                    <button class="btn-qty-add" type="button"><i class="fas fa-plus"></i></button>
-                                </div>
-                                 <div class="cart-delete">
-                                 <button data-cartid="{{@key}}" class="btn btn-link px-0 text-danger btn-delete-from-cart" type="button">
-                                <i class="czi-close-circle mr-2"></i>
-                                <span class="font-size-sm">Remove</span>
-                                    </button>
-                                </div>
-
-                                {{else}}
-                                <div class="col-4 col-md-6 col-lg-5 col-xl-7 no-pad-left mb-2">
-                                </div>
-
-                                {{/ifCond}}
-                            </div>
-                           
-                        
-                    </div>
-                </div> --}}
-                {{/each}}
             </section>
             <!-- Sidebar-->
             <aside class="col-lg-4 pt-4 pt-lg-0">
