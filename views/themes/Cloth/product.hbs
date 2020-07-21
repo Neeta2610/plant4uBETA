@@ -10,7 +10,7 @@
                                 <ol class="carousel-indicators">
                                     {{#if result.productImage}}
                                     {{#each result.productImage}}
-                                    <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url("+{{this.path}}+");">
+                                    <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url({{this.path}});">
                                     </li>
                                     {{/each}}
                                     {{else}}
@@ -27,7 +27,7 @@
                                 <div class="carousel-inner">
                                     {{#if result.productImage}}
                                     {{#each result.productImage}}
-                                    <div class="carousel-item active">
+                                    <div class="carousel-item">
                                         <a class="gallery_img" href="{{this.path}}">
                                             <img class="d-block w-100" src="{{this.path}}" alt="First slide">
                                         </a>
