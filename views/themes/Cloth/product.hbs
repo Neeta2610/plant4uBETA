@@ -100,14 +100,15 @@
                                 <!-- Ratings & Review -->
                                 <div class="ratings-review mb-15 d-flex align-items-center justify-content-between">
                                     <div class="ratings">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        {{#forTimes result.productRating}}
+                                          <i class="fas fa-star i"></i>
+                                          {{/forTimes}}
+                                          {{#forTimesminus result.productRating}}
+                                           <i class="far fa-star i"></i>
+                                          {{/forTimesminus}}
                                     </div>
                                     <div class="review">
-                                        <a href="#">Write A Review</a>
+                                        <a href="#descheading">Write A Review</a>
                                     </div>
                                 </div>
                                 <!-- Avaiable -->
@@ -136,9 +137,9 @@
                 </div>
             </div>
         </div>
-    <div class="row pl-0">
+    <div class="row">
     <div class="descproduct">
-		<div class="descheading">
+		<div class="descheading" id="descheading">
 			<h3>Description</h3>
 			<h3>Reviews</h3>
 			<h3>Policy</h3>
@@ -156,54 +157,163 @@
 		</div>
 		<div class="reviewmain desccont">
 			<div class="reviewinner">
-				<h4>Customer Reviews <a>WRITE A REVIEW</a></h4>
+				<h4>Customer Reviews 
+                    {{#if reviewPermission}}
+                    <a>WRITE A REVIEW</a>
+                    {{/if}}
+                    {{#if editreviewPermission}}
+                    <a>EDIT REVIEW</a>
+                    {{/if}}
+                </h4>
 				<div class="star">
-						<i class="fas fa-star i"></i>
-						<i class="fas fa-star i"></i>
-						<i class="fas fa-star i"></i>
-						<i class="fas fa-star i"></i>
-						<i class="far fa-star i"></i>
-						<b>Based on 1 Review</b>
+						{{#forTimes result.productRating}}
+                            <i class="fas fa-star i"></i>
+                            {{/forTimes}}
+                            {{#forTimesminus result.productRating}}
+                            <i class="far fa-star i"></i>
+                            {{/forTimesminus}}
+						<b>Based on {{reviews.length}} Review</b>
 				</div>
 			</div>
-			<div class="reviewinput displaynone">
+            {{#if reviewPermission}}
+			<div class="reviewinput displaynone checkout_details_area">
+                <form action="/product/addreview" method="post">
 				<h4>Write A Review</h4>
 				<div class="input1">
-					<label for="username">Name</label><br>
-					<input type="text" id="username" name="username" placeholder="Enter Your Name" value="">
-				</div>
-				<div class="input1">
 					<label for="title">Review Title</label><br>
-					<input type="text" id="title" name="title" value="" placeholder="Enter Review Title">
+					<input type="text" class="form-control" id="reviewTitle" name="reviewTitle" value="" placeholder="Enter Review Title" required>
 				</div>
 				<label for="">Rating</label>
 				<div class="star">
-						<i class="far fa-star i"></i>
-						<i class="far fa-star i"></i>
-						<i class="far fa-star i"></i>
-						<i class="far fa-star i"></i>
-						<i class="far fa-star i"></i>
+                                        <div class="rating-star-form">
+                                            <label>
+                                                <input class="radiostar" type="radio" name="stars" value="1" />
+                                                <span class="icon">★</span>
+                                            </label>
+                                            <label>
+                                                <input class="radiostar" type="radio" name="stars" value="2" />
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                            </label>
+                                            <label>
+                                                <input class="radiostar" type="radio" name="stars" value="3" />
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>   
+                                            </label>
+                                            <label>
+                                                <input class="radiostar" type="radio" name="stars" value="4" />
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                            </label>
+                                            <label>
+                                                <input class="radiostar" type="radio" name="stars" value="5" />
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                            </label>
+                                            </div>
+                                    
 				</div>
+                <input type="hidden" name="productreviewId" id="productreviewId" value="{{result._id}}">
+                {{#if result.productPermalink}}
+                <input type="hidden" name="link" id="link" value="/product/{{result.productPermalink}}">
+                {{else}}
+                <input type="hidden" name="link" id="link" value="/product/{{result._id}}">
+                {{/if}}
 				<div class="inputtextarea">
 					<label for="textarea">Review Must Not Exceed 150 Words</label><br>
-					<textarea name="review" id="textarea" value="" placeholder="Enter the Review"></textarea>
+					<textarea name="reviewtextarea" class="form-control" id="reviewtextarea" value="" placeholder="Enter the Review" required></textarea>
 				</div>
 				<div class="submit">
-					<input type="submit" value="Submit">
+					<button class="btn amado-btn" type="submit">Submit</button>
 				</div>
+            </form>
 			</div>
+            {{/if}}
+            {{#if editreviewPermission}}
+            <div class="reviewinput displaynone checkout_details_area">
+                <form action="/product/editreview" method="post">
+				<h4>Write A Review</h4>
+				<div class="input1">
+					<label for="title">Review Title</label><br>
+					<input type="text" class="form-control" id="reviewTitle" name="reviewTitle" value="{{rdata.title}}" required>
+				</div>
+				<label for="">Rating</label>
+				<div class="star">
+                                        <div class="rating-star-form">
+                                            <label>
+                                                <input class="radiostar" type="radio" name="stars" value="1" />
+                                                <span class="icon">★</span>
+                                            </label>
+                                            <label>
+                                                <input class="radiostar" type="radio" name="stars" value="2" />
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                            </label>
+                                            <label>
+                                                <input class="radiostar" type="radio" name="stars" value="3" />
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>   
+                                            </label>
+                                            <label>
+                                                <input class="radiostar" type="radio" name="stars" value="4" />
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                            </label>
+                                            <label>
+                                                <input class="radiostar" type="radio" name="stars" value="5" />
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                                <span class="icon">★</span>
+                                            </label>
+                                            </div>
+                                    
+				</div>
+                <input type="hidden" name="productreviewId" id="productreviewId" value="{{result._id}}">
+                {{#if result.productPermalink}}
+                <input type="hidden" name="link" id="link" value="/product/{{result.productPermalink}}">
+                {{else}}
+                <input type="hidden" name="link" id="link" value="/product/{{result._id}}">
+                {{/if}}
+				<div class="inputtextarea">
+					<label for="textarea">Review Must Not Exceed 150 Words</label><br>
+					<textarea name="reviewtextarea" class="form-control" id="reviewtextarea" required>{{rdata.description}}</textarea>
+				</div>
+				<div class="submit">
+					<button class="btn amado-btn" type="submit">Submit</button>
+				</div>
+            </form>
+			</div>
+            {{/if}}
+            {{#if reviews}}
+            {{#each reviews}}
 			<div class="reviewabc">
 					<div class="star">
-							<i class="fas fa-star i"></i>
-							<i class="fas fa-star i"></i>
-							<i class="fas fa-star i"></i>
-							<i class="fas fa-star i"></i>
-							<i class="far fa-star i"></i>
+							{{#forTimes this.rating}}
+                            <i class="fas fa-star i"></i>
+                            {{/forTimes}}
+                            {{#forTimesminus this.rating}}
+                            <i class="far fa-star i"></i>
+                            {{/forTimesminus}}
 					</div>
-					<h2>Good Plant For Room Refreshment</h2>
-					<h5>Shriom on <span>17 Oct 2019</span></h5>
-					<p>good </p>
+					<h2>{{this.title}}</h2>
+					<h5>{{this.username}} on <span>{{#formatDate this.date 'LLLL'}}
+                        {{this}}
+                        {{/formatDate}}</span></h5>
+					<p>{{this.description}} </p>
 			</div>
+            {{/each}}
+            {{/if}}
 		</div>
 		<div class="shippingpolicymain desccont">
 			<h2>Shipping Policy Of Company</h2>
@@ -284,11 +394,12 @@
                                 <!-- Ratings & Cart -->
                                 <div class="ratings-cart text-right">
                                     <div class="ratings">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        {{#forTimes this.productRating}}
+                                        <i class="fas fa-star i"></i>
+                                        {{/forTimes}}
+                                        {{#forTimesminus this.productRating}}
+                                        <i class="far fa-star i"></i>
+                                        {{/forTimesminus}}
                                     </div>
                                     <div class="cart">
                                         <a class="btn-round" data-toggle="tooltip" data-placement="left" title="Add to Cart" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}"><img src="/images/cart.png" alt=""></a>

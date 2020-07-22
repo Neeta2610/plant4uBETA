@@ -881,8 +881,8 @@ a {
   .product-layout {
     padding-top: 0px;
     padding-bottom: 30px;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   #btn_search {
@@ -1009,6 +1009,9 @@ hr{
 /* Product card css */
 .btn-round {
   cursor: pointer;
+}
+.displaynone {
+  display: none;
 }
 .single-product-wrapper {
   position: relative;
@@ -1555,6 +1558,7 @@ width: 338px;  */ }
       float: right;
       margin-right: 10px;
       color: #fbb710;
+      cursor: pointer;
   }
   .reviewabc {
       border-top: 1px solid #c8c8c8;
@@ -1593,38 +1597,83 @@ width: 338px;  */ }
       font-size: 1.1rem;
       font-family: Poppins;
   }
-  .reviewinput .input1 input {
-      width: 90%;
-      border: 1px solid #70c745;
-      padding: 10px;
-      font-size: 1.2rem;
-      background-color: #fff;
-  }
   .reviewinput .inputtextarea {
       margin: 15px 0;
   }
-  .reviewinput .inputtextarea textarea {
-      width: 90%;
-      padding: 10px;
-      border: 1px solid #70c745;
-      background-color: #fff;
-  }
   .reviewinput .submit {
-      width: 90%;
       height: 60px;
   }
   .reviewinput .submit input {
       float: right;
-      border: none;
-      padding: 10px 30px;
-      color: #fff;
-      background-color: #888;
-  }
-  .reviewinput .submit input:hover {
-      background-color: #70c745;
   }
   .displaynone {
       display: none;
+  }
+  .rating-star-form {
+    display: inline-block;
+    position: relative;
+    height: 50px;
+    line-height: 50px;
+    font-size: 50px;
+  }
+  
+  .rating-star-form label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    cursor: pointer;
+    font-size: 25px;
+  }
+  
+  .rating-star-form label:last-child {
+    position: static;
+  }
+  
+  .rating-star-form label:nth-child(1) {
+    z-index: 5;
+  }
+  
+  .rating-star-form label:nth-child(2) {
+    z-index: 4;
+  }
+  
+  .rating-star-form label:nth-child(3) {
+    z-index: 3;
+  }
+  
+  .rating-star-form label:nth-child(4) {
+    z-index: 2;
+  }
+  
+  .rating-star-form label:nth-child(5) {
+    z-index: 1;
+  }
+  
+  .rating-star-form label input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+  }
+  
+  .rating-star-form label .icon {
+    float: left;
+    color: transparent;
+  }
+  
+  .rating-star-form label:last-child .icon {
+    color: #000;
+  }
+  
+  .rating-star-form:not(:hover) label input:checked ~ .icon,
+  .rating-star-form:hover label:hover input ~ .icon {
+    color: #fbb710;
+  }
+  
+  .rating-star-form label input:focus:not(:checked) ~ .icon:last-child {
+    color: #000;
+    text-shadow: 0 0 5px #fbb710;
   }
   @media screen and (max-width: 600px) {
       .descproduct {

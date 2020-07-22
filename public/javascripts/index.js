@@ -1,8 +1,16 @@
 /* eslint-disable prefer-arrow-callback, no-var, no-tabs */
 $(document).ready(function () {
   // Add specific code to this theme here
-    // slider 1
+    
 
+// Review Input
+        $('.reviewinner h4 a').on('click',function(){
+          $('.reviewinput').toggleClass('displaynone');
+      });
+
+
+
+  // slider 1
     if ($('.menu-trigger').length) {
       $(".menu-trigger").on('click', function () {
         $(this).toggleClass('active');

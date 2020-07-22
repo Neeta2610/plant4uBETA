@@ -25,8 +25,8 @@ const {
 } = require('../lib/common');
 const countryList = getCountryList();
 
-//This is how we take checkout action
 
+//This is how we take checkout action
 router.post('/checkout_action', (req, res, next) => {
     const db = req.app.db;
     const config = req.app.config;
@@ -492,8 +492,26 @@ router.get('/product/:id', async (req, res) => {
     const db = req.app.db;
     const config = req.app.config;
     const productsIndex = req.app.productsIndex;
-
+    var editreviewPermission = false;
+    var reviewPermission = false;
+    var rdata = {};
     const product = await db.products.findOne({ $or: [{ _id: getId(req.params.id) }, { productPermalink: req.params.id }] });
+    const existvalue = "orderProducts.".concat(product._id);
+    const ordersUser = await db.orders.findOne({$and: [{ orderCustomer: getId(req.session.customerId) }, { [existvalue] : { $exists : true } }] });
+    const reviewUser = await db.reviews.findOne({ $and: [{ productId: getId(product._id) }, { userId: getId(req.session.customerId) }] });
+    const reviewslist = await db.reviews.find({ productId: getId(product._id) }).toArray();
+    if(!reviewslist){
+        reviewslist = false;
+    }
+    
+    if(reviewUser && req.session.customerPresent) {
+        editreviewPermission = true;
+        rdata.title = reviewUser.title;
+        rdata.description = reviewUser.description;
+    }
+    else if(ordersUser && req.session.customerPresent ) {
+        reviewPermission = true;
+    }
     if(!product){
         res.render('error', { title: 'Not found', message: 'Product not found', helpers: req.handlebars.helpers, config });
         return;
@@ -541,6 +559,10 @@ router.get('/product/:id', async (req, res) => {
         productDescription: stripHtml(product.productDescription),
         metaDescription: config.cartTitle + ' - ' + product.productTitle,
         config: config,
+        reviewPermission: reviewPermission,
+        editreviewPermission: editreviewPermission,
+        reviews: reviewslist,
+        rdata, rdata,
         session: req.session,
         pageUrl: config.baseUrl + req.originalUrl,
         message: clearSessionValue(req.session, 'message'),
@@ -549,6 +571,92 @@ router.get('/product/:id', async (req, res) => {
         showFooter: 'showFooter',
         menu: sortMenu(await getMenu(db))
     });
+});
+
+// Add review to product
+router.post('/product/addreview', async (req, res, next) => {
+    const db = req.app.db;
+
+    if(!req.body.stars){
+        res.status(400).json({ message: 'Error ! Enter the stars Rating' });
+        res.redirect(req.body.link);
+        return;
+    }
+    if(!req.body.productreviewId){
+        res.status(400).json({ message: 'Error ! Product Not Found' });
+        res.redirect(req.body.link);
+        return;
+    }
+    if(!req.session.customerId){
+        res.status(400).json({ message: 'Error ! Login To Continue' });
+        res.redirect(req.body.link);
+        return;
+    }
+    const user = await db.customers.findOne({ _id: getId(req.session.customerId)});
+    username = user.firstName;
+    const reviewItem = {
+        title: req.body.reviewTitle,
+        rating: req.body.stars,
+        username: username,
+        date: new Date(),
+        description: req.body.reviewtextarea,
+        productId: getId(req.body.productreviewId),
+        userId: getId(req.session.customerId)
+    }
+
+    try{
+        const newDoc = await db.reviews.insertOne(reviewItem);
+        const product = await db.products.findOne({ _id: getId(req.body.productreviewId)});
+        const reviewslist = await db.reviews.find({ productId: getId(product._id) }).toArray();
+        var i = 0;
+        var totalrating = 0;
+        for(i=0;i<reviewslist.length;i++){
+            totalrating += parseInt(reviewslist[i].rating);
+        }
+        const updatedproduct = await db.products.findOneAndUpdate({_id:product._id},{ $set: {"productRating": totalrating}});
+        res.redirect(req.body.link);
+    }catch(ex){
+        console.log(ex);
+        res.status(400).json({ message: 'Error Inserting Reviews. Please try again.' });
+    }
+});
+
+// Update Review 
+router.post('/product/editreview', async (req, res, next) => {
+    const db = req.app.db;
+    
+    if(!req.body.stars){
+        res.status(400).json({ message: 'Error ! Enter the stars Rating' });
+        res.redirect(req.body.link);
+        return;
+    }
+    if(!req.body.productreviewId){
+        res.status(400).json({ message: 'Error ! Product Not Found' });
+        res.redirect(req.body.link);
+        return;
+    }
+    if(!req.session.customerId){
+        res.status(400).json({ message: 'Error ! Login To Continue' });
+        res.redirect(req.body.link);
+        return;
+    }
+
+    try{
+        const updatedreview = await db.reviews.findOneAndUpdate({ productId: getId(req.body.productreviewId), userId: getId(req.session.customerId)},{ $set: {"title": req.body.reviewTitle, "description": req.body.reviewtextarea, "rating": req.body.stars}});
+        const reviewslist = await db.reviews.find({ productId: getId(req.body.productreviewId) }).toArray();
+        var i = 0;
+        var totalrating = 0;
+        for(i=0;i<reviewslist.length;i++){
+            totalrating += parseInt(reviewslist[i].rating);
+        }
+        const updatedproduct = await db.products.findOneAndUpdate({_id: getId(req.body.productreviewId)},{ $set: {"productRating": totalrating}});
+        res.redirect(req.body.link);
+    }
+    catch(ex){
+        console.log(ex);
+        res.redirect(req.body.link);
+    }
+
 });
 
 // Gets the current cart

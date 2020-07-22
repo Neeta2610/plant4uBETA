@@ -148,11 +148,12 @@
                                 <!-- Ratings & Cart -->
                                 <div class="ratings-cart text-right">
                                     <div class="ratings">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        {{#forTimes this.productRating}}
+                                        <i class="fas fa-star i"></i>
+                                        {{/forTimes}}
+                                        {{#forTimesminus this.productRating}}
+                                        <i class="far fa-star i"></i>
+                                        {{/forTimesminus}}
                                     </div>
                                     <div class="cart">
                                         <a class="btn-round" data-toggle="tooltip" data-placement="left" title="Add to Cart" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}"><img src="/images/cart.png" alt=""></a>
@@ -365,11 +366,12 @@
                                 <!-- Ratings & Cart -->
                                 <div class="ratings-cart text-right">
                                     <div class="ratings">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        {{#forTimes this.productRating}}
+                                        <i class="fas fa-star i"></i>
+                                        {{/forTimes}}
+                                        {{#forTimesminus this.productRating}}
+                                        <i class="far fa-star i"></i>
+                                        {{/forTimesminus}}
                                     </div>
                                     <div class="cart">
                                         <a class="btn-round" data-toggle="tooltip" data-placement="left" title="Add to Cart" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}"><img src="/images/cart.png" alt=""></a>
