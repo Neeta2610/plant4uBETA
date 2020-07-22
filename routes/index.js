@@ -613,6 +613,7 @@ router.post('/product/addreview', async (req, res, next) => {
         for(i=0;i<reviewslist.length;i++){
             totalrating += parseInt(reviewslist[i].rating);
         }
+        totalrating = Math.round(totalrating / reviewslist.length);
         const updatedproduct = await db.products.findOneAndUpdate({_id:product._id},{ $set: {"productRating": totalrating}});
         res.redirect(req.body.link);
     }catch(ex){
@@ -649,6 +650,7 @@ router.post('/product/editreview', async (req, res, next) => {
         for(i=0;i<reviewslist.length;i++){
             totalrating += parseInt(reviewslist[i].rating);
         }
+        totalrating = Math.round(totalrating / reviewslist.length);
         const updatedproduct = await db.products.findOneAndUpdate({_id: getId(req.body.productreviewId)},{ $set: {"productRating": totalrating}});
         res.redirect(req.body.link);
     }
