@@ -353,7 +353,21 @@ router.post('/admin/product/update', restrict, checkAccess, async (req, res) => 
 // delete a product
 router.post('/admin/product/delete', restrict, checkAccess, async (req, res) => {
     const db = req.app.db;
+    
+    //remote the image from cloudinary
+    const product = await db.products.findOne({ _id: common.getId(req.body.productId) });
+    var i = 0;
+    for(i = 0; i< product.productImage.length; i++){
 
+        cloudinary.uploader.destroy(product.productImage[i].id, function(error, result) { 
+            if(result){
+                res.status(200).json({ message: 'Image deleted successfull'});
+            }
+            else{
+                res.status(400).json({ message: 'Image Not deleted'+error});
+            }
+        });
+    }
     // remove the product
     await db.products.deleteOne({ _id: common.getId(req.body.productId) }, {});
 

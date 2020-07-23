@@ -720,7 +720,6 @@ function updateCart(element) {
             showNotification(msg.responseJSON.message, 'danger', true);
         });
 }
-
 function updateCartDiv() {
     $.ajax({
             method: 'GET',
@@ -728,8 +727,8 @@ function updateCartDiv() {
         })
         .done(function (result) {
             // Update the cart div
-            window.location.reload();
             showNotification("Succesfully Updated the Cart", 'success');
+            window.location.reload();
         })
         .fail(function (result) {
             showNotification(result.responseJSON.message, 'danger');

@@ -19,7 +19,7 @@
     "paymentGateway": "stripe",
     "databaseConnectionString": "mongodb://plant4ubeta:plant4ubeta@ds211718.mlab.com:11718/heroku_82pm1gjp",
     "theme": "Cloth",
-    "trackStock": false,
+    "trackStock": true,
     "orderHook": "",
     "availableLanguages": [
         "en",

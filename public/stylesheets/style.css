@@ -2379,6 +2379,10 @@ a {
       .single-product-area .single_product_desc .product-meta-data .avaibility i {
         color: #20d34a;
         font-size: 12px; }
+        .single-product-area .single_product_desc .product-meta-data .non-avaibility i {
+          color: #c7240f;
+        font-size: 12px;
+        }
     .single-product-area .single_product_desc .short_overview p {
       line-height: 2.1;
       color: #6b6b6b; 

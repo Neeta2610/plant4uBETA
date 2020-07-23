@@ -172,7 +172,11 @@
                                         {{/forTimesminus}}
                                     </div>
                                     <div class="cart">
+                                        {{#if this.productStock}}
                                         <a class="btn-round" data-toggle="tooltip" data-placement="left" title="Add to Cart" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}"><img src="/images/cart.png" alt=""></a>
+                                        {{else}}
+                                        <a class=""><img src="/images/cart.png" alt=""></a>
+                                        {{/if}}
                                     </div>
                                 </div>
                             </div>
