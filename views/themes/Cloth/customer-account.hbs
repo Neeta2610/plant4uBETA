@@ -93,13 +93,13 @@
         <form id="customer-form" class="form formAccount" role="form" data-toggle="validator" novalidate="false">
             <a href="#" class="close-button">&#10006;</a>
             <div class="container">
-                <input type="password" class="container__input customerDetails form-control" id="" name="" placeholder="Password"
+                <input type="password" class="container__input customerDetails form-control" id="newCustomerPassword1" name="newCustomerPassword1" placeholder="Password"
                     value="" required>
 
                 <label id="userLabel" for="pass" class="container__label">password</label></div>
 
             <div class="container">
-                <input type="password" class="container__input customerDetails form-control" id="" name=""
+                <input type="password" class="container__input customerDetails form-control" id="newCustomerPassword" name="newCustomerPassword"
                     placeholder="Confirm Pasword" value="" required>
                 <label id="userLabel" for="confirmPass" class="container__label">Confirm</label></div>
 
@@ -195,22 +195,10 @@
                                         </li>
                                         <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Email address" }}:
                                             </strong><span class="float-right" style="word-break: break-all;">{{this.orderEmail}}</span></li>
-                                        {{!-- <li class="list-group-item"><strong> {{ @root.__ "Company" }}:
-                                            </strong><span class="float-right">{{this.orderCompany}}</span></li> --}}
                                         <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Name" }}:
                                             </strong><span class="float-right">{{this.orderFirstname}} {{this.orderLastname}}</span></li>
-                                        {{!-- <li class="list-group-item"><strong> {{ @root.__ "Last name" }}:
-                                            </strong><span class="float-right">{{this.orderLastname}}</span></li> --}}
                                         <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Address" }}:
                                             </strong><span class="float-right">{{this.orderAddr1}}, {{this.orderState}}, {{this.orderPostcode}}</span></li>
-                                        {{!-- <li class="list-group-item"><strong> {{ @root.__ "Address 2" }}:
-                                            </strong><span class="float-right">{{this.orderAddr2}}</span></li> --}}
-                                        {{!-- <li class="list-group-item"><strong> {{ @root.__ "Country" }}:
-                                            </strong><span class="float-right">{{this.orderCountry}}</span></li> --}}
-                                        {{!-- <li class="list-group-item"><strong> {{ @root.__ "State" }}: </strong><span
-                                                class="float-right">{{this.orderState}}</span></li> --}}
-                                        {{!-- <li class="list-group-item"><strong> {{ @root.__ "Postcode" }}:
-                                            </strong><span class="float-right">{{this.orderPostcode}}</span></li> --}}
                                         <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Phone number" }}:
                                             </strong><span class="float-right">{{this.orderPhoneNumber}}</span></li>
                                         <li class="list-group-item">&nbsp;</li>

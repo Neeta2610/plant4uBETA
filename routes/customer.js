@@ -354,17 +354,32 @@ router.post('/customer/update', async (req, res) => {
         return;
     }
 
+    const customer = await db.customers.findOne({ _id: getId(req.session.customerId) });
+    var newpassww = '';
+    if(req.body.password && req.body.password1) {
+        if(req.body.password == req.body.password1){
+            newpassww = bcrypt.hashSync(req.body.password, 10);
+        }
+        else{
+            console.log('errors ! Password does not match');
+            res.status(400).json("Password does not match");
+            return;
+        }
+    }
+    else{
+        newpassww = customer.password;
+    }
+    
     const customerObj = {
-        company: req.body.company,
         email: req.body.email,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         address1: req.body.address1,
-        address2: req.body.address2,
         country: req.body.country,
         state: req.body.state,
         postcode: req.body.postcode,
-        phone: req.body.phone
+        phone: req.body.phone,
+        password: newpassww
     };
 
     const schemaResult = validateJson('editCustomer', customerObj);
@@ -375,7 +390,6 @@ router.post('/customer/update', async (req, res) => {
     }
 
     // check for existing customer
-    const customer = await db.customers.findOne({ _id: getId(req.session.customerId) });
     if(!customer){
         res.status(400).json({
             message: 'Customer not found'

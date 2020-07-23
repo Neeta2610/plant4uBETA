@@ -320,11 +320,9 @@ $(document).ready(function () {
                     url: '/customer/update',
                     data: {
                         email: $('#shipEmail').val(),
-                        company: $('#shipCompany').val(),
                         firstName: $('#shipFirstname').val(),
                         lastName: $('#shipLastname').val(),
                         address1: $('#shipAddr1').val(),
-                        address2: $('#shipAddr2').val(),
                         country: $('#shipCountry').val(),
                         state: $('#shipState').val(),
                         postcode: $('#shipPostcode').val(),
@@ -351,11 +349,9 @@ $(document).ready(function () {
                     url: '/customer/update',
                     data: {
                         email: $('#shipEmail').val(),
-                        company: $('#shipCompany').val(),
                         firstName: $('#shipFirstname').val(),
                         lastName: $('#shipLastname').val(),
                         address1: $('#shipAddr1').val(),
-                        address2: $('#shipAddr2').val(),
                         country: $('#shipCountry').val(),
                         state: $('#shipState').val(),
                         postcode: $('#shipPostcode').val(),
@@ -382,15 +378,14 @@ $(document).ready(function () {
                     url: '/customer/update',
                     data: {
                         email: $('#shipEmail').val(),
-                        company: $('#shipCompany').val(),
                         firstName: $('#shipFirstname').val(),
                         lastName: $('#shipLastname').val(),
                         address1: $('#shipAddr1').val(),
-                        address2: $('#shipAddr2').val(),
                         country: $('#shipCountry').val(),
                         state: $('#shipState').val(),
                         postcode: $('#shipPostcode').val(),
                         phone: $('#shipPhoneNumber').val(),
+                        password1: $('#newCustomerPassword1').val(),
                         password: $('#newCustomerPassword').val(),
                         orderComment: $('#orderComment').val()
                     }
