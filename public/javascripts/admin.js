@@ -245,6 +245,7 @@ $(document).ready(function (){
             if($('#productPermalink').val() === '' && $('#productTitle').val() !== ''){
                 $('#productPermalink').val(slugify($('#productTitle').val()));
             }
+            console.log($('#productminiDescription').code(),$('#productminiDescription'));
             $.ajax({
                 method: 'POST',
                 url: '/admin/product/update',

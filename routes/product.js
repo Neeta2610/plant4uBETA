@@ -314,7 +314,7 @@ router.post('/admin/product/update', restrict, checkAccess, async (req, res) => 
         res.status(400).json({ message: 'Permalink already exists. Pick a new one.' });
         return;
     }
-    console.log(common.cleanHtml(req.body.productminiDescription));
+    console.log(req.body.productminiDescription);
     const productDoc = {
         productId: req.body.productId,
         productPermalink: req.body.productPermalink,
