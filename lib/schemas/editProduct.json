@@ -19,6 +19,11 @@
             "type": "string",
             "format": "amount"
         },
+        "productminiDescription": {
+            "type": "string",
+            "isNotEmpty": true,
+            "minLength": 15
+        },
         "productDescription": {
             "type": "string",
             "isNotEmpty": true,

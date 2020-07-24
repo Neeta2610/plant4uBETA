@@ -98,6 +98,7 @@ router.post('/admin/product/insert', restrict, checkAccess, async (req, res) => 
         productPermalink: req.body.productPermalink,
         productTitle: common.cleanHtml(req.body.productTitle),
         productPrice: req.body.productPrice,
+        productminiDescription: common.cleanHtml(req.body.productminiDescription),
         productDescription: common.cleanHtml(req.body.productDescription),
         productPublished: common.convertBool(req.body.productPublished),
         productTags: req.body.productTags,
@@ -313,12 +314,13 @@ router.post('/admin/product/update', restrict, checkAccess, async (req, res) => 
         res.status(400).json({ message: 'Permalink already exists. Pick a new one.' });
         return;
     }
-
+    console.log(common.cleanHtml(req.body.productminiDescription));
     const productDoc = {
         productId: req.body.productId,
         productPermalink: req.body.productPermalink,
         productTitle: common.cleanHtml(req.body.productTitle),
         productPrice: req.body.productPrice,
+        productminiDescription: common.cleanHtml(req.body.productminiDescription),
         productDescription: common.cleanHtml(req.body.productDescription),
         productPublished: common.convertBool(req.body.productPublished),
         productTags: req.body.productTags,
@@ -326,7 +328,7 @@ router.post('/admin/product/update', restrict, checkAccess, async (req, res) => 
         productStock: common.safeParseInt(req.body.productStock) || null,
         productStockDisable: common.convertBool(req.body.productStockDisable)
     };
-
+    console.log(productDoc.productminiDescription);
     // Validate the body again schema
     const schemaValidate = validateJson('editProduct', productDoc);
     if(!schemaValidate.result){
