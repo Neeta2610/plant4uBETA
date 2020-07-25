@@ -843,7 +843,7 @@ router.post('/customer/forgotten_action', apiLimiter, async (req, res) => {
 // reset password form
 router.get('/customer/reset/:token', async (req, res) => {
     const db = req.app.db;
-
+    const config = req.app.config;
     // Find the customer using the token
     const customer = await db.customers.findOne({ resetToken: req.params.token, resetTokenExpiry: { $gt: Date.now() } });
     if(!customer){
@@ -892,12 +892,12 @@ router.post('/customer/reset/:token', async (req, res) => {
         sendEmail(mailOpts.to, mailOpts.subject, mailOpts.body);
         req.session.message = 'Password successfully updated';
         req.session.message_type = 'success';
-        return res.redirect('/checkout/payment');
+        return res.redirect('/customer/login');
     }catch(ex){
         console.log('Unable to reset password', ex);
         req.session.message = 'Unable to reset password';
         req.session.message_type = 'danger';
-        return res.redirect('/forgot');
+        return res.redirect('/customer/forgot-password');
     }
 });
 
