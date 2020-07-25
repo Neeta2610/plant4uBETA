@@ -833,6 +833,7 @@ router.post('/customer/forgotten_action', apiLimiter, async (req, res) => {
             message: 'If your account exists, a password reset has been sent to your email'
         });
     }catch(ex){
+        console.log(ex);
         res.status(400).json({
             message: 'Password reset failed.'
         });
