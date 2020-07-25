@@ -853,7 +853,7 @@ router.get('/customer/reset/:token', async (req, res) => {
     }
 
     // show the password reset form
-    res.render('reset', {
+    res.render(`${config.themeViews}customer-password-reset`, {
         title: 'Reset password',
         token: req.params.token,
         route: 'customer',
