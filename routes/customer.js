@@ -12,6 +12,7 @@ const {
     sendEmail,
     clearCustomer
 } = require('../lib/common');
+const mailer=require('../misc/mailer');
 const rateLimit = require('express-rate-limit');
 const { indexCustomers } = require('../lib/indexing');
 const { validateJson } = require('../lib/schema');
@@ -811,7 +812,7 @@ router.post('/customer/forgotten_action', apiLimiter, async (req, res) => {
         const tokenExpiry = Date.now() + 3600000;
         await db.customers.updateOne({ email: req.body.email }, { $set: { resetToken: passwordToken, resetTokenExpiry: tokenExpiry } }, { multi: false });
         // send forgotten password email
-        const mailOpts = {
+        /*const mailOpts = {
             to: req.body.email,
             subject: 'Forgotten password request',
             body: `You are receiving this because you (or someone else) have requested the reset of the password for your user account.\n\n
@@ -821,8 +822,13 @@ router.post('/customer/forgotten_action', apiLimiter, async (req, res) => {
         };
 
         // send the email with token to the user
-        // TODO: Should fix this to properly handle result
-        sendEmail(mailOpts.to, mailOpts.subject, mailOpts.body);
+        // TODO: Should fix this to properly handle result */
+       // sendEmail(mailOpts.to, mailOpts.subject, mailOpts.body);
+            const html=`You are receiving this because you (or someone else) have requested the reset of the password for your user account.\n\n
+            Please click on the following link, or paste this into your browser to complete the process:\n\n
+            ${config.baseUrl}/customer/reset/${passwordToken}\n\n
+            If you did not request this, please ignore this email and your password will remain unchanged.\n`;
+        await mailer.sendEmail('Customer@plant4u.com',req.body.email,'Forgotten password request',html)
         res.status(200).json({
             message: 'If your account exists, a password reset has been sent to your email'
         });
