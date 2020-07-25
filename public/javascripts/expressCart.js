@@ -129,7 +129,7 @@ $(document).ready(function () {
                     method: 'POST',
                     url: '/customer/forgotten_action',
                     data: {
-                        email: $('#email').val()
+                        email: $('#recover-email').val()
                     }
                 })
                 .done(function (msg) {

@@ -7,6 +7,7 @@ const _ = require('lodash');
 const common = require('../lib/common');
 const { indexOrders } = require('../lib/indexing');
 const numeral = require('numeral');
+const mailer=require('../misc/mailer');
 const {
     getId,
     hooker,
@@ -228,6 +229,18 @@ router.get('/payment/:orderId', async (req, res, next) => {
     };
     let paymentView = `${config.themeViews}payment-complete`;
     if(order.orderPaymentGateway === 'Blockonomics') paymentView = `${config.themeViews}payment-complete-blockonomics`;
+
+    const html=`hi there,
+    <br/>
+    thanku for Ordering!
+    At Plant4u We are happy to help you.
+    <br/> <br/>
+    <br/>
+    <br/>
+    have a pleasent day
+    `;
+await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Complete',html)
+
     res.render('success', {
         title: 'Payment complete',
         config: req.app.config,
