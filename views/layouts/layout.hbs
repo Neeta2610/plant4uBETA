@@ -318,31 +318,16 @@
                             Plant4U
                         </a>
                         <ul class="nav">
+                            {{#each categories}}
                             <li class="submenu">
-                                <a href="javascript:;">Shop By Category</a>
+                                <a href="javascript:;">{{this.title}}</a>
                                 <ul>
-                                    <li><a href="/category/indoorplant" class="menu-item">Indoor Plant</a></li>
-                                    <li><a href="/category/newarrival" class="menu-item">New Arrival</a></li>
-                                    <li><a href="/category/mostbuy" class="menu-item">Most Buy</a></li>
-                                    <li><a href="/category/herbs" class="menu-item">Herbs Plant</a></li>
+                                    {{#each this.submenu}}
+                                    <li><a href="/category/{{this}}" class="menu-item">{{this}}</a></li>
+                                    {{/each}}
                                 </ul>
                             </li>
-                            <li class="submenu">
-                                <a href="javascript:;">Shop By Price</a>
-                                <ul>
-                                    <li><a href="" class="menu-item">Below 150</a></li>
-                                    <li><a href="" class="menu-item">150 - 300</a></li>
-                                    <li><a href="" class="menu-item">300 - 1000</a></li>
-                                    <li><a href="" class="menu-item">Above 1000</a></li>
-                                </ul>
-                            </li>
-                            <li class="submenu">
-                                <a href="javascript:;">Amazing Deals</a>
-                                <ul>
-                                    <li><a href="" class="menu-item">10% Discount</a></li>
-                                    <li><a href="" class="menu-item">Free Delivery</a></li>
-                                </ul>
-                            </li>
+                            {{/each}}
                             {{#if @root.session.customerPresent}}
                             <li class="submenu">
                                 <a href="javascript:;">My Account <i class="far fa-user"></i></a>

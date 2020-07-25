@@ -1,0 +1,45 @@
+{{> partials/menu}}
+<script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+<main role="main" class="ml-sm-auto col-lg-10 px-4 checkout_details_area bg-light">
+    <div class="col-sm-12">
+        <h2>Categories</h2>
+        {{#if categories}}
+        <div id="draggable_list">
+            
+            <div class="row top-marg-25">
+                {{#each categories}}
+                <div class="col-sm-6 offset-sm-1">
+                    <h3>{{this.title}}</h3>
+                </div>
+                <div class="col-sm-4 offset-sm-1">
+                    <a href="/admin/settings/categories/edit/{{this._id}}">Edit</a>
+                </div>
+                {{#if this.submenu}}
+                    <div class="col-sm-9 offset-sm-1">
+                    <ul>
+                        {{#each this.submenu}}
+                        <li>{{this}}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+                {{/if}}
+       {{/each}}
+        </div>
+            
+        </div>
+        {{/if}}
+        <div class="row top-marg-25">
+            <div class="col-sm-6 offset-sm-1">
+                <input type="text" class="form-control" id="newNavCategories" placeholder="Categories Headline">
+            </div>
+            <div class="col-sm-3">
+                <button type="submit" id="settings-categories-new" class="btn btn-outline-success">
+                    {{{feather 'plus'}}}
+                </button>
+            </div>
+        </div>
+        <p class="text-muted mt-4">
+            Categories For filter and Nav Bar
+        </p>
+    </div>
+</main>

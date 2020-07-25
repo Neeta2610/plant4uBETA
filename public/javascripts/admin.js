@@ -684,6 +684,42 @@ $(document).ready(function (){
             showNotification(msg.message, 'danger', true);
         });
     });
+    $(document).on('click', '#settings-categories-new', function(e){
+        e.preventDefault();
+        $.ajax({
+            method: 'POST',
+            url: '/admin/settings/categories/new',
+            data: {
+                newNavCategories: $('#newNavCategories').val(),
+            }
+        })
+        .done(function(msg){
+            showNotification(msg.message, 'success', true);
+        })
+        .fail(function(msg){
+            showNotification(msg.message, 'danger', true);
+        });
+    });
+
+    $(document).on('click', '#settings-category-update', function(e){
+        e.preventDefault();
+        var id = $(this).attr('data-id');
+        console.log("Something Called");
+        $.ajax({
+            method: 'POST',
+            url: '/admin/settings/categories/update',
+            data: {
+                categoryId : id,
+                submenuValue: $('#navsubmenuvalue').val()
+            }
+        })
+        .done(function(msg){
+            showNotification(msg.message, 'success', true);
+        })
+        .fail(function(msg){
+            showNotification(msg.message, 'danger', true);
+        });
+    });
 
     $(document).on('click', '#settings-menu-update', function(e){
         e.preventDefault();

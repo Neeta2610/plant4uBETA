@@ -61,6 +61,7 @@ router.get('/admin/login', async (req, res) => {
             title: 'Login',
             referringUrl: req.header('Referer'),
             config: req.app.config,
+            categories: req.app.categories,
             message: common.clearSessionValue(req.session, 'message'),
             messageType: common.clearSessionValue(req.session, 'messageType'),
             helpers: req.handlebars.helpers
@@ -112,6 +113,7 @@ router.get('/admin/setup', async (req, res) => {
         res.render('setup', {
             title: 'Setup',
             config: req.app.config,
+            categories: req.app.categories,
             helpers: req.handlebars.helpers,
             message: common.clearSessionValue(req.session, 'message'),
             messageType: common.clearSessionValue(req.session, 'messageType'),
@@ -270,6 +272,45 @@ router.get('/admin/settings/menu', csrfProtection, restrict, async (req, res) =>
     });
 });
 
+// Categories menu
+router.get('/admin/settings/categories', csrfProtection, restrict, async (req, res) => {
+    const db = req.app.db;
+
+    var category = await db.categories.find({}).toArray();
+    if(!category){
+        category = false;
+    }
+    res.render('settings-categories', {
+        title: 'Catgories List',
+        session: req.session,
+        admin: true,
+        message: common.clearSessionValue(req.session, 'message'),
+        messageType: common.clearSessionValue(req.session, 'messageType'),
+        helpers: req.handlebars.helpers,
+        config: req.app.config,
+        categories: category,
+        csrfToken: req.csrfToken()
+    });
+});
+
+// categories edit list
+router.get('/admin/settings/categories/edit/:id', csrfProtection, restrict, async (req, res) => {
+    const db = req.app.db;
+    const catId = req.params.id; 
+    const category = await db.categories.findOne({ _id: common.getId(catId) });
+    res.render('settings-categories-edit', {
+        title: 'Catgories Edit',
+        session: req.session,
+        admin: true,
+        message: common.clearSessionValue(req.session, 'message'),
+        messageType: common.clearSessionValue(req.session, 'messageType'),
+        helpers: req.handlebars.helpers,
+        config: req.app.config,
+        category: category,
+        csrfToken: req.csrfToken()
+    });
+});
+
 // page list
 router.get('/admin/settings/pages', csrfProtection, restrict, async (req, res) => {
     const db = req.app.db;
@@ -392,6 +433,43 @@ router.post('/admin/settings/page/delete', restrict, checkAccess, async (req, re
         return;
     }catch(ex){
         res.status(400).json({ message: 'Error deleting page. Please try again.' });
+    }
+});
+
+// New Categories Heading add
+router.post('/admin/settings/categories/new', restrict, checkAccess,async (req, res) => {
+    const db = req.app.db;
+
+    const item = {
+        title: req.body.newNavCategories,
+        submenu: []
+    };
+    
+    try{
+        const teempvar = await db.categories.insertOne(item);
+        res.status(200).json({ message: "Categories created successfull"});
+    }
+    catch(ex){
+        res.status(400).json({ message: "Error inserting Category title" });
+        return;
+    }
+});
+router.post('/admin/settings/categories/update', restrict, checkAccess,async (req, res) => {
+    const db = req.app.db;
+
+    const category = await db.categories.findOne({ _id: common.getId(req.body.categoryId)});
+    if(!category){
+        res.status(400).json({ message: "Error Category Not Found"});
+        return;
+    }
+    
+    try{
+        const value = await db.categories.findOneAndUpdate({ _id: category._id },{ $push: { submenu: req.body.submenuValue }});
+        req.app.categories = await db.categories.find({}).toArray();
+        res.status(200).json({ message: "Categories Updated"});
+    }catch(ex){
+        console.log(ex);
+        res.status(400).json({ message: "Error Updating Categories"});
     }
 });
 

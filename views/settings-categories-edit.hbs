@@ -1,0 +1,30 @@
+{{> partials/menu}}
+<script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+<main role="main" class="ml-sm-auto col-lg-10 px-4 checkout_details_area bg-light">
+    <div class="col-sm-12">
+        <h3>Add Submenu Categories</h3>
+        <div class="row top-marg-25">
+            <div class="col-sm-12">
+                <h3>{{category.title}}</h3>
+            </div>
+            <div class="col-sm-12">
+                <ul>
+                    {{#each category.submenu}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="col-sm-6 offset-sm-1">
+                <input type="text" class="form-control" id="navsubmenuvalue" placeholder="Categories Submenu Value">
+            </div>
+            <div class="col-sm-3">
+                <button type="submit" id="settings-category-update" class="btn btn-outline-success" data-id={{category._id}}>
+                    {{{feather 'plus'}}}
+                </button>
+            </div>
+        </div>
+        <p class="text-muted mt-4">
+            Categories For filter and Nav Bar
+        </p>
+    </div>
+</main>

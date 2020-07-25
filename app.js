@@ -490,7 +490,8 @@ initDb(config.databaseConnectionString, async (err, db) => {
     app.db = db;
     app.config = config;
     app.port = app.get('port');
-
+    app.categories = await db.categories.find({}).toArray();
+    
     // Fire up the cron job to clear temp held stock
     cron.schedule('*/1 * * * *', async () => {
         const validSessions = await db.sessions.find({}).toArray();
