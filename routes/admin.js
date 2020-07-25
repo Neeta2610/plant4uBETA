@@ -472,6 +472,50 @@ router.post('/admin/settings/categories/update', restrict, checkAccess,async (re
         res.status(400).json({ message: "Error Updating Categories"});
     }
 });
+// delete a category
+router.post('/admin/settings/categories/delete', restrict, checkAccess,async (req, res) => {
+    const db = req.app.db;
+
+    try {
+        await db.categories.findOneAndDelete({ _id: common.getId(req.body.categoryId)});
+        req.app.categories = await db.categories.find({}).toArray();
+        res.status(200).json({message: "Category Deleted"});
+    }
+    catch(ex){
+        console.log(ex);
+        res.status(400).json({message: "Error Deleting Category"});
+    }
+});
+
+// Update Category Name 
+router.post('/admin/settings/categories/changename', restrict, checkAccess,async (req, res) => {
+    const db = req.app.db;
+
+    try {
+        await db.categories.findOneAndUpdate({ _id: common.getId(req.body.categoryId)},{$set: { title: req.body.newName}});
+        req.app.categories = await db.categories.find({}).toArray();
+        res.status(200).json({message: "Category Name Changed"});
+    }
+    catch(ex){
+        console.log(ex);
+        res.status(400).json({message: "Error Updating Category"});
+    }
+});
+
+// Delete Submenu
+router.post('/admin/settings/categories/deletesubmenu', restrict, checkAccess,async (req, res) => {
+    const db = req.app.db;
+    console.log(req.body.categoryId,req.body.subName);
+    try {
+        await db.categories.findOneAndUpdate({ _id: common.getId(req.body.categoryId)},{ $pull: { submenu: req.body.subName}});
+        req.app.categories = await db.categories.find({}).toArray();
+        res.status(200).json({message: "Category Submenu Deleted"});
+    }
+    catch(ex){
+        console.log(ex);
+        res.status(400).json({message: "Error Updating Category"});
+    }
+});
 
 // new menu item
 router.post('/admin/settings/menu/new', restrict, checkAccess, (req, res) => {

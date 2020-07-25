@@ -253,6 +253,9 @@ input[type=number]::-webkit-outer-spin-button {
 .top-marg-25 {
   margin-top: 25px;
 }
+.top-marg-75 {
+  margin-top: 75px;
+}
 .top-marg-100 {
   margin-top: 100px !important;
 }
@@ -261,6 +264,9 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .marg-left-5 {
   margin-left: 5px !important;
+}
+.marg-left-10 {
+  margin-left: 10px !important;
 }
 .marg-right-7 {
   margin-right: 7px !important;

@@ -4,23 +4,27 @@
     <div class="col-sm-12">
         <h2>Categories</h2>
         {{#if categories}}
-        <div id="draggable_list">
+        <div id="draggable_list top-marg-25">
             
             <div class="row top-marg-25">
                 {{#each categories}}
-                <div class="col-sm-6 offset-sm-1">
-                    <h3>{{this.title}}</h3>
-                </div>
                 <div class="col-sm-4 offset-sm-1">
-                    <a href="/admin/settings/categories/edit/{{this._id}}">Edit</a>
+                    <input class="form-control" type="text" value="{{this.title}}" disabled>
+                </div>
+                <div class="col-sm-2">
+                    <a class="btn btn-primary" href="/admin/settings/categories/edit/{{this._id}}">Edit</a>
+                </div>
+                <div class="col-sm-2">
+                    <button class="deletecategory btn btn-danger" data-id="{{this._id}}">Delete</button>
                 </div>
                 {{#if this.submenu}}
-                    <div class="col-sm-9 offset-sm-1">
-                    <ul>
+                    <div class="col-sm-9 offset-sm-2 top-marg-25">
+                        <h6>Submenu</h6>
+                    <ol class="marg-left-10">
                         {{#each this.submenu}}
-                        <li>{{this}}</li>
+                        <li class="top-marg-10">{{this}}</li>
                         {{/each}}
-                    </ul>
+                    </ol>
                 </div>
                 {{/if}}
        {{/each}}
@@ -28,13 +32,16 @@
             
         </div>
         {{/if}}
-        <div class="row top-marg-25">
-            <div class="col-sm-6 offset-sm-1">
+        <div class="row top-marg-75">
+            <div class="col-12">
+                <h4>Add New Category Heading</h4>
+            </div>
+            <div class="col-sm-6 offset-sm-1 top-marg-25">
                 <input type="text" class="form-control" id="newNavCategories" placeholder="Categories Headline">
             </div>
-            <div class="col-sm-3">
-                <button type="submit" id="settings-categories-new" class="btn btn-outline-success">
-                    {{{feather 'plus'}}}
+            <div class="col-sm-3 top-marg-25">
+                <button type="submit" id="settings-categories-new" class="btn btn-success">
+                    Add New Category
                 </button>
             </div>
         </div>

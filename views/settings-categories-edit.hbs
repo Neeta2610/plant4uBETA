@@ -2,24 +2,33 @@
 <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
 <main role="main" class="ml-sm-auto col-lg-10 px-4 checkout_details_area bg-light">
     <div class="col-sm-12">
-        <h3>Add Submenu Categories</h3>
+        <h3>Edit Categories</h3>
         <div class="row top-marg-25">
-            <div class="col-sm-12">
-                <h3>{{category.title}}</h3>
+            <div class="col-9">
+                <input type="text" class="form-control" id="newCategoryValue" value="{{category.title}}">
             </div>
-            <div class="col-sm-12">
-                <ul>
+            <div class="col-2">
+                <button class="btn btn-success" id="changeCategoryname" data-id="{{category._id}}">Save</button>
+            </div>
+            <div class="col-sm-12 offset-sm-1 top-marg-25">
+                <h3>Submenus</h3>
+                <input type="hidden" id="categoryidvalue" value="{{category._id}}">
+                <ul class="top-marg-25">
                     {{#each category.submenu}}
-                        <li>{{this}}</li>
+                        <li class="top-marg-15 marg-left-10">
+                            <h5 style="display: inline;">{{this}}</h5>
+                            <button class="btn btn-outline-danger marg-left-10 deletesubmenu" data-value="{{this}}"><i class="fas fa-times marg-right-7"></i>Delete</button>
+                        </li>
                     {{/each}}
                 </ul>
             </div>
-            <div class="col-sm-6 offset-sm-1">
+            <h4 class="top-marg-25 col-12">Add New SubMenu</h4>
+            <div class="col-sm-6 offset-sm-1 top-marg-25">
                 <input type="text" class="form-control" id="navsubmenuvalue" placeholder="Categories Submenu Value">
             </div>
-            <div class="col-sm-3">
-                <button type="submit" id="settings-category-update" class="btn btn-outline-success" data-id={{category._id}}>
-                    {{{feather 'plus'}}}
+            <div class="col-sm-3 top-marg-25">
+                <button type="submit" id="settings-category-update" class="btn btn-success" data-id={{category._id}}>
+                    Add New Submenu
                 </button>
             </div>
         </div>
