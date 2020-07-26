@@ -440,6 +440,11 @@ router.post('/admin/settings/page/delete', restrict, checkAccess, async (req, re
 router.post('/admin/settings/categories/new', restrict, checkAccess,async (req, res) => {
     const db = req.app.db;
 
+    if(!req.body.newNavCategories){
+        res.status(400).json({message: "Name Field Not Empty"});
+        return;
+    }
+
     const item = {
         title: req.body.newNavCategories,
         submenu: []
@@ -460,6 +465,10 @@ router.post('/admin/settings/categories/update', restrict, checkAccess,async (re
     const category = await db.categories.findOne({ _id: common.getId(req.body.categoryId)});
     if(!category){
         res.status(400).json({ message: "Error Category Not Found"});
+        return;
+    }
+    if(!req.body.submenuValue){
+        res.status(400).json({message : "Submenu Can't Be empty"});
         return;
     }
     
