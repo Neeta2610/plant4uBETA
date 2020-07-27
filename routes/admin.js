@@ -353,12 +353,11 @@ router.post('/admin/settings/filters/update', restrict, checkAccess,async (req, 
         var lastidvalue = 0;
         if(last.length == 0){
             const val = {
-                value: 0
+                value: 1
             }
             await db.lastidvalue.insertOne(val);
         }
         else{
-            console.log(last);
             lastidvalue = last[0].value;
             await db.lastidvalue.findOneAndUpdate({ _id: common.getId(last[0]._id)},{ $inc: { value: 1}});
         }
