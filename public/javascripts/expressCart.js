@@ -235,6 +235,9 @@ $(document).ready(function () {
                 });
         }
     });
+    $('.expand-filter').on('click',function(){
+        $('.filter').toggleClass('displaynone');
+    });
     // Apply Filters
     $('.applyfilters').validator().on('click', function (e) {
         if (!e.isDefaultPrevented()) {

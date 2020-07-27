@@ -1019,9 +1019,6 @@ hr{
 .btn-round {
   cursor: pointer;
 }
-.displaynone {
-  display: none;
-}
 .single-product-wrapper {
   position: relative;
   z-index: 1;
@@ -1614,9 +1611,6 @@ width: 338px;  */ }
   }
   .reviewinput .submit input {
       float: right;
-  }
-  .displaynone {
-      display: none;
   }
   .rating-star-form {
     display: inline-block;
@@ -2536,7 +2530,6 @@ a {
   }
   .Wrapper-product .filter{
     width: 100%;
-    display: none;
     background-color: #f5f7fa;
     position: fixed;
     z-index: 3;
@@ -2546,6 +2539,9 @@ a {
     bottom: 0;
     right: 0;
   }
+  .displaynone {
+    display: none !important;
+}
   .Wrapper-product .filter .filterinner{
     position: static;
   }
