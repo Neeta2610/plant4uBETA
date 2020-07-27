@@ -89,6 +89,52 @@ router.get('/admin/product/new', restrict, checkAccess, (req, res) => {
         config: req.app.config
     });
 });
+// Add Filters to product
+
+router.post('/admin/product/filterinsert',restrict, checkAccess, async (req, res) => {
+    const db = req.app.db;
+    const product = await db.products.findOne({_id: common.getId(req.body.productId)});
+    if(!product){
+        res.status(400).json({message: "Error Product Not Found"});
+    }
+    try{
+        if(product.filters){
+            await db.products.findOneAndUpdate({ _id: common.getId(req.body.productId)},{ $push: { filters: req.body.filterId}});
+            res.status(200).json({ message: "Product Filters Inserted"});
+        }
+        else{
+            const filters = [req.body.filterId];
+            await db.products.findOneAndUpdate({ _id: common.getId(req.body.productId)},{$set: {filters: filters}});
+            res.status(200).json({ message: "Product Filters Inserted"});
+        }
+    }catch(ex){
+        console.log(ex);
+        res.status(400).json({message: "Error Inserting filter to product"});
+    }
+    
+});
+// Delete a filter from products
+
+router.post('/admin/product/filterdelete',restrict, checkAccess, async (req, res) => {
+    const db = req.app.db;
+    const product = await db.products.findOne({_id: common.getId(req.body.productId)});
+    if(!product){
+        res.status(400).json({message: "Error Product Not Found"});
+    }
+    if(!product.filters){
+        res.status(400).json({message: "Error No Filter Present"});
+    }
+    try{
+        if(product.filters){
+            await db.products.findOneAndUpdate({ _id: common.getId(req.body.productId)},{ $pull: { filters: req.body.filterId}});
+            res.status(200).json({ message: "Product Filters Deleted"});
+        }
+    }catch(ex){
+        console.log(ex);
+        res.status(400).json({message: "Error Deleting filter to product"});
+    }
+    
+});
 
 // insert new product form action
 router.post('/admin/product/insert', restrict, checkAccess, async (req, res) => {
@@ -97,7 +143,7 @@ router.post('/admin/product/insert', restrict, checkAccess, async (req, res) => 
     const doc = {
         productPermalink: req.body.productPermalink,
         productTitle: common.cleanHtml(req.body.productTitle),
-        productPrice: req.body.productPrice,
+        productPrice: parseFloat(req.body.productPrice),
         productminiDescription: common.cleanHtml(req.body.productminiDescription),
         productDescription: common.cleanHtml(req.body.productDescription),
         productPublished: common.convertBool(req.body.productPublished),
@@ -148,6 +194,8 @@ router.get('/admin/product/edit/:id', restrict, checkAccess, async (req, res) =>
 
     const product = await db.products.findOne({ _id: common.getId(req.params.id) });
     const images = product.productImage;
+    const filter = await db.filters.find({}).toArray();
+    
     if(!product){
         // If API request, return json
         if(req.apiAuthenticated){
@@ -159,7 +207,6 @@ router.get('/admin/product/edit/:id', restrict, checkAccess, async (req, res) =>
         res.redirect('/admin/products');
         return;
     }
-
     // Get variants
     product.variants = await db.variants.find({ product: common.getId(req.params.id) }).toArray();
 
@@ -173,6 +220,7 @@ router.get('/admin/product/edit/:id', restrict, checkAccess, async (req, res) =>
         title: 'Edit product',
         result: product,
         images: images,
+        filters: filter,
         admin: true,
         session: req.session,
         message: common.clearSessionValue(req.session, 'message'),
@@ -319,7 +367,7 @@ router.post('/admin/product/update', restrict, checkAccess, async (req, res) => 
         productId: req.body.productId,
         productPermalink: req.body.productPermalink,
         productTitle: common.cleanHtml(req.body.productTitle),
-        productPrice: req.body.productPrice,
+        productPrice: parseFloat(req.body.productPrice),
         productminiDescription: common.cleanHtml(req.body.productminiDescription),
         productDescription: common.cleanHtml(req.body.productDescription),
         productPublished: common.convertBool(req.body.productPublished),

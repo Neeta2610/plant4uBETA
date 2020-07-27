@@ -16,7 +16,7 @@
             "minLength": 5
         },
         "productPrice": {
-            "type": "string",
+            "type": "number",
             "format": "amount"
         },
         "productminiDescription": {

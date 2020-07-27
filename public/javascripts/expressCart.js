@@ -1,6 +1,97 @@
 /* eslint-disable prefer-arrow-callback, no-var, no-tabs */
 /* globals showNotification, numeral, feather */
 $(document).ready(function () {
+
+    // Parse url for filters
+    function addParameter(url, parameterName, parameterValue){
+        replaceDuplicates = true;
+        if(url.indexOf('#') > 0){
+            var cl = url.indexOf('#');
+            urlhash = url.substring(url.indexOf('#'),url.length);
+        } else {
+            urlhash = '';
+            cl = url.length;
+        }
+        sourceUrl = url.substring(0,cl);
+    
+        var urlParts = sourceUrl.split("?");
+        var newQueryString = "";
+    
+        if (urlParts.length > 1)
+        {
+            var filterType = urlParts[1].split('&');
+            if(filterType.length > 1){
+                if(parameterName == "filter"){
+                    newQueryString = "?"+filterType[0] + "_" + parameterValue +"&"+ filterType[1];
+                }
+                else{
+                    newQueryString = "?"+filterType[0]  + "&" + parameterName+"="+parameterValue;
+                }
+            }
+            else{
+                if(parameterName == filterType[0].split('=')[0] && parameterName == "filter"){
+                    newQueryString = "?"+filterType[0] + "_" + parameterValue;
+                }
+                else if(parameterName == filterType[0].split('=')[0]){
+                    newQueryString = "?"+parameterName + "=" + parameterValue;
+                }
+                else if(parameterName == "filter"){
+                    newQueryString = "?"+parameterName + "=" + parameterValue+"&"+urlParts[1];
+                }
+                else{
+                    newQueryString = "?"+urlParts[1] + "&" + parameterName+"="+parameterValue;
+                }
+            }
+        }
+        else{
+            newQueryString = "?" + parameterName + "=" + parameterValue;
+        }
+        
+        return urlParts[0] + newQueryString + urlhash;
+    };
+
+    function removeParameter(url, parameterValue){
+        replaceDuplicates = true;
+        if(url.indexOf('#') > 0){
+            var cl = url.indexOf('#');
+            urlhash = url.substring(url.indexOf('#'),url.length);
+        } else {
+            urlhash = '';
+            cl = url.length;
+        }
+        sourceUrl = url.substring(0,cl);
+    
+        var urlParts = sourceUrl.split("?");
+        var newQueryString = "";
+    
+        if (urlParts.length > 1)
+        {
+            var multifilter = urlParts[1].split('&');
+            if(multifilter.length > 1){
+                var values = multifilter[0].split('=')[1].split('_');
+                var index = values.indexOf(parameterValue);
+                values.splice(index, 1);
+                if(values.length != 0)
+                {
+                    newQueryString = "?filter="+ values.join('_')+"&"+multifilter[1];
+                }
+                else{
+                    newQueryString = "?"+ multifilter[1];
+                }
+            }
+            else{
+                var values = urlParts[1].split('=')[1].split('_');
+                var index = values.indexOf(parameterValue);
+                values.splice(index, 1);
+                if(values.length != 0)
+                newQueryString = "?filter="+ values.join('_');
+            }
+        }
+
+    
+        return urlParts[0] + newQueryString + urlhash;
+    };
+
     if ($(window).width() < 768) {
         $('.menu-side').on('click', function (e) {
             e.preventDefault();
@@ -144,6 +235,26 @@ $(document).ready(function () {
                 });
         }
     });
+    // Apply Filters
+    $('.applyfilters').validator().on('click', function (e) {
+        if (!e.isDefaultPrevented()) {
+            e.preventDefault();
+            var id = $(this).val();
+            var url = addParameter(window.location.href, 'filter', id);
+            console.log(url);
+            location.href = url;
+        }
+    });    
+    // Remove Filter
+    $('.removefilters').validator().on('click', function (e) {
+        if (!e.isDefaultPrevented()) {
+            e.preventDefault();
+            var id = $(this).val();
+            var url = removeParameter(window.location.href, id);
+            console.log(url);
+            location.href = url;
+        }
+    });  
 
     $(document).on('click', '#createAccountCheckbox', function (e) {
         $('#newCustomerPassword').prop('required', $('#createAccountCheckbox').prop('checked'));

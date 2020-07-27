@@ -238,6 +238,12 @@ handlebars = handlebars.create({
                     return options.inverse(this);
             }
         },
+        ifIn: (elem, list, options) =>{
+            if(list && list.indexOf(elem.toString()) > -1) {
+                return options.fn(elem);
+              }
+              return options.inverse(elem);
+        },
         forTimes: (n,block) =>{
             var accum = '';
             for(var i = 0; i < n; ++i)

@@ -272,44 +272,150 @@ router.get('/admin/settings/menu', csrfProtection, restrict, async (req, res) =>
     });
 });
 
-// Categories menu
-router.get('/admin/settings/categories', csrfProtection, restrict, async (req, res) => {
+// Filter Menu
+router.get('/admin/settings/filters', csrfProtection, restrict, async (req, res) => {
     const db = req.app.db;
 
-    var category = await db.categories.find({}).toArray();
-    if(!category){
-        category = false;
+    var filters = await db.filters.find({}).toArray();
+    if(!filters){
+        filters = false;
     }
-    res.render('settings-categories', {
-        title: 'Catgories List',
+    res.render('settings-filters', {
+        title: 'Filters List',
         session: req.session,
         admin: true,
         message: common.clearSessionValue(req.session, 'message'),
         messageType: common.clearSessionValue(req.session, 'messageType'),
         helpers: req.handlebars.helpers,
         config: req.app.config,
-        categories: category,
+        filters: filters,
         csrfToken: req.csrfToken()
     });
 });
 
-// categories edit list
-router.get('/admin/settings/categories/edit/:id', csrfProtection, restrict, async (req, res) => {
+//filter edit
+
+router.get('/admin/settings/filters/edit/:id', csrfProtection, restrict, async (req, res) => {
     const db = req.app.db;
     const catId = req.params.id; 
-    const category = await db.categories.findOne({ _id: common.getId(catId) });
-    res.render('settings-categories-edit', {
-        title: 'Catgories Edit',
+    const filter = await db.filters.findOne({ _id: common.getId(catId) });
+    res.render('settings-filters-edit', {
+        title: 'Filters Edit',
         session: req.session,
         admin: true,
         message: common.clearSessionValue(req.session, 'message'),
         messageType: common.clearSessionValue(req.session, 'messageType'),
         helpers: req.handlebars.helpers,
         config: req.app.config,
-        category: category,
+        filter: filter,
         csrfToken: req.csrfToken()
     });
 });
+
+// enter new filter
+router.post('/admin/settings/filters/new', restrict, checkAccess,async (req, res) => {
+    const db = req.app.db;
+
+    if(!req.body.newNavFilter){
+        res.status(400).json({message: "Name Field Can Not Be Empty"});
+        return;
+    }
+
+    const item = {
+        title: req.body.newNavFilter,
+        submenu: []
+    };
+    
+    try{
+        const teempvar = await db.filters.insertOne(item);
+        res.status(200).json({ message: "Filter created successfull"});
+    }
+    catch(ex){
+        res.status(400).json({ message: "Error inserting Filter title" });
+        return;
+    }
+});
+router.post('/admin/settings/filters/update', restrict, checkAccess,async (req, res) => {
+    const db = req.app.db;
+
+    const filter = await db.filters.findOne({ _id: common.getId(req.body.filterId)});
+    if(!filter){
+        res.status(400).json({ message: "Error Filter Not Found"});
+        return;
+    }
+    if(!req.body.submenuValue){
+        res.status(400).json({message : "Submenu Can't Be empty"});
+        return;
+    }
+    
+    try{
+        const last = await db.lastidvalue.find({}).toArray();
+        var lastidvalue = 0;
+        if(last.length == 0){
+            const val = {
+                value: 0
+            }
+            await db.lastidvalue.insertOne(val);
+        }
+        else{
+            console.log(last);
+            lastidvalue = last[0].value;
+            await db.lastidvalue.findOneAndUpdate({ _id: common.getId(last[0]._id)},{ $inc: { value: 1}});
+        }
+        const submenuNewValue = {
+            title: req.body.submenuValue,
+            id: lastidvalue
+        }
+        const value = await db.filters.findOneAndUpdate({ _id: filter._id },{ $push: { submenu: submenuNewValue }});
+        res.status(200).json({ message: "Filter Updated"});
+    }catch(ex){
+        console.log(ex);
+        res.status(400).json({ message: "Error Updating Categories"});
+    }
+});
+// delete a filter
+router.post('/admin/settings/filters/delete', restrict, checkAccess,async (req, res) => {
+    const db = req.app.db;
+
+    try {
+        await db.filters.findOneAndDelete({ _id: common.getId(req.body.filterId)});
+        res.status(200).json({message: "Filter Deleted"});
+    }
+    catch(ex){
+        console.log(ex);
+        res.status(400).json({message: "Error Deleting Filter"});
+    }
+});
+
+// Update Filter Name 
+router.post('/admin/settings/filters/changename', restrict, checkAccess,async (req, res) => {
+    const db = req.app.db;
+
+    try {
+        await db.filters.findOneAndUpdate({ _id: common.getId(req.body.filterId)},{$set: { title: req.body.newName}});
+        res.status(200).json({message: "Filter Name Changed"});
+    }
+    catch(ex){
+        console.log(ex);
+        res.status(400).json({message: "Error Updating Filter"});
+    }
+});
+
+// Delete Filter Submenu
+router.post('/admin/settings/filters/deletesubmenu', restrict, checkAccess,async (req, res) => {
+    const db = req.app.db;
+    console.log(req.body.subId);
+    try {
+        await db.filters.findOneAndUpdate({ _id: common.getId(req.body.filterId)},{ $pull: { submenu: { id: parseInt(req.body.subId) }}});
+        res.status(200).json({message: "Filter Submenu Deleted"});
+    }
+    catch(ex){
+        console.log(ex);
+        res.status(400).json({message: "Error Updating Filter"});
+    }
+});
+
+// filters route end
 
 // page list
 router.get('/admin/settings/pages', csrfProtection, restrict, async (req, res) => {
@@ -434,6 +540,45 @@ router.post('/admin/settings/page/delete', restrict, checkAccess, async (req, re
     }catch(ex){
         res.status(400).json({ message: 'Error deleting page. Please try again.' });
     }
+});
+
+// Categories menu
+router.get('/admin/settings/categories', csrfProtection, restrict, async (req, res) => {
+    const db = req.app.db;
+
+    var category = await db.categories.find({}).toArray();
+    if(!category){
+        category = false;
+    }
+    res.render('settings-categories', {
+        title: 'Catgories List',
+        session: req.session,
+        admin: true,
+        message: common.clearSessionValue(req.session, 'message'),
+        messageType: common.clearSessionValue(req.session, 'messageType'),
+        helpers: req.handlebars.helpers,
+        config: req.app.config,
+        categories: category,
+        csrfToken: req.csrfToken()
+    });
+});
+
+// categories edit list
+router.get('/admin/settings/categories/edit/:id', csrfProtection, restrict, async (req, res) => {
+    const db = req.app.db;
+    const catId = req.params.id; 
+    const category = await db.categories.findOne({ _id: common.getId(catId) });
+    res.render('settings-categories-edit', {
+        title: 'Catgories Edit',
+        session: req.session,
+        admin: true,
+        message: common.clearSessionValue(req.session, 'message'),
+        messageType: common.clearSessionValue(req.session, 'messageType'),
+        helpers: req.handlebars.helpers,
+        config: req.app.config,
+        category: category,
+        csrfToken: req.csrfToken()
+    });
 });
 
 // New Categories Heading add

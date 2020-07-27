@@ -779,6 +779,143 @@ $(document).ready(function (){
         });
     });
 
+    // Filter Area Start
+
+    $(document).on('click', '#settings-filter-new', function(e){
+        e.preventDefault();
+        $.ajax({
+            method: 'POST',
+            url: '/admin/settings/filters/new',
+            data: {
+                newNavFilter: $('#newNavFilter').val(),
+            }
+        })
+        .done(function(msg){
+            showNotification(msg.message, 'success', true);
+        })
+        .fail(function(msg){
+            showNotification(msg.message, 'danger', true);
+        });
+    });
+
+    $(document).on('click', '#settings-filter-update', function(e){
+        e.preventDefault();
+        var id = $(this).attr('data-id');
+        $.ajax({
+            method: 'POST',
+            url: '/admin/settings/filters/update',
+            data: {
+                filterId : id,
+                submenuValue: $('#navfiltersubmenuvalue').val()
+            }
+        })
+        .done(function(msg){
+            showNotification(msg.message, 'success', true);
+        })
+        .fail(function(msg){
+            showNotification(msg.message, 'danger', true);
+        });
+    });
+    
+    $(document).on('click', '.deletefilter', function(e){
+        e.preventDefault();
+        var id = $(this).attr('data-id');
+        $.ajax({
+            method: 'POST',
+            url: '/admin/settings/filters/delete',
+            data: {
+                filterId : id
+            }
+        })
+        .done(function(msg){
+            showNotification(msg.message, 'success', true);
+        })
+        .fail(function(msg){
+            showNotification(msg.message, 'danger', true);
+        });
+    });
+
+    $(document).on('click', '.deletefiltersubmenu', function(e){
+        e.preventDefault();
+        var id = $('#filteridvalue').val();
+        var subid = $(this).attr('data-id');
+        $.ajax({
+            method: 'POST',
+            url: '/admin/settings/filters/deletesubmenu',
+            data: {
+                filterId : id,
+                subId: subid 
+            }
+        })
+        .done(function(msg){
+            showNotification(msg.message, 'success', true);
+        })
+        .fail(function(msg){
+            showNotification(msg.message, 'danger', true);
+        });
+    });
+
+    $(document).on('click', '#changeFiltername', function(e){
+        e.preventDefault();
+        var id = $(this).attr('data-id');
+        var value = $('#newFilterValue').val();
+        $.ajax({
+            method: 'POST',
+            url: '/admin/settings/filters/changename',
+            data: {
+                filterId : id,
+                newName: value
+            }
+        })
+        .done(function(msg){
+            showNotification(msg.message, 'success', true);
+        })
+        .fail(function(msg){
+            showNotification(msg.message, 'danger', true);
+        });
+    });
+
+    $(document).on('click', '.addproductfilter', function(e){
+        e.preventDefault();
+        var id = $(this).attr('data-id');
+        var productId = $('#productId').val();
+        $.ajax({
+            method: 'POST',
+            url: '/admin/product/filterinsert',
+            data: {
+                productId : productId,
+                filterId: id
+            }
+        })
+        .done(function(msg){
+            showNotification(msg.message, 'success', true);
+        })
+        .fail(function(msg){
+            showNotification(msg.message, 'danger', true);
+        });
+    });
+
+    $(document).on('click', '.deleteproductfilter', function(e){
+        e.preventDefault();
+        var id = $(this).attr('data-id');
+        var productId = $('#productId').val();
+        $.ajax({
+            method: 'POST',
+            url: '/admin/product/filterdelete',
+            data: {
+                productId : productId,
+                filterId: id
+            }
+        })
+        .done(function(msg){
+            showNotification(msg.message, 'success', true);
+        })
+        .fail(function(msg){
+            showNotification(msg.message, 'danger', true);
+        });
+    });
+
+    // Filter Area End
     $(document).on('click', '#settings-menu-update', function(e){
         e.preventDefault();
         var id = $(this).attr('data-id');

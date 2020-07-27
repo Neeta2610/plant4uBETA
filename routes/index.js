@@ -1002,15 +1002,24 @@ router.post('/product/addtocart', async (req, res, next) => {
     });
 });
 
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
+
 // search products
-router.get('/search/:searchTerm/:pageNum?', (req, res) => {
+router.get('/search/:searchTerm/:pageNum?', async (req, res) => {
     const db = req.app.db;
     const searchTerm = req.params.searchTerm;
     const productsIndex = req.app.productsIndex;
     const config = req.app.config;
     const numberProducts = config.productsPerPage ? config.productsPerPage : 6;
-
-    const lunrIdArray = [];
+    var appliedfilters = [];
+    const filters = await db.filters.find({}).toArray();
+    var lunrIdArray = [];
     productsIndex.search(searchTerm).forEach((id) => {
         lunrIdArray.push(getId(id.ref));
     });
@@ -1020,6 +1029,18 @@ router.get('/search/:searchTerm/:pageNum?', (req, res) => {
         pageNum = req.params.pageNum;
     }
 
+    if(!isEmpty(req.query)){
+        console.log(req.query);
+        var passedfilters = req.query.filter.split('_');
+        passedfilters.forEach((id)=>{
+            appliedfilters.push(id);
+        });
+        var lunrIdArray2 = await db.products.find({ _id: { $in: lunrIdArray}, filters: { $in: passedfilters}},{ _id: 1}).toArray();
+        lunrIdArray = [];
+        lunrIdArray2.forEach((data)=>{
+            lunrIdArray.push(getId(data._id));
+        });
+    }
     Promise.all([
         paginateProducts(true, db, pageNum, { _id: { $in: lunrIdArray } }, getSort()),
         getMenu(db)
@@ -1030,13 +1051,14 @@ router.get('/search/:searchTerm/:pageNum?', (req, res) => {
             res.status(200).json(results.data);
             return;
         }
-
         res.render(`${config.themeViews}category`, {
             title: 'Results',
             results: results.data,
             filtered: true,
             session: req.session,
             categories: req.app.categories,
+            filters: filters,
+            appliedfilters: appliedfilters,
             metaDescription: req.app.config.cartTitle + ' - Search term: ' + searchTerm,
             searchTerm: searchTerm,
             message: clearSessionValue(req.session, 'message'),
@@ -1057,14 +1079,16 @@ router.get('/search/:searchTerm/:pageNum?', (req, res) => {
 });
 
 // search products
-router.get('/category/:cat/:pageNum?', (req, res) => {
+router.get('/category/:cat/:pageNum?',async (req, res) => {
     const db = req.app.db;
     const searchTerm = req.params.cat;
     const productsIndex = req.app.productsIndex;
     const config = req.app.config;
     const numberProducts = config.productsPerPage ? config.productsPerPage : 6;
-
-    const lunrIdArray = [];
+    var appliedfilters = [];
+    var appliedprice = [];
+    const filters = await db.filters.find({}).toArray();
+    var lunrIdArray = [];
     productsIndex.search(searchTerm).forEach((id) => {
         lunrIdArray.push(getId(id.ref));
     });
@@ -1072,6 +1096,32 @@ router.get('/category/:cat/:pageNum?', (req, res) => {
     let pageNum = 1;
     if(req.params.pageNum){
         pageNum = req.params.pageNum;
+    }
+
+    if(!isEmpty(req.query)){
+        if(req.query.filter){
+            var passedfilters = req.query.filter.split('_');
+            passedfilters.forEach((id)=>{
+                appliedfilters.push(id);
+            });
+            var lunrIdArray2 = await db.products.find({ _id: { $in: lunrIdArray}, filters: { $in: passedfilters}},{ _id: 1}).toArray();
+            lunrIdArray = [];
+            lunrIdArray2.forEach((data)=>{
+                lunrIdArray.push(getId(data._id));
+            });
+        }
+        if(req.query.price){
+            var tempfilterprice = req.query.price.split('_');
+            tempfilterprice.forEach((price)=>{
+                appliedprice.push(parseInt(price));
+            });
+            console.log(appliedprice);
+            var lunrIdArray2 = await db.products.find({ _id: { $in: lunrIdArray}, productPrice: { $gt: appliedprice[0], $lt: appliedprice[1]}},{ _id: 1}).toArray();
+            lunrIdArray = [];
+            lunrIdArray2.forEach((data)=>{
+                lunrIdArray.push(getId(data._id));
+            });
+        }
     }
 
     Promise.all([
@@ -1086,13 +1136,16 @@ router.get('/category/:cat/:pageNum?', (req, res) => {
                 res.status(200).json(results.data);
                 return;
             }
-
+            console.log(appliedprice);
             res.render(`${config.themeViews}category`, {
                 title: `Category: ${searchTerm}`,
                 results: results.data,
                 filtered: true,
                 session: req.session,
                 categories: req.app.categories,
+                filters: filters,
+                appliedfilters: appliedfilters,
+                appliedprice: appliedprice,
                 searchTerm: searchTerm,
                 metaDescription: `${req.app.config.cartTitle} - Category: ${searchTerm}`,
                 message: clearSessionValue(req.session, 'message'),

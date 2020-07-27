@@ -3,83 +3,62 @@
 
         <div class="shop_sidebar_area">
 
-            <!-- ##### Single Widget ##### -->
-            <div class="widget catagory bottom-marg-50">
-                <!-- Widget Title -->
-                <h6 class="widget-title mb-30">Catagories</h6>
-
-                <!--  Catagories  -->
-                <div class="catagories-menu">
-                    <ul>
-                        <li class="active"><a href="#">All Indoor Plants</a></li>
-                        <li><a href="#">Best Selling Plants</a></li>
-                        <li><a href="#">New Arrival</a></li>
-                        <li><a href="#">Room Freshner</a></li>
-                        <li><a href="#">Minimal Care</a></li>
-                        <li><a href="#">Gifting Plants</a></li>
-                        <li><a href="#">Herbal Plants</a></li>
-                    </ul>
-                </div>
-            </div>
-
+            {{#each filters}}
             <!-- ##### Single Widget ##### -->
             <div class="widget brands bottom-marg-50">
                 <!-- Widget Title -->
-                <h6 class="widget-title mb-30">Water Schedule</h6>
+                <h6 class="widget-title mb-30">{{this.title}}</h6>
 
                 <div class="widget-desc">
                     <!-- Single Form Check -->
+                    {{#each this.submenu}}
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="amado">
-                        <label class="form-check-label" for="amado">Every alternative day</label>
+                        {{#ifIn this.id ../../appliedfilters}}
+                        <input class="form-check-input removefilters" type="checkbox" value="{{this}}" id="amado" checked>
+                        {{else}}
+                        <input class="form-check-input applyfilters" type="checkbox" value="{{this}}" id="amado">
+                        {{/ifIn}}
+                        <label class="form-check-label" for="amado">{{this.title}}</label>
                     </div>
-                    <!-- Single Form Check -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="ikea">
-                        <label class="form-check-label" for="ikea">Once a day</label>
-                    </div>
-                    <!-- Single Form Check -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="furniture">
-                        <label class="form-check-label" for="furniture">Once a week</label>
-                    </div>
-                    <!-- Single Form Check -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="factory">
-                        <label class="form-check-label" for="factory">In two weeks</label>
-                    </div>
+                    {{/each}}
                 </div>
             </div>
-
+            {{/each}}
 
             <!-- ##### Single Widget ##### -->
             <div class="widget price bottom-marg-50">
                 <!-- Widget Title -->
                 <h6 class="widget-title mb-30">Price</h6>
 
-                <div class="widget-desc">
-                       <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                <div id="slider-range"></div>
+                <div class="widget-disc">
+                    <div id="slider-range"></div>
+                    <div id="pricerange" class="top-marg-25"></div>
+                    {{#if appliedprice}}
+                    <input type="hidden" id="min-value" value="{{this.appliedprice.[0]}}">
+                    <input type="hidden" id="max-value" value="{{this.appliedprice.[1]}}">
+                    {{else}}
+                    <input type="hidden" id="min-value">
+                    <input type="hidden" id="max-value">
+                    {{/if}}
                 </div>
             </div>
-            <div class="row slider-labels">
-                <div class="col-xs-12 caption">
-                <span class="form-check-label" id="slider-range-value1"></span> - <span class="form-check-label" id="slider-range-value2"></span>
+
+            <!-- ##### Single Widget ##### -->
+            {{#each categories}}
+            <div class="widget catagory bottom-marg-50">
+                <!-- Widget Title -->
+                <h6 class="widget-title mb-30">{{this.title}}</h6>
+
+                <!--  Catagories  -->
+                <div class="catagories-menu">
+                    <ul>
+                        {{#each this.submenu}}
+                        <li class=""><a href="/category/{{this}}">{{this}}</a></li>
+                        {{/each}}
+                    </ul>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-12">
-                <form>
-                    <input type="hidden" name="min-value" value="">
-                    <input type="hidden" name="max-value" value="">
-                </form>
-                </div>
-            </div>
-    </div>
-                </div>
-            </div>
+            {{/each}}
         </div>
 </div>
 <div class="productsWrapper">
@@ -187,3 +166,81 @@
 </div> 
 </div>
 <button class="expand-filter">Filter<i class="fas fa-sort-amount-up-alt"></i></button>
+<script>
+    function addParameter(url, parameterName, parameterValue){
+        replaceDuplicates = true;
+        if(url.indexOf('#') > 0){
+            var cl = url.indexOf('#');
+            urlhash = url.substring(url.indexOf('#'),url.length);
+        } else {
+            urlhash = '';
+            cl = url.length;
+        }
+        sourceUrl = url.substring(0,cl);
+    
+        var urlParts = sourceUrl.split("?");
+        var newQueryString = "";
+    
+        if (urlParts.length > 1)
+        {
+            var filterType = urlParts[1].split('&');
+            if(filterType.length > 1){
+                if(parameterName == "filter"){
+                    newQueryString = "?"+filterType[0] + "_" + parameterValue +"&"+ filterType[1];
+                }
+                else{
+                    newQueryString = "?"+filterType[0]  + "&" + parameterName+"="+parameterValue;
+                }
+            }
+            else{
+                if(parameterName == filterType[0].split('=')[0] && parameterName == "filter"){
+                    newQueryString = "?"+filterType[0] + "_" + parameterValue;
+                }
+                else if(parameterName == filterType[0].split('=')[0]){
+                    newQueryString = "?"+parameterName + "=" + parameterValue;
+                }
+                else if(parameterName == "filter"){
+                    newQueryString = "?"+parameterName + "=" + parameterValue+"&"+urlParts[1];
+                }
+                else{
+                    newQueryString = "?"+urlParts[1] + "&" + parameterName+"="+parameterValue;
+                }
+            }
+        }
+        else{
+            newQueryString = "?" + parameterName + "=" + parameterValue;
+        }
+        
+        return urlParts[0] + newQueryString + urlhash;
+    };
+    $( function() {
+    var min = 49;
+    var max = 500;
+    if($('#min-value').val && $('#min-value').val()){
+        min = $('#min-value').val();
+    }
+    if($('#max-value').val && $('#max-value').val()){
+        max = $('#max-value').val();
+    }
+    $( "#slider-range" ).slider({
+      range: true,
+      min: 49,
+      max: 5000,
+      values: [ min, max ],
+      slide: function( event, ui ) {
+        $('#pricerange')[0].innerHTML = "₹"+ui.values[0] + " - " + "₹"+ui.values[1];
+        $( "#min-value" ).val( ui.values[ 0 ] );
+        $( "#max-value" ).val( ui.values[ 1 ] );
+      },
+      stop: function( event, ui ) {
+        var maxvalue = document.getElementById('max-value').value;
+        var minvalue = document.getElementById('min-value').value;
+        var id = minvalue+"_"+maxvalue;
+        var url = addParameter(window.location.href, 'price', id);
+        console.log(url);
+        location.href = url;
+      }
+    });
+    $('#pricerange')[0].innerHTML = "₹"+min + " - " + "₹"+max;
+  } );
+</script>

@@ -29,6 +29,7 @@
     {{!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> --}}
     <link rel="stylesheet" href="/stylesheets/bootstrap.css">
 
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!-- JS, Popper.js, and jQuery -->
     <link rel="stylesheet" href="/stylesheets/pushy{{config.env}}.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
@@ -91,6 +92,7 @@
     <script src="/javascripts/cssbeautify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.4/jquery.touchSwipe.min.js"></script>
     <script src="/javascripts/jquery.etalage.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="/javascripts/index.js"></script>
     <script src="/javascripts/common{{config.env}}.js"></script>
     <script src="/javascripts/expressCart{{config.env}}.js"></script>
@@ -501,7 +503,11 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         {{/if}}
         <script src="/javascripts/pushy.min.js"></script>
         <script src="/javascripts/owl.carousel.min.js"></script>
-        <script src="/javascripts/pricerange.js"></script>
+        <script>
+            $(document).ready(()=>{
+                $('.noUi-handle').attr('tabindex',"0");
+            });
+        </script>
         {{#if admin}}
         {{> partials/globalSearchModal}}
         {{> partials/validationModal}}

@@ -68,6 +68,28 @@
             </div>
             <div class="col-12">
                 <div class="form-group">
+                    <h3 for="" class="control-label">Filters</h3>
+                    <div class="marg-left-20">
+                        {{#each filters}}
+                        <h4 class="top-marg-25">{{this.title}}</h4>
+                        <ul class="top-marg-25 marg-left-20">
+                            {{#each this.submenu}}
+                                <li class="top-marg-15">
+                                    <h5 style="display: inline-flex;">{{this.title}}</h5>
+                                    {{#ifIn this.id ../../result.filters}}
+                                        <button class="btn btn-danger marg-left-20 deleteproductfilter" data-id="{{this}}">Delete Filter</button>
+                                    {{else}}
+                                        <button class="btn btn-primary marg-left-20 addproductfilter" data-id="{{this}}">Add to product filter</button>
+                                    {{/ifIn}}
+                                </li>
+                            {{/each}}
+                        </ul>
+                    {{/each}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
                     <label class="control-label">Permalink</label>
                     <div class="input-group">
                         <input type="text" class="form-control" id="productPermalink" placeholder="Permalink for the article" value={{result.productPermalink}}>
