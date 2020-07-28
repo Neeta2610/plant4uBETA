@@ -344,7 +344,9 @@ input[type=number]::-webkit-outer-spin-button {
 .left-pad-30 {
   padding-left: 30px;
 }
-
+.he-45 {
+  height: 45px !important;
+}
 .right-pad-10 {
   padding-right: 10px;
 }
@@ -2549,7 +2551,10 @@ a {
     width: 100%;
   }
 }
-
+.avaliblity{
+  display: flex;
+  margin: 15px 0px;
+}
 /* 
 Price Range */
 

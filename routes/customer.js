@@ -36,7 +36,14 @@ router.post('/customer/register', function(req, res) {
 	var email = req.body.shipEmail;
 	var phone = req.body.shipPhoneNumber;;
 	var countryCode = '+91';
-	
+    
+    if(req.body.shipState != 'Delhi'){
+        message = "Delivery Not Available At This Location";
+        req.session.message = message;
+        req.session.messageType = 'danger';
+        res.redirect('/checkout/information');
+        return;
+    }
 	authy.register_user(email, phone, countryCode, function (regErr, regRes) {
     	console.log('In Registration...');
     	if (regErr) {

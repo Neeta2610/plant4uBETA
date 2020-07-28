@@ -133,6 +133,13 @@
                                         <span class="qty-plus" onclick="var effect = document.getElementById('product_quantity'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
                                     </div>
                                 </div>
+                                <div class="avaliblity checkout_details_area">
+                                    <input type="text" class="form-control he-45" id="checkavailable" placeholder="PinCode">
+                                    <button type="submit" class="btn btn-primary" id="checkavlbtn">Check</button>
+                                </div>
+                                <div class="displayavailable bottom-marg-10">
+                                    <h6 id="displayavailable"></h6>
+                                </div>
                                 {{#if result.productStock}}
                                 <button  name="addtocart" value="5" class="btn amado-btn product-add-to-cart">Add to cart</button>
                                 {{else}}

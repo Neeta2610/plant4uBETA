@@ -136,6 +136,7 @@ router.post('/admin/product/filterdelete',restrict, checkAccess, async (req, res
     
 });
 
+
 // insert new product form action
 router.post('/admin/product/insert', restrict, checkAccess, async (req, res) => {
     const db = req.app.db;

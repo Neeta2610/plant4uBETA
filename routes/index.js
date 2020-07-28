@@ -25,6 +25,7 @@ const {
     getCountryList
 } = require('../lib/common');
 const countryList = getCountryList();
+var pin = require('india-pincode-lookup');
 
 
 //This is how we take checkout action
@@ -337,6 +338,7 @@ router.get('/checkout/shipping', async (req, res, next) => {
     });
 });
 
+
 router.get('/checkout/cart', (req, res) => {
     const config = req.app.config;
     
@@ -505,6 +507,36 @@ router.post('/checkout/removediscountcode', async (req, res) => {
         message: 'Discount code removed'
     });
 });
+
+// check pincode availability
+
+router.post('/product/pinavailability', (req,res) =>{
+    if(req.body.pincode.length != 6){
+        res.status(400).json({message: "Pincode Length Does Not Match"});
+        return;
+    }
+    if(isNaN(req.body.pincode)){
+        res.status(400).json({message: "Pincode contain only numbers"});
+        return;
+    }
+    var response = pin.lookup(req.body.pincode) 
+    if(response.length > 0){
+        if(response[0].stateName == "DELHI"){
+            res.status(200).json({message: "Available At Your Location"});
+            return;
+        }
+        else{
+            res.status(400).send("Not Available Right Now");
+            return;
+        }
+    }
+    else{
+        res.status(400).json({message: "Not Available Right Now"});
+        return;
+    }
+});
+
+
 
 // show an individual product
 router.get('/product/:id', async (req, res) => {

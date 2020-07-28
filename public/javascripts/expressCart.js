@@ -212,7 +212,50 @@ $(document).ready(function () {
                 location.reload();
             });
     });
-
+    $('#checkavlbtn').on('click', function(e){
+        e.preventDefault();
+        var pincode = $('#checkavailable').val();
+        $.ajax({
+            method: 'POST',
+            url: '/product/pinavailability',
+            data: {
+                pincode: pincode
+            }
+        })
+        .done(function(msg){
+            $('#displayavailable').text("Available");
+            $('#displayavailable').addClass('text-success');
+            $('#displayavailable').removeClass('text-danger');
+            showNotification(msg.message, 'success');
+        })
+        .fail(function(msg){
+            $('#displayavailable').text("Not Available");
+            $('#displayavailable').addClass('text-danger');
+            $('#displayavailable').removeClass('text-success');
+            showNotification(msg.responseText, 'danger');
+        });
+    });
+    $('#shipPostcode').focusout(function(e){
+        e.preventDefault();
+        var pincode = $(this).val();
+        $.ajax({
+            method: 'POST',
+            url: '/product/pinavailability',
+            data: {
+                pincode: pincode
+            }
+        })
+        .done(function(msg){
+            $('#shipState').val("Delhi");
+            $('#shipState').attr('disabled','true');
+            showNotification(msg.message, 'success');
+        })
+        .fail(function(msg){
+            $('#shipState').val("Change PinCode");
+            $('#shipState').attr('disabled','true');
+            showNotification(msg.responseText, 'danger');
+        });
+    });
     $('#customerForgotten').validator().on('submit', function (e) {
         if (!e.isDefaultPrevented()) {
             e.preventDefault();
@@ -235,6 +278,7 @@ $(document).ready(function () {
                 });
         }
     });
+
     $('.expand-filter').on('click',function(){
         $('.filter').toggleClass('displaynone');
     });
