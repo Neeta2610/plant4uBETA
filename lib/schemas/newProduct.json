@@ -16,6 +16,10 @@
             "type": "number",
             "format": "amount"
         },
+        "productDiscountPrice": {
+            "type": "number",
+            "format": "amount"
+        },
         "productminiDescription": {
             "type": "string",
             "isNotEmpty": true,

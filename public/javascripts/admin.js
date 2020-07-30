@@ -214,6 +214,7 @@ $(document).ready(function (){
                 data: {
                     productTitle: $('#productTitle').val(),
                     productPrice: $('#productPrice').val(),
+                    productDiscountPrice: $('#productDiscountPrice').val(),
                     productPublished: $('#productPublished').val(),
                     productStock: $('#productStock').val(),
                     productDescription: $('#productDescription').val(),
@@ -253,6 +254,7 @@ $(document).ready(function (){
                     productId: $('#productId').val(),
                     productTitle: $('#productTitle').val(),
                     productPrice: $('#productPrice').val(),
+                    productDiscountPrice: $('#productDiscountPrice').val(),
                     productPublished: $('#productPublished').val(),
                     productStock: $('#productStock').val(),
                     productStockDisable: $('#productStockDisable').is(':checked'),

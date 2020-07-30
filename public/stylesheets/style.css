@@ -998,7 +998,7 @@ hr{
       font-style: italic;
       border: none;
       padding: 0 30px; }
-    .newsletter-area .newsletter-form form input[type="submit"] {
+    .newsletter-area .newsletter-form form button {
       -webkit-transition-duration: 500ms;
       transition-duration: 500ms;
       height: 50px;
@@ -1012,7 +1012,7 @@ hr{
       right: 0;
       z-index: 10;
       border: none; }
-      .newsletter-area .newsletter-form form input[type="submit"]:hover, .newsletter-area .newsletter-form form input[type="submit"]:focus {
+      .newsletter-area .newsletter-form form button:hover, .newsletter-area .newsletter-form form button:focus {
         background-color: #3fbe02;
         color: #fff; }
 
@@ -2499,6 +2499,27 @@ a {
   border-color: transparent;
   color: #474747;
 }
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 6px 12px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+  margin: 0 4px;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
 @media screen and (max-width: 900px){
   .Wrapper-product .filter{
     width: 30%;

@@ -64,15 +64,26 @@
 <div class="productsWrapper">
     {{#if filtered}}
         <div class="product-results col-sm-12">
-                    <div class="dropdown show">
-        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Show
-        </a>
+        <div class="dropdown show">
 
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="#">10</a>
-            <a class="dropdown-item" href="#">30</a>
-            <a class="dropdown-item" href="#">All</a>
+        <div class="pagination">
+            {{#if prevPage}}
+                <a href="/{{paginateUrl}}/{{searchTerm}}/{{prevPage}}{{queryString}}">&laquo;</a>
+            {{else}}
+            <a href="#">&laquo;</a>
+            {{/if}}
+            {{#each pageNumArray}}
+                {{#ifCond ../pageNum '==' this}}
+                    <a class="active" href="/{{../../paginateUrl}}/{{../../searchTerm}}/{{../this}}{{../../queryString}}">{{../this}}</a>
+                {{else}}
+                    <a href="/{{../../paginateUrl}}/{{../../searchTerm}}/{{../this}}{{../../queryString}}">{{../this}}</a>
+                {{/ifCond}}
+            {{/each}}
+            {{#if nextPage}}
+            <a href="/{{paginateUrl}}/{{searchTerm}}/{{nextPage}}{{queryString}}">&raquo;</a>
+            {{else}}
+            <a href="#">&raquo;</a>
+            {{/if}}
         </div>
         </div>
             {{#ifCond @root.paginateUrl '==' 'category'}}
