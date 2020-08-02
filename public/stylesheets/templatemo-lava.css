@@ -80,7 +80,7 @@ header, nav, section, article, aside, footer, hgroup {
 html, body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  background-color: #fff;
+  background-color: #f9f9f9 !important;
   font-size: 16px;
   -ms-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
@@ -306,11 +306,11 @@ header
 
 
 .header-area .main-nav .nav {
-  float: left;
+  float: right;
   margin-top: 27px;
   margin-left: auto;
   margin-right: 0px;
-  background-color: #fff;
+  background-color: #f9f9f9;
   padding: 0px 20px;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
@@ -687,7 +687,7 @@ welcome
 
 .welcome-area .header-text h1 {
   font-weight: 900;
-  font-size: 52px;
+  font-size: 47px;
   line-height: 80px;
   letter-spacing: 1px;
   margin-bottom: 30px;
@@ -701,7 +701,7 @@ welcome
 
 .welcome-area .header-text p {
   font-weight: 300;
-  font-size: 17px;
+  font-size: 16px;
   color: #7a7a7a;
   line-height: 30px;
   letter-spacing: 0.25px;

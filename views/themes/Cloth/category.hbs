@@ -100,8 +100,8 @@
             </div>
         {{/ifCond}}
         {{#each results}}
-          <div class="col-12 col-sm-6 col-lg-5 col-xl-4">
-                        <div class="single-product-wrapper">
+           <div class="col-12 col-sm-6 col-md-4">
+                        <div class="single-product-wrapper second-product-wrapper">
                             <!-- Product Image -->
                                 {{#if productPermalink}}
                              <a href="/product/{{this.productPermalink}}">
@@ -134,26 +134,23 @@
                             </div>
                             </a>
                             {{/if}}
-
-                            <!-- Product Description -->
-                            <div class="product-description d-flex align-items-center justify-content-between">
-                                <!-- Product Meta Data -->
-                                <div class="product-meta-data">
-                                    <div class="line"></div>
-                                    <p class="product-price">{{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</p>
-                                    {{#if productPermalink}}
+                            <div class="titlename">
+                                 {{#if productPermalink}}
                                     <a href="/product/{{this.productPermalink}}">
-                                        <h6>{{this.productTitle}}</h6>
+                                        <h5>{{this.productTitle}}</h5>
                                     </a>
                                     {{else}}
                                     <a href="/product/{{this._id}}">
-                                        <h6>{{this.productTitle}}</h6>
+                                        <h5>{{this.productTitle}}</h5>
                                     </a>
                                     {{/if}}
-                                </div>
-                                <!-- Ratings & Cart -->
-                                <div class="ratings-cart text-right">
-                                    <div class="ratings">
+                            </div>
+                            <!-- Product Description -->
+                            <div class="product-description2">
+                                <!-- Product Meta Data -->
+                                <div class="product-meta-data">
+                                   <p class="product-price">{{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</p>
+                                   <div class="ratings">
                                         {{#forTimes this.productRating}}
                                         <i class="fas fa-star i"></i>
                                         {{/forTimes}}
@@ -161,11 +158,24 @@
                                         <i class="far fa-star i"></i>
                                         {{/forTimesminus}}
                                     </div>
+                                </div>
+                                <!-- Ratings & Cart -->
+                                <div class="ratings-cart text-right">
+                                    {{#if productPermalink}}
+                                    <a class="btnview" href="/product/{{this.productPermalink}}">
+                                        VIEW
+                                    </a>
+                                    {{else}}
+                                    <a class="btnview" href="/product/{{this._id}}">
+                                        VIEW
+                                    </a>
+                                    {{/if}}
+                                    
                                     <div class="cart">
                                         {{#if this.productStock}}
-                                        <a class="btn-round" data-toggle="tooltip" data-placement="left" title="Add to Cart" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}"><img src="/images/cart.png" alt=""></a>
+                                        <a class="product-add-to-cart btncart" data-toggle="tooltip" data-placement="left" title="Add to Cart" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}">ADD TO CART</a>
                                         {{else}}
-                                        <a class=""><img src="/images/cart.png" alt=""></a>
+                                        <a class="btn-cart">ADD TO CART</a>
                                         {{/if}}
                                     </div>
                                 </div>
