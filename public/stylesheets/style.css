@@ -2451,7 +2451,8 @@ a {
     .single-product-area .single_product_thumb .carousel-indicators {
       margin: 0 7.5px; 
     flex-direction: column;
-  position: relative;}
+  position: relative;
+justify-content: start;}
   .single-product-area .single_product_thumb .carousel-indicators li{
     width: 100%;
   }
