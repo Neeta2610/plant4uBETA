@@ -116,6 +116,15 @@
                                     <!-- Hover Thumb -->
                                     <img class="hover-img" src="/images/p1.jpg" alt="Second Image">
                                 {{/if}}
+                                <div class="tags">
+                                        {{#if productDiscountPrice}}
+                                    <div class="discount">
+                                        {{#discount productDiscountPrice productPrice}}
+                                            {{this}}
+                                        {{/discount}}% Off
+                                    </div>
+                                    {{/if}}
+                                </div>
                             </div>
                             </a>
                             {{else}}
