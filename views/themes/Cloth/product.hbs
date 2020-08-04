@@ -1,13 +1,12 @@
-<div class="product-layout col-sm-9 offset-sm-1 top-marg-100">
+<div class="product-layout col-sm-11 ml-auto mr-auto top-marg-100">
     
        <div class="single-product-area section-padding-100 clearfix">
-            <div class="container-fluid">
 
                 <div class="row">
                     <div class="col-12 col-lg-7">
                         <div class="single_product_thumb">
-                            <div id="product_details_slider" class="carousel slide" data-ride="carousel">
-                                <ol class="carousel-indicators">
+                            <div id="product_details_slider" class="carousel slide row" data-ride="carousel">
+                                <div class="carousel-indicators col-md-2">
                                     {{#if result.productImage}}
                                     <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url({{result.productImage.[0].path}});">
                                     </li>
@@ -24,17 +23,17 @@
                                     </li>
                                     {{/if}}
                                     {{else}}
-                                    <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url(/images/p1.jpg);">
+                                    <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url(/images/p1.jpeg);">
                                     </li>
-                                    <li data-target="#product_details_slider" data-slide-to="1" style="background-image: url(/images/p5.jpg);">
+                                    <li data-target="#product_details_slider" data-slide-to="1" style="background-image: url(/images/p5.jpeg);">
                                     </li>
-                                    <li data-target="#product_details_slider" data-slide-to="2" style="background-image: url(/images/p5.jpg);">
+                                    <li data-target="#product_details_slider" data-slide-to="2" style="background-image: url(/images/p5.jpeg);">
                                     </li>
-                                    <li data-target="#product_details_slider" data-slide-to="3" style="background-image: url(/images/p1.jpg);">
+                                    <li data-target="#product_details_slider" data-slide-to="3" style="background-image: url(/images/p1.jpeg);">
                                     </li>
                                     {{/if}}
-                                </ol>
-                                <div class="carousel-inner">
+                                </div>
+                                <div class="carousel-inner col-md-9">
                                     {{#if result.productImage}}
                                     <div class="carousel-item active">
                                         <a class="gallery_img" href="{{result.productImage.[0].path}}">
@@ -64,23 +63,23 @@
                                     {{/if}}
                                     {{else}}
                                     <div class="carousel-item active">
-                                        <a class="gallery_img" href="/images/p1.jpg">
-                                            <img class="d-block w-100" src="/images/p1.jpg" alt="First slide">
+                                        <a class="gallery_img" href="/images/p1.jpeg">
+                                            <img class="d-block w-100" src="/images/p1.jpeg" alt="First slide">
                                         </a>
                                     </div>
                                     <div class="carousel-item">
-                                        <a class="gallery_img" href="/images/p5.jpg">
-                                            <img class="d-block w-100" src="/images/p5.jpg" alt="Second slide">
+                                        <a class="gallery_img" href="/images/p5.jpeg">
+                                            <img class="d-block w-100" src="/images/p5.jpeg" alt="Second slide">
                                         </a>
                                     </div>
                                     <div class="carousel-item">
-                                        <a class="gallery_img" href="/images/p5.jpg">
-                                            <img class="d-block w-100" src="/images/p5.jpg" alt="Third slide">
+                                        <a class="gallery_img" href="/images/p5.jpeg">
+                                            <img class="d-block w-100" src="/images/p5.jpeg" alt="Third slide">
                                         </a>
                                     </div>
                                     <div class="carousel-item">
-                                        <a class="gallery_img" href="/images/p1.jpg">
-                                            <img class="d-block w-100" src="/images/p1.jpg" alt="Fourth slide">
+                                        <a class="gallery_img" href="/images/p1.jpeg">
+                                            <img class="d-block w-100" src="/images/p1.jpeg" alt="Fourth slide">
                                         </a>
                                     </div>
                                     {{/if}}
@@ -106,6 +105,7 @@
                                           {{#forTimesminus result.productRating}}
                                            <i class="far fa-star i"></i>
                                           {{/forTimesminus}}
+                                          <small>Based on {{reviews.length}} Reviews</small>
                                     </div>
                                     <div class="review">
                                         <a href="#descheading">Write A Review</a>
@@ -113,44 +113,53 @@
                                 </div>
                                 <!-- Avaiable -->
                                 {{#if result.productStock}}
-                                <p class="avaibility"><i class="fa fa-circle"></i> In Stock</p>
+                                <p class="avaibility top-marg-5"><i class="fa fa-circle"></i> In Stock</p>
+                                <small>({{result.productStock}}) pcs left</small>
                                 {{else}}
                                 <p class="avaibility non-avaibility"><i class="fa fa-circle"></i> Not In Stock</p>
                                 {{/if}}
                             </div>
 
-                            <div class="short_overview my-5">
+                            <div class="short_overview my-4">
                                 <p>{{{fixTags result.productminiDescription}}}</p>
                             </div>
 
                             <!-- Add to Cart Form -->
                             <div class="cart clearfix">
-                                <div class="cart-btn d-flex bottom-marg-50">
+                                <div class="cart-btn d-flex bottom-marg-20">
                                     <p>Qty</p>
                                     <div class="quantity">
                                         <span class="qty-minus" onclick="var effect = document.getElementById('product_quantity'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-caret-down" aria-hidden="true"></i></span>
                                         <input type="number" class="qty-text" id="product_quantity" step="1" min="1" max="300" name="quantity" value="1">
                                         <span class="qty-plus" onclick="var effect = document.getElementById('product_quantity'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
                                     </div>
+                                    {{#if result.productStock}}
+                                        <button  name="addtocart" value="5" class="btn btn-success product-add-to-cart marg-left-20">Add to cart</button>
+                                        {{else}}
+                                        <button class="btn btn-success .marg-left-20" disabled>Coming Soon</button>
+                                        {{/if}}
                                 </div>
                                 <div class="avaliblity checkout_details_area">
-                                    <input type="text" class="form-control he-45" id="checkavailable" placeholder="PinCode">
-                                    <button type="submit" class="btn btn-primary" id="checkavlbtn">Check</button>
+                                    <label class="mt-auto mb-auto marg-right-7" for=""><i class="fas fa-street-view h5 mb-0"></i></label>
+                                    <input type="text" class="form-control he-45" id="checkavailable" placeholder="Enter PinCode to Check">
                                 </div>
                                 <div class="displayavailable bottom-marg-10">
                                     <h6 id="displayavailable"></h6>
                                 </div>
-                                {{#if result.productStock}}
-                                <button  name="addtocart" value="5" class="btn amado-btn product-add-to-cart">Add to cart</button>
-                                {{else}}
-                                <button class="btn amado-btn bg-orange" disabled>Coming Soon</button>
-                                {{/if}}
+                            </div>
+
+                            {{!-- Offers --}}
+                            <div class="promooffers">
+                                <h6>Available Offers</h6>
+                                <ul>
+                                    <li><strong class="cl-green">PLANT500</strong> Get 5% off on order over 500 (max 50)</li>
+                                    <li><strong class="cl-green">FIRST234</strong> Get 20 off on first order</li>
+                                </ul>
                             </div>
 
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     <div class="row">
     <div class="descproduct">
@@ -346,9 +355,9 @@
         <h3 class="heading top-marg-20">Related Products
             <hr class="top-marg-20">
         </h3>
-        <div class="row top-marg-25">
+        <div class="row top-marg-25 row">
             {{#each relatedProducts}}
-          <div class="col-12 col-sm-6 col-lg-5 col-xl-4">
+          <div class="col-12 col-sm-6 col-lg-5 col-xl-3">
                         <div class="single-product-wrapper">
                             <!-- Product Image -->
                                 {{#if productPermalink}}
@@ -360,9 +369,9 @@
                                     <!-- Hover Thumb -->
                                     <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
                                 {{else}}
-                                    <img src="/images/p5.jpg" alt="First Image">
+                                    <img src="/images/p5.jpeg" alt="First Image">
                                     <!-- Hover Thumb -->
-                                    <img class="hover-img" src="/images/p1.jpg" alt="Second Image">
+                                    <img class="hover-img" src="/images/p1.jpeg" alt="Second Image">
                                 {{/if}}
                                 <div class="tags">
                                         {{#if productDiscountPrice}}
@@ -384,9 +393,9 @@
                                     <!-- Hover Thumb -->
                                     <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
                                 {{else}}
-                                    <img src="/images/p5.jpg" alt="First Image">
+                                    <img src="/images/p5.jpeg" alt="First Image">
                                     <!-- Hover Thumb -->
-                                    <img class="hover-img" src="/images/p1.jpg" alt="Second Image">
+                                    <img class="hover-img" src="/images/p1.jpeg" alt="Second Image">
                                 {{/if}}
                                 <div class="tags">
                                         {{#if productDiscountPrice}}

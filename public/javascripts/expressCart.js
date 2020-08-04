@@ -212,28 +212,30 @@ $(document).ready(function () {
                 location.reload();
             });
     });
-    $('#checkavlbtn').on('click', function(e){
-        e.preventDefault();
-        var pincode = $('#checkavailable').val();
-        $.ajax({
-            method: 'POST',
-            url: '/product/pinavailability',
-            data: {
-                pincode: pincode
-            }
-        })
-        .done(function(msg){
-            $('#displayavailable').text("Available");
-            $('#displayavailable').addClass('text-success');
-            $('#displayavailable').removeClass('text-danger');
-            showNotification(msg.message, 'success');
-        })
-        .fail(function(msg){
-            $('#displayavailable').text("Not Available");
-            $('#displayavailable').addClass('text-danger');
-            $('#displayavailable').removeClass('text-success');
-            showNotification(msg.responseText, 'danger');
-        });
+    $('#checkavailable').keyup(function(e){
+        if($(this).val().length == 6){
+            e.preventDefault();
+            var pincode = $('#checkavailable').val();
+            $.ajax({
+                method: 'POST',
+                url: '/product/pinavailability',
+                data: {
+                    pincode: pincode
+                }
+            })
+            .done(function(msg){
+                $('#displayavailable').text("Available");
+                $('#displayavailable').addClass('text-success');
+                $('#displayavailable').removeClass('text-danger');
+                showNotification(msg.message, 'success');
+            })
+            .fail(function(msg){
+                $('#displayavailable').text("Not Available");
+                $('#displayavailable').addClass('text-danger');
+                $('#displayavailable').removeClass('text-success');
+                showNotification(msg.responseText, 'danger');
+            });
+        }
     });
     $('#shipPostcode').focusout(function(e){
         e.preventDefault();
