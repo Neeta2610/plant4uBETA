@@ -116,7 +116,7 @@
                                     </div>
                                     {{#if productDiscountPrice}}
                                     <div class="discount">
-                                        {{#discount productDiscountPrice productPrice}}
+                                        {{#discount productPrice productDiscountPrice}}
                                             {{this}}
                                         {{/discount}}% Off
                                     </div>
@@ -141,9 +141,13 @@
                                     <div class="newarrival">
                                         New
                                     </div>
-                                    {{!-- <div class="discount">
-                                        25% Off
-                                    </div> --}}
+                                    {{#if productDiscountPrice}}
+                                    <div class="discount">
+                                        {{#discount productPrice productDiscountPrice}}
+                                            {{this}}
+                                        {{/discount}}% Off
+                                    </div>
+                                    {{/if}}
                                 </div>
                             </div>
                             </a>
@@ -235,7 +239,7 @@
                                 <div class="tags">
                                         {{#if productDiscountPrice}}
                                     <div class="discount">
-                                        {{#discount productDiscountPrice productPrice}}
+                                        {{#discount productPrice productDiscountPrice}}
                                             {{this}}
                                         {{/discount}}% Off
                                     </div>
@@ -259,7 +263,7 @@
                                 <div class="tags">
                                         {{#if productDiscountPrice}}
                                     <div class="discount">
-                                        {{#discount productDiscountPrice productPrice}}
+                                        {{#discount productPrice productDiscountPrice}}
                                             {{this}}
                                         {{/discount}}% Off
                                     </div>
@@ -284,7 +288,7 @@
                                 <!-- Product Meta Data -->
                                 <div class="product-meta-data">
                                    {{#if this.productDiscountPrice}}
-                                   <p class="product-price"> <span>{{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</span> {{currencySymbol @root.config.currencySymbol}}{{formatAmount productDiscountPrice}}</p>
+                                   <p class="product-price"> <span>{{currencySymbol @root.config.currencySymbol}}{{formatAmount productDiscountPrice}}</span> {{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</p>
                                    {{else}}
                                    <p class="product-price">{{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</p>
                                    {{/if}}
@@ -487,7 +491,7 @@
                                  <div class="tags">
                                         {{#if productDiscountPrice}}
                                     <div class="discount">
-                                        {{#discount productDiscountPrice productPrice}}
+                                        {{#discount productPrice productDiscountPrice}}
                                             {{this}}
                                         {{/discount}}% Off
                                     </div>
@@ -511,7 +515,7 @@
                                  <div class="tags">
                                         {{#if productDiscountPrice}}
                                     <div class="discount">
-                                        {{#discount productDiscountPrice productPrice}}
+                                        {{#discount productPrice productDiscountPrice}}
                                             {{this}}
                                         {{/discount}}% Off
                                     </div>
