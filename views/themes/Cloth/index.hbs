@@ -110,6 +110,18 @@
                                     <!-- Hover Thumb -->
                                     <img class="hover-img" src="/images/p1.jpg" alt="Second Image">
                                 {{/if}}
+                                <div class="tags">
+                                    <div class="newarrival">
+                                        New
+                                    </div>
+                                    {{#if productDiscountPrice}}
+                                    <div class="discount">
+                                        {{#discount productDiscountPrice productPrice}}
+                                            {{this}}
+                                        {{/discount}}% Off
+                                    </div>
+                                    {{/if}}
+                                </div>
                             </div>
                             </a>
                             {{else}}
@@ -125,6 +137,14 @@
                                     <!-- Hover Thumb -->
                                     <img class="hover-img" src="/images/p1.jpg" alt="Second Image">
                                 {{/if}}
+                                <div class="tags">
+                                    <div class="newarrival">
+                                        New
+                                    </div>
+                                    {{!-- <div class="discount">
+                                        25% Off
+                                    </div> --}}
+                                </div>
                             </div>
                             </a>
                             {{/if}}
@@ -212,6 +232,15 @@
                                     <!-- Hover Thumb -->
                                     <img class="hover-img" src="/images/p1.jpg" alt="Second Image">
                                 {{/if}}
+                                <div class="tags">
+                                        {{#if productDiscountPrice}}
+                                    <div class="discount">
+                                        {{#discount productDiscountPrice productPrice}}
+                                            {{this}}
+                                        {{/discount}}% Off
+                                    </div>
+                                    {{/if}}
+                                </div>
                             </div>
                             </a>
                             {{else}}
@@ -227,6 +256,15 @@
                                     <!-- Hover Thumb -->
                                     <img class="hover-img" src="/images/p1.jpg" alt="Second Image">
                                 {{/if}}
+                                <div class="tags">
+                                        {{#if productDiscountPrice}}
+                                    <div class="discount">
+                                        {{#discount productDiscountPrice productPrice}}
+                                            {{this}}
+                                        {{/discount}}% Off
+                                    </div>
+                                    {{/if}}
+                                </div>
                             </div>
                             </a>
                             {{/if}}
@@ -245,7 +283,11 @@
                             <div class="product-description2">
                                 <!-- Product Meta Data -->
                                 <div class="product-meta-data">
+                                   {{#if this.productDiscountPrice}}
+                                   <p class="product-price"> <span>{{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</span> {{currencySymbol @root.config.currencySymbol}}{{formatAmount productDiscountPrice}}</p>
+                                   {{else}}
                                    <p class="product-price">{{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</p>
+                                   {{/if}}
                                    <div class="ratings">
                                         {{#forTimes this.productRating}}
                                         <i class="fas fa-star i"></i>
@@ -267,13 +309,12 @@
                                     </a>
                                     {{/if}}
                                     
-                                    <div class="cart">
+
                                         {{#if this.productStock}}
-                                        <a class="product-add-to-cart btncart" data-toggle="tooltip" data-placement="left" title="Add to Cart" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}">ADD TO CART</a>
+                                        <a href="#" class="btn-round btncart" data-id="{{this._id}}">ADD TO CART</a>
                                         {{else}}
                                         <a class="btncart">ADD TO CART</a>
                                         {{/if}}
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -443,6 +484,15 @@
                                     <!-- Hover Thumb -->
                                     <img class="hover-img" src="/images/p1.jpg" alt="Second Image">
                                 {{/if}}
+                                 <div class="tags">
+                                        {{#if productDiscountPrice}}
+                                    <div class="discount">
+                                        {{#discount productDiscountPrice productPrice}}
+                                            {{this}}
+                                        {{/discount}}% Off
+                                    </div>
+                                    {{/if}}
+                                </div>
                             </div>
                             </a>
                             {{else}}
@@ -458,6 +508,15 @@
                                     <!-- Hover Thumb -->
                                     <img class="hover-img" src="/images/p1.jpg" alt="Second Image">
                                 {{/if}}
+                                 <div class="tags">
+                                        {{#if productDiscountPrice}}
+                                    <div class="discount">
+                                        {{#discount productDiscountPrice productPrice}}
+                                            {{this}}
+                                        {{/discount}}% Off
+                                    </div>
+                                    {{/if}}
+                                </div>
                             </div>
                             </a>
                             {{/if}}

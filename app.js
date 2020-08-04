@@ -304,6 +304,12 @@ handlebars = handlebars.create({
                 '%': lvalue % rvalue
             }[operator];
         },
+        discount: (value1, value2, options) => {
+            val1 = parseFloat(value1);
+            val2 = parseFloat(value2);
+
+            return parseInt(((val2 - val1) * 100)/ val2);
+        },
         showCartButtons: (cart) => {
             if(!cart){
                 return 'd-none';

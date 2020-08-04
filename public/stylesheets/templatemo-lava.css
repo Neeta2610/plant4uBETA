@@ -80,7 +80,7 @@ header, nav, section, article, aside, footer, hgroup {
 html, body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  background-color: #f9f9f9 !important;
+  background-color: #fdfdfd !important;
   font-size: 16px;
   -ms-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
@@ -310,7 +310,7 @@ header
   margin-top: 27px;
   margin-left: auto;
   margin-right: 0px;
-  background-color: #f9f9f9;
+  background-color: #fdfdfd;
   padding: 0px 20px;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;

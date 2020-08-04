@@ -1041,6 +1041,32 @@ width: 338px;  */ }
     z-index: 1;
     overflow: hidden;
   /* height: 419px;*/ } 
+  .single-product-wrapper .product-img .tags{
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    z-index: 12;
+  }
+  .tags .newarrival,.tags .discount {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    margin-top: 7px;
+    text-align: center;
+    font-size: 12px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    padding: 3px;
+  }
+  .tags .newarrival{
+    background-color: #2a3f21;
+  }
+  .tags .discount{
+    background-color: #d63030;
+  }
     .single-product-wrapper .product-img img {
       width: 100%;
       -webkit-transition-duration: 500ms;
@@ -1118,21 +1144,30 @@ width: 338px;  */ }
   color: rgb(99, 98, 98);
   font-weight: bold;
 }
+.second-product-wrapper .product-description2 .product-meta-data .product-price span {
+  text-decoration: line-through;
+  font-weight: 400;
+  color: rgb(155, 155, 155);
+}
 .second-product-wrapper .btnview{
-  padding: 7px 24px;
+  padding: 7px 0px;
+  width: 40%;
   background-color: #fbb710;
   color: white;
   text-align: center;
-  font-size: 15px;
-  font-weight: bold;
+  font-size: 14px;
+  font-family: "helveticaneuemedium";
+  border-radius: 6px;
 }
 .second-product-wrapper .btncart{
-  padding: 7px 14px;
+  padding: 7px 0px;
+  width: 50%;
   background-color: #444;
   color: white;
   text-align: center;
-  font-size: 15px;
-  font-weight: bold;
+  font-size: 14px;
+  font-family: "helveticaneuemedium";
+  border-radius: 6px;
 }
 .second-product-wrapper .product-description2 {
   display: flex;
