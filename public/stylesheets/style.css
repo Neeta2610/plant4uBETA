@@ -2489,7 +2489,7 @@ a {
   .single-product-area .single_product_thumb {
     position: relative;
     z-index: 1;
-    margin-bottom: 170px; }
+    margin-bottom: 100px; }
     .single-product-area .single_product_thumb .carousel-indicators {
       margin: 0 7.5px; 
     flex-direction: column;
