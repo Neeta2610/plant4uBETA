@@ -3,37 +3,11 @@
        <div class="single-product-area section-padding-100 clearfix">
 
                 <div class="row">
-                    <div class="col-12 col-lg-7">
+                    <div class="col-12 col-md-7">
                         <div class="single_product_thumb">
                             <div id="product_details_slider" class="carousel slide row" data-ride="carousel">
-                                <div class="carousel-indicators col-md-2">
-                                    {{#if result.productImage}}
-                                    <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url({{result.productImage.[0].path}});">
-                                    </li>
-                                    {{#if result.productImage.[1]}}
-                                    <li data-target="#product_details_slider" data-slide-to="0" style="background-image: url({{result.productImage.[1].path}});">
-                                    </li>
-                                    {{/if}}
-                                    {{#if result.productImage.[2]}}
-                                    <li data-target="#product_details_slider" data-slide-to="0" style="background-image: url({{result.productImage.[2].path}});">
-                                    </li>
-                                    {{/if}}
-                                    {{#if result.productImage.[3]}}
-                                    <li data-target="#product_details_slider" data-slide-to="0" style="background-image: url({{result.productImage.[3].path}});">
-                                    </li>
-                                    {{/if}}
-                                    {{else}}
-                                    <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url(/images/p1.jpeg);">
-                                    </li>
-                                    <li data-target="#product_details_slider" data-slide-to="1" style="background-image: url(/images/p5.jpeg);">
-                                    </li>
-                                    <li data-target="#product_details_slider" data-slide-to="2" style="background-image: url(/images/p5.jpeg);">
-                                    </li>
-                                    <li data-target="#product_details_slider" data-slide-to="3" style="background-image: url(/images/p1.jpeg);">
-                                    </li>
-                                    {{/if}}
-                                </div>
-                                <div class="carousel-inner col-md-9">
+                                
+                                <div class="carousel-inner col-sm-9 col-md-9">
                                     {{#if result.productImage}}
                                     <div class="carousel-item active">
                                         <a class="gallery_img" href="{{result.productImage.[0].path}}">
@@ -84,10 +58,37 @@
                                     </div>
                                     {{/if}}
                                 </div>
+                                <div class="carousel-indicators col-sm-2 col-md-2">
+                                    {{#if result.productImage}}
+                                    <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url({{result.productImage.[0].path}});">
+                                    </li>
+                                    {{#if result.productImage.[1]}}
+                                    <li data-target="#product_details_slider" data-slide-to="0" style="background-image: url({{result.productImage.[1].path}});">
+                                    </li>
+                                    {{/if}}
+                                    {{#if result.productImage.[2]}}
+                                    <li data-target="#product_details_slider" data-slide-to="0" style="background-image: url({{result.productImage.[2].path}});">
+                                    </li>
+                                    {{/if}}
+                                    {{#if result.productImage.[3]}}
+                                    <li data-target="#product_details_slider" data-slide-to="0" style="background-image: url({{result.productImage.[3].path}});">
+                                    </li>
+                                    {{/if}}
+                                    {{else}}
+                                    <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url(/images/p1.jpeg);">
+                                    </li>
+                                    <li data-target="#product_details_slider" data-slide-to="1" style="background-image: url(/images/p5.jpeg);">
+                                    </li>
+                                    <li data-target="#product_details_slider" data-slide-to="2" style="background-image: url(/images/p5.jpeg);">
+                                    </li>
+                                    <li data-target="#product_details_slider" data-slide-to="3" style="background-image: url(/images/p1.jpeg);">
+                                    </li>
+                                    {{/if}}
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-5">
+                    <div class="col-12 col-md-5">
                         <div class="single_product_desc">
                             <!-- Product Meta Data -->
                             <div class="product-meta-data">
@@ -357,7 +358,7 @@
         </h3>
         <div class="row top-marg-25 row">
             {{#each relatedProducts}}
-          <div class="col-12 col-sm-6 col-lg-5 col-xl-3">
+          <div class="col-6 col-sm-4 col-lg-4 col-xl-3">
                         <div class="single-product-wrapper">
                             <!-- Product Image -->
                                 {{#if productPermalink}}
@@ -411,7 +412,7 @@
                             {{/if}}
 
                             <!-- Product Description -->
-                            <div class="product-description d-flex align-items-center justify-content-between">
+                            <div class="product-description d-flex justify-content-between">
                                 <!-- Product Meta Data -->
                                 <div class="product-meta-data">
                                     <div class="line"></div>
