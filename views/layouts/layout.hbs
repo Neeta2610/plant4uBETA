@@ -347,8 +347,13 @@
                             <li class="scroll-to-section">  
                                 <a class="" href="/checkout/cart">
                                     <i class="fas fa-shopping-cart"></i>
-                                    <span class="">My
+                                    <span class="">
                                         Cart</span>
+                                        {{#if @root.session.totalCartItems}}
+                                        <span class="totalcart">{{@root.session.totalCartItems}}</span>
+                                        {{else}}
+                                        <span class="totalcart">0</span>
+                                        {{/if}}
                                 </a>
                             </li>
                             <li class="scroll-to-section">

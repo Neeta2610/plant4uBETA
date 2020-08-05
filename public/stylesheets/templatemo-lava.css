@@ -272,6 +272,12 @@ header
   color: #3fbe02!important;
 }
 
+.totalcart {
+  padding: 3px 10px;
+  border-radius: 50%;
+  background-color: #fbb710;
+  color: white;
+}
 .header-area {
   position: absolute;
   top: 0px;
