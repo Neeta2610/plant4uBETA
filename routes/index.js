@@ -433,45 +433,50 @@ router.get('/blockonomics_payment', (req, res, next) => {
 router.post('/checkout/adddiscountcode', async (req, res) => {
     const config = req.app.config;
     const db = req.app.db;
-
+    var message = '';
     // if there is no items in the cart return a failure
     if(!req.session.cart){
-        res.status(400).json({
-            message: 'The are no items in your cart.'
-        });
+        message = "There are no item in your cart";
+        req.session.message = message;
+        req.session.messageType = 'danger';
+        res.redirect('/checkout/cart');
         return;
     }
 
     // Check if the discount module is loaded
     if(!config.modules.loaded.discount){
-        res.status(400).json({
-            message: 'Access denied.'
-        });
+        message = "Access Denied";
+        req.session.message = message;
+        req.session.messageType = 'danger';
+        res.redirect('/checkout/cart');
         return;
     }
 
     // Check defined or null
     if(!req.body.discountCode || req.body.discountCode === ''){
-        res.status(400).json({
-            message: 'Discount code is invalid or expired'
-        });
+        message = "Discount Code is invalid or expired";
+        req.session.message = message;
+        req.session.messageType = 'danger';
+        res.redirect('/checkout/cart');
         return;
     }
 
     // Validate discount code
     const discount = await db.discounts.findOne({ code: req.body.discountCode });
     if(!discount){
-        res.status(400).json({
-            message: 'Discount code is invalid or expired'
-        });
+        message = "Discount Code is invalid or expired";
+        req.session.message = message;
+        req.session.messageType = 'danger';
+        res.redirect('/checkout/cart');
         return;
     }
-
+    
     // Validate date validity
     if(!moment().isBetween(moment(discount.start), moment(discount.end))){
-        res.status(400).json({
-            message: 'Discount is expired'
-        });
+        message = "Discount Code is expired";
+        req.session.message = message;
+        req.session.messageType = 'danger';
+        res.redirect('/checkout/cart');
         return;
     }
 
@@ -482,9 +487,11 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
     await updateTotalCart(req, res);
 
     // Return the message
-    res.status(200).json({
-        message: 'Discount code applied'
-    });
+    message = "Discount Code Applied";
+    req.session.message = message;
+    req.session.messageType = 'success';
+    res.redirect('/checkout/cart');
+    return;
 });
 
 router.post('/checkout/removediscountcode', async (req, res) => {
@@ -1339,11 +1346,35 @@ router.get('/sitemap.xml', (req, res, next) => {
     });
 });
 
-router.get('/page/:pageNum', (req, res, next) => {
+router.get('/page/:pageNum', async (req, res, next) => {
     const db = req.app.db;
     const config = req.app.config;
-    const numberProducts = config.productsPerPage ? config.productsPerPage : 6;
-
+    const numberProducts = config.productsPerPage ? config.productsPerPage : 8;
+    var topProducts = await db.orders.aggregate([
+        { $project: { _id: 0 } },
+        { $project: { o: { $objectToArray: '$orderProducts' } } },
+        { $unwind: '$o' },
+        { $group: {
+            _id: '$o.v'
+        } },
+        { $sort: { count: -1 } },
+        { $limit: 8 }
+    ]).toArray();
+    var temptopProducts = [];
+    topProducts.forEach(element => {
+        temptopProducts.push(element._id.productId);
+    }); 
+    topProducts = await db.products.find({_id: { $in: temptopProducts}}).toArray();
+    var lunrIdArray = [];
+    var productsIndex = req.app.productsIndex;
+    var searchTerm = "plant4uspecial";
+    productsIndex.search(searchTerm).forEach((id) => {
+        lunrIdArray.push(getId(id.ref));
+    });
+    var plant4uspecial = await db.products.aggregate([
+        {$match: {_id: { $in: lunrIdArray }}},
+        { $limit: 8}
+    ]).toArray();
     Promise.all([
         paginateProducts(true, db, req.params.pageNum, {}, getSort()),
         getMenu(db)
@@ -1354,10 +1385,11 @@ router.get('/page/:pageNum', (req, res, next) => {
                 res.status(200).json(results.data);
                 return;
             }
-
             res.render(`${config.themeViews}index`, {
                 title: 'Shop',
                 results: results.data,
+                topProducts: topProducts,
+                plant4uspecial: plant4uspecial,
                 session: req.session,
                 categories: req.app.categories,
                 message: clearSessionValue(req.session, 'message'),
@@ -1382,7 +1414,32 @@ router.get('/page/:pageNum', (req, res, next) => {
 router.get('/:page?', async (req, res, next) => {
     const db = req.app.db;
     const config = req.app.config;
-    const numberProducts = config.productsPerPage ? config.productsPerPage : 6;
+    const numberProducts = config.productsPerPage ? config.productsPerPage : 8;
+    var topProducts = await db.orders.aggregate([
+        { $project: { _id: 0 } },
+        { $project: { o: { $objectToArray: '$orderProducts' } } },
+        { $unwind: '$o' },
+        { $group: {
+                _id: '$o.v'
+        } },
+        { $sort: { count: -1 } },
+        { $limit: 8 }
+    ]).toArray();
+    var temptopProducts = [];
+    topProducts.forEach(element => {
+        temptopProducts.push(element._id.productId);
+    }); 
+    topProducts = await db.products.find({_id: { $in: temptopProducts}}).toArray();
+    var lunrIdArray = [];
+    var productsIndex = req.app.productsIndex;
+    var searchTerm = "plant4uspecial";
+    productsIndex.search(searchTerm).forEach((id) => {
+        lunrIdArray.push(getId(id.ref));
+    });
+    var plant4uspecial = await db.products.aggregate([
+        {$match: {_id: { $in: lunrIdArray }}},
+        { $limit: 8}
+    ]).toArray();
 
     // if no page is specified, just render page 1 of the cart
     if(!req.params.page){
@@ -1400,6 +1457,8 @@ router.get('/:page?', async (req, res, next) => {
                     title: `${config.cartTitle} - Shop`,
                     theme: config.theme,
                     results: results.data,
+                    topProducts: topProducts,
+                    plant4uspecial: plant4uspecial,
                     session: req.session,
                     categories: req.app.categories,
                     message: clearSessionValue(req.session, 'message'),

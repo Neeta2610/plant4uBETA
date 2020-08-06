@@ -114,12 +114,12 @@
                                         aria-expanded="true" aria-controls="promo-code">Apply promo code <i class="fas fa-sort-up"></i></a></h3>
                             </div>
                             <div class="collapse show" id="promo-code" data-parent="#order-options">
-                                <form class="card-body needs-validation" method="post" novalidate>
+                                <form class="card-body needs-validation" action="/checkout/adddiscountcode" method="post" novalidate>
                                     <div class="form-group">
-                                        <input class="form-control" type="text" placeholder="Promo code" required>
+                                        <input class="form-control" type="text" placeholder="Promo code" name="discountCode" id="discountCode"required>
                                         <div class="invalid-feedback">Please provide promo code.</div>
                                     </div>
-                                    <button class="btn btn-outline-primary btn-block" type="submit">Apply promo
+                                    <button class="btn btn-outline-primary btn-block" id="addDiscountCode">Apply promo
                                         code</button>
                                 </form>
                             </div>
