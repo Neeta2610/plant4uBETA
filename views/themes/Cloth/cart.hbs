@@ -109,6 +109,12 @@
                     </div>
                     <div class="accordion" id="order-options">
                         <div class="card">
+                            {{#if @root.session.discountCode}}
+                            <div class="pl-1 d-flex justify-content-between align-items-center">
+                                <div>Promo Code: <strong>{{@root.session.discountCode}}</strong></div>
+                                <button class="btn btn-danger float-right removepromocode"><i class="fas fa-times"></i></button>
+                            </div>
+                            {{else}}
                             <div class="card-header">
                                 <h3 class="accordion-heading"><a href="#promo-code" role="button" data-toggle="collapse"
                                         aria-expanded="true" aria-controls="promo-code">Apply promo code <i class="fas fa-sort-up"></i></a></h3>
@@ -123,6 +129,7 @@
                                         code</button>
                                 </form>
                             </div>
+                            {{/if}}
                         </div>
                     </div>
                     <a class="btn amado-btn marg-17" href="/checkout/information">

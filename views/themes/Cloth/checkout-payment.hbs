@@ -45,9 +45,7 @@
                         <div class="input-group-append">
                             <button class="btn btn-outline-success" id="addDiscountCode">{{ @root.__ "Apply" }}</button>
                         </div>
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-danger" id="removeDiscountCode">{{{feather 'x'}}}</button>
-                        </div>
+                        
                     </div>
                     {{/if}}
                     <form id="shipping-form" class="shipping-form" action="/{{config.paymentGateway}}/checkout_action{{@root.paymentType}}" method="post" role="form" data-toggle="validator" novalidate="false">

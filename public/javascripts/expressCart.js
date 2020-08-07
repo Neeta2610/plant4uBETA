@@ -361,7 +361,7 @@ $(document).ready(function () {
             });
     });
 
-    $('#removeDiscountCode').on('click', function (e) {
+    $('.removepromocode').on('click', function (e) {
         e.preventDefault();
         $.ajax({
                 method: 'POST',

@@ -490,6 +490,7 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
     message = "Discount Code Applied";
     req.session.message = message;
     req.session.messageType = 'success';
+    console.log(req.session);
     res.redirect('/checkout/cart');
     return;
 });
