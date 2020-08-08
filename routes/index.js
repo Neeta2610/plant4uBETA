@@ -1361,6 +1361,10 @@ router.get('/page/:pageNum', async (req, res, next) => {
         { $sort: { count: -1 } },
         { $limit: 8 }
     ]).toArray();
+    var packplants = await db.products.aggregate([
+        { $match: {isPack: true}},
+        { $limit: 8}
+    ]).toArray();
     var temptopProducts = [];
     topProducts.forEach(element => {
         temptopProducts.push(element._id.productId);
@@ -1373,7 +1377,7 @@ router.get('/page/:pageNum', async (req, res, next) => {
         lunrIdArray.push(getId(id.ref));
     });
     var plant4uspecial = await db.products.aggregate([
-        {$match: {_id: { $in: lunrIdArray },isPack: false}},
+        { $match: {_id: { $in: lunrIdArray },isPack: false}},
         { $limit: 8}
     ]).toArray();
     Promise.all([
@@ -1391,6 +1395,7 @@ router.get('/page/:pageNum', async (req, res, next) => {
                 results: results.data,
                 topProducts: topProducts,
                 plant4uspecial: plant4uspecial,
+                packplants: packplants,
                 session: req.session,
                 categories: req.app.categories,
                 message: clearSessionValue(req.session, 'message'),
@@ -1426,6 +1431,10 @@ router.get('/:page?', async (req, res, next) => {
         { $sort: { count: -1 } },
         { $limit: 8 }
     ]).toArray();
+    var packplants = await db.products.aggregate([
+        { $match: {isPack: true}},
+        { $limit: 8}
+    ]).toArray();
     var temptopProducts = [];
     topProducts.forEach(element => {
         temptopProducts.push(element._id.productId);
@@ -1460,6 +1469,7 @@ router.get('/:page?', async (req, res, next) => {
                     results: results.data,
                     topProducts: topProducts,
                     plant4uspecial: plant4uspecial,
+                    packplants: packplants,
                     session: req.session,
                     categories: req.app.categories,
                     message: clearSessionValue(req.session, 'message'),
