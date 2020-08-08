@@ -119,7 +119,7 @@
                                 <div class="tags">
                                         {{#if productDiscountPrice}}
                                     <div class="discount">
-                                        {{#discount productDiscountPrice productPrice}}
+                                        {{#discount productprice productDiscountPrice}}
                                             {{this}}
                                         {{/discount}}% Off
                                     </div>
@@ -143,7 +143,7 @@
                                 <div class="tags">
                                         {{#if productDiscountPrice}}
                                     <div class="discount">
-                                        {{#discount productDiscountPrice productPrice}}
+                                        {{#discount productPrice productDiscountPrice}}
                                             {{this}}
                                         {{/discount}}% Off
                                     </div>
@@ -168,7 +168,7 @@
                                 <!-- Product Meta Data -->
                                 <div class="product-meta-data">
                                    {{#if this.productDiscountPrice}}
-                                   <p class="product-price"> <span>{{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</span> {{currencySymbol @root.config.currencySymbol}}{{formatAmount productDiscountPrice}}</p>
+                                   <p class="product-price"> <span>{{currencySymbol @root.config.currencySymbol}}{{formatAmount productDiscountPrice}}</span> {{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</p>
                                    {{else}}
                                    <p class="product-price">{{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</p>
                                    {{/if}}
@@ -184,11 +184,11 @@
                                 <!-- Ratings & Cart -->
                                 <div class="ratings-cart text-right">
                                     {{#if productPermalink}}
-                                    <a class="btnview" href="/product/{{this.productPermalink}}">
+                                    <a class="btnview bg-green" href="/product/{{this.productPermalink}}">
                                         VIEW
                                     </a>
                                     {{else}}
-                                    <a class="btnview" href="/product/{{this._id}}">
+                                    <a class="btnview bg-green" href="/product/{{this._id}}">
                                         VIEW
                                     </a>
                                     {{/if}}
