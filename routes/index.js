@@ -1015,6 +1015,9 @@ router.post('/product/addtocart', async (req, res, next) => {
         }else{
             productObj.link = product._id;
         }
+        if(product.isPack){
+            productObj.productpackList = product.productpackList;
+        }
 
         // merge into the current cart
         req.session.cart[productCartId] = productObj;
