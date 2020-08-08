@@ -222,5 +222,9 @@
 	"Address": "Address",
 	"Product mini description": "Product mini description",
 	"Setting_categories_explain": "Setting_categories_explain",
-	"Product Discount price": "Product Discount price"
+	"Product Discount price": "Product Discount price",
+	"Is Pack": "Is Pack",
+	"Yes": "Yes",
+	"No": "No",
+	"Product Pack List": "Product Pack List"
 }

@@ -304,11 +304,11 @@
                                 <!-- Ratings & Cart -->
                                 <div class="ratings-cart text-right">
                                     {{#if productPermalink}}
-                                    <a class="btnview" href="/product/{{this.productPermalink}}">
+                                    <a class="btnview bg-green" href="/product/{{this.productPermalink}}">
                                         VIEW
                                     </a>
                                     {{else}}
-                                    <a class="btnview" href="/product/{{this._id}}">
+                                    <a class="btnview bg-green" href="/product/{{this._id}}">
                                         VIEW
                                     </a>
                                     {{/if}}
@@ -558,6 +558,113 @@
                                         <a class=""><img src="/images/cart.png" alt=""></a>
                                         {{/if}}
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+{{/each}}
+  </div>
+</div>
+
+<div class="Categories">
+  <h3>Pack Deals
+    <hr>
+  </h3>
+    <div class="row top-marg-25">
+      {{#ifCond results.length '==' 0}}
+            <div class="col-sm-12">
+                <p class="text-danger">{{ @root.__ "No products found" }}</p>
+            </div>
+        {{/ifCond}}
+    {{#each results}}
+    <div class="col-6 col-sm-5 col-md-4 card2">
+                        <div class="single-product-wrapper second-product-wrapper third-product-wrapper">
+                            <!-- Product Image -->
+                                {{#if productPermalink}}
+                             <a href="/product/{{this.productPermalink}}">
+                            <div class="product-img">
+                                {{#if productImage}}
+                                
+                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <!-- Hover Thumb -->
+                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                {{else}}
+                                    <img src="/images/pack3.jpg" alt="First Image">
+                                    <!-- Hover Thumb -->
+                                    <img class="hover-img" src="/images/pack3.jpg" alt="Second Image">
+                                {{/if}}
+                                <div class="tags">
+                                        {{#if productDiscountPrice}}
+                                    <div class="discount">
+                                        {{#discount productPrice productDiscountPrice}}
+                                            {{this}}
+                                        {{/discount}}% Off
+                                    </div>
+                                    {{/if}}
+                                </div>
+                            </div>
+                            </a>
+                            {{else}}
+                            <a href="/product/{{this._id}}">
+                            <div class="product-img">
+                                {{#if productImage}}
+                                
+                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <!-- Hover Thumb -->
+                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                {{else}}
+                                    <img src="/images/pack3.jpg" alt="First Image">
+                                    <!-- Hover Thumb -->
+                                    <img class="hover-img" src="/images/pack4.jpg" alt="Second Image">
+                                {{/if}}
+                                <div class="tags">
+                                        {{#if productDiscountPrice}}
+                                    <div class="discount">
+                                        {{#discount productPrice productDiscountPrice}}
+                                            {{this}}
+                                        {{/discount}}% Off
+                                    </div>
+                                    {{/if}}
+                                </div>
+                            </div>
+                            </a>
+                            {{/if}}
+                            <div class="titlename">
+                                 {{#if productPermalink}}
+                                    <a href="/product/{{this.productPermalink}}">
+                                        <h5>{{this.productTitle}}</h5>
+                                    </a>
+                                    {{else}}
+                                    <a href="/product/{{this._id}}">
+                                        <h5>{{this.productTitle}}</h5>
+                                    </a>
+                                    {{/if}}
+                            </div>
+                            <!-- Product Description -->
+                            <div class="product-description2">
+                                <!-- Product Meta Data -->
+                                <div class="product-meta-data">
+                                   {{#if this.productDiscountPrice}}
+                                   <p class="product-price"> <span>{{currencySymbol @root.config.currencySymbol}}{{formatAmount productDiscountPrice}}</span> {{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</p>
+                                   {{else}}
+                                   <p class="product-price">{{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</p>
+                                   {{/if}}
+                                   <div class="ratings">
+                                        {{#forTimes this.productRating}}
+                                        <i class="fas fa-star i"></i>
+                                        {{/forTimes}}
+                                        {{#forTimesminus this.productRating}}
+                                        <i class="far fa-star i"></i>
+                                        {{/forTimesminus}}
+                                    </div>
+                                </div>
+                                <!-- Ratings & Cart -->
+                                <div class="ratings-cart text-right">
+                                        {{#if this.productStock}}
+                                            <a class="btn-round btncart" data-id="{{this._id}}">ADD TO CART</a>
+                                        {{else}}
+                                            <a class="btncart">ADD TO CART</a>
+                                        {{/if}}
                                 </div>
                             </div>
                         </div>

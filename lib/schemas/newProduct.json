@@ -20,6 +20,12 @@
             "type": "number",
             "format": "amount"
         },
+        "isPack": {
+            "type":"boolean"
+        },
+        "productpackList": {
+            "type": "string"
+        },
         "productminiDescription": {
             "type": "string"
         },

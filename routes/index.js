@@ -1365,7 +1365,7 @@ router.get('/page/:pageNum', async (req, res, next) => {
     topProducts.forEach(element => {
         temptopProducts.push(element._id.productId);
     }); 
-    topProducts = await db.products.find({_id: { $in: temptopProducts}}).toArray();
+    topProducts = await db.products.find({_id: { $in: temptopProducts},isPack:false}).toArray();
     var lunrIdArray = [];
     var productsIndex = req.app.productsIndex;
     var searchTerm = "plant4uspecial";
@@ -1373,11 +1373,11 @@ router.get('/page/:pageNum', async (req, res, next) => {
         lunrIdArray.push(getId(id.ref));
     });
     var plant4uspecial = await db.products.aggregate([
-        {$match: {_id: { $in: lunrIdArray }}},
+        {$match: {_id: { $in: lunrIdArray },isPack: false}},
         { $limit: 8}
     ]).toArray();
     Promise.all([
-        paginateProducts(true, db, req.params.pageNum, {}, getSort()),
+        paginateProducts(true, db, req.params.pageNum, {isPack: false}, getSort()),
         getMenu(db)
     ])
         .then(([results, menu]) => {
@@ -1430,7 +1430,7 @@ router.get('/:page?', async (req, res, next) => {
     topProducts.forEach(element => {
         temptopProducts.push(element._id.productId);
     }); 
-    topProducts = await db.products.find({_id: { $in: temptopProducts}}).toArray();
+    topProducts = await db.products.find({_id: { $in: temptopProducts},isPack: false}).toArray();
     var lunrIdArray = [];
     var productsIndex = req.app.productsIndex;
     var searchTerm = "plant4uspecial";
@@ -1438,14 +1438,14 @@ router.get('/:page?', async (req, res, next) => {
         lunrIdArray.push(getId(id.ref));
     });
     var plant4uspecial = await db.products.aggregate([
-        {$match: {_id: { $in: lunrIdArray }}},
+        {$match: {_id: { $in: lunrIdArray },isPack: false}},
         { $limit: 8}
     ]).toArray();
 
     // if no page is specified, just render page 1 of the cart
     if(!req.params.page){
         Promise.all([
-            paginateProducts(true, db, 1, {}, getSort()),
+            paginateProducts(true, db, 1, {isPack: false}, getSort()),
             getMenu(db)
         ])
             .then(async([results, menu]) => {

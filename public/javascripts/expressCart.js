@@ -144,7 +144,9 @@ $(document).ready(function () {
     if ($('#productTags').length) {
         $('#productTags').tokenfield();
     }
-
+    if ($('#productpackList').length) {
+        $('#productpackList').tokenfield();
+    }
     $(document).on('click', '.dashboard_list', function (e) {
         window.document.location = $(this).attr('href');
     }).hover(function () {

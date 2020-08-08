@@ -92,6 +92,7 @@ html, body {
   bottom: 0;
   left: 0;
 }
+
 a {
   text-decoration: none !important;
 }
@@ -234,10 +235,10 @@ button.main-button:hover {
   text-align: center;
 }
 .bg-orange {
-  background-color: #fbb710;
+  background-color: #fbb710 !important;
 }
 .bg-green {
-  background-color: #3fbe02;
+  background-color: #3fbe02 !important;
 }
 
 .bg-dark2 {
