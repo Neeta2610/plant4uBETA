@@ -72,10 +72,12 @@
                     {{/if}}
                     
                 </li>
-                <li><strong>Plant Lists: </strong>
+                
                 {{#if this.productpackList}}
+                <li><strong>Plant Lists: </strong>
                     {{this.productpackList}}
-                    {{/if}}</li>
+                    </li>
+                    {{/if}}
             {{/each}}
         </ul>
         <input type="hidden" id="order_id" value="{{result._id}}">
