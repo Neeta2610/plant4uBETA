@@ -70,6 +70,9 @@
                     {{#if productComment}}
                     <h4><span class="text-danger">Comment:</span> {{this.productComment}}</h4>
                     {{/if}}
+                    {{#if this.isPack}}
+                    {{this.productpackList}}
+                    {{/if}}
                 </li>
             {{/each}}
         </ul>
