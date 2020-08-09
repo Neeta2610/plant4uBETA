@@ -223,8 +223,13 @@
 	"Product mini description": "Product mini description",
 	"Setting_categories_explain": "Setting_categories_explain",
 	"Product Discount price": "Product Discount price",
+<<<<<<< HEAD
 	"Is Pack": "Is Pack",
 	"Yes": "Yes",
 	"No": "No",
 	"Product Pack List": "Product Pack List"
+=======
+	"Minimum Order": "Minimum Order",
+	"Minimum order": "Minimum order"
+>>>>>>> some changes
 }

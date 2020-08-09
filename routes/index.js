@@ -434,6 +434,8 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
     const config = req.app.config;
     const db = req.app.db;
     var message = '';
+    req.session.totalCartAmount = 0;
+    
     // if there is no items in the cart return a failure
     if(!req.session.cart){
         message = "There are no item in your cart";
@@ -463,6 +465,7 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
 
     // Validate discount code
     const discount = await db.discounts.findOne({ code: req.body.discountCode });
+
     if(!discount){
         message = "Discount Code is invalid or expired";
         req.session.message = message;
@@ -480,12 +483,22 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
         return;
     }
 
+   if((discount.minimum > req.session.totalCartNetAmount))
+   {
+       message = "Please enter valid Code";
+       req.session.message = message;
+       req.session.messageType = 'danger';
+       res.redirect('/checkout/cart');
+       return;
+   }
+
     // Set the discount code
     req.session.discountCode = discount.code;
 
+
+
     // Update the cart amount
     await updateTotalCart(req, res);
-
     // Return the message
     message = "Discount Code Applied";
     req.session.message = message;

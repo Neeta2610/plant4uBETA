@@ -603,6 +603,7 @@ $(document).ready(function (){
                     code: $('#discountCode').val(),
                     type: $('#discountType').val(),
                     value: $('#discountValue').val(),
+                    minimum: $('#discountMinimum').val(),
                     start: $('#discountStart').val(),
                     end: $('#discountEnd').val()
                 }
