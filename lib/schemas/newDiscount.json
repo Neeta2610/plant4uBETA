@@ -15,6 +15,9 @@
         "value": {
             "type": "number"
         },
+        "minimum": {
+            "type": "number"
+        },
         "start": {
             "type": "object",
             "format" : "datetime"
@@ -29,6 +32,7 @@
         "type",
         "value",
         "start",
-        "end"
+        "end",
+        "minimum"
     ]
 }

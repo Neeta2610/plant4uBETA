@@ -30,6 +30,12 @@
                 <input type="number" id="discountValue" class="form-control" minlength="1" maxlength="50" value="{{discount.value}}" required/>
             </div>
         </div>
+         <div class="col-12">
+            <div class="form-group">
+                <label for="discountValue" class="control-label">{{ @root.__ "Minimum order" }} *</label>
+                <input type="number"  id="discountMinimum" class="form-control" minlength="1" maxlength="50" value="{{discount.minimum}}" required/>
+            </div>
+        </div>
         <div class="col-12">
             <div class="form-group">
                 <label for="discountStart" class="control-label">{{ @root.__ "Discount start" }} *</label>
