@@ -239,26 +239,26 @@ $(document).ready(function () {
             });
         }
     });
-    $('#shipPostcode').focusout(function(e){
+    $('#shipPostcode').keyup(function(e){
         e.preventDefault();
         var pincode = $(this).val();
-        $.ajax({
-            method: 'POST',
-            url: '/product/pinavailability',
-            data: {
-                pincode: pincode
-            }
-        })
-        .done(function(msg){
-            $('#shipState').val("Delhi");
-            $('#shipState').attr('disabled','true');
-            showNotification(msg.message, 'success');
-        })
-        .fail(function(msg){
-            $('#shipState').val("Change PinCode");
-            $('#shipState').attr('disabled','true');
-            showNotification(msg.responseText, 'danger');
-        });
+        if(pincode.length == 6) {
+            $.ajax({
+                method: 'POST',
+                url: '/product/pinavailability',
+                data: {
+                    pincode: pincode
+                }
+            })
+            .done(function(msg){
+                $('#shipState').val("Delhi");
+                showNotification(msg.message, 'success');
+            })
+            .fail(function(msg){
+                $('#shipState').val("Change PinCode");
+                showNotification(msg.responseText, 'danger');
+            });
+        }
     });
     $('#customerForgotten').validator().on('submit', function (e) {
         if (!e.isDefaultPrevented()) {
