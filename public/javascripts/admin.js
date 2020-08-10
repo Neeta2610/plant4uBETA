@@ -603,6 +603,8 @@ $(document).ready(function (){
                     code: $('#discountCode').val(),
                     type: $('#discountType').val(),
                     value: $('#discountValue').val(),
+                    minimum: $('#discountMinimum').val(),
+                    new:$('#discountYes').val(),
                     start: $('#discountStart').val(),
                     end: $('#discountEnd').val()
                 }
@@ -627,6 +629,8 @@ $(document).ready(function (){
                     code: $('#discountCode').val(),
                     type: $('#discountType').val(),
                     value: $('#discountValue').val(),
+                    minimum: $('#discountMinimum').val(),
+                    new:$('#discountYes').val(),
                     start: $('#discountStart').val(),
                     end: $('#discountEnd').val()
                 }

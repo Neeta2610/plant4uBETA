@@ -26,8 +26,23 @@
         </div>
         <div class="col-12">
             <div class="form-group">
+                <label for="discountType" class="control-label">{{ @root.__ "Discount New User" }} *</label>
+                <select class="form-control" id="discountYes">
+                    <option value="Yes" selected>{{ @root.__ "Yes" }}</option>
+                    <option value="No">{{ @root.__ "No" }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
                 <label for="discountValue" class="control-label">{{ @root.__ "Discount value" }} *</label>
                 <input type="number" id="discountValue" class="form-control" minlength="1" maxlength="50" placeholder="20" required/>
+            </div>
+        </div>
+         <div class="col-12">
+            <div class="form-group">
+                <label for="discountMinimum" class="control-label">{{ @root.__ "Minimum order" }} *</label>
+                <input type="number" name="order" id="discountMinimum" class="form-control" minlength="1" maxlength="50" placeholder="20" required/>
             </div>
         </div>
         <div class="col-12">

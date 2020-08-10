@@ -779,6 +779,8 @@ router.post('/admin/settings/discount/update', restrict, checkAccess, async (req
         code: req.body.code,
         type: req.body.type,
         value: parseInt(req.body.value),
+        minimum:parseInt(req.body.minimum),
+        new:req.body.new,
         start: moment(req.body.start, 'DD/MM/YYYY HH:mm').toDate(),
         end: moment(req.body.end, 'DD/MM/YYYY HH:mm').toDate()
     };
@@ -846,6 +848,8 @@ router.post('/admin/settings/discount/create', csrfProtection, restrict, checkAc
         code: req.body.code,
         type: req.body.type,
         value: parseInt(req.body.value),
+        minimum:parseInt(req.body.minimum),
+        new:req.body.new,
         start: moment(req.body.start, 'DD/MM/YYYY HH:mm').toDate(),
         end: moment(req.body.end, 'DD/MM/YYYY HH:mm').toDate()
     };
@@ -880,6 +884,7 @@ router.post('/admin/settings/discount/create', csrfProtection, restrict, checkAc
 
     // Insert discount code
     const discount = await db.discounts.insertOne(discountDoc);
+
     res.status(200).json({ message: 'Discount code created successfully', discountId: discount.insertedId });
 });
 
