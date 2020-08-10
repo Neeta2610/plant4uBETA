@@ -780,6 +780,7 @@ router.post('/admin/settings/discount/update', restrict, checkAccess, async (req
         type: req.body.type,
         value: parseInt(req.body.value),
         minimum:parseInt(req.body.minimum),
+        new:req.body.new,
         start: moment(req.body.start, 'DD/MM/YYYY HH:mm').toDate(),
         end: moment(req.body.end, 'DD/MM/YYYY HH:mm').toDate()
     };
@@ -848,6 +849,7 @@ router.post('/admin/settings/discount/create', csrfProtection, restrict, checkAc
         type: req.body.type,
         value: parseInt(req.body.value),
         minimum:parseInt(req.body.minimum),
+        new:req.body.new,
         start: moment(req.body.start, 'DD/MM/YYYY HH:mm').toDate(),
         end: moment(req.body.end, 'DD/MM/YYYY HH:mm').toDate()
     };

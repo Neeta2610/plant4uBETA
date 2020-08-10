@@ -491,6 +491,19 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
        res.redirect('/checkout/cart');
        return;
    }
+   
+   if(discount.new ==='Yes')
+   {
+    const ordersUser = await db.orders.findOne({ orderCustomer: getId(req.session.customerId) });
+        if(ordersUser)
+        {
+         message = "Not applicable now";
+        req.session.message = message;
+        req.session.messageType = 'danger';
+        res.redirect('/checkout/cart');
+        return;
+        }
+   }
 
     // Set the discount code
     req.session.discountCode = discount.code;
