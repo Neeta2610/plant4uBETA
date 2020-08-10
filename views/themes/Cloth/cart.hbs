@@ -53,6 +53,7 @@
                                         </td>
                                         <td class="cart_product_desc">
                                             <h5>{{this.title}}</h5>
+                                            <a data-cartid="{{@key}}" class="btn btn-delete-from-cart text-danger">Remove</a>
                                         </td>
                                         <td class="price">
                                             <span>{{currencySymbol @root.config.currencySymbol}}{{formatAmount this.totalItemPrice}}</span>
