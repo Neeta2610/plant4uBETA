@@ -48,7 +48,9 @@ router.post('/customer/register', function(req, res) {
     	console.log('In Registration...');
     	if (regErr) {
        		console.log(regErr);
-               res.send('There was some error registering the user.');
+               message = "There was some error registrating the user try again";
+                req.session.message = message;
+                req.session.messageType = 'danger';
                res.redirect('/checkout/information');
                return;
     	} else if (regRes) {
