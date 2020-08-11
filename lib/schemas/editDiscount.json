@@ -12,7 +12,17 @@
                 "percent"
             ]
         },
+        "new": {
+            "type": "string",
+            "enum": [
+                "Yes",
+                "No"
+            ]
+        },
         "value": {
+            "type": "number"
+        },
+        "minimum": {
             "type": "number"
         },
         "start": {

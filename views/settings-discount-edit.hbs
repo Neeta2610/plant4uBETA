@@ -28,8 +28,8 @@
             <div class="form-group">
                 <label for="discountType" class="control-label">{{ @root.__ "Discount New User" }} *</label>
                 <select class="form-control" id="discountYes">
-                    <option value="Yes" selected>{{ @root.__ "Yes" }}</option>
-                    <option value="No">{{ @root.__ "No" }}</option>
+                    <option value="Yes" {{selectState discount.type "Yes"}}>{{ @root.__ "Yes" }}</option>
+                    <option value="No" {{selectState discount.type "No"}}>{{ @root.__ "No" }}</option>
                 </select>
             </div>
         </div>
