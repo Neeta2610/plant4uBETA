@@ -24,7 +24,7 @@
                 </select>
             </div>
         </div>
-        <div class="col-12">
+        <div class="col-sm-6">
             <div class="form-group">
                 <label for="discountType" class="control-label">{{ @root.__ "Discount New User" }} *</label>
                 <select class="form-control" id="discountYes">
@@ -33,6 +33,15 @@
                 </select>
             </div>
         </div>
+        <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="onceUser" class="control-label">{{ @root.__ "Once A User" }}</label>
+                    <select class="form-control" id="onceUser">
+                        <option value="false" {{#unless result.isPack}}selected{{/unless}}>{{ @root.__ "No" }}</option>
+                         <option value="true" {{#if result.isPack}}selected{{/if}}>{{ @root.__ "Yes" }}</option>
+                    </select>
+                </div>
+            </div>
         <div class="col-12">
             <div class="form-group">
                 <label for="discountValue" class="control-label">{{ @root.__ "Discount value" }} *</label>

@@ -25,6 +25,9 @@
         "minimum": {
             "type": "number"
         },
+        "onceUser": {
+            "type": "boolean"
+        },
         "start": {
             "type": "object",
             "format" : "datetime"

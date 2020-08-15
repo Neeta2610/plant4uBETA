@@ -27,6 +27,13 @@ const {
 const countryList = getCountryList();
 var pin = require('india-pincode-lookup');
 
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
 
 //This is how we take checkout action
 router.post('/checkout_action', async (req, res, next) => {
@@ -128,6 +135,7 @@ router.post('/checkout_action', async (req, res, next) => {
             orderState: req.session.customerState,
             orderPostcode: req.session.customerPostcode,
             orderPhoneNumber: req.session.customerPhone,
+            orderPromoCode: req.session.discountCode,
             //orderComment: req.session.orderComment,
             orderStatus: paymentStatus,
             orderDate: new Date(),
@@ -520,9 +528,9 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
         return;
     }
 
-   if((discount.minimum > req.session.totalCartNetAmount))
+   if(discount.minimum > req.session.totalCartNetAmount)
    {
-       message = "Please enter valid Code";
+       message = "Code require more amount in your cart";
        req.session.message = message;
        req.session.messageType = 'danger';
        res.redirect('/checkout/cart');
@@ -532,14 +540,23 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
    if(discount.new ==='Yes')
    {
     const ordersUser = await db.orders.findOne({ orderCustomer: getId(req.session.customerId) });
-        if(ordersUser)
+        if(!isEmpty(ordersUser))
         {
-         message = "Not applicable now";
+         message = "Code only Applicable to First buy";
         req.session.message = message;
         req.session.messageType = 'danger';
         res.redirect('/checkout/cart');
         return;
         }
+   }
+   if(discount.onceUser){
+       const usersList = await db.orders.findOne({ orderCustomer: getId(req.session.customerId), orderPromoCode: discount.code });
+       if(!isEmpty(usersList)) {
+           req.session.message = "Code Already applied in different order";
+           req.session.messageType = 'danger';
+           res.redirect('/checkout/cart');
+           return;
+       }
    }
 
     // Set the discount code
@@ -1126,13 +1143,6 @@ router.post('/product/addtocart', async (req, res, next) => {
     });
 });
 
-function isEmpty(obj) {
-    for(var key in obj) {
-        if(obj.hasOwnProperty(key))
-            return false;
-    }
-    return true;
-}
 
 // search products
 router.get('/search/:searchTerm/:pageNum?', async (req, res) => {
