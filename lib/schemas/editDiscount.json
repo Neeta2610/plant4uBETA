@@ -29,12 +29,10 @@
             "type": "boolean"
         },
         "start": {
-            "type": "object",
-            "format" : "datetime"
+            "type": "string"
         },
         "end": {
-            "type": "object",
-            "format" : "datetime"
+            "type": "string"
         }
     },
     "required": [

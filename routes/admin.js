@@ -883,8 +883,8 @@ router.post('/admin/settings/discount/update', restrict, checkAccess, async (req
         minimum:parseInt(req.body.minimum),
         onceUser: common.convertBool(req.body.onceUser),
         new:req.body.new,
-        start: moment(req.body.start, 'DD/MM/YYYY HH:mm').toDate(),
-        end: moment(req.body.end, 'DD/MM/YYYY HH:mm').toDate()
+        start: String(moment(req.body.start, 'DD/MM/YYYY HH:mm').toDate()),
+        end: String(moment(req.body.end, 'DD/MM/YYYY HH:mm').toDate())
     };
 
     // Validate the body again schema
@@ -895,13 +895,13 @@ router.post('/admin/settings/discount/update', restrict, checkAccess, async (req
     }
 
     // Check start is after today
-    if(moment(discountDoc.start).isBefore(new Date())){
+    if(moment(new Date(discountDoc.start)).isBefore(new Date())){
         res.status(400).json({ message: 'Discount start date needs to be after today' });
         return;
     }
 
     // Check end is after the start
-    if(!moment(discountDoc.end).isAfter(discountDoc.start)){
+    if(!moment(new Date(discountDoc.end)).isAfter(new Date(discountDoc.start))){
         res.status(400).json({ message: 'Discount end date needs to be after start date' });
         return;
     }
@@ -953,8 +953,8 @@ router.post('/admin/settings/discount/create', csrfProtection, restrict, checkAc
         minimum:parseInt(req.body.minimum),
         new:req.body.new,
         onceUser: common.convertBool(req.body.onceUser),
-        start: moment(req.body.start, 'DD/MM/YYYY HH:mm').toDate(),
-        end: moment(req.body.end, 'DD/MM/YYYY HH:mm').toDate()
+        start: String(moment(req.body.start, 'DD/MM/YYYY HH:mm').toDate()),
+        end: String(moment(req.body.end, 'DD/MM/YYYY HH:mm').toDate())
     };
 
     // Validate the body again schema
@@ -974,13 +974,13 @@ router.post('/admin/settings/discount/create', csrfProtection, restrict, checkAc
     }
 
     // Check start is after today
-    if(moment(discountDoc.start).isBefore(new Date())){
+    if(moment(new Date(discountDoc.start)).isBefore(new Date())){
         res.status(400).json({ message: 'Discount start date needs to be after today' });
         return;
     }
 
     // Check end is after the start
-    if(!moment(discountDoc.end).isAfter(discountDoc.start)){
+    if(!moment(new Date(discountDoc.end)).isAfter(new Date(discountDoc.start))){
         res.status(400).json({ message: 'Discount end date needs to be after start date' });
         return;
     }
