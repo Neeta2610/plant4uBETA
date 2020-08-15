@@ -212,7 +212,7 @@ handlebars = handlebars.create({
             return moment(date).format(format);
         },
         discountExpiry: (start, end) => {
-            return moment().isBetween(moment(start), moment(end));
+            return moment().format('DD/MM/YYYY HH:mm').isBetween(moment(start), moment(end));
         },
         ifCond: (v1, operator, v2, options) => {
             switch(operator){

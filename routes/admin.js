@@ -48,6 +48,107 @@ if(process.env.NODE_ENV === 'test'){
     });
 }
 
+// Vendor Section
+
+// vendor login form
+
+router.get('/vendor/login', async (req, res) => {
+    const db = req.app.db;
+
+    const userCount = await db.vendors.countDocuments({});
+    // we check for a user. If one exists, redirect to login form otherwise setup
+    if(userCount && userCount > 0){
+        // set needsSetup to false as a user exists
+        res.render('vendorlogin', {
+            title: 'Vendor Login',
+            referringUrl: req.header('Referer'),
+            config: req.app.config,
+            categories: req.app.categories,
+            message: common.clearSessionValue(req.session, 'message'),
+            messageType: common.clearSessionValue(req.session, 'messageType'),
+            helpers: req.handlebars.helpers
+        });
+    }else{
+        // if there are no users set the "needsSetup" session
+        res.redirect('/vendor/setup');
+    }
+});
+
+router.post('/vendor/login_action', async (req, res) => {
+    const db = req.app.db;
+    
+    const user = await db.users.findOne({ userEmail: common.mongoSanitize(req.body.adminemail) });
+    if(!user || user === null){
+        messages = 'A user with that email does not exist.';
+        res.status(400).json({ message: messages });
+        return;
+    }
+
+    // we have a user under that email so we compare the password
+    bcrypt.compare(req.body.adminpassword, user.userPassword)
+        .then((result) => {
+            if(result){
+                req.session.user = req.body.adminemail;
+                req.session.usersName = user.usersName;
+                req.session.userId = user._id.toString();
+                req.session.isAdmin = user.isAdmin;
+                res.status(200).json({ message: 'Login successful' });
+                return;
+            }
+            // password is not correct
+            res.status(400).json({ message: 'Access denied. Check password and try again.' });
+        });
+});
+
+router.get('/vendor/setup', async (req, res) => {
+    const db = req.app.db;
+
+    const userCount = await db.vendors.countDocuments({});
+    // dont allow the user to "re-setup" if a user exists.
+    // set needsSetup to false as a user exists
+    if(userCount === 0){
+        res.render('vendorsetup', {
+            title: 'Vendor Setup',
+            config: req.app.config,
+            categories: req.app.categories,
+            helpers: req.handlebars.helpers,
+            message: common.clearSessionValue(req.session, 'message'),
+            messageType: common.clearSessionValue(req.session, 'messageType'),
+            showFooter: 'showFooter'
+        });
+        return;
+    }
+    res.redirect('/vendor/login');
+});
+
+// insert a user
+router.post('/vendor/setup_action', async (req, res) => {
+    const db = req.app.db;
+
+    const doc = {
+        usersName: req.body.usersName,
+        userEmail: req.body.userEmail,
+        userPassword: bcrypt.hashSync(req.body.userPassword, 10),
+    };
+
+    // check for users
+    const userCount = await db.vendors.countDocuments({});
+    if(userCount === 0){
+        // email is ok to be used.
+        try{
+            await db.users.insertOne(doc);
+            res.status(200).json({ message: 'User account inserted' });
+            return;
+        }catch(ex){
+            console.error(colors.red('Failed to insert user: ' + ex));
+            res.status(200).json({ message: 'Setup failed' });
+            return;
+        }
+    }
+    res.status(200).json({ message: 'Already setup.' });
+});
+
+
 // login form
 router.get('/admin/login', async (req, res) => {
     const db = req.app.db;

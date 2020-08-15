@@ -479,7 +479,6 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
     const config = req.app.config;
     const db = req.app.db;
     var message = '';
-    req.session.totalCartAmount = 0;
     
     // if there is no items in the cart return a failure
     if(!req.session.cart){
@@ -501,7 +500,7 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
 
     // Check defined or null
     if(!req.body.discountCode || req.body.discountCode === ''){
-        message = "Discount Code is invalid or expired";
+        message = "Discount Code is Empty";
         req.session.message = message;
         req.session.messageType = 'danger';
         res.redirect('/checkout/cart');
@@ -511,8 +510,8 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
     // Validate discount code
     const discount = await db.discounts.findOne({ code: req.body.discountCode });
 
-    if(!discount){
-        message = "Discount Code is invalid or expired";
+    if(!isEmpty(discount)){
+        message = "No Discount code found with that name";
         req.session.message = message;
         req.session.messageType = 'danger';
         res.redirect('/checkout/cart');
@@ -520,7 +519,7 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
     }
     
     // Validate date validity
-    if(!moment().isBetween(moment(discount.start), moment(discount.end))){
+    if(!moment().format('DD/MM/YYYY HH:mm').isBetween(moment(discount.start), moment(discount.end))){
         message = "Discount Code is expired";
         req.session.message = message;
         req.session.messageType = 'danger';
