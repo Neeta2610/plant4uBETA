@@ -519,7 +519,7 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
     }
     
     // Validate date validity
-    if(!moment(moment(new Date(), 'DD/MM/YYYY HH:mm').toDate()).isBetween(moment(discount.start), moment(discount.end))){
+    if(!moment(new Date()).isBetween(new Date(discount.start), new Date(discount.end))){
         message = "Discount Code is expired";
         req.session.message = message;
         req.session.messageType = 'danger';

@@ -895,13 +895,13 @@ router.post('/admin/settings/discount/update', restrict, checkAccess, async (req
     }
 
     // Check start is after today
-    if(moment(discountDoc.start).isBefore(moment())){
+    if(moment(discountDoc.start).isBefore(new Date())){
         res.status(400).json({ message: 'Discount start date needs to be after today' });
         return;
     }
 
     // Check end is after the start
-    if(!moment(discountDoc.end).isAfter(moment(discountDoc.start))){
+    if(!moment(discountDoc.end).isAfter(discountDoc.start)){
         res.status(400).json({ message: 'Discount end date needs to be after start date' });
         return;
     }
@@ -974,13 +974,13 @@ router.post('/admin/settings/discount/create', csrfProtection, restrict, checkAc
     }
 
     // Check start is after today
-    if(moment(discountDoc.start).isBefore(moment())){
+    if(moment(discountDoc.start).isBefore(new Date())){
         res.status(400).json({ message: 'Discount start date needs to be after today' });
         return;
     }
 
     // Check end is after the start
-    if(!moment(discountDoc.end).isAfter(moment(discountDoc.start))){
+    if(!moment(discountDoc.end).isAfter(discountDoc.start)){
         res.status(400).json({ message: 'Discount end date needs to be after start date' });
         return;
     }
