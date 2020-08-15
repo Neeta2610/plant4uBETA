@@ -1097,7 +1097,7 @@ align-items: center;}
       display: block; }
     .single-product-wrapper .product-description .product-meta-data .product-price {
       line-height: 1;
-      color: #fbb710;
+      color: #000;
       font-size: 24px;
       margin-bottom: 10px; }
     .single-product-wrapper .product-description .product-meta-data a {
@@ -1301,8 +1301,8 @@ align-items: center;}
   .checkout_details_area .form-control {
     height: 60px;
     border: none;
-    border-radius: 0;
-    background-color: #f5f7fa;
+    border-radius: 5;
+    background-color: #e9ebee;
     color: #6b6b6b;
     font-size: 14px; }
   .checkout_details_area textarea.form-control {
@@ -1506,13 +1506,13 @@ align-items: center;}
             .amado-btn {
               display: inline-block;
               min-width: 160px;
-              height: 55px;
+              height: 45px;
               color: #ffffff;
               border: none;
               border-radius: 0;
               padding: 0 7px;
               font-size: 18px;
-              line-height: 56px;
+              line-height: 48px;
               background-color:  #3fbe02;
               font-weight: 400; }
               .amado-btn.active, .amado-btn:hover, .amado-btn:focus {
