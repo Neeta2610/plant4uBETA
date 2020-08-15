@@ -510,7 +510,7 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
     // Validate discount code
     const discount = await db.discounts.findOne({ code: req.body.discountCode });
 
-    if(!isEmpty(discount)){
+    if(!discount){
         message = "No Discount code found with that name";
         req.session.message = message;
         req.session.messageType = 'danger';
@@ -539,7 +539,7 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
    if(discount.new ==='Yes')
    {
     const ordersUser = await db.orders.findOne({ orderCustomer: getId(req.session.customerId) });
-        if(!isEmpty(ordersUser))
+        if(ordersUser)
         {
          message = "Code only Applicable to First buy";
         req.session.message = message;
@@ -550,7 +550,7 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
    }
    if(discount.onceUser){
        const usersList = await db.orders.findOne({ orderCustomer: getId(req.session.customerId), orderPromoCode: discount.code });
-       if(!isEmpty(usersList)) {
+       if(usersList) {
            req.session.message = "Code Already applied in different order";
            req.session.messageType = 'danger';
            res.redirect('/checkout/cart');
