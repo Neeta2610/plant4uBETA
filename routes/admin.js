@@ -883,8 +883,8 @@ router.post('/admin/settings/discount/update', restrict, checkAccess, async (req
         minimum:parseInt(req.body.minimum),
         onceUser: common.convertBool(req.body.onceUser),
         new:req.body.new,
-        start: moment(req.body.start, 'DD/MM/YYYY HH:mm').toDate().toString(),
-        end: moment(req.body.end, 'DD/MM/YYYY HH:mm').toDate().toString()
+        start: moment(req.body.start , 'DD/MM/YYYY HH:mm').utcOffset("+05:30").toDate().toString(),
+        end: moment(req.body.end, 'DD/MM/YYYY HH:mm').utcOffset("+05:30").toDate().toString()
     };
 
     // Validate the body again schema
@@ -953,8 +953,8 @@ router.post('/admin/settings/discount/create', csrfProtection, restrict, checkAc
         minimum:parseInt(req.body.minimum),
         new:req.body.new,
         onceUser: common.convertBool(req.body.onceUser),
-        start: moment(req.body.start, 'DD/MM/YYYY HH:mm').toDate().toString(),
-        end: moment(req.body.end, 'DD/MM/YYYY HH:mm').toDate().toString()
+        start: moment(req.body.start, 'DD/MM/YYYY HH:mm').utcOffset("+05:30").toDate().toString(),
+        end: moment(req.body.end, 'DD/MM/YYYY HH:mm').utcOffset("+05:30").toDate().toString()
     };
 
     // Validate the body again schema
