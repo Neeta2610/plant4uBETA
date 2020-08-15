@@ -57,13 +57,13 @@
         <div class="col-12">
             <div class="form-group">
                 <label for="discountStart" class="control-label">{{ @root.__ "Discount start" }} *</label>
-                <input id="discountStart" value="{{formatDate discount.start 'DD/MM/YYYY kk:mm'}}" />
+                <input id="discountStart" value="{{formatDate discount.start 'DD/MM/YYYY HH:mm'}}" />
             </div>
         </div>
         <div class="col-12">
             <div class="form-group">
                 <label for="discountEnd" class="control-label">{{ @root.__ "Discount end" }} *</label>
-                <input id="discountEnd" value="{{formatDate discount.end 'DD/MM/YYYY kk:mm'}}" />
+                <input id="discountEnd" value="{{formatDate discount.end 'DD/MM/YYYY HH:mm'}}" />
             </div>
         </div>
         <input type="hidden" id="discountId" value="{{discount._id}}">

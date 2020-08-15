@@ -1,0 +1,35 @@
+<main class="login-page container py-4 py-lg-5 top-marg-100">
+  <div class="row">
+    <div class="col-md-6 m-auto">
+      <div class="card border-0 box-shadow">
+        <div class="card-body checkout_details_area">
+          <h2 class="h4 mb-1">Vendor Sign in</h2>
+          <hr>
+          <form class="needs-validation top-marg-25" novalidate autocomplete="off" id="signin-tab">
+            <div class="input-group-overlay form-group">
+              <div class="input-group-prepend-overlay"><span class="input-group-text"><i class="fas fa-envelope"></i></span>
+              </div>
+              <input class="form-control prepended-form-control" type="email" id="vendoremail" name="vendoremail" placeholder="Email" required>
+               <div class="invalid-feedback">Please provide a valid email address.</div>
+            </div>
+            <div class="input-group-overlay form-group">
+              <div class="input-group-prepend-overlay"><span class="input-group-text"><i class="fas fa-unlock"></i></span>
+              </div>
+              <div class="password-toggle" for="si-password">
+                <input class="form-control prepended-form-control" type="password" id="vendorpassword" name="vendorpassword" placeholder="Password" required>
+                <label class="password-toggle-btn password-show">
+                  <input class="custom-control-input" type="checkbox"><i
+                    class="fas fa-eye"></i><span class="sr-only">Show password</span>
+                </label>
+              </div>
+            </div>
+            <hr class="mt-4">
+            <div class="pt-4">
+              <button class="btn amado-btn" id="vendorloginForm" type="submit"><i class="fas fa-sign-in-alt marg-right-7"></i>Sign In</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

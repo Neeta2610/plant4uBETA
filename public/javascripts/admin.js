@@ -650,14 +650,14 @@ $(document).ready(function (){
         uiLibrary: 'bootstrap4',
         footer: true,
         modal: true,
-        format: 'dd/mm/yyyy HH:MM',
+        format: 'dd/mm/yyyy HH:mm',
         showOtherMonths: true
     });
     $('#discountEnd').datetimepicker({
         uiLibrary: 'bootstrap4',
         footer: true,
         modal: true,
-        format: 'dd/mm/yyyy HH:MM'
+        format: 'dd/mm/yyyy HH:mm'
     });
 
     $(document).on('click', '#btnDiscountDelete', function(e){
