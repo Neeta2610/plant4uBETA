@@ -29,7 +29,7 @@ var pin = require('india-pincode-lookup');
 
 
 //This is how we take checkout action
-router.post('/checkout_action', (req, res, next) => {
+router.post('/checkout_action', async (req, res, next) => {
     const db = req.app.db;
     const config = req.app.config;
  //   const stripeConfig = common.getPaymentConfig();
@@ -69,7 +69,45 @@ router.post('/checkout_action', (req, res, next) => {
        /* if(charge.paid !== true){
             paymentStatus = 'Declined';
         } */
-
+        var customer = {};
+        if(!req.session.customerFirstname){
+            req.session.customerFirstname = req.body.shipFirstname;
+            customer.firstName = req.session.customerFirstname;
+        }
+        if(!req.session.customerLastname){
+            req.session.customerLastname = req.body.shipLastname;
+            customer.lastName = req.session.customerLastname;
+        }
+        if(!req.session.customerAddress1){
+            req.session.customerAddress1 = req.body.shipAddr1;
+            customer.address1 = req.session.customerAddress1;
+        }
+        if(!req.session.customerPostcode){
+            req.session.customerPostcode = req.body.shipPostcode;
+            customer.postcode = req.session.customerPostcode;
+        }
+        if(!req.session.customerState){
+            req.session.customerState = req.body.shipState;
+            customer.state = req.session.customerState;
+        }
+        if(!isEmpty(customer)){
+            try{
+                await db.customers.findOneAndUpdate({ _id: common.getId(req.session.customerId)},{$set: customer});
+            }
+            catch(ex){
+                req.session.message = "Error updating user";
+                req.session.messageType = 'danger';
+                res.redirect('/checkout/information');
+                return;
+            }
+        }
+        if(req.session.customerState != 'DELHI'){
+            message = "Delivery Not Available At This Location";
+            req.session.message = message;
+            req.session.messageType = 'danger';
+            res.redirect('/checkout/information');
+            return;
+        }
         // new order doc
         const orderDoc = {
            // orderPaymentId: charge.id,
@@ -262,7 +300,6 @@ router.get('/emptycart', async (req, res, next) => {
 
 router.get('/checkout/information', async (req, res, next) => {
     const config = req.app.config;
-
     // if there is no items in the cart then render a failure
     if(!req.session.cart){
         req.session.message = 'The are no items in your cart. Please add some items before checking out';
@@ -544,6 +581,24 @@ router.post('/checkout/removediscountcode', async (req, res) => {
 
 // check pincode availability
 
+router.post('/getpinstate', (req, res)=>{
+    if(req.body.pincode.length != 6){
+        res.status(400).json({message: "Pincode Length Does Not Match"});
+        return;
+    }
+    if(isNaN(req.body.pincode)){
+        res.status(400).json({message: "Pincode contain only numbers"});
+        return;
+    }
+    var response = pin.lookup(req.body.pincode);
+    try{
+        res.status(200).json({state: response[0].stateName});
+        return;
+    }catch(ex){
+        res.status(400).json({message: "Error finding Pincode"});
+    }
+    
+});
 router.post('/product/pinavailability', (req,res) =>{
     if(req.body.pincode.length != 6){
         res.status(400).json({message: "Pincode Length Does Not Match"});
@@ -553,7 +608,7 @@ router.post('/product/pinavailability', (req,res) =>{
         res.status(400).json({message: "Pincode contain only numbers"});
         return;
     }
-    var response = pin.lookup(req.body.pincode) 
+    var response = pin.lookup(req.body.pincode);
     if(response.length > 0){
         if(response[0].stateName == "DELHI"){
             res.status(200).json({message: "Available At Your Location"});

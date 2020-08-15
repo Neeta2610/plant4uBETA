@@ -1,25 +1,5 @@
 {
 	"Empty cart": "Empty cart",
-	"Shown in the variant dropdown": "Shown in the variant dropdown",
-	"Discount codes": "Discount codes",
-	"New Discount": "New Discount",
-	"Code": "Code",
-	"Type": "Type",
-	"Status": "Status",
-	"Running": "Running",
-	"Edit": "Edit",
-	"Delete": "Delete",
-	"Not running": "Not running",
-	"New discount": "New discount",
-	"Discount code": "Discount code",
-	"Discount type": "Discount type",
-	"Amount": "Amount",
-	"Percent": "Percent",
-	"Discount value": "Discount value",
-	"Minimum order": "Minimum order",
-	"Discount start": "Discount start",
-	"Discount end": "Discount end",
-	"Edit discount": "Edit discount",
 	"Orders": "Orders",
 	"Order date": "Order date",
 	"Order ID": "Order ID",
@@ -29,18 +9,6 @@
 	"Email address": "Email address",
 	"Name": "Name",
 	"Address": "Address",
-<<<<<<< HEAD
 	"Phone number": "Phone number",
-	"Products ordered": "Products ordered",
-	"Discount New User": "Discount New User",
-	"Yes": "Yes",
-	"No": "No",
-	"Category": "Category"
-=======
-	"Product mini description": "Product mini description",
-	"Setting_categories_explain": "Setting_categories_explain",
-	"Product Discount price": "Product Discount price",
-	"Minimum Order": "Minimum Order",
-	"Minimum order": "Minimum order"
->>>>>>> 932de9c6ab528bcad0a251b4cdb905a475d84d6d
+	"Products ordered": "Products ordered"
 }

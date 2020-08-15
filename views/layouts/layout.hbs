@@ -273,8 +273,8 @@
                             <li class="nav-item"><a class="nav-link active" href="#signin-tab" data-toggle="tab"
                                     role="tab" aria-selected="true"><i class="fas fa-unlock marg-right-7"></i>Sign in</a>
                             </li>
-                            {{!-- <li class="nav-item"><a class="nav-link" href="#signup-tab" data-toggle="tab" role="tab"
-                                    aria-selected="false"><i class="czi-user mr-2 mt-n1"></i>Sign up</a></li> --}}
+                            <li class="nav-item"><a class="nav-link" href="#signup-tab" data-toggle="tab" role="tab"
+                                    aria-selected="false"><i class="fas fa-user-lock marg-right-7"></i>Sign up</a></li>
                         </ul>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
@@ -290,8 +290,8 @@
                             <div class="form-group">
                                 <div class="password-toggle">
                                     <input class="form-control" type="password" id="password" name="password" placeholder="Password" required>
-                                    <label class="password-toggle-btn">
-                                        <input class="custom-control-input password-show" type="checkbox"><i
+                                    <label class="password-toggle-btn password-show">
+                                        <input class="custom-control-input" type="checkbox"><i
                                             class="fas fa-eye"></i><span class="sr-only">Show
                                             password</span>
                                     </label>
@@ -306,10 +306,72 @@
                             <button class="btn amado-btn" id="customerloginForm"
                                 type="submit">Sign in</button>
                         </form>
-                    </div>
+                        <form class="needs-validation tab-pane fade" autocomplete="off" novalidate
+                            id="signup-tab">
+                            <div class="form-group">
+                                <input class="form-control" type="text" id="userPhone" name="userPhone"
+                                    placeholder="Phone Number" required>
+                                <div class="invalid-feedback">Please provide a valid phone number.</div>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="email" id="userEmail" name="userEmail"
+                                    placeholder="johndoe@example.com" required>
+                                <div class="invalid-feedback">Please provide a valid email address.</div>
+                            </div>
+                            <div class="form-group d-flex flex-wrap justify-content-between">
+                                <div class="custom-control custom-checkbox mb-2 pl-0">
+                            <button class="btn amado-btn" id="customerregisterForm"
+                                type="submit">Create Account</button>
+                                </div>
+                            </div>
+                        </form>
                 </div>
             </div>
         </div>
+        </div>
+
+        {{!-- Otp modal --}}
+
+{{#if session.requestId }}
+<div class="modal" id="otpenter"  tabindex="-1" role="dialog" style="padding-right: 12px; display: block;background-color:rgb(0,0,0,0.5)">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <ul class="nav nav-tabs card-header-tabs w-100 justify-content-between" role="tablist">
+          <li class="nav-item"><a class="nav-link active" href="#otp-tab" data-toggle="tab" role="tab"
+              aria-selected="true"><i class="fas fa-user-check marg-right-7"></i>Verify Mobile Number</a>
+          </li>
+          <li class="nav-item">
+              <button class="btn btn-danger" id="changesessionId">Close</button>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-body tab-content py-4 checkout_details_area">
+        <form action="/customer/confirm" method="post" class="needs-validation tab-pane fade show active" autocomplete="off" novalidate id="signin-tab">
+          <div class="form-group">
+            <input class="form-control" type="tel" name="pin" id="otp" placeholder="Enter the OTP send to register mobile number" required>
+            <input type="hidden" name="requestId" value="{{session.requestId}}" >
+            <input type="hidden" name="originalUrl" value="/customer/account">
+            <div class="invalid-feedback">Please enter the OTP</div>
+            <div class="form-group">
+                <div class="password-toggle">
+                    <input class="form-control" type="password" id="shipPassword" name="shipPassword" placeholder="Password" required>
+                    <label class="password-toggle-btn password-show">
+                        <input class="custom-control-input" type="checkbox"><i
+                            class="fas fa-eye"></i><span class="sr-only">Show
+                            password</span>
+                    </label>
+                </div>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-block btn-shadow"  type="submit">Verify</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{/if}}
+
 
     <header class="header-area header-sticky">
         <div class="container">
@@ -340,9 +402,9 @@
                                 </ul>
                             </li>
                             {{else}}
-                             <li class="scroll-to-section"><a class="menu-item" href="#signin-modal" data-toggle="modal">
-                               My Account <i class="far fa-user"></i>
-                            </a></li>
+                            <li class="scroll-to-section">
+                                <a href="#signin-modal" data-toggle="modal" class="menu-item"><i class="far fa-user"></i> Sign Up/Sign In</a>
+                            </li>
                             {{/if}}
                             <li class="scroll-to-section">  
                                 <a class="" href="/checkout/cart">

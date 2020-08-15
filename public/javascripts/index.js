@@ -120,11 +120,12 @@ $(document).ready(function () {
     });
   });
   $('.password-show').on('click',function(e) {
-    if(e.currentTarget.form[1].type == 'password'){
-      e.currentTarget.form[1].type = 'text';
+    e.preventDefault();
+    if(e.currentTarget.previousElementSibling.type == 'password'){
+      e.currentTarget.previousElementSibling.type = 'text';
     }
     else{
-      e.currentTarget.form[1].type = 'password';
+      e.currentTarget.previousElementSibling.type = 'password';
     }
   });
   $(".btn1").on('click', function () {

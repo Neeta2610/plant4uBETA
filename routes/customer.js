@@ -27,8 +27,16 @@ const apiLimiter = rateLimit({
     max: 5
 });
 
-router.post('/customer/register', function(req, res) {
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
+router.post('/customer/register', async function(req, res) {
     const config = req.app.config;
+    const db = req.app.db;
 	console.log('New register request...');
 
 	var isSuccessful = false;
@@ -37,9 +45,9 @@ router.post('/customer/register', function(req, res) {
 	var phone = req.body.shipPhoneNumber;;
 	var countryCode = '+91';
     
-    if(req.body.shipState != 'Delhi'){
-        message = "Delivery Not Available At This Location";
-        req.session.message = message;
+    var customer = await db.customers.findOne({$or: [{email: req.body.shipEmail},{phone: req.body.shipPhoneNumber}]});
+    if(!isEmpty(customer)){
+        req.session.message = "A customer already exist with that email or Phone";
         req.session.messageType = 'danger';
         res.redirect('/checkout/information');
         return;
@@ -82,13 +90,13 @@ router.post('/customer/register', function(req, res) {
                     if(req.session.cartSubscription){
                         paymentType = '_subscription';
                     }
+                    req.session.requestId = regRes.user.id;
                         res.render(`${config.themeViews}checkout-information`, {
                             title: 'Checkout - Information',
                             config: req.app.config,
                             session: req.session,
                             categories: req.app.categories,
                             paymentType,
-                            requestId: regRes.user.id,
                             cartClose: false,
                             page: 'checkout-information',
                             message: clearSessionValue(req.session, 'message'),
@@ -102,35 +110,97 @@ router.post('/customer/register', function(req, res) {
    	});
 });
 
+router.post('/customer/otprequestreset',(req, res)=>{
+    delete req.session.requestId;
+    res.status(200).send('Reset done');
+});
+router.post('/customer/registerdirect', async (req, res)=>{
+    const config = req.app.config;
+    const db = req.app.db;
+
+    var email = req.body.userEmail;
+	var phone = req.body.userPhone;
+    var countryCode = '+91';
+    
+    if(email.length < 5 || phone.length < 10) {
+        req.session.message = "Invalid phone number or Email";
+        req.session.messageType = 'danger';
+        return;
+    }
+    var customer = await db.customers.findOne({$or: [{email: email},{phone: phone}]});
+    if(!isEmpty(customer)){
+        res.status(400).send('A customer already exist with that email and phone');
+        return;
+    }
+
+    authy.register_user(email, phone, countryCode, function (regErr, regRes) {
+    	if (regErr) {
+                res.status(400).send('There was some error registrating the user try again');
+               return;
+    	} else if (regRes) {
+            // Set the customer into the session
+            req.session.customerEmail = req.body.userEmail;
+            req.session.customerPhone = req.body.userPhone;
+    		authy.request_sms(regRes.user.id, function (smsErr, smsRes) {
+    			if (smsErr) {
+    				console.log(smsErr);
+                    res.status(400).send('There was some error sending OTP to cell phone.');
+                    return;
+    			} else if (smsRes) {
+                    let paymentType = '';
+                    if(req.session.cartSubscription){
+                        paymentType = '_subscription';
+                    }
+                    req.session.requestId = regRes.user.id;
+                    res.status(200).send('Otp Send to your phone number');
+                    return;
+    			}
+			});
+    	}
+   	});
+});
 router.post('/customer/confirm', async (req, res)=> {
 	console.log('New verify request...');
     const config = req.app.config;
-
 	const id = req.body.requestId;
 	const token = req.body.pin;
-
+    const originalUrl = req.body.originalUrl;
 	authy.verify(id, token, async (verifyErr, verifyRes)=> {
 		console.log('In Verification...');
 		if (verifyErr) {
 			console.log(verifyErr);
-            res.send('OTP verification failed.');
+            req.session.message = "Wrong Otp number";
+            req.session.messageType = 'danger';
             res.redirect('/checkout/information');
             return;
 		} else if (verifyRes) {
             console.log("Is session working properly"+req.session.customerEmail);
             const db = req.app.db;
     
-            const customerObj = {
-                email: req.session.customerEmail,
-                firstName: req.session.customerFirstname,
-                lastName: req.session.customerLastname,
-                address1: req.session.customerAddress1,
-                state: req.session.customerState,
-                postcode: req.session.customerPostcode,
-                phone: req.session.customerPhone,
-                password: bcrypt.hashSync(req.body.shipPassword, 10),
-                created: new Date()
-            };
+            var customerObj = {};
+            delete req.session.requestId;
+
+            if(!req.session.customerFirstname){
+                customerObj = {
+                    email: req.session.customerEmail,
+                    phone: req.session.customerPhone,
+                    password: bcrypt.hashSync(req.body.shipPassword, 10),
+                    created: new Date()
+                };
+            }
+            else {
+                customerObj = {
+                    email: req.session.customerEmail,
+                    firstName: req.session.customerFirstname,
+                    lastName: req.session.customerLastname,
+                    address1: req.session.customerAddress1,
+                    state: req.session.customerState,
+                    postcode: req.session.customerPostcode,
+                    phone: req.session.customerPhone,
+                    password: bcrypt.hashSync(req.body.shipPassword, 10),
+                    created: new Date()
+                };
+            }
         
             const schemaResult = validateJson('newCustomer', customerObj);
             if(!schemaResult.result){
@@ -142,9 +212,8 @@ router.post('/customer/confirm', async (req, res)=> {
             // check for existing customer
             const customer =  await db.customers.findOne({ email: req.session.customerEmail });
             if(customer){
-                res.status(400).json({
-                    message: 'A customer already exists with that email'
-                });
+                req.session.message = "A customer with that email exist";
+                req.seesion.messageType = 'danger';
                 return;
             } 
             // email is ok to be used.
@@ -160,12 +229,14 @@ router.post('/customer/confirm', async (req, res)=> {
                     req.session.customerPresent = true;
                     req.session.customerId = customerReturn._id;
                     req.session.customerEmail = customerReturn.email;
-                    req.session.customerFirstname = customerReturn.firstName;
-                    req.session.customerLastname = customerReturn.lastName;
-                    req.session.customerAddress1 = customerReturn.address1;
-                    req.session.customerState = customerReturn.state;
-                    req.session.customerPostcode = customerReturn.postcode;
                     req.session.customerPhone = customerReturn.phone;
+                    if(customerReturn.firstName){
+                        req.session.customerFirstname = customerReturn.firstName;
+                        req.session.customerLastname = customerReturn.lastName;
+                        req.session.customerAddress1 = customerReturn.address1;
+                        req.session.customerState = customerReturn.state;
+                        req.session.customerPostcode = customerReturn.postcode;
+                    }
                 //    req.session.orderComment = req.body.orderComment;
     
                     // Return customer oject
@@ -190,14 +261,10 @@ router.post('/customer/confirm', async (req, res)=> {
                             });
                             return;
                         }
-                      /*  res.render(`${config.themeViews}checkout-information`, {
-                            message: 'Account verified! 🎉',
-                            title: 'Success',
-                            config: req.app.config,
-                            helpers: req.handlebars.helpers,
-                            showFooter: true
-                          });  */
-                        //  res.send('Verified Account');
+                        if(originalUrl){
+                            res.redirect(originalUrl);
+                            return;
+                        }
                           res.redirect('/checkout/information');
                           return;
                     })
@@ -215,6 +282,10 @@ router.post('/customer/confirm', async (req, res)=> {
             }
             } else {
               res.status(401).send(result.error_text);
+              if(originalUrl){
+                res.redirect(originalUrl);
+                return;
+            }
               res.redirect('/checkout/information');
               return;
             }

@@ -245,14 +245,14 @@ $(document).ready(function () {
         if(pincode.length == 6) {
             $.ajax({
                 method: 'POST',
-                url: '/product/pinavailability',
+                url: '/getpinstate',
                 data: {
                     pincode: pincode
                 }
             })
             .done(function(msg){
-                $('#shipState').val("Delhi");
-                showNotification(msg.message, 'success');
+                $('#shipState').val(msg.state);
+                showNotification("Pincode Valid", 'success');
             })
             .fail(function(msg){
                 $('#shipState').val("Change PinCode");
@@ -438,6 +438,44 @@ $(document).ready(function () {
                 });
         }
         e.preventDefault();
+    });
+    
+    $('#customerregisterForm').on('click', function (e) {
+        if (!e.isDefaultPrevented()) {
+            e.preventDefault();
+            $.ajax({
+                    method: 'POST',
+                    url: '/customer/registerdirect',
+                    data: {
+                        userPhone: $('#userPhone').val(),
+                        userEmail: $('#userEmail').val(),
+                        userPassword: $('#userEmail').val()
+                    }
+                })
+                .done(function (msg) {
+                    showNotification(msg, 'success');
+                    location.reload();
+                })
+                .fail(function (msg) {
+                    showNotification(msg.responseText, 'danger');
+                });
+        }
+        e.preventDefault();
+    });
+    $('#changesessionId').on('click',function (e) {
+        if (!e.isDefaultPrevented()) {
+            e.preventDefault();
+            $.ajax({
+                method: 'POST',
+                url: '/customer/otprequestreset'
+            })
+            .done(function (msg){
+                location.reload();
+            })
+            .fail(function (msg){
+                showNotification(msg.responseText, 'danger');
+            });
+        }
     });
 
     // call update settings API

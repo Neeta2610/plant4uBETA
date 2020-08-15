@@ -1,5 +1,5 @@
 module.exports =
 {
-MAILGUN_USER:'postmaster@sandboxfbc9847bfb79473eb5338a231e0f3c42.mailgun.org',
-MAILGUN_PASS:'e4f84ed909c1b4637cb91cc45e29496d-bbbc8336-2d7ea642'
+MAILGUN_USER:'postmaster@mail.plant4u.in',
+MAILGUN_PASS:'a35a27459070a56ac2d7b9d822bc2241-07e45e2a-fa48f82b'
 };
