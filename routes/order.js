@@ -285,20 +285,20 @@ router.post('/admin/order/statusupdate', restrict, checkAccess, async (req, res)
             { $set: { orderStatus: req.body.status }
         }, { multi: false });
         const order = await db.orders.findOne({_id: getId(req.body.order_id)});
-        var i = 0;
         var items = ``;
-        for(i=0;i<order.orderProducts;i++) {
+        for(let key in order.orderProducts){
             items += `<tr class="item">
                         <td>
-                            `+order.orderProducts[i].title+`
+                            `+order.orderProducts[key].title+`
                         </td>
                         
                         <td>
-                        `+order.orderProducts[i].totalItemPrice+`
+                        `+order.orderProducts[key].totalItemPrice+`
                         </td>
                     </tr>`;
         }
-        if(order.status === 'Completed')
+            
+        if(order.orderStatus === "Completed")
         {
             const html=`<head>
             <meta charset="utf-8">
@@ -430,7 +430,7 @@ router.post('/admin/order/statusupdate', restrict, checkAccess, async (req, res)
                                     
                                     <td>
                                         `+order.orderFirstname+` `+order.orderLastname+`<br>
-                                        `+order.orderPhoneNumber+`br
+                                        `+order.orderPhoneNumber+`<br>
                                         `+order.orderEmail+`
                                     </td>
                                 </tr>
