@@ -1,0 +1,66 @@
+<main role="main" class="col-12 top-marg-25">
+    <div class="col-sm-12">
+        <h2 class="d-inline">Orders</h2>
+        <a href="/vendor/logout" class="btn btn-danger float-right">Logout</a>
+    </div>
+    <div class="col-sm-12 top-pad-10">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <strong>{{ @root.__ "Orders" }}  <span class="text-primary">{{ @root.__ "Page Num" }}: {{pageNum}} </span>,  <span class="text-success">Total Orders: {{orders.totalItems}}</span></strong>
+                 <div class="dropdown show top-marg-15">
+
+                    <div class="pagination">
+                        {{#if prevPage}}
+                            <a href="/{{paginateUrl}}/{{prevPage}}{{queryString}}">&laquo;</a>
+                        {{else}}
+                        <a href="#">&laquo;</a>
+                        {{/if}}
+                        {{#each pageNumArray}}
+                            {{#ifCond ../pageNum '==' this}}
+                                <a class="active" href="/{{../../paginateUrl}}/{{../this}}{{../../queryString}}">{{../this}}</a>
+                            {{else}}
+                                <a href="/{{../../paginateUrl}}/{{../this}}{{../../queryString}}">{{../this}}</a>
+                            {{/ifCond}}
+                        {{/each}}
+                        {{#if nextPage}}
+                        <a href="/{{paginateUrl}}/{{nextPage}}{{queryString}}">&raquo;</a>
+                        {{else}}
+                        <a href="#">&raquo;</a>
+                        {{/if}}
+                    </div>
+                    </div>
+            </li>
+            <li class="list-group-item text-right">
+                <strong>Filtes:</strong>
+                <a class="btn btn-success" href="/vendor/dashboard/{{pageNum}}?status=Completed">Completed</a>
+                <a class="btn btn-primary" href="/vendor/dashboard/{{pageNum}}?status=Paid">Paid</a>
+                <a class="btn btn-secondary" href="/vendor/dashboard/{{pageNum}}?status=Shipped">Shipped</a>
+                <a class="btn btn-danger" href="/vendor/dashboard/{{pageNum}}?status=Cancelled">Cancelled</a>
+                <a class="btn btn-warning" href="/vendor/dashboard/{{pageNum}}?status=Pending">Pending</a>
+                <a class="btn btn-dark" href="/vendor/dashboard/{{pageNum}}?status=Declined">Declined</a>
+            </li>
+            {{#if orders}}
+            {{#each orders.data}}
+                <li class="list-group-item">
+                    <div class="float-right top-pad-5">
+                        {{ @root.__ "Status" }}: <span class="text-{{getStatusColor this.orderStatus}}">{{this.orderStatus}}</span>
+                    </div>
+                    <div class="top-pad-5">
+                        <a href="/vendor/order/update/{{this._id}}" class="btn btn-link">Edit Order</a> - <span class="text-info">Date: </span>{{formatDate this.orderDate "DD/MM/YYYY hh:mm"}} | <span class="text-info">Email:</span> {{this.orderEmail}} | <span class="text-info">{{ @root.__ "Last name" }}:</span> {{this.orderLastname}}
+                    </div>
+                </li>
+            {{/each}}
+            {{else}}
+                <li class="list-group-item">
+                    <h5 class="text-center">
+                        {{ @root.__ "No orders found" }}
+                    </h5>
+                </li>
+            {{/if}}
+        </ul>
+    </div>
+    <div class="col-md-12 mt-5">
+        <div id="pager" class="d-flex justify-content-center"></div>
+    </div>
+</main>
+{{!-- Pager settings --}}

@@ -131,6 +131,27 @@ $(document).ready(function () {
         }
     });
 
+    $('#vendorSetupForm').validator().on('submit', function (e) {
+        if (!e.isDefaultPrevented()) {
+            e.preventDefault();
+            $.ajax({
+                    method: 'POST',
+                    url: '/vendor/setup_action',
+                    data: {
+                        usersName: $('#usersName').val(),
+                        userEmail: $('#vendorEmail').val(),
+                        userPassword: $('#vendorPassword').val()
+                    }
+                })
+                .done(function (msg) {
+                    showNotification(msg.message, 'success', false, '/vendor/login');
+                })
+                .fail(function (msg) {
+                    showNotification(msg.responseJSON.message, 'danger');
+                });
+        }
+    });
+
     $(document).on('click', '.menu-btn', function (e) {
         e.preventDefault();
         $('body').addClass('pushy-open-right');
@@ -398,7 +419,39 @@ $(document).ready(function () {
         }
         e.preventDefault();
     });
-
+    $('#vendorloginForm').on('click', function (e) {
+        if (!e.isDefaultPrevented()) {
+            e.preventDefault();
+            $.ajax({
+                    method: 'POST',
+                    url: '/vendor/login_action',
+                    data: {
+                        vendoremail: document.getElementById("vendoremail").value,
+                        vendorpassword: document.getElementById("vendorpassword").value
+                    }
+                })
+                .done(function (msg) {
+                    window.location = '/vendor/dashboard';
+                })
+                .fail(function (msg) {
+                    showNotification(msg.responseJSON.message, 'danger');
+                });
+        }
+        e.preventDefault();
+    });
+    $('#vendororderStatusUpdate').on('click', function(e){
+        $.ajax({
+            method: 'POST',
+            url: '/vendor/order/statusupdate',
+            data: { order_id: $('#order_id').val(), status: $('#orderStatus').val() }
+        })
+		.done(function(msg){
+            showNotification(msg.message, 'success', true);
+        })
+        .fail(function(msg){
+            showNotification(msg.responseJSON.message, 'danger');
+        });
+    });
     $('#customerloginForm').on('click', function (e) {
         if (!e.isDefaultPrevented()) {
             e.preventDefault();

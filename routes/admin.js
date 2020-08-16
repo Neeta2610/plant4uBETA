@@ -26,6 +26,14 @@ cloudinary.config({
 const emailRegex = /\S+@\S+\.\S+/;
 const numericRegex = /^\d*\.?\d*$/;
 
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
+
 // Admin section
 router.get('/admin', restrict, (req, res, next) => {
     res.redirect('/admin/dashboard');
@@ -37,6 +45,16 @@ router.get('/admin/logout', (req, res) => {
     req.session.message = null;
     req.session.messageType = null;
     res.redirect('/');
+});
+
+router.get('/vendor/logout', (req, res) => {
+    req.session.vendor = null;
+    req.session.vendorName = null;
+    req.session.vendorId = null;
+    req.session.isVendor = false;
+    req.session.message = null;
+    req.session.messageType = null;
+    res.redirect('/vendor/login');
 });
 
 // Used for tests only
@@ -77,7 +95,7 @@ router.get('/vendor/login', async (req, res) => {
 router.post('/vendor/login_action', async (req, res) => {
     const db = req.app.db;
     
-    const user = await db.users.findOne({ userEmail: common.mongoSanitize(req.body.adminemail) });
+    const user = await db.vendors.findOne({ userEmail: common.mongoSanitize(req.body.vendoremail) });
     if(!user || user === null){
         messages = 'A user with that email does not exist.';
         res.status(400).json({ message: messages });
@@ -85,13 +103,13 @@ router.post('/vendor/login_action', async (req, res) => {
     }
 
     // we have a user under that email so we compare the password
-    bcrypt.compare(req.body.adminpassword, user.userPassword)
+    bcrypt.compare(req.body.vendorpassword, user.userPassword)
         .then((result) => {
             if(result){
-                req.session.user = req.body.adminemail;
-                req.session.usersName = user.usersName;
-                req.session.userId = user._id.toString();
-                req.session.isAdmin = user.isAdmin;
+                req.session.vendor = req.body.vendoremail;
+                req.session.vendorName = user.vendorName;
+                req.session.vendorId = user._id.toString();
+                req.session.isVendor = true;
                 res.status(200).json({ message: 'Login successful' });
                 return;
             }
@@ -136,7 +154,7 @@ router.post('/vendor/setup_action', async (req, res) => {
     if(userCount === 0){
         // email is ok to be used.
         try{
-            await db.users.insertOne(doc);
+            await db.vendors.insertOne(doc);
             res.status(200).json({ message: 'User account inserted' });
             return;
         }catch(ex){
@@ -148,7 +166,115 @@ router.post('/vendor/setup_action', async (req, res) => {
     res.status(200).json({ message: 'Already setup.' });
 });
 
+router.get('/vendor/dashboard/:page?', async (req, res) => {
+    const db = req.app.db;
+    const vendorexist = await db.vendors.findOne({_id: common.getId(req.session.vendorId)});
+    if(!vendorexist) {
+        req.session.message = "Vendor Access Denied";
+        req.session.messageType = 'danger';
+        res.redirect('/vendor/login');
+        return;
+    }
+    let pageNum = 1;
+    if(req.params.page){
+        pageNum = req.params.page;
+    }
 
+    // Get our paginated data
+    var orders = {};
+    var query = '';
+    if(!isEmpty(req.query)) {
+        query = req.query.status;
+        orders = await common.paginateData(false, req, pageNum, 'orders', {orderStatus: req.query.status}, { orderDate: -1 });
+    }
+    else {
+        orders = await common.paginateData(false, req, pageNum, 'orders', {}, { orderDate: -1 });
+    }
+    var pageNumArray = [];
+    var nextPage = 0;
+    var prevPage = 0;
+    pageNum = parseInt(pageNum);
+    if(pageNum % 4 == 2){
+        nextPage = pageNum + 2;
+        prevPage = pageNum - 2;
+        pageNumArray = [pageNum -1 , pageNum, pageNum + 1];
+    }
+    else if(pageNum % 4 == 3){
+        nextPage = pageNum + 1;
+        prevPage = pageNum - 3;
+        pageNumArray = [pageNum - 2, pageNum -1, pageNum];
+    }
+    else{
+        nextPage = pageNum + 3;
+        pageNumArray = [pageNum,pageNum+1,pageNum+2];
+        prevPage = pageNum - 1;
+    }
+    var queryString = "?status=".concat(query);
+    res.render('vendordashboard', {
+        title: 'Vendor Dashboard',
+        config: req.app.config,
+        session: req.session,
+        orders: orders,
+        pageNum: pageNum,
+        paginateUrl: '/vendor/dashboard',
+        query: queryString,
+        pageNumArray: pageNumArray,
+        vendor: true,
+        nextPage: nextPage,
+        prevPage: prevPage,
+        message: common.clearSessionValue(req.session, 'message'),
+        messageType: common.clearSessionValue(req.session, 'messageType'),
+        helpers: req.handlebars.helpers
+    });
+});
+
+router.get('/vendor/order/update/:id', async (req,res) =>{
+    const db = req.app.db;
+    const vendorexist = await db.vendors.findOne({_id: common.getId(req.session.vendorId)});
+    if(!vendorexist) {
+        req.session.message = "Vendor Access Denied";
+        req.session.messageType = 'danger';
+        res.redirect('/vendor/login');
+        return;
+    }
+    const order = await db.orders.findOne({ _id: common.getId(req.params.id) });
+    if(!order) {
+        req.session.message = "Order Not Found";
+        req.session.messageType = 'danger';
+        res.redirect('/vendor/dashboard');
+        return;
+    }
+    res.render('vendororder', {
+        title: 'View order',
+        result: order,
+        config: req.app.config,
+        session: req.session,
+        vendor: true,
+        message: common.clearSessionValue(req.session, 'message'),
+        messageType: common.clearSessionValue(req.session, 'messageType'),
+        helpers: req.handlebars.helpers
+    });
+});
+
+router.post('/vendor/order/statusupdate', async (req, res)=>{
+    const db = req.app.db;
+    const vendorexist = await db.vendors.findOne({_id: common.getId(req.session.vendorId)});
+    if(!vendorexist) {
+        req.session.message = "Vendor Access Denied";
+        req.session.messageType = 'danger';
+        res.redirect('/vendor/login');
+        return;
+    }
+    try{
+        await db.orders.findOneAndUpdate({_id: common.getId(req.body.order_id)},{ $set: {orderStatus: req.body.status}});
+        res.status(200).json({message: "Order Status Updated"});
+        return;
+    }catch(ex){
+        console.log(ex);
+        res.status(400).json({message: "Error Updating Status"});
+        return;
+    }
+});
 // login form
 router.get('/admin/login', async (req, res) => {
     const db = req.app.db;
