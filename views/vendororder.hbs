@@ -1,3 +1,26 @@
+<div class="modal fade" id="updatestatusconfirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Status</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          Confirm Status Update
+          <br>
+        <sm class="text-danger">
+            If Status is completed then it will send Ebill to customer.
+        </sm>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="vendororderStatusUpdate" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 <main role="main" class="col-12 top-marg-25">
     <div class="col-sm-12">
         <h2>View Order</h2>
@@ -5,7 +28,7 @@
     <div class="order-layout col-md-12">
         <div class="row">
             <div class="col-md-12 bottom-pad-20">
-                <button id="vendororderStatusUpdate" class="btn btn-outline-success float-left">{{ @root.__ "Update status" }}</button>
+                <button class="btn btn-outline-success float-left" data-toggle="modal" data-target="#updatestatusconfirm">{{ @root.__ "Update status" }}</button>
                 <a href="/vendor/dashboard" class="btn btn-info float-right">{{ @root.__ "Go Back" }}</a>
             </div>
         </div>
