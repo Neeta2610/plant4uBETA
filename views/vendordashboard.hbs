@@ -11,19 +11,19 @@
 
                     <div class="pagination">
                         {{#if prevPage}}
-                            <a href="/{{paginateUrl}}/{{prevPage}}{{queryString}}">&laquo;</a>
+                            <a href="{{paginateUrl}}/{{prevPage}}{{queryString}}">&laquo;</a>
                         {{else}}
                         <a href="#">&laquo;</a>
                         {{/if}}
                         {{#each pageNumArray}}
                             {{#ifCond ../pageNum '==' this}}
-                                <a class="active" href="/{{../../paginateUrl}}/{{../this}}{{../../queryString}}">{{../this}}</a>
+                                <a class="active" href="{{../../paginateUrl}}/{{../this}}{{../../queryString}}">{{../this}}</a>
                             {{else}}
-                                <a href="/{{../../paginateUrl}}/{{../this}}{{../../queryString}}">{{../this}}</a>
+                                <a href="{{../../paginateUrl}}/{{../this}}{{../../queryString}}">{{../this}}</a>
                             {{/ifCond}}
                         {{/each}}
                         {{#if nextPage}}
-                        <a href="/{{paginateUrl}}/{{nextPage}}{{queryString}}">&raquo;</a>
+                        <a href="{{paginateUrl}}/{{nextPage}}{{queryString}}">&raquo;</a>
                         {{else}}
                         <a href="#">&raquo;</a>
                         {{/if}}
@@ -46,7 +46,7 @@
                         {{ @root.__ "Status" }}: <span class="text-{{getStatusColor this.orderStatus}}">{{this.orderStatus}}</span>
                     </div>
                     <div class="top-pad-5">
-                        <a href="/vendor/order/update/{{this._id}}" class="btn btn-link">Edit Order</a> - <span class="text-info">Date: </span>{{formatDate this.orderDate "DD/MM/YYYY hh:mm"}} | <span class="text-info">Email:</span> {{this.orderEmail}} | <span class="text-info">{{ @root.__ "Last name" }}:</span> {{this.orderLastname}}
+                        <a href="/vendor/order/update/{{this._id}}" class="btn btn-link">View Order</a> - <span class="text-info">Date: </span>{{formatDate this.orderDate "DD/MM/YYYY hh:mm"}} | <span class="text-info">Email:</span> {{this.orderEmail}} | <span class="text-info">{{ @root.__ "Last name" }}:</span> {{this.orderLastname}}
                     </div>
                 </li>
             {{/each}}
