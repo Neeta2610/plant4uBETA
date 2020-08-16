@@ -76,6 +76,7 @@ router.post('/checkout_action', async (req, res, next) => {
        /* if(charge.paid !== true){
             paymentStatus = 'Declined';
         } */
+        let paymentMethod = 'COD';
         var customer = {};
         if(!req.session.customerFirstname){
             req.session.customerFirstname = req.body.shipFirstname;
@@ -118,7 +119,7 @@ router.post('/checkout_action', async (req, res, next) => {
         // new order doc
         const orderDoc = {
            // orderPaymentId: charge.id,
-          //  orderPaymentGateway: 'Stripe',
+            orderPaymentGateway: paymentMethod,
            // orderPaymentMessage: charge.outcome.seller_message,
             orderTotal: req.session.totalCartAmount,
             orderShipping: req.session.totalCartShipping,

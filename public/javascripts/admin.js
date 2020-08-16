@@ -122,8 +122,8 @@ $(document).ready(function (){
         $.ajax({
             method: 'POST',
             url: '/admin/order/statusupdate',
-            data: { order_id: $('#order_id').val(), status: $('#orderStatus').val(),
-                    email_id: $('#email_id').val(), status: $('#orderStatus').val(),
+            data: { order_id: $('#order_id').val(),
+                    status: $('#orderStatus').val(),
                   }
         })
 		.done(function(msg){

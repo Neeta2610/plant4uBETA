@@ -284,11 +284,25 @@ router.post('/admin/order/statusupdate', restrict, checkAccess, async (req, res)
             _id: getId(req.body.order_id) },
             { $set: { orderStatus: req.body.status }
         }, { multi: false });
-        if(req.body.status === 'Completed')
+        const order = await db.orders.findOne({_id: getId(req.body.order_id)});
+        var i = 0;
+        var items = ``;
+        for(i=0;i<order.orderProducts;i++) {
+            items += `<tr class="item">
+                        <td>
+                            `+order.orderProducts[i].title+`
+                        </td>
+                        
+                        <td>
+                        `+order.orderProducts[i].totalItemPrice+`
+                        </td>
+                    </tr>`;
+        }
+        if(order.status === 'Completed')
         {
             const html=`<head>
             <meta charset="utf-8">
-            <title>A simple, clean, and responsive HTML invoice template</title>
+            <title>Plant4u Ebill</title>
             
             <style>
             .invoice-box {
@@ -397,9 +411,7 @@ router.post('/admin/order/statusupdate', restrict, checkAccess, async (req, res)
                                     </td>
                                     
                                     <td>
-                                        Invoice #: 123<br>
-                                        Created: January 1, 2015<br>
-                                        Due: February 1, 2015
+                                        Ordered: `+order.orderDate+`<br>
                                     </td>
                                 </tr>
                             </table>
@@ -412,14 +424,14 @@ router.post('/admin/order/statusupdate', restrict, checkAccess, async (req, res)
                                 <tr>
                                     <td>
                                         plant4u, Inc.<br>
-                                        12345 Sunny Road<br>
-                                        Sunnyville, CA 12345
+                                        Some Building<br>
+                                        New Delhi
                                     </td>
                                     
                                     <td>
-                                        Acme Corp.<br>
-                                        John Doe<br>
-                                        john@example.com
+                                        `+order.orderFirstname+` `+order.orderLastname+`<br>
+                                        `+order.orderPhoneNumber+`br
+                                        `+order.orderEmail+`
                                     </td>
                                 </tr>
                             </table>
@@ -432,17 +444,17 @@ router.post('/admin/order/statusupdate', restrict, checkAccess, async (req, res)
                         </td>
                         
                         <td>
-                            Check #
+                            `+order.orderPaymentGateway+`
                         </td>
                     </tr>
                     
                     <tr class="details">
                         <td>
-                            Check
+                            Amount
                         </td>
                         
                         <td>
-                            1000
+                            `+order.orderTotal+`
                         </td>
                     </tr>
                     
@@ -455,42 +467,13 @@ router.post('/admin/order/statusupdate', restrict, checkAccess, async (req, res)
                             Price
                         </td>
                     </tr>
-                    
-                    <tr class="item">
-                        <td>
-                            Website design
-                        </td>
-                        
-                        <td>
-                            $300.00
-                        </td>
-                    </tr>
-                    
-                    <tr class="item">
-                        <td>
-                            Hosting (3 months)
-                        </td>
-                        
-                        <td>
-                            $75.00
-                        </td>
-                    </tr>
-                    
-                    <tr class="item last">
-                        <td>
-                            Domain name (1 year)
-                        </td>
-                        
-                        <td>
-                            $10.00
-                        </td>
-                    </tr>
+                    `+items+`
                     
                     <tr class="total">
                         <td></td>
                         
                         <td>
-                           Total: $385.00
+                           Total: `+order.orderTotal+`
                         </td>
                     </tr>
                 </table>
@@ -498,7 +481,7 @@ router.post('/admin/order/statusupdate', restrict, checkAccess, async (req, res)
         </body>
         
     `;
-    await mailer.sendEmail('admin@plant4u.com',req.body.email_id,'Order Complete',html)
+    await mailer.sendEmail('admin@plant4u.com',order.orderEmail,'Order Complete',html)
         }
         return res.status(200).json({ message: 'Status successfully updated' });
     }catch(ex){
