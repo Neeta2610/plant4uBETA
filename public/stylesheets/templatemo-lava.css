@@ -311,6 +311,9 @@ header
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
 }
+.header-area .main-nav .logo img{
+  width: 150px;
+}
 
 
 .header-area .main-nav .nav {
