@@ -1370,14 +1370,12 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
         const source = fs.createReadStream(file.path);
         const dest = fs.createWriteStream(path.join(uploadDir, file.originalname.replace(/ /g, '_')));
         var destpath = path.join(uploadDir, file.originalname.replace(/ /g, '_'));
-        destpath = path.join(path.dirname(__dirname),destpath);
         console.log(destpath);
         // save the new file
         source.pipe(dest);
         source.on('end', () => { });
 
         // delete the temp file.
-        fs.unlinkSync(file.path);
 
         const imagePath = path.join('/uploads', productPath, file.originalname.replace(/ /g, '_'));
         cloudinary.uploader.upload(file.path, 
@@ -1402,6 +1400,7 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
                     await db.products.updateOne({ _id: common.getId(req.body.productId) }, { $push: { productImage: img_obj } });
                 }
                 var str = "File uploaded successfully";
+                fs.unlinkSync(file.path);
                 fs.unlinkSync(destpath);
                 res.status(200).json({ message:  str});
             }
