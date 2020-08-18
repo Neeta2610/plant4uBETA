@@ -1369,9 +1369,12 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
 
         const source = fs.createReadStream(file.path);
         const dest = fs.createWriteStream(path.join(uploadDir, file.originalname.replace(/ /g, '_')));
-
+        var destpath = path.join(uploadDir, file.originalname.replace(/ /g, '_'));
+        destpath = path.join(path.dirname(__dirname),destpath);
+        console.log(destpath);
         // save the new file
         source.pipe(dest);
+        console.log();
         source.on('end', () => { });
 
         // delete the temp file.
@@ -1379,8 +1382,8 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
 
         const imagePath = path.join('/uploads', productPath, file.originalname.replace(/ /g, '_'));
         var hostingurl = "https://plant4ubeta.herokuapp.com"
-        var tempImagePath = hostingurl.concat(imagePath);
-        cloudinary.uploader.upload(tempImagePath, 
+        var tempImagePath = "../public".concat(imagePath);
+        cloudinary.uploader.upload(destpath, 
         async function(error, result) {
             if(result){
                 var json_String = JSON.stringify(result);
@@ -1402,18 +1405,21 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
                     await db.products.updateOne({ _id: common.getId(req.body.productId) }, { $push: { productImage: img_obj } });
                 }
                 var str = "File uploaded successfully";
+                fs.unlinkSync(destpath);
                 res.status(200).json({ message:  str});
             }
             else {
                 res.status(400).json({ message: 'File upload error. Please try again.' });
+                fs.unlinkSync(destpath);
                 return;
             }
         });
+        fs.unlinkSync(destpath);
         // Return success message
         return;
     }
     // Return error
-    res.status(400).json({ message: 'File upload error. Please try again.' });
+    res.status(400).json({ message: 'File Not Found error. Please try again.' });
 });
 
 // delete a file via ajax request
