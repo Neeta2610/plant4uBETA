@@ -1360,8 +1360,9 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
             res.status(400).json({ message: 'Product Not found. Please try again.' });
             return;
         }
-
-        cloudinary.uploader.upload(file.path, 
+        
+        
+        cloudinary.uploader.upload(file.path.concat(file.originalname), 
         async function(error, result) {
             if(result){
                 var json_String = JSON.stringify(result);
@@ -1382,17 +1383,17 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
                 else{
                     await db.products.updateOne({ _id: common.getId(req.body.productId) }, { $push: { productImage: img_obj } });
                 }
-                fs.unlinkSync(file.path);
+                fs.unlinkSync(file.path.concat(file.originalname));
                 var str = "File uploaded successfully";
                 res.status(200).json({ message:  str});
             }
             else {
-                fs.unlinkSync(file.path);
+                fs.unlinkSync(file.path.concat(file.originalname));
                 res.status(400).json({ message: 'File upload error. Please try again.' });
                 return;
             }
         });
-        fs.unlinkSync(file.path);
+        fs.unlinkSync(file.path.concat(file.originalname));
         // Return success message
         return;
     }
