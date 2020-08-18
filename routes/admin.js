@@ -1361,23 +1361,6 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
             return;
         }
 
-        const productPath = product._id.toString();
-        const uploadDir = path.join('public/uploads', productPath);
-
-        // Check directory and create (if needed)
-        common.checkDirectorySync(uploadDir);
-
-        const source = fs.createReadStream(file.path);
-        const dest = fs.createWriteStream(path.join(uploadDir, file.originalname.replace(/ /g, '_')));
-        var destpath = path.join(uploadDir, file.originalname.replace(/ /g, '_'));
-        console.log(destpath);
-        // save the new file
-        source.pipe(dest);
-        source.on('end', () => { });
-
-        // delete the temp file.
-
-        const imagePath = path.join('/uploads', productPath, file.originalname.replace(/ /g, '_'));
         cloudinary.uploader.upload(file.path, 
         async function(error, result) {
             if(result){
@@ -1399,18 +1382,17 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
                 else{
                     await db.products.updateOne({ _id: common.getId(req.body.productId) }, { $push: { productImage: img_obj } });
                 }
-                var str = "File uploaded successfully";
                 fs.unlinkSync(file.path);
-                fs.unlinkSync(destpath);
+                var str = "File uploaded successfully";
                 res.status(200).json({ message:  str});
             }
             else {
+                fs.unlinkSync(file.path);
                 res.status(400).json({ message: 'File upload error. Please try again.' });
-                fs.unlinkSync(destpath);
                 return;
             }
         });
-        fs.unlinkSync(destpath);
+        fs.unlinkSync(file.path);
         // Return success message
         return;
     }
