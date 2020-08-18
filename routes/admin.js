@@ -1357,7 +1357,7 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
             fs.unlinkSync(file.path);
 
             // Return error
-            res.status(400).json({ message: 'File upload error. Please try again.' });
+            res.status(400).json({ message: 'Product Not found. Please try again.' });
             return;
         }
 
@@ -1374,16 +1374,13 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
         console.log(destpath);
         // save the new file
         source.pipe(dest);
-        console.log();
         source.on('end', () => { });
 
         // delete the temp file.
         fs.unlinkSync(file.path);
 
         const imagePath = path.join('/uploads', productPath, file.originalname.replace(/ /g, '_'));
-        var hostingurl = "https://plant4ubeta.herokuapp.com"
-        var tempImagePath = "../public".concat(imagePath);
-        cloudinary.uploader.upload(destpath, 
+        cloudinary.uploader.upload(file.path, 
         async function(error, result) {
             if(result){
                 var json_String = JSON.stringify(result);
