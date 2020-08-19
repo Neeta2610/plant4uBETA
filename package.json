@@ -78,6 +78,7 @@
     "string-strip-html": "^4.4.7",
     "strip-bom": "^4.0.0",
     "stripe": "^8.60.0",
+    "twilio": "^3.48.2",
     "uglifycss": "0.0.29",
     "yenv": "^2.1.1"
   },
