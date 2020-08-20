@@ -4084,3 +4084,30 @@ a.btn1-goback:hover {
     padding-right: 10rem;
   }
 }
+
+/* successpage */
+.successpage {
+  margin-top: 120px;
+  margin-bottom: 100px;
+}
+.successpage .icon {
+  text-align: center;
+}
+.successpage .icon i{
+  color: #3fbe02;
+  font-size: 60px;
+}
+.successpage .info{
+  margin: 15px 0px;
+  font-size: 18px;
+  font-style: italic;
+}
+.successpage .info i{
+  font-size: 25px;
+}
+.successpage .infoorder{
+  background-color: #cacaca;
+  border-radius: 6px;
+  padding: 10px 0px;
+  font-size: 16px;
+}

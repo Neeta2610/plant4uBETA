@@ -1,12 +1,67 @@
- <div class="container pb-5 mb-sm-4">
-      <div class="pt-5">
-        <div class="card py-3 mt-sm-3">
-          <div class="card-body text-center">
-            <h2 class="h4 pb-3">Thank you for your order!</h2>
-            <p class="font-size-sm mb-2">Your order has been placed and will be processed as soon as possible.</p>
-            <p class="font-size-sm mb-2">Make sure you make note of your order number, which is <span class='font-weight-medium'>{{result._id}}</span></p>
-            <p class="font-size-sm">You will be receiving an email shortly with confirmation of your order. <u>You can now:</u></p><a class="btn btn-secondary mt-3 mr-3" href="/">Go back shopping</a>
-          </div>
-        </div>
-      </div>
+<div class="successpage container">
+  <div class="thankyouhead row">
+    <div class="col-12 text-center top-marg-15">
+      <div class="icon col-12">
+      <i class="far fa-check-circle"></i>
     </div>
+    <br>
+      <h1>Thank You for your order!</h1>
+      <p class="info">We are happy that you find something of your interest. 
+        <i class="far fa-smile"></i>
+      </p>
+      <p class="info"><i class="fas fa-envelope"></i>
+      You will recieve a confirmation mail to your registered Email Id</p>
+    </div>
+    <br>
+    <div class="row col-12 col-md-10 col-lg-8 mx-auto top-marg-25 text-center">
+      <div class="col-12 col-lg-8 infoorder mx-auto bottom-marg-15">
+        <h6>Order Information</h6>
+      </div>
+      <div class="emailinfo float-right col-12 col-sm-6">
+      <h6>User Info</h6>
+      <p>{{result.orderEmail}}</p>
+      <p>{{result.orderPhoneNumber}}</p>
+    </div>
+    <div class="shippingaddress float-right col-12 col-sm-6">
+      <h6>Shipping Address</h6>
+      <p>{{result.orderAddr1}} {{result.orderState}}</p>
+      <p>{{result.orderPostcode}}</p>
+    </div>
+    <div class="cart-table-area col-12 col-lg-8  mx-auto top-marg-25 text-start cart-table-area">
+      <table class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {{#each result.orderProducts}}
+                                    <tr class="align-items-center">
+                                        <td class="cart_product_img">
+                                            <a href="/product/{{this.link}}">
+                                            {{#if productImage}}
+                                            <img src="{{this.productImage.[0].path}}" alt="{{this.title}} product image"></a>
+                                            {{else}}
+                                            <img src="/images/p5.jpeg" alt="{{this.title}} product image"></a>
+                                            {{/if}}</a>
+                                        </td>
+                                        <td class="cart_product_desc">
+                                            <h5>{{this.title}}</h5>
+                                        </td>
+                                        <td class="price" style="font-weight: bold;">
+                                           {{currencySymbol @root.config.currencySymbol}}{{formatAmount this.totalItemPrice}}
+                                        </td>
+                                        <td class="qty">
+                                                {{this.quantity}}
+                                        </td>
+                                    </tr>
+                                {{/each}} 
+                                </tbody>
+                            </table>
+    </div>
+    </div>
+  </div>
+</div>
