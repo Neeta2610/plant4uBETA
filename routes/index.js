@@ -185,7 +185,6 @@ router.post('/checkout_action', async (req, res, next) => {
 
                     // send the email with the response
                     // TODO: Should fix this to properly handle result
-                    common.sendEmail(req.session.paymentEmailAddr, 'Your payment with ' + config.cartTitle, common.getEmailTemplate(paymentResults));
 
                     // redirect to outcome
                     res.redirect('/payment/' + newId);
@@ -201,7 +200,9 @@ router.post('/checkout_action', async (req, res, next) => {
         });
     });
 // });
-
+function bold(string){
+    return `*`+string+`*`
+}
 // These is the customer facing routes
 router.get('/payment/:orderId', async (req, res, next) => {
     const db = req.app.db;
@@ -307,7 +308,6 @@ router.get('/payment/:orderId', async (req, res, next) => {
         </o:OfficeDocumentSettings>
     </xml>
     <![endif]--> 
-      <link rel="shortcut icon" type="image/png" href="https://stripo.email/assets/img/favicon.png"> 
       <style type="text/css">
     @media only screen and (max-width:600px) {p, ul li, ol li, a { font-size:14px!important; line-height:150%!important } h1 { font-size:30px!important; text-align:center; line-height:120%!important } h2 { font-size:22px!important; text-align:center; line-height:120%!important } h3 { font-size:20px!important; text-align:center; line-height:120%!important } h1 a { font-size:30px!important } h2 a { font-size:22px!important } h3 a { font-size:20px!important } .es-menu td a { font-size:16px!important } .es-header-body p, .es-header-body ul li, .es-header-body ol li, .es-header-body a { font-size:16px!important } .es-footer-body p, .es-footer-body ul li, .es-footer-body ol li, .es-footer-body a { font-size:14px!important } .es-infoblock p, .es-infoblock ul li, .es-infoblock ol li, .es-infoblock a { font-size:12px!important } *[class="gmail-fix"] { display:none!important } .es-m-txt-c, .es-m-txt-c h1, .es-m-txt-c h2, .es-m-txt-c h3 { text-align:center!important } .es-m-txt-r, .es-m-txt-r h1, .es-m-txt-r h2, .es-m-txt-r h3 { text-align:right!important } .es-m-txt-l, .es-m-txt-l h1, .es-m-txt-l h2, .es-m-txt-l h3 { text-align:left!important } .es-m-txt-r img, .es-m-txt-c img, .es-m-txt-l img { display:inline!important } .es-button-border { display:block!important } a.es-button { font-size:20px!important; display:block!important; border-left-width:0px!important; border-right-width:0px!important } .es-btn-fw { border-width:10px 0px!important; text-align:center!important } .es-adaptive table, .es-btn-fw, .es-btn-fw-brdr, .es-left, .es-right { width:100%!important } .es-content table, .es-header table, .es-footer table, .es-content, .es-footer, .es-header { width:100%!important; max-width:600px!important } .es-adapt-td { display:block!important; width:100%!important } .adapt-img { width:100%!important; height:auto!important } .es-m-p0 { padding:0px!important } .es-m-p0r { padding-right:0px!important } .es-m-p0l { padding-left:0px!important } .es-m-p0t { padding-top:0px!important } .es-m-p0b { padding-bottom:0!important } .es-m-p20b { padding-bottom:20px!important } .es-mobile-hidden, .es-hidden { display:none!important } tr.es-desk-hidden, td.es-desk-hidden, table.es-desk-hidden { display:table-row!important; width:auto!important; overflow:visible!important; float:none!important; max-height:inherit!important; line-height:inherit!important } .es-desk-menu-hidden { display:table-cell!important } table.es-table-not-adapt, .esd-block-html table { width:auto!important } table.es-social { display:inline-block!important } table.es-social td { display:inline-block!important } }
     #outlook a {
@@ -933,11 +933,19 @@ router.get('/payment/:orderId', async (req, res, next) => {
 await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Complete',html)
     
 // Here we send whatsapp message to vendor whenever we have an order
-
+    var sendmessage = "Name: ".concat(bold(order.orderFirstname)).concat(" ").concat(bold(order.orderLastname));
+    sendmessage = sendmessage.concat("\n Email: ").concat(order.orderEmail);
+    sendmessage = sendmessage.concat("\n Phone: ").concat(order.orderPhoneNumber);
+    sendmessage = sendmessage.concat("\n Address: ").concat(order.orderAddr1).concat(" ").concat(order.orderState).concat(" ").concat(order.orderPostcode);
+    var items = ``;
+        for(let key in order.orderProducts){
+            items += `\n Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
+        }
+    sendmessage = sendmessage + items;
     client.messages.create({
         from:'whatsapp:+14155238886',
         to:'whatsapp:+918937048822',
-        body:'hello hola namstey functionality done'
+        body:sendmessage
     }).then(message=> console.log(message.sid));
 
     res.render('success', {
