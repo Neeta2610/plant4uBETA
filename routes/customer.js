@@ -123,8 +123,7 @@ router.post('/customer/registerdirect', async (req, res)=>{
     var countryCode = '+91';
     
     if(email.length < 5 || phone.length < 10) {
-        req.session.message = "Invalid phone number or Email";
-        req.session.messageType = 'danger';
+        res.status(400).send({message: "Invalid Phone number or Email"})
         return;
     }
     var customer = await db.customers.findOne({$or: [{email: email},{phone: phone}]});
