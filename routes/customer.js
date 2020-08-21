@@ -122,7 +122,7 @@ router.post('/customer/registerdirect', async (req, res)=>{
 	var phone = req.body.userPhone;
     var countryCode = '+91';
     
-    if(email.length < 5 || phone.length < 10) {
+    if(email.length < 5 || phone.length < 10 || isNaN(phone)) {
         res.status(400).send({message: "Invalid Phone number or Email"})
         return;
     }
