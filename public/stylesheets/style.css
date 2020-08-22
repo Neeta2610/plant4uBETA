@@ -1130,6 +1130,10 @@ width: 338px;  */ }
     margin-top: 25px; 
   padding: 10px;
 align-items: center;}
+.single-product-wrapper .product-description .product-meta-data {
+  max-width: 60%;
+  max-height: 100px;
+}
     .single-product-wrapper .product-description .product-meta-data .line {
       width: 80px;
       height: 3px;
@@ -1169,6 +1173,10 @@ align-items: center;}
       .single-product-wrapper .product-description .ratings-cart .cart{
         text-align: start;
       }
+      .single-product-wrapper .product-description .product-meta-data {
+        max-width: 100%;
+        overflow-y: hidden;
+      }
     }
 
 /* Product Card Design 2 */
@@ -1193,6 +1201,8 @@ align-items: center;}
 .second-product-wrapper .titlename {
   margin: 10px auto;
   text-align: center;
+  max-height: 100px;
+  overflow-y: hidden;
 }
 .second-product-wrapper .titlename a h4{
   color: #fbb710;

@@ -1329,26 +1329,6 @@ router.delete('/admin/settings/discount/delete', restrict, checkAccess, async (r
     }
 });
 
-const removeDir = function(path) {
-    if (fs.existsSync(path)) {
-      const files = fs.readdirSync(path)
-  
-      if (files.length > 0) {
-        files.forEach(function(filename) {
-          if (fs.statSync(path + "/" + filename).isDirectory()) {
-            removeDir(path + "/" + filename)
-          } else {
-            fs.unlinkSync(path + "/" + filename)
-          }
-        })
-        fs.rmdirSync(path)
-      } else {
-        fs.rmdirSync(path)
-      }
-    } else {
-      console.log("Directory path not found.")
-    }
-  }
 // upload the file
 const upload = multer({ dest: 'public/uploads/' });
 router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFile'), async (req, res) => {
@@ -1380,7 +1360,10 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
             res.status(400).json({ message: 'Product Not found. Please try again.' });
             return;
         }
-        
+        var origpath = path.resolve(file.path,file.originalname);
+        console.log(origpath);
+        console.log("original name\n \n");
+        console.log(path.resolve(__filename),"\n",path.resolve(__dirname));
         
         cloudinary.uploader.upload(file.path, 
         async function(error, result) {
@@ -1403,17 +1386,16 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
                 else{
                     await db.products.updateOne({ _id: common.getId(req.body.productId) }, { $push: { productImage: img_obj } });
                 }
-                removeDir(file.path);
+                fs.unlinkSync(file.path);
                 var str = "File uploaded successfully";
                 res.status(200).json({ message:  str});
             }
             else {
-                removeDir(file.path);
+                fs.unlinkSync(file.path);
                 res.status(400).json({ message: 'File upload error. Please try again.' });
                 return;
             }
         });
-        removeDir(file.path);
         // Return success message
         return;
     }

@@ -414,6 +414,7 @@ router.post('/admin/product/delete', restrict, checkAccess, async (req, res) => 
     //remote the image from cloudinary
     const product = await db.products.findOne({ _id: common.getId(req.body.productId) });
     var i = 0;
+    if(product.productImage){
     for(i = 0; i< product.productImage.length; i++){
 
         cloudinary.uploader.destroy(product.productImage[i].id, function(error, result) { 
@@ -425,6 +426,7 @@ router.post('/admin/product/delete', restrict, checkAccess, async (req, res) => 
             }
         });
     }
+}
     // remove the product
     await db.products.deleteOne({ _id: common.getId(req.body.productId) }, {});
 
