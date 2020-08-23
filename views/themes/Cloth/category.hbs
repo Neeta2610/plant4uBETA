@@ -204,6 +204,25 @@
                     </div>
         {{/each}}
     </div>
+    <div class="pagination float-right">
+            {{#if prevPage}}
+                <a href="/{{paginateUrl}}/{{searchTerm}}/{{prevPage}}{{queryString}}">&laquo;</a>
+            {{else}}
+            <a href="#">&laquo;</a>
+            {{/if}}
+            {{#each pageNumArray}}
+                {{#ifCond ../pageNum '==' this}}
+                    <a class="active" href="/{{../../paginateUrl}}/{{../../searchTerm}}/{{../this}}{{../../queryString}}">{{../this}}</a>
+                {{else}}
+                    <a href="/{{../../paginateUrl}}/{{../../searchTerm}}/{{../this}}{{../../queryString}}">{{../this}}</a>
+                {{/ifCond}}
+            {{/each}}
+            {{#if nextPage}}
+            <a href="/{{paginateUrl}}/{{searchTerm}}/{{nextPage}}{{queryString}}">&raquo;</a>
+            {{else}}
+            <a href="#">&raquo;</a>
+            {{/if}}
+        </div>
 </div> 
 </div>
 <button class="expand-filter">Filter<i class="fas fa-sort-amount-up-alt"></i></button>

@@ -1852,7 +1852,7 @@ router.get('/search/:searchTerm/:pageNum?', async (req, res) => {
         }
     }
     Promise.all([
-        paginateProducts(true, db, pageNum, { _id: { $in: lunrIdArray } }, getSort(),15),
+        paginateProducts(true, db, pageNum, { _id: { $in: lunrIdArray } }, getSort(),21),
         getMenu(db)
     ])
     .then(([results, menu]) => {
@@ -1964,7 +1964,7 @@ router.get('/category/:cat/:pageNum?',async (req, res) => {
     }
 
     Promise.all([
-        paginateProducts(true, db, pageNum, { _id: { $in: lunrIdArray } }, getSort(),15),
+        paginateProducts(true, db, pageNum, { _id: { $in: lunrIdArray } }, getSort(),21),
         getMenu(db)
     ])
         .then(([results, menu]) => {

@@ -975,7 +975,7 @@ padding-bottom: 30px;}
 
 /* categories */
 .Categories {
-  width: 95%;
+  width: 92%;
   margin: 50px auto 30px auto;
 }
 
@@ -1067,8 +1067,8 @@ hr{
 }
 @media screen and (min-width: 1200px){
   .card1 {
-    flex: 0 0 22%;
-    max-width: 22%;
+    flex: 0 0 25%;
+    max-width: 25%;
   }
 }
 .single-product-wrapper {
@@ -1182,8 +1182,8 @@ align-items: center;}
 /* Product Card Design 2 */
 @media screen and (min-width: 992px){
   .card2 {
-    flex: 0 0 23%;
-    max-width: 23%;
+    flex: 0 0 25%;
+    max-width: 25%;
   }
 }
 .bg-grey {
