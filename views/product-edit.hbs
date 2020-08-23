@@ -58,8 +58,8 @@
                 <div class="form-group">
                     <label for="productPublished" class="control-label">{{ @root.__ "Status" }}</label>
                     <select class="form-control" id="productPublished">
-                        <option value="true"  {{selectState result.productPublished "true"}}>{{ @root.__ "Published" }}</option>
-                        <option value="false" {{selectState result.productPublished "false"}}>{{ @root.__ "Draft" }}</option>
+                        <option value="true"  {{#if result.productPublished}}selected{{/if}}>{{ @root.__ "Published" }}</option>
+                        <option value="false" {{#unless result.productPublished}}selected{{/unless}}>{{ @root.__ "Draft" }}</option>
                     </select>
                 </div>
             </div>
