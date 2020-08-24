@@ -1571,7 +1571,22 @@ align-items: center;}
                 color: #ffffff;
                 background-color: #fbb710; }
 
-       
+ 
+/* Covid Warning */
+.covidwarning {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  justify-content: center;
+  height: 300px;
+}
+.covidwarning img{
+  max-height: 100%;
+  position: relative;
+  margin: 0px 10px;
+  border-radius: 7px;
+}
 /* images offer */
 .imagesoffer1upper {
   width: 95%;
