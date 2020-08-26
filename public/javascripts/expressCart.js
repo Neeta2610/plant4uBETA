@@ -574,14 +574,7 @@ $(document).ready(function () {
                     data: {
                         email: $('#shipEmail').val(),
                         firstName: $('#shipFirstname').val(),
-                        lastName: $('#shipLastname').val(),
-                        address1: $('#shipAddr1').val(),
-                        country: $('#shipCountry').val(),
-                        state: $('#shipState').val(),
-                        postcode: $('#shipPostcode').val(),
-                        phone: $('#shipPhoneNumber').val(),
-                        password: $('#newCustomerPassword').val(),
-                        orderComment: $('#orderComment').val()
+                        lastName: $('#shipLastname').val()
                     }
                 })
                 .done(function () {
@@ -601,16 +594,11 @@ $(document).ready(function () {
                     method: 'POST',
                     url: '/customer/update',
                     data: {
-                        email: $('#shipEmail').val(),
-                        firstName: $('#shipFirstname').val(),
-                        lastName: $('#shipLastname').val(),
                         address1: $('#shipAddr1').val(),
                         country: $('#shipCountry').val(),
                         state: $('#shipState').val(),
                         postcode: $('#shipPostcode').val(),
-                        phone: $('#shipPhoneNumber').val(),
-                        password: $('#newCustomerPassword').val(),
-                        orderComment: $('#orderComment').val()
+                        phone: $('#shipPhoneNumber').val()
                     }
                 })
                 .done(function () {
@@ -630,17 +618,8 @@ $(document).ready(function () {
                     method: 'POST',
                     url: '/customer/update',
                     data: {
-                        email: $('#shipEmail').val(),
-                        firstName: $('#shipFirstname').val(),
-                        lastName: $('#shipLastname').val(),
-                        address1: $('#shipAddr1').val(),
-                        country: $('#shipCountry').val(),
-                        state: $('#shipState').val(),
-                        postcode: $('#shipPostcode').val(),
-                        phone: $('#shipPhoneNumber').val(),
                         password1: $('#newCustomerPassword1').val(),
-                        password: $('#newCustomerPassword').val(),
-                        orderComment: $('#orderComment').val()
+                        password: $('#newCustomerPassword').val()
                     }
                 })
                 .done(function () {

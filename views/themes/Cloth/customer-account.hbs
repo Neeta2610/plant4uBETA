@@ -1,234 +1,212 @@
-<div id="account" class="col-md-10 offset-md-1 col-sm-12 top-marg-150 back-user">
+<div id="account" class="col-md-12 mx-auto top-marg-150 back-user">
     <div class="row">
-        <div id="content" class="col-md-6 bg-light1">
+        <div id="content" class="col-11 col-sm-5 col-md-4 col-lg-3 bg-light1 accountside">
 
             <div class="account-right">
-
-                <div class="row account-part">
-                    <div id="editDetails" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 acc-box">
-                        <a href="#">
-                            <span><img
-                                    src="http://templatetasarim.com/opencart/Grocery/Fresh/image/catalog/account/edit-account.png"
-                                    class="img-respinsive" /></span><span class="box-heading">Details<br>
+                <div class="helloaccount">
+                    <div class="profileimg">
+                        <img src="/images/profileimage.jpg" alt="profileimg">
+                    </div>
+                    <div class="profiledet">
+                        <span class="text-green">Hello</span> <br>
+                        <h6><strong>{{@root.session.customerFirstname}}</strong></h6>
+                    </div>
+                </div>
+                <div class="account-part">
+                    <div id="editDetails" class="acc-box">
+                        <a href="/customer/account">
+                            <span><i class="fas fa-info-circle"></i></span><span class="box-heading">Information<br>
                                 <h5>Edit your details</h5>
                             </span>
                         </a>
+                        <i class="follow fas fa-chevron-right"></i>
                     </div>
-                    <div id="editAddress" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 acc-box">
-                        <a href="#">
-                            <span><img
-                                    src="http://templatetasarim.com/opencart/Grocery/Fresh/image/catalog/account/location.png"
-                                    class="img-respinsive" /></span><span class="box-heading">Address<br>
+                    <hr>
+                    <div id="editAddress" class="acc-box">
+                        <a href="/customer/account/address">
+                            <span><i class="fas fa-address-book"></i></span><span class="box-heading">Address<br>
                                 <h5>Edit your address</h5>
                             </span>
                         </a>
+                        <i class="follow fas fa-chevron-right"></i>
                     </div>
-                    <div id="passwordDetails" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 acc-box">
-                        <a href="#">
-                            <span><img
-                                    src="http://templatetasarim.com/opencart/Grocery/Fresh/image/catalog/account/pass.png"
-                                    class="img-respinsive" /></span><span>password<br>
+                    <hr>
+                    <div id="passwordDetails" class="acc-box">
+                        <a href="/customer/account/password">
+                            <span><i class="fas fa-lock"></i></span><span>Password<br>
                                 <h5>Change Your Passowrd</h5>
                             </span>
                         </a>
+                        <i class="follow fas fa-chevron-right"></i>
                     </div>
-                    <div id="orderDetails" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 acc-box">
-                        <a href="#">
-                            <span><img
-                                    src="http://templatetasarim.com/opencart/Grocery/Fresh/image/catalog/account/order-list.png"
-                                    class="img-respinsive" /></span><span>Orders<br>
+                    <hr>
+                    <div id="orderDetails" class="acc-box">
+                        <a href="/customer/account/orders">
+                            <span><i class="fas fa-clipboard-list"></i></span><span>Orders<br>
                                 <h5>Check your Orders</h5>
                             </span>
                         </a>
+                        <i class="follow fas fa-chevron-right"></i>
                     </div>
-                    <div id="newsletterDetails" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 acc-box">
-                        <a href="#">
-                            <span><img
-                                    src="http://templatetasarim.com/opencart/Grocery/Fresh/image/catalog/account/newsletter.png"
-                                    class="img-respinsive" /></span><span>newsletter<br>
-                                <h5>subscribe for newsletter</h5>
+                    <hr>
+                    <div id="newsletterDetails" class="acc-box">
+                        <a href="/customer/account/newsletter">
+                            <span><i class="fas fa-envelope"></i></span><span>Newsletter<br>
+                                <h5>Subscribe for Newsletter</h5>
                             </span>
                         </a>
+                        <i class="follow fas fa-chevron-right"></i>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    {{!-- Details Section --}}
-    <div id="detailsForm" class="pagewrap checkout_details_area">
-        <form id="customer-form" class="form formAccount" role="form" data-toggle="validator" novalidate="false">
-            <a href="#" class="close-button">&#10006;</a>
-            <div class="container">
-                <input type="email" class="container__input customerDetails form-control" id="shipEmail" name="shipEmail"
-                    placeholder="Email address" value="{{@root.session.customerEmail}}" required>
-
-                <label id="userLabel" for="email" class="container__label">eMail</label></div>
-
-            <div class="container">
-                <input type="text" class="container__input customerDetails form-control" id="shipFirstname" name="shipFirstname"
-                    placeholder="First name" value="{{@root.session.customerFirstname}}" required>
-                <label id="userLabel" for="FirstName" class="container__label">First Name</label></div>
-
-            <div class="container">
-                <input type="text" class="container__input customerDetails form-control" id="shipLastname" name="shipLastname"
-                    placeholder="Last name" value="{{@root.session.customerLastname}}" required>
-                <label id="userLabel" for="LastName" class="container__label">Last Name</label></div>
-            <button class="btn amado-btn" id="customerSave" type="button" value="submit">Submit</button>
-        </form>
-    </div>
-
-    {{!-- address Section --}}
-    <div id="addressForm" class="pagewrap formAddress">
-        <form id="customer-form" class="form formAccount checkout_details_area" role="form" data-toggle="validator" novalidate="false">
-            <a href="#" class="close-button">&#10006;</a>
-            {{> themes/Cloth/shipping-form}}
-
-            <button class="btn amado-btn" id="addressSave" type="button" value="submit">Submit</button>
-        </form>
-    </div>
-
-    {{!-- Password Section --}}
-    <div id="passwordForm" class="pagewrap checkout_details_area">
-        <form id="customer-form" class="form formAccount" role="form" data-toggle="validator" novalidate="false">
-            <a href="#" class="close-button">&#10006;</a>
-            <div class="container">
-                <input type="password" class="container__input customerDetails form-control" id="newCustomerPassword1" name="newCustomerPassword1" placeholder="Password"
-                    value="" required>
-
-                <label id="userLabel" for="pass" class="container__label">password</label></div>
-
-            <div class="container">
-                <input type="password" class="container__input customerDetails form-control" id="newCustomerPassword" name="newCustomerPassword"
-                    placeholder="Confirm Pasword" value="" required>
-                <label id="userLabel" for="confirmPass" class="container__label">Confirm</label></div>
-
-            <button class="btn amado-btn" id="passwordSave" type="button" value="submit">Submit</button>
-        </form>
-    </div>
-
-    {{!-- Newsletter Section --}}
-    <div id="newsletterForm" class="pagewrap newsContainer">
-        <form id="customer-form" class="form formAccount" role="form" data-toggle="validator" novalidate="false">
-            <a href="#" class="close-button">&#10006;</a>
-            <div class="d-flex form-group">
-            <label class="m-auto col-sm-2 control-label">Newsletter Subscription</label>
-            <div class="accountInput col-sm-10">
-                <label class="col-4 radio-inline">
-                    <input class="col-4" type="radio" name="newsletter" value="1" />
-                    Yes </label>
-                <label class="col-4 radio-inline">
-                    <input class="col-4" type="radio" name="newsletter" value="0" checked="checked" />
-                    No</label>
+        <div class="col-11 col-sm-7 col-md-8 col-lg-9 padding-3 top-marg-10">
+            {{#ifCond page "==" ""}}
+            {{!-- Details Section --}}
+            <div id="detailsForm" class="pagewrap checkout_details_area">
+                <form id="customer-form" class="form formAccount row" role="form" data-toggle="validator" novalidate="false">
+                    <div class="container col-12 profhead">
+                        <h4>Personal Information</h4>
+                    </div>
+                    <div class="container col-12 top-marg-10">
+                        <label id="userLabel" for="email" class="container__label">Email</label>
+                        <input type="email" class="container__input customerDetails form-control" id="shipEmail" name="shipEmail"
+                            placeholder="Email address" value="{{@root.session.customerEmail}}" required></div>
+                    <div class="container col-sm-6 top-marg-10">
+                        <label id="userLabel" for="FirstName" class="container__label">First Name</label>
+                        <input type="text" class="container__input customerDetails form-control" id="shipFirstname" name="shipFirstname"
+                            placeholder="First name" value="{{@root.session.customerFirstname}}" required>
+                        </div>
+                    <div class="container col-sm-6 top-marg-10">
+                        <label id="userLabel" for="LastName" class="container__label">Last Name</label>
+                        <input type="text" class="container__input customerDetails form-control" id="shipLastname" name="shipLastname"
+                            placeholder="Last name" value="{{@root.session.customerLastname}}" required>
+                        </div>
+                    <button class="btn amado-btn top-marg-25 ml-auto mr-3" id="customerSave" type="button" value="submit">Submit</button>
+                </form>
             </div>
-        </div>  
-        </form>
-    </div>
+            {{/ifCond}}
+            {{#ifCond page "==" "address"}}
+            {{!-- address Section --}}
+            <div id="addressForm" class="pagewrap formAddress">
+                <form id="customer-form" class="form formAccount checkout_details_area row" role="form" data-toggle="validator" novalidate="false">
+                    <div class="container col-12 profhead">
+                        <h4>Address Information</h4>
+                    </div>
+                    {{> themes/Cloth/shipping-form}}
 
-    {{!-- Order Section --}}
-    <div id="orderForm" class="col-md-7">
-        <div class="col-12 bottom-pad-15 no-pad-right">
-            <div class="card top-marg-15">
-                <div class="card-body">
-                    <a href="#" class="close-button">&#10006;</a>
-                    <h5 class="card-heading bottom-marg-10">{{ @root.__ "Orders" }}</h5>
-                    <div id="accordion">
-                        {{#unless orders}}
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                There are no orders for this account. <a class="text-success" href="/">Order
-                                    here</a>
-                            </div>
+                    <button class="btn amado-btn top-marg-25 ml-auto mr-3" id="addressSave" type="button" value="submit">Submit</button>
+                </form>
+            </div>
+            {{/ifCond}}
+            {{#ifCond page "==" "password"}}
+            {{!-- Password Section --}}
+            <div id="passwordForm" class="pagewrap checkout_details_area">
+                <form id="customer-form" class="form formAccount row" role="form" data-toggle="validator" novalidate="false">
+                    <div class="container col-12 profhead">
+                        <h4>Change Password</h4>
+                    </div>
+                    <div class="container col-12 top-marg-10">
+                        <label id="userLabel" for="pass" class="container__label">Password</label>
+                        <input type="password" class="container__input customerDetails form-control" id="newCustomerPassword1" name="newCustomerPassword1" placeholder="Password"
+                            value="" required>
                         </div>
-                        {{/unless}}
-                        {{#each orders}}
-                        <div class="card mb-3">
-                            <div class="card-header" id="headingOne">
-                                <p class="mb-0">
-                                    OrderId: {{this._id}} -
-                                    Date: {{formatDate this.orderDate "DD/MM/YYYY hh:mmA"}}
-                                    <button class="btn btn-sm btn-outline-success float-right" data-toggle="collapse"
-                                        data-target="#collapse{{this._id}}" aria-expanded="true"
-                                        aria-controls="collapse{{this._id}}">
-                                        View
-                                    </button>
-                                </p>
-                            </div>
-                            <div id="collapse{{this._id}}" class="collapse orderScroll" aria-labelledby="headingOne"
-                                data-parent="#accordion">
-                                <div class="card-body">
-                                    <ul class="list-group">
-                                        <li class="list-group-item list-group-input-pad">
-                                            <strong class="float-left"> Order status: </strong><span
-                                                class="text-{{getStatusColor this.orderStatus}} float-right">{{this.orderStatus}}</span>
-                                        </li>
-                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Order date" }}:
-                                            </strong><span
-                                                class="float-right">{{formatDate result.orderDate "DD/MM/YYYY hh:mmA"}}</span>
-                                        </li>
-                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Order ID" }}:
-                                            </strong><span class="float-right" style="word-break: break-all;">{{this._id}}</span></li>
-                                        {{#if result.orderExpectedBtc }}
-                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Order Expected BTC" }}:
-                                            </strong><span class="float-right">{{this.orderExpectedBtc}}</span></li>
-                                        {{/if}}
-                                        {{#if this.orderReceivedBtc }}
-                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Order Received BTC" }}:
-                                            </strong><span class="float-right">{{this.orderReceivedBtc}}</span></li>
-                                        {{/if}}
-                                        {{#if this.orderBlockonomicsTxid }}
-                                        <li class="list-group-item"><strong class="float-left">
-                                                {{ @root.__ "Order Blockonomics Txid" }}: </strong><span
-                                                class="float-right">{{this.orderBlockonomicsTxid}}</span></li>
-                                        {{/if}}
-                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Order net amount" }}:
-                                            </strong><span
-                                                class="float-right">{{currencySymbol @root.config.currencySymbol}}{{formatAmount (math this.orderTotal '-' this.orderShipping)}}</span>
-                                        </li>
-                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Order shipping amount" }}:
-                                            </strong><span
-                                                class="float-right">{{currencySymbol @root.config.currencySymbol}}{{formatAmount this.orderShipping}}</span>
-                                        </li>
-                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Order total amount" }}:
-                                            </strong><span
-                                                class="float-right">{{currencySymbol @root.config.currencySymbol}}{{formatAmount this.orderTotal}}</span>
-                                        </li>
-                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Email address" }}:
-                                            </strong><span class="float-right" style="word-break: break-all;">{{this.orderEmail}}</span></li>
-                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Name" }}:
-                                            </strong><span class="float-right">{{this.orderFirstname}} {{this.orderLastname}}</span></li>
-                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Address" }}:
-                                            </strong><span class="float-right">{{this.orderAddr1}}, {{this.orderState}}, {{this.orderPostcode}}</span></li>
-                                        <li class="list-group-item"><strong class="float-left"> {{ @root.__ "Phone number" }}:
-                                            </strong><span class="float-right">{{this.orderPhoneNumber}}</span></li>
-                                        <li class="list-group-item">&nbsp;</li>
-                                        <li class="list-group-item"><strong
-                                                class="text-info">{{ @root.__ "Products ordered" }}</strong></li>
-                                        {{#each this.orderProducts}}
-                                        <li class="list-group-item">
-                                            {{this.quantity}} x {{this.title}}
-                                            {{#if this.variantId}}
-                                            &nbsp; > &nbsp;
-                                            <span class="text-warning"> {{ @root.__ "Options" }}: </span>
-                                            {{this.variantTitle}}
-                                            {{/if}}
-                                            <div class="float-right">
-                                                {{currencySymbol @root.config.currencySymbol}}{{formatAmount this.totalItemPrice}}
-                                            </div>
-                                            {{#if productComment}}
-                                            <h4><span class="text-danger">Comment:</span> {{this.productComment}}
-                                            </h4>
-                                            {{/if}}
-                                        </li>
-                                        {{/each}}
-                                    </ul>
+
+                    <div class="container col-12 top-marg-10">
+                        <label id="userLabel" for="confirmPass" class="container__label">Confirm</label>
+                        <input type="password" class="container__input customerDetails form-control" id="newCustomerPassword" name="newCustomerPassword"
+                            placeholder="Confirm Pasword" value="" required>
+                        </div>
+
+                    <button class="btn amado-btn top-marg-25 ml-auto mr-3" id="passwordSave" type="button" value="submit">Submit</button>
+                </form>
+            </div>
+            {{/ifCond}}
+            {{#ifCond page "==" "newsletter"}}
+            {{!-- Newsletter Section --}}
+            <div id="newsletterForm" class="pagewrap newsContainer">
+                <form id="customer-form" class="form formAccount" role="form" data-toggle="validator" novalidate="false">
+                    <div class="container col-12 profhead">
+                        <h4>Subscribe to Newsletter</h4>
+                    </div>
+                    <div class="d-flex form-group top-marg-25">
+                    <label class="m-auto col-sm-2 control-label">Newsletter Subscription</label>
+                    <div class="accountInput col-sm-10">
+                        <label class="col-4 radio-inline">
+                            <input class="col-4" type="radio" name="newsletter" value="1" />
+                            Yes </label>
+                        <label class="col-4 radio-inline">
+                            <input class="col-4" type="radio" name="newsletter" value="0" checked="checked" />
+                            No</label>
+                    </div>
+                </div>  
+                </form>
+            </div>
+            {{/ifCond}}
+            {{#ifCond page "==" "orders"}}
+            {{!-- Order Section --}}
+            <div id="orderForm" class="">
+                <div class="col-12 bottom-pad-15 no-pad-right">
+                    <div class="card top-marg-15">
+                        <div class="card-body">
+                            <h5 class="card-heading bottom-marg-10">Your Orders</h5>
+                            <div id="accordion">
+                                {{#unless ../orders}}
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        There are no orders for this account. <a class="text-success" href="/">Order
+                                            here</a>
+                                    </div>
                                 </div>
+                                {{/unless}}
+                                {{#each ../orders}}
+                                <div class="card mb-3">
+                                    <div class="card-header" id="headingOne">
+                                        <p class="mb-0">
+                                            OrderId: {{this._id}} -
+                                            Date: {{formatDate this.orderDate "DD/MM/YYYY hh:mmA"}}
+                                            <button class="btn btn-sm btn-success float-right">
+                                                {{this.orderStatus}}
+                                            </button>
+                                        </p>
+                                    </div>
+                                    <div id="" class="">
+                                        <div class="card-body">
+                                            <ul class="list-group">
+                                                {{#each this.orderProducts}}
+                                                <li class="list-product">
+                                                    <div class="orderimage">
+                                                        <a href="/product/{{this.link}}">
+                                                        {{#if productImage}}
+                                                        <img src="{{this.productImage.[0].path}}" alt="{{this.title}} product image"></a>
+                                                        {{else}}
+                                                        <img src="/images/p5.jpeg" alt="{{this.title}} product image"></a>
+                                                        {{/if}}</a>
+                                                    </div>
+                                                    <div class="producttitle">
+                                                         <h5>{{this.title}}</h5>
+                                                    </div>
+                                                    <div class="productprice">
+                                                        {{currencySymbol @root.config.currencySymbol}}{{formatAmount this.totalItemPrice}}
+                                                    </div>
+                                                    <div class="quantity">
+                                                        <td class="qty">
+                                                            {{this.quantity}}
+                                                        </td>
+                                                    </div>
+                                                </li>
+                                                {{/each}}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}}
                             </div>
                         </div>
-                        {{/each}}
                     </div>
                 </div>
             </div>
+            {{/ifCond}}
         </div>
     </div>
 </div>

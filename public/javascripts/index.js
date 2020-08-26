@@ -78,47 +78,7 @@ $(document).ready(function () {
     $('#content').removeClass('blur');
   }
 
-  // var submit = document.getElementById('customerSave', 'addressSave', 'passwordSave');
-  // submit.addEventListener('click', clicked);
-  // submit.addEventListener('click', validate);
-  
-  // Account Page Popups
-  $('#editDetails').click(function () {
-    $('#detailsForm').fadeToggle();
-    addBlur();
-  });
-  $('#editAddress').click(function () {
-    $('#addressForm').fadeToggle();
-    addBlur();
-  });
-  $('#orderDetails').click(function () {
-    $('#orderForm').fadeToggle();
-    addBlur();
-  });
-  $('#passwordDetails').click(function () {
-    $('#passwordForm').fadeToggle();
-    addBlur();
-  });
-  $('#newsletterDetails').click(function () {
-    $('#newsletterForm').fadeToggle();
-    addBlur();
-  });
-  $(document).mouseup(function (e) {
-    var container = $("#addressForm, #orderForm, #passwordForm, #newsletterForm, #detailsForm");
 
-    if (!container.is(e.target) // if the target of the click isn't the container...
-      &&
-      container.has(e.target).length === 0) // ... nor a descendant of the container
-    {
-      container.fadeOut();
-      removeBlur();
-    }
-    $('.close-button').click(function (e) {
-      container.fadeOut();
-      removeBlur();
-      e.stopPropagation();
-    });
-  });
   $('.password-show').on('click',function(e) {
     e.preventDefault();
     if(e.currentTarget.previousElementSibling.type == 'password'){

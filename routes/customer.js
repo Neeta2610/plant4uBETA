@@ -400,7 +400,7 @@ router.post('/customer/save', async (req, res) => {
 });
 
 // Get customer orders
-router.get('/customer/account', async (req, res) => {
+router.get('/customer/account/:page?', async (req, res) => {
     const db = req.app.db;
     const config = req.app.config;
 
@@ -414,11 +414,17 @@ router.get('/customer/account', async (req, res) => {
     })
     .sort({ orderDate: -1 })
     .toArray();
+    var page = '';
+    if(req.params.page){
+        page = req.params.page;
+    }
     res.render(`${config.themeViews}customer-account`, {
         title: 'Orders',
         session: req.session,
         categories: req.app.categories,
-        orders,
+        orders: orders,
+        page: page,
+        showFooter: "ShowFooter",
         message: clearSessionValue(req.session, 'message'),
         messageType: clearSessionValue(req.session, 'messageType'),
         countryList: getCountryList(),
@@ -452,17 +458,31 @@ router.post('/customer/update', async (req, res) => {
         newpassww = customer.password;
     }
     
-    const customerObj = {
-        email: req.body.email,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        address1: req.body.address1,
-        country: req.body.country,
-        state: req.body.state,
-        postcode: req.body.postcode,
-        phone: req.body.phone,
+    var customerObj = {
         password: newpassww
     };
+    if(req.body.email){
+        customerObj['email'] = req.body.email;
+        customerObj['firstName'] = req.body.firstName;
+        customerObj['lastName'] = req.body.lastName;
+
+        customerObj['address1'] = req.session.customerAddress1;
+        customerObj['country'] = req.session.customerCountry;
+        customerObj['state'] = req.session.customerState;
+        customerObj['postcode'] = req.session.customerPostcode;
+        customerObj['phone'] = req.session.customerPhone;
+    }
+    else if(req.body.address1){
+        customerObj['email'] = req.session.customerEmail;
+        customerObj['firstName'] = req.session.customerFirstname;
+        customerObj['lastName'] = req.session.customerLastname;
+
+        customerObj['address1'] = req.body.address1;
+        customerObj['country'] = req.body.country;
+        customerObj['state'] = req.body.state;
+        customerObj['postcode'] = req.body.postcode;
+        customerObj['phone'] = req.body.phone;
+    }
 
     const schemaResult = validateJson('editCustomer', customerObj);
     if(!schemaResult.result){

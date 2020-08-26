@@ -2122,412 +2122,111 @@ a {
 }
 
 .back-user{
-  background-image: url("/images/plant1.png");
-  background-repeat: no-repeat;
-  background-position: right top;
-  background-size: contain;
   font-family: 'helveticaneuemedium';
-  font-size: 16px;
+  font-size: 15px;
+  margin-bottom: 50px;
 }
-.back-user .bg-light1 {
-  background-color: #f5f7fa;
+.accountside .account-right .helloaccount{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px 2px rgb(200,200,200);
+  padding: 10px;
 }
-.breadcrumb-item {
-  font-size: 1.2rem;
+.helloaccount .profileimg {
+  width: 50px;
+  height: 50px;
+  margin-left: 12px;
+  align-items: center;
+  display: flex;
 }
-
-@media screen and (max-width: 1070px) {
-  .grocery-background {
-    display: none;
-  }
+.helloaccount .profiledet {
+  margin-left: 18px;
 }
-
-  .account-part a {
-    text-transform: capitalize;
-    font-size: 17px;
-    padding: 25px 25px;
-    display: inline-block;
-    width: 90%;
-    border-radius: 4px;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 30px;
-    transition: all .3s ease-in-out;
-    color: #222;
+.text-green {
+  color: #3fbe02;
+}
+.helloaccount .profileimg img{
+  max-width: 100%;
+  position: relative;
+  border-radius: 5px;
+}
+.accountside .account-right .account-part {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  margin-top: 20px;
+  box-shadow: 2px 2px 2px 4px rgb(200,200,200);
+  padding: 5px 8px;
+}
+.accountside .account-right .account-part hr{
+  margin: 0px;
+  border-top-color: #c0c0c0;
+}
+.accountside .account-right .account-part .acc-box {
+  margin: 20px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.accountside .account-right .account-part .acc-box .follow {
+  font-size: 17px;
+}
+.accountside .account-right .account-part .acc-box a{
+  font-size: 20px;
+  color: #666;
+  display: flex;
+}
+.accountside .account-right .account-part .acc-box span{
+  margin: 0px 7px;
+}
+.accountside .account-right .account-part .acc-box h5 {
+  font-size: 14px;
+  font-family: 'Source Sans Pro';
+}
+.accountside .account-right .account-part .acc-box span i{
+  color: #3fbe02;
+  font-size: 25px;
+}
+.pagewrap .profhead {
+  border-bottom: 1px solid rgb(206, 206, 206);
+  padding: 10px 0px;
+  margin-bottom: 10px;
+}
+.padding-3 {
+  padding-left: 3rem !important;
+  padding-right: 3rem !important;
+}
+.list-product {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.list-product div{
+  margin: 5px;
+}
+.list-product img {
+  max-height: 90px;
+}
+@media screen and (max-width: 900px)
+{
+  .padding-3{
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
   }
-
-  .account-part a:hover {
-    color: #51aa1b;
-  }
-
-  .account-part a img {
-    max-width: 50px;
-  }
-
-  .account-part a span {
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-  .account-part a span:last-child {
-    margin-left: 23px;
-    padding-left: 23px;
-    border-left: 1px solid #ddd;
-  }
-
-  .account-part a img {
-    max-width: 50px;
-  }
-
-  .account-part a h5 {
-    font-size: 13px;
-    color: #bcbcbc;
-  }
-
-  #account .breadcrumb {
-    background-color: #F6F9FC;
-    width: 580px;
-    min-width: 388px;
-    margin-bottom: 15px;
-    padding: 10px 20px;
-  }
-
-  .row .acc-box {
-    min-width: 600px;
-    height: 120px;
-  }
-
-  @media screen and (max-width: 1281px) {
-    .row .acc-box {
-      min-width: 500px;
-      height: 115px;
-    }
-
-    .account-part a {
-      font-size: 14px;
-      padding: 20px 25px;
-    }
-
-    .account-part a h5 {
-      font-size: 11px;
-    }
-
-    #account .breadcrumb {
-      width: 480px;
-    }
-  }
-
-  @media screen and (max-width: 650px) {
-    .row .acc-box {
-      width: 400px;
-      min-width: 400px;
-    }
-
-    .account-part a {
-      font-size: 13px;
-      padding: 15px 25px;
-    }
-
-    .account-part a img {
-      max-width: 40px;
-    }
-
-    #account .breadcrumb {
-      width: 375px;
-      min-width: 375px;
-    }
-
-    .breadcrumb-item {
-      font-size: 0.8rem;
-    }
-  }
-
-  @media screen and (min-width: 501px) {
-    #account {
-      margin-left: 8.33%;
-    }
-  }
-
-
-  @media screen and (max-width: 500px) {
-    .row .acc-box {
-      width: 370px;
-      min-width: 370px;
-      margin: 0 auto;
-      height: 110px;
-    }
-
-    #account .breadcrumb {
-      width: 350px;
-      min-width: 350px;
-      margin: 0 auto 15px auto;
-    }
-  }
-
-  @media screen and (max-width: 400px) {
-    .row .acc-box {
-      width: 350px;
-      min-width: 350px;
-      height: 100px;
-    }
-
-    .breadcrumb {
-      width: 330px;
-      min-width: 330px;
-    }
-
-    .breadcrumb-item {
-      font-size: 0.8rem;
-    }
-  }
-
-  #addressForm, #orderForm, #passwordForm, #newsletterForm, #detailsForm { 
-    display: none;
-    padding: 2em;
-    /* width: 400px; */
+  
+}
+@media screen and (max-width: 575px) {
+  .pagewrap .profhead {
     text-align: center;
-    position: fixed;
-    top:60%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    -webkit-transform: translate(-50%,-50%)
   }
-  
-  #orderForm {
-    max-width: 600px;
-    z-index: 10000;
+  .padding-3{
+    padding-left: 0rem !important;
+    padding-right: 0rem !important;
   }
-
-  .orderScroll {
-    overflow-y: scroll;
-    height: 370px;
-    margin-bottom: 15px;
-  }
-
-  .pagewrap {
-    max-width: 100%;
-    height: 45vh;
-    /* min-height: 510px; */
-    margin: 0 auto;
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
-  }
-  
-  .formAddress {
-    height: 580px;
-  }
-  
-  .form {
-    width: 380px;
-    height: 100%;
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    flex-flow: column wrap;
-    background-color: white;
-    border-radius: 5px;
-  }
-  
-  @media (min-width: 600px) {
-    .form {
-      max-width: 560px;
-    }
-  }
-  
-  /* @media (min-width: 980px) and (max-width: 1400px) {
-    .form {
-      width: 35%;
-    }
-  } */
-  .form__title {
-    margin-bottom: 1em;
-    position: relative;
-    z-index: 2;
-    background: transparent;
-    text-transform: uppercase;
-  }
-  
-  .formAccount .container {
-    position: relative;
-    width: 90%;
-    height: 45px;
-    margin-top: 15px;
-    margin-bottom: 20px;
-  }
-  
-  .formAccount .doubleHeight {
-    height: 90px;
-  }
-  
-  
-  .container__input:focus+label,
-  .container__input:valid+label {
-    top: -8px;
-    left: 3px;
-    width: max-content;
-    height: 10%;
-    padding: .80em 1.5em;
-  }
-  
-  .container__label {
-    position: absolute;
-    top: -8px;
-    left: 3px;
-    width: 30%;
-    height: 10%;
-    max-height: 100%;
-    padding: .80em 3.5em;
-    background-color: #fbb710;
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
-    color: #fff;
-    text-transform: uppercase;
-    font-size: .80rem;
-    -webkit-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-  }
-  
-  @media (min-width: 500px) {
-    .container__label {
-      top: 3px;
-      left: 3px;
-      height: 86%;
-      padding: 0;
-    }
-  }
-  
-  @media screen and (max-width: 1370px) {
-    .form {
-      width: 560px;
-    }
-  
-    .pagewrap {
-      height: 385px;
-    }
-  
-    .formAddress {
-      height: 600px;
-    }
-  
-    .formAccount .doubleHeight {
-      height: 85px;
-    }
-  
-    .form__submit {
-      padding: 0.8em;
-      font-size: 0.9rem;
-    }
-  }
-  
-  @media screen and (max-width: 799px) {
-    .form {
-      width: 320px;
-    }
-  
-    .pagewrap {
-      height: 385px;
-    }
-  
-    .formAddress {
-      height: 560px;
-    }
-  
-    .formAccount .doubleHeight {
-      height: 80px;
-    }
-  
-    .form__submit {
-      padding: 0.7em;
-      font-size: 0.8rem;
-    }
-  }
-  
-  @media screen and (max-width: 500px) {
-    .breadcrumb-item {
-      font-size: 0.8rem;
-    }
-  
-    .form {
-      width: 300px;
-    }
-  
-    .pagewrap {
-      height: 360px;
-    }
-  
-    .formAddress {
-      height: 530px;
-    }
-  
-    .formAccount .doubleHeight {
-      height: 70px;
-    }
-  
-    .formAccount .container {
-      height: 40px;
-    }
-  
-    .form__submit {
-      padding: 0.6em;
-      font-size: 0.7rem;
-    }
-  }
-  
-  @media screen and (max-width: 576px) {
-    .accountInput .radio-inline {
-      margin-right: 14%;
-    }
-  }
-  
-  .newsContainer {
-    height: 200px;
-  }
-  
-  c
-  
-  .newsContainer .close-button {
-    top: 10%;
-  }
-  
-  .close-button {
-    transition: all 0.5s ease;
-    position: absolute;
-    background-color: #FF9980;
-    padding: 1.5px 7px;
-    left: 88%;
-    top: 5%;
-    margin-left: -10px;
-    margin-top: -9px;
-    border-radius: 50%;
-    border: 2px solid #fff;
-    color: white;
-    -webkit-box-shadow: -4px -2px 6px 0px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: -4px -2px 6px 0px rgba(0, 0, 0, 0.1);
-    box-shadow: -3px 1px 6px 0px rgba(0, 0, 0, 0.1);
-  }
-  
-  .close-button:hover {
-    background-color: tomato;
-    color: #fff;
-  }
-  
-  .blur {
-    filter: blur(5px);
-    transition: all 0.3s ease;
-  }
-
+}
 /* Product Description */
 
 .single-product-area {

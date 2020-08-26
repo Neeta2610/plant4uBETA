@@ -28,6 +28,9 @@
         "password": {
             "type": "string",
             "isNotEmpty": true
+        },
+        "newsletter": {
+            "type": "boolean"
         }
     },
     "required": [
