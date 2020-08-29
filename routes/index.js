@@ -2105,25 +2105,15 @@ router.get('/page/:pageNum', async (req, res, next) => {
     const config = req.app.config;
     const numberProducts = config.productsPerPage ? config.productsPerPage : 8;
     var resultproduct = [];
-    var topProducts = await db.orders.aggregate([
-        { $project: { _id: 0 } },
-        { $project: { o: { $objectToArray: '$orderProducts' } } },
-        { $unwind: '$o' },
-        { $group: {
-            _id: '$o.v'
-        } },
-        { $sort: { count: -1 } },
-        { $limit: 8 }
-    ]).toArray();
     var packplants = await db.products.aggregate([
         { $match: {isPack: true}},
         { $limit: 8}
     ]).toArray();
     var temptopProducts = [];
-    topProducts.forEach(element => {
-        temptopProducts.push(element._id.productId);
-    }); 
-    topProducts = await db.products.find({_id: { $in: temptopProducts},isPack:false}).toArray();
+    productsIndex.search("BestBuy").forEach((id) => {
+        temptopProducts.push(getId(id.ref));
+    });
+    var topProducts = await db.products.find({_id: { $in: temptopProducts},isPack:false}).toArray();
     var lunrIdArray = [];
     var productsIndex = req.app.productsIndex;
     var searchTerm = "plant4uspecial";
@@ -2179,25 +2169,15 @@ router.get('/:page?', async (req, res, next) => {
     const db = req.app.db;
     const config = req.app.config;
     const numberProducts = config.productsPerPage ? config.productsPerPage : 8;
-    var topProducts = await db.orders.aggregate([
-        { $project: { _id: 0 } },
-        { $project: { o: { $objectToArray: '$orderProducts' } } },
-        { $unwind: '$o' },
-        { $group: {
-                _id: '$o.v'
-        } },
-        { $sort: { count: -1 } },
-        { $limit: 8 }
-    ]).toArray();
     var packplants = await db.products.aggregate([
         { $match: {isPack: true}},
         { $limit: 8}
     ]).toArray();
     var temptopProducts = [];
-    topProducts.forEach(element => {
-        temptopProducts.push(element._id.productId);
-    }); 
-    topProducts = await db.products.find({_id: { $in: temptopProducts},isPack: false}).toArray();
+    productsIndex.search("BestBuy").forEach((id) => {
+        temptopProducts.push(getId(id.ref));
+    });
+    var topProducts = await db.products.find({_id: { $in: temptopProducts},isPack: false}).toArray();
     var lunrIdArray = [];
     var resultproduct = [];
     var productsIndex = req.app.productsIndex;
