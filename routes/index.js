@@ -2104,6 +2104,7 @@ router.get('/page/:pageNum', async (req, res, next) => {
     const db = req.app.db;
     const config = req.app.config;
     const numberProducts = config.productsPerPage ? config.productsPerPage : 8;
+    var resultproduct = [];
     var topProducts = await db.orders.aggregate([
         { $project: { _id: 0 } },
         { $project: { o: { $objectToArray: '$orderProducts' } } },
@@ -2133,8 +2134,12 @@ router.get('/page/:pageNum', async (req, res, next) => {
         { $match: {_id: { $in: lunrIdArray },isPack: false}},
         { $limit: 8}
     ]).toArray();
+    var mainproductterm = "NewArrival";
+    productsIndex.search(mainproductterm).forEach((id) => {
+        resultproduct.push(getId(id.ref));
+    });
     Promise.all([
-        paginateProducts(true, db, req.params.pageNum, {isPack: false}, getSort()),
+        paginateProducts(true, db, req.params.pageNum, {_id: { $in: resultproduct },isPack: false}, getSort()),
         getMenu(db)
     ])
         .then(([results, menu]) => {
@@ -2194,6 +2199,7 @@ router.get('/:page?', async (req, res, next) => {
     }); 
     topProducts = await db.products.find({_id: { $in: temptopProducts},isPack: false}).toArray();
     var lunrIdArray = [];
+    var resultproduct = [];
     var productsIndex = req.app.productsIndex;
     var searchTerm = "plant4uspecial";
     productsIndex.search(searchTerm).forEach((id) => {
@@ -2203,11 +2209,14 @@ router.get('/:page?', async (req, res, next) => {
         {$match: {_id: { $in: lunrIdArray },isPack: false}},
         { $limit: 8}
     ]).toArray();
-
+    var mainproductterm = "NewArrival";
+    productsIndex.search(mainproductterm).forEach((id) => {
+        resultproduct.push(getId(id.ref));
+    });
     // if no page is specified, just render page 1 of the cart
     if(!req.params.page){
         Promise.all([
-            paginateProducts(true, db, 1, {isPack: false}, getSort()),
+            paginateProducts(true, db, 1, {_id: { $in: resultproduct },isPack: false}, getSort()),
             getMenu(db)
         ])
             .then(async([results, menu]) => {
