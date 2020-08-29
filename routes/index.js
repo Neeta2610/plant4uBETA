@@ -2104,6 +2104,7 @@ router.get('/page/:pageNum', async (req, res, next) => {
     const db = req.app.db;
     const config = req.app.config;
     const numberProducts = config.productsPerPage ? config.productsPerPage : 8;
+    var productsIndex = req.app.productsIndex;
     var resultproduct = [];
     var packplants = await db.products.aggregate([
         { $match: {isPack: true}},
@@ -2115,7 +2116,6 @@ router.get('/page/:pageNum', async (req, res, next) => {
     });
     var topProducts = await db.products.find({_id: { $in: temptopProducts},isPack:false}).toArray();
     var lunrIdArray = [];
-    var productsIndex = req.app.productsIndex;
     var searchTerm = "plant4uspecial";
     productsIndex.search(searchTerm).forEach((id) => {
         lunrIdArray.push(getId(id.ref));
@@ -2168,6 +2168,7 @@ router.get('/page/:pageNum', async (req, res, next) => {
 router.get('/:page?', async (req, res, next) => {
     const db = req.app.db;
     const config = req.app.config;
+    var productsIndex = req.app.productsIndex;
     const numberProducts = config.productsPerPage ? config.productsPerPage : 8;
     var packplants = await db.products.aggregate([
         { $match: {isPack: true}},
@@ -2180,7 +2181,6 @@ router.get('/:page?', async (req, res, next) => {
     var topProducts = await db.products.find({_id: { $in: temptopProducts},isPack: false}).toArray();
     var lunrIdArray = [];
     var resultproduct = [];
-    var productsIndex = req.app.productsIndex;
     var searchTerm = "plant4uspecial";
     productsIndex.search(searchTerm).forEach((id) => {
         lunrIdArray.push(getId(id.ref));
