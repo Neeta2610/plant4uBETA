@@ -2116,7 +2116,7 @@ router.get('/page/:pageNum', async (req, res, next) => {
     });
     var topProducts = await db.products.find({_id: { $in: temptopProducts},isPack:false}).toArray();
     var lunrIdArray = [];
-    var searchTerm = "plant4uspecial";
+    var searchTerm = "Arotic";
     productsIndex.search(searchTerm).forEach((id) => {
         lunrIdArray.push(getId(id.ref));
     });
@@ -2163,7 +2163,21 @@ router.get('/page/:pageNum', async (req, res, next) => {
             console.error(colors.red('Error getting products for page', err));
         });
 });
+router.get('/plant4uspecial',async (req,res,next)=>{
+    const config = req.app.config;
+    const db = req.app.db;
 
+    res.render(`${config.themeViews}plant4uspecial`,{
+        title: "Special Category",
+        session: req.session,
+        categories: req.app.categories,
+        message: clearSessionValue(req.session, 'message'),
+        messageType: clearSessionValue(req.session, 'messageType'),
+        config: req.app.config,
+        helpers: req.handlebars.helpers,
+        showFooter: 'showFooter',
+    });
+});
 // The main entry point of the shop
 router.get('/:page?', async (req, res, next) => {
     const db = req.app.db;
@@ -2181,7 +2195,7 @@ router.get('/:page?', async (req, res, next) => {
     var topProducts = await db.products.find({_id: { $in: temptopProducts},isPack: false}).toArray();
     var lunrIdArray = [];
     var resultproduct = [];
-    var searchTerm = "plant4uspecial";
+    var searchTerm = "Arotic";
     productsIndex.search(searchTerm).forEach((id) => {
         lunrIdArray.push(getId(id.ref));
     });
