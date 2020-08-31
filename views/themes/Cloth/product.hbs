@@ -35,6 +35,20 @@
                                         </a>
                                     </div>
                                     {{/if}}
+                                    {{#if result.productImage.[4]}}
+                                    <div class="carousel-item">
+                                        <a class="gallery_img" href="{{result.productImage.[4].path}}">
+                                            <img class="d-block w-100" src="{{result.productImage.[4].path}}" alt="First slide">
+                                        </a>
+                                    </div>
+                                    {{/if}}
+                                    {{#if result.productImage.[5]}}
+                                    <div class="carousel-item">
+                                        <a class="gallery_img" href="{{result.productImage.[5].path}}">
+                                            <img class="d-block w-100" src="{{result.productImage.[5].path}}" alt="First slide">
+                                        </a>
+                                    </div>
+                                    {{/if}}
                                     {{else}}
                                     <div class="carousel-item active">
                                         <a class="gallery_img" href="/images/p1.jpeg">
