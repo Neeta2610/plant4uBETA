@@ -2285,6 +2285,7 @@ a {
     margin-bottom: 100px; }
     .single-product-area .single_product_thumb .carousel-indicators {
       margin: 0 7.5px; 
+      max-height: 510px;
     flex-direction: column;
   position: relative;
 justify-content: start;}
