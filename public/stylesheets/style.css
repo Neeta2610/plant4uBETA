@@ -541,8 +541,12 @@ input:focus {
   opacity: 0.7 !important;
 }
 .prefooter {
-  width: 90%;
+  width: 95%;
   margin: 20px auto;
+  padding: 20px;
+  background-color: rgb(250, 250, 250);
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 5px;
 }
 /* .navbar-default {
   background-color: #ffffff;
@@ -986,8 +990,20 @@ padding-bottom: 30px;}
   }
 }
 /* Plant4u Special */
-
-
+.specialcontplant {
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+}
+.width-40 {
+  width: 45%;
+}
+.width-60 {
+  width: 55%;
+}
+.pad-5 {
+  padding: 5px;
+}
 /* categories */
 .Categories {
   width: 92%;
