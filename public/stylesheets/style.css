@@ -540,7 +540,10 @@ input:focus {
   cursor: pointer;
   opacity: 0.7 !important;
 }
-
+.prefooter {
+  width: 90%;
+  margin: 20px auto;
+}
 /* .navbar-default {
   background-color: #ffffff;
 }
