@@ -281,6 +281,52 @@ router.get('/payment/:orderId', async (req, res, next) => {
     if(config.orderHook){
         await hooker(order);
     };
+    var productlist = ``;
+    for(let a in order.orderProducts){
+    productlist += `<tr style="border-collapse:collapse"> 
+    <td align="left" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px;background-position:center top"> 
+     <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:154px" valign="top"><![endif]--> 
+     <table cellpadding="0" cellspacing="0" class="es-left" align="left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left"> 
+      <tbody>
+       <tr style="border-collapse:collapse"> 
+        <td class="es-m-p20b" align="left" style="padding:0;Margin:0;width:154px"> 
+         <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-position:left top"> 
+          <tbody>
+           <tr style="border-collapse:collapse"> 
+            <td align="center" style="padding:0;Margin:0;font-size:0"><a target="_blank" href="`+order.orderProducts[a].productImage[0]+`" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#659C35"><img class="adapt-img" src="`+order.orderProducts[a].productImage[0]+`" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="154"></a></td> 
+           </tr> 
+          </tbody>
+         </table></td> 
+       </tr> 
+      </tbody>
+     </table> 
+     <!--[if mso]></td><td style="width:20px"></td><td style="width:386px" valign="top"><![endif]--> 
+     <table cellpadding="0" cellspacing="0" class="es-right" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right"> 
+      <tbody>
+       <tr style="border-collapse:collapse"> 
+        <td align="left" style="padding:0;Margin:0;width:386px"> 
+         <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+          <tbody>
+           <tr style="border-collapse:collapse"> 
+            <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong>Sports Menu</strong></h3></td> 
+           </tr> 
+           <tr style="border-collapse:collapse"> 
+            <td align="left" style="padding:0;Margin:0;padding-top:5px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">For those with active life style</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">and intensive gym trainings</p></td> 
+           </tr> 
+           <tr style="border-collapse:collapse"> 
+            <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong><span style="color:#000000">Qty:</span>&nbsp;1</strong></h3></td> 
+           </tr> 
+           <tr style="border-collapse:collapse"> 
+            <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong><span style="color:#000000">Price:</span>&nbsp;$12.00</strong></h3></td> 
+           </tr> 
+          </tbody>
+         </table></td> 
+       </tr> 
+      </tbody>
+     </table> 
+     <!--[if mso]></td></tr></table><![endif]--></td> 
+   </tr>`;
+}
     let paymentView = `${config.themeViews}payment-complete`;
     if(order.orderPaymentGateway === 'Blockonomics') paymentView = `${config.themeViews}payment-complete-blockonomics`;
 
@@ -603,92 +649,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
               <td align="center" style="padding:0;Margin:0"> 
                <table bgcolor="#ffffff" class="es-content-body" align="center" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px"> 
                 <tbody>
-                 <tr style="border-collapse:collapse"> 
-                  <td align="left" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px;background-position:center top"> 
-                   <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:154px" valign="top"><![endif]--> 
-                   <table cellpadding="0" cellspacing="0" class="es-left" align="left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left"> 
-                    <tbody>
-                     <tr style="border-collapse:collapse"> 
-                      <td class="es-m-p20b" align="left" style="padding:0;Margin:0;width:154px"> 
-                       <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-position:left top"> 
-                        <tbody>
-                         <tr style="border-collapse:collapse"> 
-                          <td align="center" style="padding:0;Margin:0;font-size:0"><a target="_blank" href="https://viewstripo.email/" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#659C35"><img class="adapt-img" src="https://uxyja.stripocdn.email/content/guids/CABINET_dd455c10d72807d01fd51bb3bfe702d1/images/17351558530118413.jpg" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="154"></a></td> 
-                         </tr> 
-                        </tbody>
-                       </table></td> 
-                     </tr> 
-                    </tbody>
-                   </table> 
-                   <!--[if mso]></td><td style="width:20px"></td><td style="width:386px" valign="top"><![endif]--> 
-                   <table cellpadding="0" cellspacing="0" class="es-right" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right"> 
-                    <tbody>
-                     <tr style="border-collapse:collapse"> 
-                      <td align="left" style="padding:0;Margin:0;width:386px"> 
-                       <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-                        <tbody>
-                         <tr style="border-collapse:collapse"> 
-                          <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong>Sports Menu</strong></h3></td> 
-                         </tr> 
-                         <tr style="border-collapse:collapse"> 
-                          <td align="left" style="padding:0;Margin:0;padding-top:5px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">For those with active life style</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">and intensive gym trainings</p></td> 
-                         </tr> 
-                         <tr style="border-collapse:collapse"> 
-                          <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong><span style="color:#000000">Qty:</span>&nbsp;1</strong></h3></td> 
-                         </tr> 
-                         <tr style="border-collapse:collapse"> 
-                          <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong><span style="color:#000000">Price:</span>&nbsp;$12.00</strong></h3></td> 
-                         </tr> 
-                        </tbody>
-                       </table></td> 
-                     </tr> 
-                    </tbody>
-                   </table> 
-                   <!--[if mso]></td></tr></table><![endif]--></td> 
-                 </tr> 
-                 <tr style="border-collapse:collapse"> 
-                  <td align="left" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px;background-position:center top"> 
-                   <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:154px" valign="top"><![endif]--> 
-                   <table cellpadding="0" cellspacing="0" class="es-left" align="left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left"> 
-                    <tbody>
-                     <tr style="border-collapse:collapse"> 
-                      <td class="es-m-p20b" align="left" style="padding:0;Margin:0;width:154px"> 
-                       <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-position:left top"> 
-                        <tbody>
-                         <tr style="border-collapse:collapse"> 
-                          <td align="center" style="padding:0;Margin:0;font-size:0"><a target="_blank" href="https://viewstripo.email/" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#659C35"><img class="adapt-img" src="https://uxyja.stripocdn.email/content/guids/CABINET_dd455c10d72807d01fd51bb3bfe702d1/images/56911558530799759.jpg" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="154"></a></td> 
-                         </tr> 
-                        </tbody>
-                       </table></td> 
-                     </tr> 
-                    </tbody>
-                   </table> 
-                   <!--[if mso]></td><td style="width:20px"></td><td style="width:386px" valign="top"><![endif]--> 
-                   <table cellpadding="0" cellspacing="0" class="es-right" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right"> 
-                    <tbody>
-                     <tr style="border-collapse:collapse"> 
-                      <td align="left" style="padding:0;Margin:0;width:386px"> 
-                       <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-                        <tbody>
-                         <tr style="border-collapse:collapse"> 
-                          <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong>Smart Lunch</strong></h3></td> 
-                         </tr> 
-                         <tr style="border-collapse:collapse"> 
-                          <td align="left" style="padding:0;Margin:0;padding-top:5px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">Healthy food in your office</p></td> 
-                         </tr> 
-                         <tr style="border-collapse:collapse"> 
-                          <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong><span style="color:#000000">Qty:</span>&nbsp;1</strong></h3></td> 
-                         </tr> 
-                         <tr style="border-collapse:collapse"> 
-                          <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong><span style="color:#000000">Price:</span>&nbsp;$10.00</strong></h3></td> 
-                         </tr> 
-                        </tbody>
-                       </table></td> 
-                     </tr> 
-                    </tbody>
-                   </table> 
-                   <!--[if mso]></td></tr></table><![endif]--></td> 
-                 </tr> 
+                `+productlist+`
                 </tbody>
                </table></td> 
              </tr> 
