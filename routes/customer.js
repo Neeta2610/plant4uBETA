@@ -805,6 +805,21 @@ router.get('/customer/privacy', (req, res) => {
       showFooter: 'showFooter'
     });
 });
+router.get('/customer/faq', (req, res) => {
+    const config = req.app.config;
+
+    res.render(`${config.themeViews}faq`, {
+      title: 'FAQ Question',
+      page: req.query.path,
+      config,
+      session: req.session,
+      categories: req.app.categories,
+      message: clearSessionValue(req.session, 'message'),
+      messageType: clearSessionValue(req.session, 'messageType'),
+      helpers: req.handlebars.helpers,
+      showFooter: 'showFooter'
+    });
+});
 
 router.get('/customer/delivery', (req, res) => {
     const config = req.app.config;

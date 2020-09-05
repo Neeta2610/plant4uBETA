@@ -3687,12 +3687,12 @@ a.btn1-goback:hover {
 .privacy-header h2 span {
   font-weight: bold;
   padding: 10px 0;
-  border: 3px solid #F6F9FC;
+  border: 3px solid black; 
   border-width: 3px 0 3px 0;
   font-family: 'Roboto';
 }
 .privacy-header h2 span:hover {
-  border: 3px solid black; 
+  border: 3px solid #F6F9FC;
   border-width: 3px 0 3px 0;
   transition: 0.5s ease-in-out;
 }
@@ -3703,33 +3703,64 @@ a.btn1-goback:hover {
 }
 .privacy-content {
   padding: 12px 24px;
-}
-.privacy-content .privacy-item h3 {
-  overflow: hidden;
-}
-.privacy-content .privacy-item h3 span {
-  font-family: 'Roboto';
-  color: #28a745;
-  position: relative;
-}
-.privacy-content .privacy-item h3 span::before {
-  content: "";
-	position: absolute;
-	left: -100%;
-	bottom: 0%;
-	transition: 0.5s ease-in-out;
-	background: #28a745;
-	height: 3px;
-	width: 100%;
-}
-.privacy-content .privacy-item h3 span:hover::before
-{
-  left: 0%;
-}
-.privacy-content .privacy-item p {
-  padding: 12px 24px;
+  margin: 15px 0px;
 }
 
+.privacy-content p {
+  position: relative;
+}
+.privacy-content p strong {
+  padding: 40px 0px;
+  font-family: 'Roboto';
+}
+@media screen and (max-width: 668px) {
+  .privacy-container {
+    width: 95%;
+  }
+}
+
+/* FAQ Question page */
+.faq-container {
+  width: 70%;
+  margin: 40px auto;
+}
+.faq-header h2 {
+  text-align: center;
+}
+.faq-header h2 span {
+  font-weight: bold;
+  padding: 10px 0;
+  border: 3px solid black; 
+  border-width: 3px 0 3px 0;
+  font-family: 'Roboto';
+}
+.faq-header h2 span:hover {
+  border: 3px solid #F6F9FC;
+  border-width: 3px 0 3px 0;
+  transition: 0.5s ease-in-out;
+}
+.faq-header p {
+  line-height: 1.5rem;
+  margin: 25px 0px;
+  font-size: 17px;
+}
+.faq-content {
+  padding: 12px 24px;
+  margin: 15px 0px;
+}
+
+.faq-content p {
+  position: relative;
+}
+.faq-content p strong {
+  padding: 40px 0px;
+  font-family: 'Roboto';
+}
+@media screen and (max-width: 668px) {
+  .faq-container {
+    width: 95%;
+  }
+}
 /* Delivery Page */
 .delivery-container {
   width: 70%;
@@ -3742,12 +3773,12 @@ a.btn1-goback:hover {
 .delivery-header h2 span {
   font-weight: bold;
   font-family: 'Roboto';
-  padding: 10px 0;
-  border: 3px solid #F6F9FC;
+  padding: 10px 0px;
+  border: 3px solid black; 
   border-width: 3px 0 3px 0;
 }
 .delivery-header h2 span:hover {
-  border: 3px solid black; 
+  border: 3px solid #F6F9FC;
   border-width: 3px 0 3px 0;
   transition: 0.5s ease-in-out;
 }
@@ -3761,20 +3792,18 @@ a.btn1-goback:hover {
   margin: 40px 16px;
 }
 .delivery-content p {
-  margin-top: 24px;
-  text-align: center;
-}
-.delivery-list {
-  line-height: 1.6rem;
-}
-.delivery-list ul li {
-  margin-top: 20px;
-}
-.delivery-list ul li span {
-  font-weight: bold;
-  color: #28a745;
+  margin: 7px 0px;
 }
 
+@media screen and (max-width: 680px) {
+  .delivery-container {
+    width: 90%;
+  }
+  .delivery-header h2 span {
+    border: 3px solid #F6F9FC;
+    padding: 0px;
+  }
+}
 /* Terms page */
 .terms-container {
   width: 70%;
@@ -3786,12 +3815,12 @@ a.btn1-goback:hover {
 .terms-header h2 span {
   font-weight: bold;
   font-family: 'Roboto';
-  padding: 10px 0;
-  border: 3px solid #F6F9FC;
+  padding: 10px 0px;
+  border: 3px solid black; 
   border-width: 3px 0 3px 0;
 }
 .terms-header h2 span:hover {
-  border: 3px solid black; 
+  border: 3px solid #F6F9FC;
   border-width: 3px 0 3px 0;
   transition: 0.5s ease-in-out;
 }
@@ -3805,32 +3834,35 @@ a.btn1-goback:hover {
 .terms-top p {
   line-height: 1.8rem;
 }
-.terms-content ol {
-  padding: 0;
+.terms-content ul, .terms-content ol {
+  padding-left: 20px;
+  margin: 8px 0;
+  margin-left: 10px;
+  list-style: lower-roman;
+}
+.terms-content ul li {
+  font-family: 'Roboto';
+  list-style: lower-roman;
 }
 .terms-content ol li {
-  margin: 32px 0;
-}
-.terms-content ol li .terms-content-title {
-  text-transform: uppercase;
   font-family: 'Roboto';
-  font-size: 1.25rem;
-  margin-bottom: 8px;
-  font-weight: bold;
-  color: #28a745;
-  display: inline-block;
 }
 .terms-content ol li .terms-content-title:hover {
   text-decoration: underline;
 }
-.terms-content-desc ul {
-  list-style-type: disc;
-  margin: 12px 0;
-}
-.terms-content-desc ul li {
-  margin: 0;
+.terms-content p strong {
+  padding: 10px 0px;
 }
 
+@media screen and (max-width: 680px) {
+  .terms-container {
+    width: 90%;
+  }
+  .terms-header h2 span {
+    padding: 0px;
+    border: 3px solid #F6F9FC;
+  }
+}
 
 
 
