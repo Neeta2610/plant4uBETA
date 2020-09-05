@@ -281,6 +281,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
     if(config.orderHook){
         await hooker(order);
     };
+    
     var productlist = ``;
     for(let a in order.orderProducts){
     productlist += `<tr style="border-collapse:collapse"> 
@@ -293,7 +294,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
          <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-position:left top"> 
           <tbody>
            <tr style="border-collapse:collapse"> 
-            <td align="center" style="padding:0;Margin:0;font-size:0"><a target="_blank" href="`+order.orderProducts[a].productImage[0]+`" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#659C35"><img class="adapt-img" src="`+order.orderProducts[a].productImage[0]+`" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="154"></a></td> 
+            <td align="center" style="padding:0;Margin:0;font-size:0"><a target="_blank" href="`+order.orderProducts[a].productImage[0].path+`" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#659C35"><img class="adapt-img" src="`+order.orderProducts[a].productImage[0].path+`" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="154"></a></td> 
            </tr> 
           </tbody>
          </table></td> 
@@ -540,7 +541,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
                        <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
                         <tbody>
                          <tr style="border-collapse:collapse"> 
-                          <td align="center" style="padding:0;Margin:0;position:relative"><a target="_blank" href="https://viewstripo.email" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#659C35"><img class="adapt-img" src="https://tlr.stripocdn.email/content/guids/bannerImgGuid/images/91191577364120504.png" alt title width="600" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a></td> 
+                          <td align="center" style="padding:0;Margin:0;position:relative"><a target="_blank" href="https://viewstripo.email" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#659C35"><img class="adapt-img" src="" alt title width="600" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a></td> 
                          </tr> 
                         </tbody>
                        </table></td> 
