@@ -283,6 +283,9 @@ router.get('/payment/:orderId', async (req, res, next) => {
     };
     
     var productlist = ``;
+  
+    console.log(order);
+
     for(let a in order.orderProducts){
     productlist += `<tr style="border-collapse:collapse"> 
     <td align="left" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px;background-position:center top"> 
@@ -309,16 +312,16 @@ router.get('/payment/:orderId', async (req, res, next) => {
          <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
           <tbody>
            <tr style="border-collapse:collapse"> 
-            <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong>Sports Menu</strong></h3></td> 
+            <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong>`+order.orderProducts[a].title+`</strong></h3></td> 
            </tr> 
            <tr style="border-collapse:collapse"> 
-            <td align="left" style="padding:0;Margin:0;padding-top:5px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">For those with active life style</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">and intensive gym trainings</p></td> 
+            <td align="left" style="padding:0;Margin:0;padding-top:5px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">Love from </p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333"><strong>plant4u</strong></p></td> 
            </tr> 
            <tr style="border-collapse:collapse"> 
-            <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong><span style="color:#000000">Qty:</span>&nbsp;1</strong></h3></td> 
+            <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong><span style="color:#000000">Qty:</span>`+order.orderProducts[a].quantity+`;</strong></h3></td> 
            </tr> 
            <tr style="border-collapse:collapse"> 
-            <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong><span style="color:#000000">Price:</span>&nbsp;$12.00</strong></h3></td> 
+            <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong><span style="color:#000000">Price:</span>&nbsp;`+order.orderProducts[a].totalItemPrice+`</strong></h3></td> 
            </tr> 
           </tbody>
          </table></td> 
@@ -507,8 +510,8 @@ router.get('/payment/:orderId', async (req, res, next) => {
                            <table class="es-menu" width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
                             <tbody>
                              <tr class="links" style="border-collapse:collapse"> 
-                              <td style="Margin:0;padding-left:5px;padding-right:5px;padding-top:10px;padding-bottom:10px;border:0" width="33.33%" valign="top" bgcolor="transparent" align="center"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:16px;text-decoration:none;display:block;color:#659C35" href="https://viewstripo.email/">Menus</a></td> 
-                              <td style="Margin:0;padding-left:5px;padding-right:5px;padding-top:10px;padding-bottom:10px;border:0" width="33.33%" valign="top" bgcolor="transparent" align="center"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:16px;text-decoration:none;display:block;color:#659C35" href="https://viewstripo.email/">Delivery</a></td> 
+                              <td style="Margin:0;padding-left:5px;padding-right:5px;padding-top:10px;padding-bottom:10px;border:0" width="33.33%" valign="top" bgcolor="transparent" align="center"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:16px;text-decoration:none;display:block;color:#659C35" href="">Menus</a></td> 
+                              <td style="Margin:0;padding-left:5px;padding-right:5px;padding-top:10px;padding-bottom:10px;border:0" width="33.33%" valign="top" bgcolor="transparent" align="center"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:16px;text-decoration:none;display:block;color:#659C35" href="">Delivery</a></td> 
                               <td style="Margin:0;padding-left:5px;padding-right:5px;padding-top:10px;padding-bottom:10px;border:0" width="33.33%" valign="top" bgcolor="transparent" align="center"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:16px;text-decoration:none;display:block;color:#659C35" href="tel:123456789">123456789</a></td> 
                              </tr> 
                             </tbody>
@@ -572,7 +575,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
                           <td align="center" style="padding:0;Margin:0"><h2 style="Margin:0;line-height:31px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:26px;font-style:normal;font-weight:bold;color:#659C35">Your order is on its way</h2></td> 
                          </tr> 
                          <tr style="border-collapse:collapse"> 
-                          <td align="center" style="padding:0;Margin:0;padding-top:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">Delivery of healthy food is the best solution for business people. Who wants to eat right, look healthy and work productively all day.</p></td> 
+                          <td align="center" style="padding:0;Margin:0;padding-top:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">Delivery of healthy plant is the best solution for business people. Look healthy and work productively all day.</p></td> 
                          </tr> 
                          <tr style="border-collapse:collapse"> 
                           <td align="center" style="Margin:0;padding-left:10px;padding-right:10px;padding-top:20px;padding-bottom:20px"><span class="es-button-border" style="border-style:solid;border-color:#659C35;background:#659C35;border-width:0px;display:inline-block;border-radius:0px;width:auto"><a href="https://viewstripo.email/" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:18px;color:#FFFFFF;border-style:solid;border-color:#659C35;border-width:10px 20px;display:inline-block;background:#659C35;border-radius:0px;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center">View order status</a></span></td> 
@@ -601,15 +604,15 @@ router.get('/payment/:orderId', async (req, res, next) => {
                             <tbody>
                              <tr style="border-collapse:collapse"> 
                               <td style="padding:0;Margin:0;font-size:14px;line-height:21px">Order #:</td> 
-                              <td style="padding:0;Margin:0"><strong><span style="font-size:14px;line-height:21px">9844523</span></strong></td> 
+                              <td style="padding:0;Margin:0"><strong><span style="font-size:14px;line-height:21px">`+order._id+`</span></strong></td> 
                              </tr> 
                              <tr style="border-collapse:collapse"> 
                               <td style="padding:0;Margin:0;font-size:14px;line-height:21px">Order Date:</td> 
-                              <td style="padding:0;Margin:0"><strong><span style="font-size:14px;line-height:21px">May&nbsp;21, 2019</span></strong></td> 
+                              <td style="padding:0;Margin:0"><strong><span style="font-size:14px;line-height:21px">`+order.orderDate+`</span></strong></td> 
                              </tr> 
                              <tr style="border-collapse:collapse"> 
                               <td style="padding:0;Margin:0;font-size:14px;line-height:21px">Order Total:</td> 
-                              <td style="padding:0;Margin:0"><strong><span style="font-size:14px;line-height:21px">$22.00</span></strong></td> 
+                              <td style="padding:0;Margin:0"><strong><span style="font-size:14px;line-height:21px">`+order.orderTotal+`</span></strong></td> 
                              </tr> 
                             </tbody>
                            </table><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333"><br></p></td> 
@@ -630,7 +633,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
                           <td align="left" style="Margin:0;padding-bottom:10px;padding-top:20px;padding-left:20px;padding-right:20px"><h4 style="Margin:0;line-height:120%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#659C35">SHIPPING ADDRESS:</h4></td> 
                          </tr> 
                          <tr style="border-collapse:collapse"> 
-                          <td align="left" style="padding:0;Margin:0;padding-bottom:20px;padding-left:20px;padding-right:20px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">Andry Petrin</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">78 Somewhere St</p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">Somewhere, Canada 99743</p></td> 
+                          <td align="left" style="padding:0;Margin:0;padding-bottom:20px;padding-left:20px;padding-right:20px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">`+order.orderAddr1+`</p></td> 
                          </tr> 
                         </tbody>
                        </table></td> 
@@ -675,20 +678,16 @@ router.get('/payment/:orderId', async (req, res, next) => {
                            <table border="0" cellspacing="1" cellpadding="1" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:500px" class="cke_show_border"> 
                             <tbody>
                              <tr style="border-collapse:collapse"> 
-                              <td style="padding:0;Margin:0"><h4 style="Margin:0;line-height:200%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#333333">Subtot<strong>al (3 items):</strong></h4></td> 
-                              <td style="padding:0;Margin:0;color:#659C35"><strong>$22.00</strong></td> 
-                             </tr> 
-                             <tr style="border-collapse:collapse"> 
                               <td style="padding:0;Margin:0"><h4 style="Margin:0;line-height:200%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#333333">Flat-rate Shipping:</h4></td> 
-                              <td style="padding:0;Margin:0;color:#FF0000"><strong>Free</strong></td> 
+                              <td style="padding:0;Margin:0;color:#FF0000"><strong>`+order.orderShipping+`</strong></td> 
                              </tr> 
                              <tr style="border-collapse:collapse"> 
                               <td style="padding:0;Margin:0"><h4 style="Margin:0;line-height:200%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#333333">Discount:</h4></td> 
-                              <td style="padding:0;Margin:0;color:#FF0000"><strong>$0.00</strong></td> 
+                              <td style="padding:0;Margin:0;color:#FF0000"><strong>0.00</strong></td> 
                              </tr> 
                              <tr style="border-collapse:collapse"> 
                               <td style="padding:0;Margin:0"><h4 style="Margin:0;line-height:200%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#333333">Order Total:</h4></td> 
-                              <td style="padding:0;Margin:0;color:#659C35"><strong>$22.00</strong></td> 
+                              <td style="padding:0;Margin:0;color:#659C35"><strong>`+order.orderTotal+`</strong></td> 
                              </tr> 
                             </tbody>
                            </table></td> 
@@ -712,7 +711,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
                           <td align="left" style="padding:0;Margin:0"><h4 style="Margin:0;line-height:120%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#659C35">Contact Us:</h4></td> 
                          </tr> 
                          <tr style="border-collapse:collapse"> 
-                          <td align="left" style="padding:0;Margin:0;padding-top:10px;padding-bottom:15px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">We prepare healthy, ready-to-eat,weekly meal plans and delivers them to your door.</p></td> 
+                          <td align="left" style="padding:0;Margin:0;padding-top:10px;padding-bottom:15px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">We deliver healthy plant at your doorstep.</p></td> 
                          </tr> 
                          <tr style="border-collapse:collapse"> 
                           <td style="padding:0;Margin:0"> 
@@ -724,7 +723,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
                                <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
                                 <tbody>
                                  <tr style="border-collapse:collapse"> 
-                                  <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333"><a target="_blank" href="mailto:help@mail.com" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#333333">help@mail.com</a></p></td> 
+                                  <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333"><a target="_blank" href="mailto:help@mail.com" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#333333">plant4uteam@mail.com</a></p></td> 
                                  </tr> 
                                 </tbody>
                                </table></td> 
@@ -746,7 +745,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
                                <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
                                 <tbody>
                                  <tr style="border-collapse:collapse"> 
-                                  <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">San Francisco</p></td> 
+                                  <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">Delhi</p></td> 
                                  </tr> 
                                 </tbody>
                                </table></td> 
