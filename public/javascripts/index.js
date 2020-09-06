@@ -37,6 +37,7 @@ $(document).ready(function () {
 
     amadoSearch.on('click', function () {
         $('body').toggleClass('search-wrapper-on');
+        document.getElementById('frm_search').focus();
     });
 
     searchClose.on('click', function () {

@@ -681,13 +681,13 @@ welcome
 .welcome-area {
   width: 100%;
   height: auto;
-  background-image: url(/images/plant2.png);
+  /* background-image: url(/images/plant2.png);
   background-repeat: no-repeat;
   background-position: right top;
-  background-size: contain;
+  background-size: contain; */
 }
 .welcome-area2{
-  background-image: url(/images/plant1.png);
+  /* background-image: url(/images/plant1.png); */
 }
 .welcome-area .header-text .left-text {
   position: relative;
