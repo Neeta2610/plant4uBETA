@@ -1005,14 +1005,34 @@ router.get('/checkout/shipping', async (req, res, next) => {
 });
 
 
-router.get('/checkout/cart', (req, res) => {
+router.get('/checkout/cart',async (req, res) => {
     const config = req.app.config;
-    
+    const db = req.app.db;
+    var newuserdiscount = [];
+    var discounts = await db.discounts.find({new: "No",minimum: {$gt : 0}}).toArray();
+    var discounts2 = [];
+    var ordes = await db.orders.findOne({orderCustomer: getId(req.session.customerId)});
+    if(!ordes) {
+        newuserdiscount = await db.discounts.find({new: "Yes"}).toArray();
+    }
+    for(var i=0;i<discounts.length;i++){
+        if(discounts[i].onceUser) {
+            var temptest = await db.orders.findOne({orderCustomer: getId(req.session.customerId), orderPromoCode: discount[i].code});
+            if(!temptest) {
+                discounts2.push(discounts[i]);
+            }
+        }
+        else {
+            discounts2.push(discounts[i]);
+        }
+    }
     res.render(`${config.themeViews}checkout-cart`, {
         title: 'Checkout - Cart',
         page: req.query.path,
         config,
         categories: req.app.categories,
+        discounts: discounts2,
+        newuserdiscount: newuserdiscount,
         session: req.session,
         message: clearSessionValue(req.session, 'message'),
         messageType: clearSessionValue(req.session, 'messageType'),

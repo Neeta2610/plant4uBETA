@@ -3939,3 +3939,26 @@ a.btn1-goback:hover {
   left: 0;
   background-color: white !important;
 }
+.viewpromo {
+  margin: 5px 10px 15px 10px;
+  cursor: pointer;
+  color: #046897 !important;
+}
+.offeruppercont {
+  display: flex;
+  flex-direction: row;
+  margin: 10px 0px;
+}
+.offeruppercont .titlesummaryoffer {
+  width: 80%;
+}
+.offeruppercont .titlesummaryoffer .summary{
+  font-size: 13px;
+}
+.offeruppercont .applybutton {
+  width: 20%;
+}
+.descriptionoffer {
+  font-size: 15px;
+  font-family: 'Source Sans Pro', 'Open Sans';
+}

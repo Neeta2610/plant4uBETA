@@ -1,3 +1,60 @@
+<div class="modal fade" id="exampleModaloffers" tabindex="-1" role="dialog" aria-labelledby="exampleModaloffersLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModaloffersLabel">Available Discount Offers</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="descriptionoffer">Apply a Suitable Discount for your purchase and enjoy your plant</p>
+        <ul>
+            {{#each newuserdiscount}}
+            {{#ifCond (discountExpiry this.start this.end) '===' true}}
+            <li class="offeruppercont">
+                <div class="titlesummaryoffer">
+                    <div class="offertitle text-warning">
+                        <strong>{{../this.code}}</strong>
+                    </div>
+                    <div class="summary">
+                        Get a Discount of {{../this.value}} {{#ifCond ../this.type "==" "amount"}} ₹{{else}}%{{/ifCond}} if first time purchase {{#if ../this.minimum}}and on order above {{../this.minimum}}{{/if}}
+                    </div>
+                </div>
+                <div class="applybutton">
+                    <form method="post" action="/checkout/adddiscountcode">
+                    <input type="hidden" name="discountCode" value="{{../this.code}}">
+                         <button class="btn text-success">Apply</a>
+                    </form>
+                </div>
+            </li>
+            {{/ifCond}}
+            {{/each}}
+            {{#each discounts}}
+            {{#ifCond (discountExpiry this.start this.end) '===' true}}
+            <li class="offeruppercont">
+                <div class="titlesummaryoffer">
+                    <div class="offertitle text-warning">
+                        <strong>{{../this.code}}</strong>
+                    </div>
+                    <div class="summary">
+                        Get a Discount of {{../this.value}} {{#ifCond ../this.type "==" "amount"}} ₹{{else}}%{{/ifCond}} {{#if ../this.minimum}}on order above {{../this.minimum}}{{/if}}
+                    </div>
+                </div>
+                <div class="applybutton">
+                    <form method="post" action="/checkout/adddiscountcode">
+                    <input type="hidden" name="discountCode" value="{{../this.code}}">
+                         <button class="btn text-success">Apply</a>
+                    </form>
+                </div>
+            </li>
+            {{/ifCond}}
+            {{/each}}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="col-md-10 offset-md-1 col-sm-12 top-marg-100">
     <div class="row">
         <div id="cart" class="col-md-12 top-marg-20">
