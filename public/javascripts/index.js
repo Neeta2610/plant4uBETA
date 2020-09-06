@@ -2,7 +2,16 @@
 $(document).ready(function () {
   // Add specific code to this theme here
     
+  window.onscroll = function() {myFunction()};
 
+  var navbar = document.getElementsByClassName("header-area");
+  function myFunction() {
+    if (window.pageYOffset >= 20) {
+      navbar[0].classList.add("sticky")
+    } else {
+      navbar[0].classList.remove("sticky");
+    }
+  } 
 // Review Input
         $('.reviewinner h4 a').on('click',function(){
           $('.reviewinput').toggleClass('displaynone');

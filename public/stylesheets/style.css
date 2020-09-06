@@ -3933,3 +3933,9 @@ a.btn1-goback:hover {
   padding: 10px 0px;
   font-size: 16px;
 }
+.sticky {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  background-color: white !important;
+}
