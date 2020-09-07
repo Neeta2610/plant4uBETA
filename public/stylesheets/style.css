@@ -1868,6 +1868,12 @@ align-items: center;}
       font-family: 'helveticaneuemedium';
       color: #888;
   }
+  .desccont .table td, .table th {
+    border: 1px solid #e3e9ef !important;
+  }
+  .desccont .table tr td:nth-child(1) {
+    background-color: #f4f4f4;
+  }
   .reviewmain {
       width: 80%;
       border: 1px solid #c8c8c8;

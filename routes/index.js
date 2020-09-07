@@ -1346,7 +1346,8 @@ router.get('/product/:id', async (req, res) => {
             });
         });
         relatedProducts = await db.products.find({
-            _id: { $in: lunrIdArray, $ne: product._id }
+            _id: { $in: lunrIdArray, $ne: product._id },
+            productPublished: true
         }).limit(4).toArray();
     }
 
