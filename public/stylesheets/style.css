@@ -1874,6 +1874,10 @@ align-items: center;}
   .desccont .table tr td:nth-child(1) {
     background-color: #f4f4f4;
   }
+  .desccont ul {
+    list-style: disc !important;
+    margin-left: 15px;
+  }
   .reviewmain {
       width: 80%;
       border: 1px solid #c8c8c8;
