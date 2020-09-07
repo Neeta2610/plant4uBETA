@@ -1874,7 +1874,7 @@ align-items: center;}
   .desccont .table tr td:nth-child(1) {
     background-color: #f4f4f4;
   }
-  .desccont ul {
+  .desccont ul, .desccont ul li {
     list-style: disc !important;
     margin-left: 15px;
   }
