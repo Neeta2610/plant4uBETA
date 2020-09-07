@@ -305,7 +305,7 @@ $(document).ready(function () {
     });
 
     $('.expand-filter').on('click',function(){
-        $('.filter').toggleClass('displaynone');
+        $('.filter').toggleClass('displaynone1');
     });
     // Apply Filters
     $('.applyfilters').validator().on('click', function (e) {

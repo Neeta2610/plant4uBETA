@@ -14,6 +14,7 @@ $(document).ready(function () {
   } 
 // Review Input
         $('.reviewinner h4 a').on('click',function(){
+          console.log("input cliked");
           $('.reviewinput').toggleClass('displaynone');
       });
 

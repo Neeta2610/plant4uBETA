@@ -2483,7 +2483,9 @@ justify-content: start;}
             }
           }
 
-
+.displaynone {
+    display: none !important;
+}
 /* Product category Page */
 .Wrapper-product{
   width: 90%;
@@ -2602,9 +2604,9 @@ justify-content: start;}
     bottom: 0;
     right: 0;
   }
-  .displaynone {
+  .displaynone1 {
     display: none !important;
-}
+  }
   .Wrapper-product .filter .filterinner{
     position: static;
   }
