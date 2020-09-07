@@ -1012,15 +1012,17 @@ router.get('/checkout/cart',async (req, res) => {
     var discounts = await db.discounts.find({new: "No",minimum: {$gt : 0}}).toArray();
     var discounts2 = [];
     var ordes = await db.orders.findOne({orderCustomer: getId(req.session.customerId)});
-    if(!ordes) {
+    if(!ordes && req.session.customerPresent) {
         newuserdiscount = await db.discounts.find({new: "Yes"}).toArray();
     }
     for(var i=0;i<discounts.length;i++){
         if(discounts[i].onceUser) {
-            var temptest = await db.orders.findOne({orderCustomer: getId(req.session.customerId), orderPromoCode: discount[i].code});
+            if(req.session.customerPresent) {
+            var temptest = await db.orders.findOne({orderCustomer: getId(req.session.customerId), orderPromoCode: discounts[i].code});
             if(!temptest) {
                 discounts2.push(discounts[i]);
             }
+        }
         }
         else {
             discounts2.push(discounts[i]);
