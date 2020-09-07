@@ -12,7 +12,7 @@ const mailer=require('../misc/mailer');
 const accountSid = 'ACf50754e96a02279cbf13ef064765f5f8';
 const authToken = 'b940db14e31b3c95c86c87fa42dfe6ba';
 const client = require('twilio')(accountSid, authToken);
-
+const availableDistrict = ["Central Delhi","East Delhi","New Delhi","North Delhi","North East Delhi","North West Delhi","South Delhi","South West Delhi","West Delhi","Ghaziabad"];
 const {
     getId,
     hooker,
@@ -114,7 +114,8 @@ router.post('/checkout_action', async (req, res, next) => {
                 return;
             }
         }
-        if(req.session.customerState != 'DELHI'){
+        var response = pin.lookup(req.body.shipPostcode);
+        if(availableDistrict.indexOf(response[0].districtName) != -1){
             message = "Delivery Not Available At This Location";
             req.session.message = message;
             req.session.messageType = 'danger';
@@ -1269,7 +1270,7 @@ router.post('/product/pinavailability', (req,res) =>{
     }
     var response = pin.lookup(req.body.pincode);
     if(response.length > 0){
-        if(response[0].stateName == "DELHI"){
+        if(availableDistrict.indexOf(response[0].districtName) != -1){
             res.status(200).json({message: "Available At Your Location"});
             return;
         }
