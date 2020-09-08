@@ -9,6 +9,11 @@
       </div>
       <div class="modal-body">
         <p class="descriptionoffer">Apply a Suitable Discount for your purchase and enjoy your plant</p>
+        {{#unless newuserdiscount}}
+        {{#unless discounts}}
+        <h6 class="text-warning">* Offers May be available after Login</h6>
+        {{/unless}}
+        {{/unless}}
         <ul>
             {{#each newuserdiscount}}
             {{#ifCond (discountExpiry this.start this.end) '===' true}}
