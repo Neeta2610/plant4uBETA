@@ -459,29 +459,31 @@ router.post('/customer/update', async (req, res) => {
     }
     
     var customerObj = {
-        password: newpassww
+        password: newpassww,
+        email: customer.email,
+        phone: customer.phone
     };
-    if(req.body.email){
-        customerObj['email'] = req.body.email;
+    if(req.body.firstName){
         customerObj['firstName'] = req.body.firstName;
         customerObj['lastName'] = req.body.lastName;
 
-        customerObj['address1'] = req.session.customerAddress1;
-        customerObj['country'] = req.session.customerCountry;
-        customerObj['state'] = req.session.customerState;
-        customerObj['postcode'] = req.session.customerPostcode;
-        customerObj['phone'] = req.session.customerPhone;
+        if(req.session.customerAddress1){
+            customerObj['address1'] = req.session.customerAddress1;
+            customerObj['country'] = req.session.customerCountry;
+            customerObj['state'] = req.session.customerState;
+            customerObj['postcode'] = req.session.customerPostcode;
+        }
     }
     else if(req.body.address1){
-        customerObj['email'] = req.session.customerEmail;
-        customerObj['firstName'] = req.session.customerFirstname;
-        customerObj['lastName'] = req.session.customerLastname;
+        if(req.session.customerFirstname){
+            customerObj['firstName'] = req.session.customerFirstname;
+            customerObj['lastName'] = req.session.customerLastname;
+        }
 
         customerObj['address1'] = req.body.address1;
         customerObj['country'] = req.body.country;
         customerObj['state'] = req.body.state;
         customerObj['postcode'] = req.body.postcode;
-        customerObj['phone'] = req.body.phone;
     }
 
     const schemaResult = validateJson('editCustomer', customerObj);
@@ -510,7 +512,6 @@ router.post('/customer/update', async (req, res) => {
         .then(() => {
             // Set the customer into the session
             req.session.customerEmail = customerObj.email;
-            req.session.customerCompany = customerObj.company;
             req.session.customerFirstname = customerObj.firstName;
             req.session.customerLastname = customerObj.lastName;
             req.session.customerAddress1 = customerObj.address1;
