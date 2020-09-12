@@ -106,7 +106,7 @@
                                 {{else}}
                                 <li><span>delivery:</span> <span>Free</span></li>
                                 {{/ifCond}}
-                                {{#ifCond @root.session.totalCartDiscount}}
+                                {{#ifCond @root.session.totalCartDiscount '>' 0}}
                                 <li><span>discount:</span> <span>{{currencySymbol @root.config.currencySymbol}}{{formatAmount @root.session.totalCartDiscount}}</span></li>
                                 {{/ifCond}}
                                 <li><span>total:</span> <span>{{currencySymbol @root.config.currencySymbol}}{{formatAmount @root.session.totalCartAmount}}</span></li>
