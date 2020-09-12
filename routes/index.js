@@ -419,7 +419,6 @@ router.get('/payment/:orderId', async (req, res, next) => {
         background:#7dbf44!important;
     }
     </style> 
-     <meta property="og:title" content="Order Newsletter" /><meta property="og:description" content="Put your preheader text here View in browser Menus Delivery 123456789 https://uxyja.stripocdn.email/content/guids/CABINET_d0f82297f07ca81ac11c70bb5a3fd73a/image" /><meta property="og:image" content="https://tlr.stripocdn.email/content/guids/bannerImgGuid/images/91191577364120504.png" /><meta property="og:url" content="https://viewstripo.email/template/69c23a32-577b-47e5-a2aa-dbe974755e19" /><meta property="og:type" content="article" /></head> 
      <body style="width:100%;font-family:arial, 'helvetica neue', helvetica, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0"> 
       <div class="es-wrapper-color" style="background-color:#F6F6F6"> 
        <!--[if gte mso 9]>
@@ -431,51 +430,6 @@ router.get('/payment/:orderId', async (req, res, next) => {
         <tbody>
          <tr style="border-collapse:collapse"> 
           <td valign="top" style="padding:0;Margin:0"> 
-           <table cellpadding="0" cellspacing="0" class="es-content" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%"> 
-            <tbody>
-             <tr style="border-collapse:collapse"> 
-              <td align="center" style="padding:0;Margin:0"> 
-               <table class="es-content-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF" align="center"> 
-                <tbody>
-                 <tr style="border-collapse:collapse"> 
-                  <td align="left" style="padding:10px;Margin:0"> 
-                   <!--[if mso]><table style="width:580px"><tr><td style="width:280px" valign="top"><![endif]--> 
-                   <table class="es-left" cellspacing="0" cellpadding="0" align="left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left"> 
-                    <tbody>
-                     <tr style="border-collapse:collapse"> 
-                      <td align="left" style="padding:0;Margin:0;width:280px"> 
-                       <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-                        <tbody>
-                         <tr style="border-collapse:collapse"> 
-                          <td class="es-infoblock" align="left" style="padding:0;Margin:0;line-height:14px;font-size:12px;color:#CCCCCC"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:12px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:14px;color:#CCCCCC">Put your preheader text here</p></td> 
-                         </tr> 
-                        </tbody>
-                       </table></td> 
-                     </tr> 
-                    </tbody>
-                   </table> 
-                   <!--[if mso]></td><td style="width:20px"></td><td style="width:280px" valign="top"><![endif]--> 
-                   <table class="es-right" cellspacing="0" cellpadding="0" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right"> 
-                    <tbody>
-                     <tr style="border-collapse:collapse"> 
-                      <td align="left" style="padding:0;Margin:0;width:280px"> 
-                       <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-                        <tbody>
-                         <tr style="border-collapse:collapse"> 
-                          <td align="right" class="es-infoblock" style="padding:0;Margin:0;line-height:14px;font-size:12px;color:#CCCCCC"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:12px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:14px;color:#CCCCCC"><a href="https://viewstripo.email/" class="view" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:12px;text-decoration:none;color:#CCCCCC" _blank>View in browser</a></p></td> 
-                         </tr> 
-                        </tbody>
-                       </table></td> 
-                     </tr> 
-                    </tbody>
-                   </table> 
-                   <!--[if mso]></td></tr></table><![endif]--></td> 
-                 </tr> 
-                </tbody>
-               </table></td> 
-             </tr> 
-            </tbody>
-           </table> 
            <table cellpadding="0" cellspacing="0" class="es-header" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;background-color:transparent;background-repeat:repeat;background-position:center top"> 
             <tbody>
              <tr style="border-collapse:collapse"> 
@@ -492,7 +446,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
                        <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
                         <tbody>
                          <tr style="border-collapse:collapse"> 
-                          <td align="left" style="padding:0;Margin:0;padding-bottom:5px;font-size:0"><a target="_blank" href="https://viewstripo.email/" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:16px;text-decoration:none;color:#659C35"><img src="https://tlr.stripocdn.email/content/guids/CABINET_c6d6983b8f90c1ab10065255fbabfbaf/images/25481556884114471.png" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" class="adapt-img" width="125"></a></td> 
+                          <td align="left" style="padding:0;Margin:0;padding-bottom:5px;font-size:0"><a target="_blank" href="https://plant4u.in" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:16px;text-decoration:none;color:#659C35"><img src="https://tlr.stripocdn.email/content/guids/CABINET_c6d6983b8f90c1ab10065255fbabfbaf/images/25481556884114471.png" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" class="adapt-img" width="125"></a></td> 
                          </tr> 
                         </tbody>
                        </table></td> 
@@ -579,7 +533,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
                           <td align="center" style="padding:0;Margin:0;padding-top:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">Delivery of healthy plant is the best solution for business people. Look healthy and work productively all day.</p></td> 
                          </tr> 
                          <tr style="border-collapse:collapse"> 
-                          <td align="center" style="Margin:0;padding-left:10px;padding-right:10px;padding-top:20px;padding-bottom:20px"><span class="es-button-border" style="border-style:solid;border-color:#659C35;background:#659C35;border-width:0px;display:inline-block;border-radius:0px;width:auto"><a href="https://viewstripo.email/" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:18px;color:#FFFFFF;border-style:solid;border-color:#659C35;border-width:10px 20px;display:inline-block;background:#659C35;border-radius:0px;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center">View order status</a></span></td> 
+                          <td align="center" style="Margin:0;padding-left:10px;padding-right:10px;padding-top:20px;padding-bottom:20px"><span class="es-button-border" style="border-style:solid;border-color:#659C35;background:#659C35;border-width:0px;display:inline-block;border-radius:0px;width:auto"><a href="https://plant4u.in" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:18px;color:#FFFFFF;border-style:solid;border-color:#659C35;border-width:10px 20px;display:inline-block;background:#659C35;border-radius:0px;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center">View order status</a></span></td> 
                          </tr> 
                         </tbody>
                        </table></td> 
@@ -755,7 +709,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
                            </table></td> 
                          </tr> 
                          <tr style="border-collapse:collapse"> 
-                          <td align="left" style="padding:0;Margin:0;padding-top:15px"><span class="es-button-border" style="border-style:solid;border-color:#659C35;background:#659C35;border-width:0px;display:inline-block;border-radius:0px;width:auto"><a href="https://viewstripo.email/" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:18px;color:#FFFFFF;border-style:solid;border-color:#659C35;border-width:10px 20px 10px 20px;display:inline-block;background:#659C35;border-radius:0px;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center">GET IT NOW</a></span></td> 
+                          <td align="left" style="padding:0;Margin:0;padding-top:15px"><span class="es-button-border" style="border-style:solid;border-color:#659C35;background:#659C35;border-width:0px;display:inline-block;border-radius:0px;width:auto"><a href="https://plant4u.in" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:18px;color:#FFFFFF;border-style:solid;border-color:#659C35;border-width:10px 20px 10px 20px;display:inline-block;background:#659C35;border-radius:0px;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center">GET IT NOW</a></span></td> 
                          </tr> 
                         </tbody>
                        </table></td> 
@@ -843,7 +797,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
                           <td align="center" style="padding:0;Margin:0;padding-bottom:10px;padding-top:15px;font-size:0"><img src="https://tlr.stripocdn.email/content/guids/CABINET_c6d6983b8f90c1ab10065255fbabfbaf/images/15841556884046468.png" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="140"></td> 
                          </tr> 
                          <tr style="border-collapse:collapse"> 
-                          <td align="center" style="padding:0;Margin:0;padding-top:5px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:13px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:20px;color:#FFFFFF"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:13px;text-decoration:none;color:#FFFFFF" href="https://viewstripo.email/">Privacy</a> | <a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:13px;text-decoration:none;color:#FFFFFF" class="unsubscribe" href="">Unsubscribe</a></p></td> 
+                          <td align="center" style="padding:0;Margin:0;padding-top:5px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:13px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:20px;color:#FFFFFF"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:13px;text-decoration:none;color:#FFFFFF" href="https://plant4u.in">Privacy</a> | <a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:13px;text-decoration:none;color:#FFFFFF" class="unsubscribe" href="">Unsubscribe</a></p></td> 
                          </tr> 
                         </tbody>
                        </table></td> 
@@ -871,7 +825,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
                        <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
                         <tbody>
                          <tr style="border-collapse:collapse"> 
-                          <td class="es-infoblock made_with" align="center" style="padding:0;Margin:0;line-height:120%;font-size:0;color:#CCCCCC"><a target="_blank" href="https://viewstripo.email/?utm_source=templates&amp;utm_medium=email&amp;utm_campaign=food2&amp;utm_content=order_newsletter" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:12px;text-decoration:none;color:#CCCCCC"><img src="https://uxyja.stripocdn.email/content/guids/cab_pub_7cbbc409ec990f19c78c75bd1e06f215/images/78411525331495932.png" alt width="125" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a></td> 
+                          <td class="es-infoblock made_with" align="center" style="padding:0;Margin:0;line-height:120%;font-size:0;color:#CCCCCC"><a target="_blank" href="https://plant4u.in?utm_source=templates&amp;utm_medium=email&amp;utm_campaign=food2&amp;utm_content=order_newsletter" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:12px;text-decoration:none;color:#CCCCCC"><img src="https://uxyja.stripocdn.email/content/guids/cab_pub_7cbbc409ec990f19c78c75bd1e06f215/images/78411525331495932.png" alt width="125" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a></td> 
                          </tr> 
                         </tbody>
                        </table></td> 
@@ -906,7 +860,7 @@ await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Comp
     sendmessage = sendmessage + items;
     client.messages.create({
         from:'whatsapp:+14155238886',
-        to:'whatsapp:+919910160442',
+        to:'whatsapp:+917889896521',
         body:sendmessage
     }).then(message=> console.log(message.sid));
 
