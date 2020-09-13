@@ -285,22 +285,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
     
     var productlist = ``;
   
-    var sendmessage = "Name: ".concat(bold(order.orderFirstname)).concat(" ").concat(bold(order.orderLastname));
-    sendmessage = sendmessage.concat("\n Email: ").concat(order.orderEmail);
-    sendmessage = sendmessage.concat("\n Phone: ").concat(order.orderPhoneNumber);
-    sendmessage = sendmessage.concat("\n Address: ").concat(order.orderAddr1).concat(" ").concat(order.orderState).concat(" ").concat(order.orderPostcode);
-    var items = ``;
-        for(let key in order.orderProducts){
-            items += `\n Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
-        }
-    sendmessage = sendmessage + items;
-    console.log(sendmessage);
-    client.messages.create({
-        from:'whatsapp:+14155238886',
-        to:'whatsapp:+918937048822',
-        body:sendmessage
-    }).then(message=> console.log(message));
-    return;
+    
     for(let a in order.orderProducts){
     productlist += `<tr style="border-collapse:collapse"> 
     <td align="left" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px;background-position:center top"> 
