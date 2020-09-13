@@ -17,7 +17,7 @@
     "customCss": "",
     "currencySymbol": "₹",
     "paymentGateway": "stripe",
-    "databaseConnectionString": "mongodb://localhost:27017/plant4u",
+    "databaseConnectionString": "mongodb://plant4ubeta:plant4ubeta@ds211718.mlab.com:11718/heroku_82pm1gjp",
     "theme": "Cloth",
     "trackStock": true,
     "orderHook": "",

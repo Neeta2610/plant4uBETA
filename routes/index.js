@@ -202,7 +202,7 @@ router.post('/checkout_action', async (req, res, next) => {
     });
 // });
 function bold(string){
-    return `*`+string+`*`
+    return `*`+string+`*`;
 }
 // These is the customer facing routes
 router.get('/payment/:orderId', async (req, res, next) => {
@@ -285,8 +285,22 @@ router.get('/payment/:orderId', async (req, res, next) => {
     
     var productlist = ``;
   
-    console.log(order);
-
+    var sendmessage = "Name: ".concat(bold(order.orderFirstname)).concat(" ").concat(bold(order.orderLastname));
+    sendmessage = sendmessage.concat("\n Email: ").concat(order.orderEmail);
+    sendmessage = sendmessage.concat("\n Phone: ").concat(order.orderPhoneNumber);
+    sendmessage = sendmessage.concat("\n Address: ").concat(order.orderAddr1).concat(" ").concat(order.orderState).concat(" ").concat(order.orderPostcode);
+    var items = ``;
+        for(let key in order.orderProducts){
+            items += `\n Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
+        }
+    sendmessage = sendmessage + items;
+    console.log(sendmessage);
+    client.messages.create({
+        from:'whatsapp:+14155238886',
+        to:'whatsapp:+918937048822',
+        body:sendmessage
+    }).then(message=> console.log(message));
+    return;
     for(let a in order.orderProducts){
     productlist += `<tr style="border-collapse:collapse"> 
     <td align="left" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px;background-position:center top"> 
@@ -858,11 +872,12 @@ await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Comp
             items += `\n Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
         }
     sendmessage = sendmessage + items;
+    console.log(sendmessage);
     client.messages.create({
         from:'whatsapp:+14155238886',
-        to:'whatsapp:+917889896521',
+        to:'whatsapp:+918937048822',
         body:sendmessage
-    }).then(message=> console.log(message.sid));
+    }).then(message=> console.log(message));
 
     res.render('success', {
         title: 'Payment complete',
@@ -896,7 +911,7 @@ router.get('/checkout/information', async (req, res, next) => {
     if(req.session.cartSubscription){
         paymentType = '_subscription';
     }
-
+    
     // render the payment page
     res.render(`${config.themeViews}checkout-information`, {
         title: 'Checkout - Information',
@@ -1167,7 +1182,6 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
     message = "Discount Code Applied";
     req.session.message = message;
     req.session.messageType = 'success';
-    console.log(req.session);
     res.redirect('/checkout/cart');
     return;
 });
@@ -1781,7 +1795,7 @@ router.get('/search/:searchTerm/:pageNum?', async (req, res) => {
             tempfilterprice.forEach((price)=>{
                 appliedprice.push(parseInt(price));
             });
-            console.log(appliedprice);
+            
             var lunrIdArray2 = await db.products.find({ _id: { $in: lunrIdArray}, productPrice: { $gt: appliedprice[0], $lt: appliedprice[1]}},{ _id: 1}).toArray();
             lunrIdArray = [];
             lunrIdArray2.forEach((data)=>{
@@ -1891,7 +1905,7 @@ router.get('/category/:cat/:pageNum?',async (req, res) => {
             tempfilterprice.forEach((price)=>{
                 appliedprice.push(parseInt(price));
             });
-            console.log(appliedprice);
+            
             var lunrIdArray2 = await db.products.find({ _id: { $in: lunrIdArray}, productPrice: { $gt: appliedprice[0], $lt: appliedprice[1]}},{ _id: 1}).toArray();
             lunrIdArray = [];
             lunrIdArray2.forEach((data)=>{
@@ -1934,7 +1948,7 @@ router.get('/category/:cat/:pageNum?',async (req, res) => {
                 res.status(200).json(results.data);
                 return;
             }
-            console.log(appliedprice);
+            
             res.render(`${config.themeViews}category`, {
                 title: `Category: ${searchTerm}`,
                 results: results.data,
