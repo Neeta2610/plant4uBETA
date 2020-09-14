@@ -848,16 +848,15 @@ router.get('/payment/:orderId', async (req, res, next) => {
 await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Complete',html)
     
 // Here we send whatsapp message to vendor whenever we have an order
-    var sendmessage = "Name: ".concat(bold(order.orderFirstname)).concat(" ").concat(bold(order.orderLastname));
-    sendmessage = sendmessage.concat("\n Email: ").concat(order.orderEmail);
-    sendmessage = sendmessage.concat("\n Phone: ").concat(order.orderPhoneNumber);
-    sendmessage = sendmessage.concat("\n Address: ").concat(order.orderAddr1).concat(" ").concat(order.orderState).concat(" ").concat(order.orderPostcode);
+    var detailsmessage = "Name: ".concat(bold(order.orderFirstname)).concat(" ").concat(bold(order.orderLastname));
+    detailsmessage = detailsmessage.concat("\n Email: ").concat(order.orderEmail);
+    detailsmessage = detailsmessage.concat("\n Phone: ").concat(order.orderPhoneNumber);
+    var address = "Address: ".concat(order.orderAddr1).concat(" ").concat(order.orderState).concat(" ").concat(order.orderPostcode);
     var items = ``;
         for(let key in order.orderProducts){
             items += `\n Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
         }
-    sendmessage = sendmessage + items;
-    console.log(sendmessage);
+    var sendmessage = `Your next order of `+items+` has shipped and should be delivered on `+address+`. Details: `+detailsmessage+``;
     client.messages.create({
         from:'whatsapp:+14155238886',
         to:'whatsapp:+917889896521',
