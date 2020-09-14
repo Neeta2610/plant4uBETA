@@ -859,10 +859,14 @@ await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Comp
     var sendmessage = `Your next order of `+items+` has shipped and should be delivered on `+address+`. Details: `+detailsmessage+``;
     client.messages.create({
         from:'whatsapp:+14155238886',
-        to:'whatsapp:+917889896521',
+        to:'whatsapp:+919910160442',
         body:sendmessage
     }).then(message=> console.log(message));
-    
+    client.messages.create({
+        from:'whatsapp:+14155238886',
+        to:'whatsapp:+918937048822',
+        body:sendmessage
+    }).then(message=> console.log(message));
     res.render('success', {
         title: 'Payment complete',
         config: req.app.config,
