@@ -681,10 +681,14 @@ welcome
 .welcome-area {
   width: 100%;
   height: auto;
+  text-align: center;
   /* background-image: url(/images/plant2.png);
   background-repeat: no-repeat;
   background-position: right top;
   background-size: contain; */
+}
+.welcome-area img{
+  min-width: 100%;
 }
 .welcome-area2{
   /* background-image: url(/images/plant1.png); */
