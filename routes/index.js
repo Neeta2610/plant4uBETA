@@ -789,6 +789,7 @@ await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Comp
     var detailsmessage = "Name: ".concat(bold(order.orderFirstname)).concat(" ").concat(bold(order.orderLastname));
     detailsmessage = detailsmessage.concat(" Email: ").concat(order.orderEmail);
     detailsmessage = detailsmessage.concat(" Phone: ").concat(order.orderPhoneNumber);
+    detailsmessage = detailsmessage.concat(" Order Id: ").concat(order._id);
     var address = "Address: ".concat(order.orderAddr1).concat(" ").concat(order.orderState).concat(" ").concat(order.orderPostcode);
     var items = ``;
         for(let key in order.orderProducts){
