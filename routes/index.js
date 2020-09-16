@@ -2095,6 +2095,7 @@ router.get('/:page?', async (req, res, next) => {
                     res.status(200).json(results.data);
                     return;
                 }
+                
                 res.render(`${config.themeViews}index`, {
                     title: `${config.cartTitle} - Shop`,
                     theme: config.theme,
