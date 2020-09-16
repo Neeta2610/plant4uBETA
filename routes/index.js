@@ -2068,7 +2068,7 @@ router.get('/:page?', async (req, res, next) => {
     productsIndex.search("BestBuy").forEach((id) => {
         temptopProducts.push(getId(id.ref));
     });
-    var topProducts = await db.products.aggregate({match: {_id: { $in: temptopProducts},isPack: false, productStock: { $gt: 0}}}, { $limit: 8}).toArray();
+    var topProducts = await db.products.aggregate({$match: {_id: { $in: temptopProducts},isPack: false, productStock: { $gt: 0}}}, { $limit: 8}).toArray();
     var lunrIdArray = [];
     var resultproduct = [];
     var searchTerm = "Arotic";
