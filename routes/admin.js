@@ -9,6 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 const mime = require('mime-type/with-db');
+const mailer=require('../misc/mailer');
 const csrf = require('csurf');
 const { validateJson } = require('../lib/schema');
 const ObjectId = require('mongodb').ObjectID;
@@ -267,7 +268,7 @@ router.post('/vendor/order/statusupdate', async (req, res)=>{
     }
     try{
         await db.orders.findOneAndUpdate({_id: common.getId(req.body.order_id)},{ $set: {orderStatus: req.body.status}});
-        const order = await db.orders.findOne({_id: getId(req.body.order_id)});
+        const order = await db.orders.findOne({_id: common.getId(req.body.order_id)});
         var items = ``;
         for(let key in order.orderProducts){
             items += `<tr class="item">
@@ -390,7 +391,7 @@ router.post('/vendor/order/statusupdate', async (req, res)=>{
                             <table>
                                 <tr>
                                     <td class="title">
-                                        <img src="https://res.cloudinary.com/plant4u/image/upload/v1597575169/logoplant4u.png" style="width:100%; max-width:300px;">
+                                        <img src="https://res.cloudinary.com/plant4u/image/upload/v1597585136/4_zwivhs.png" style="width:100%; max-width:300px;">
                                     </td>
                                     
                                     <td>
@@ -464,7 +465,7 @@ router.post('/vendor/order/statusupdate', async (req, res)=>{
         </body>
         
     `;
-    await mailer.sendEmail('admin@plant4u.com',order.orderEmail,'Order Complete',html)
+    await mailer.sendEmail('admin@plant4u.in',order.orderEmail,'Order Complete',html)
         }
         res.status(200).json({message: "Order Status Updated"});
         return;
