@@ -2061,14 +2061,14 @@ router.get('/:page?', async (req, res, next) => {
     var productsIndex = req.app.productsIndex;
     const numberProducts = config.productsPerPage ? config.productsPerPage : 8;
     var packplants = await db.products.aggregate([
-        { $match: {isPack: true}},
+        { $match: {isPack: true, productStock: { $gt: 0 }}},
         { $limit: 8}
     ]).toArray();
     var temptopProducts = [];
     productsIndex.search("BestBuy").forEach((id) => {
         temptopProducts.push(getId(id.ref));
     });
-    var topProducts = await db.products.find({_id: { $in: temptopProducts},isPack: false}).toArray();
+    var topProducts = await db.products.aggregate({match: {_id: { $in: temptopProducts},isPack: false, productStock: { $gt: 0}}}, { $limit: 8}).toArray();
     var lunrIdArray = [];
     var resultproduct = [];
     var searchTerm = "Arotic";
@@ -2076,7 +2076,7 @@ router.get('/:page?', async (req, res, next) => {
         lunrIdArray.push(getId(id.ref));
     });
     var plant4uspecial = await db.products.aggregate([
-        {$match: {_id: { $in: lunrIdArray },isPack: false}},
+        {$match: {_id: { $in: lunrIdArray },isPack: false, productStock: { $gt: 0}}},
         { $limit: 8}
     ]).toArray();
     var mainproductterm = "NewArrival";
