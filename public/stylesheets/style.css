@@ -3,6 +3,7 @@ html {
   min-height: 100%;
   background: #F6F9FC;
 }
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @font-face {
   font-family: 'helveticaneuebold';
@@ -1333,6 +1334,9 @@ align-items: center;}
   }
   .second-product-wrapper .btnview, .second-product-wrapper .btncart {
     font-size: 12px;
+  }
+  .third-product-wrapper .titlename h5{
+    font-size: 13px;
   }
 }
 @media screen and (max-width: 420px){
@@ -3392,7 +3396,7 @@ a.btn1-goback:hover {
 /* Customer Login Page*/
 
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 
 .log{
 
@@ -3973,4 +3977,34 @@ a.btn1-goback:hover {
 .descriptionoffer {
   font-size: 15px;
   font-family: 'Source Sans Pro', 'Open Sans';
+}
+.freedelivery {
+  background-color: rgb(101, 161, 90);
+  padding: 25px 0px;
+  text-align: center;
+  font-size: 25px;
+  color: white;
+  width: 100%;
+  font-weight: 500;
+}
+.freedelivery .i {
+  margin-left: 12px;
+  font-size: 38px;
+}
+@media screen and (max-width: 520px){
+  .freedelivery {
+    padding: 23px 10px;
+    font-size: 18px;
+  }
+  .freedelivery .i {
+    font-size: 25px;
+  }
+}
+@media screen and (max-width: 400px){
+  .freedelivery {
+    font-size: 15px;
+  }
+  .freedelivery .i {
+    font-size: 20px;
+  }
 }
