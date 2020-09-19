@@ -1084,7 +1084,7 @@ hr{
     .newsletter-area .newsletter-text p {
       color: #b3b1b1;
       margin-bottom: 0; 
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Montserrat', sans-serif;
       font-weight: 500;}
   .newsletter-area .newsletter-form form {
     position: relative;
@@ -1936,7 +1936,7 @@ align-items: center;}
   }
   .reviewinput label {
       font-size: 1.1rem;
-      font-family: Poppins;
+      font-family: Montserrat;
   }
   .reviewinput .inputtextarea {
       margin: 15px 0;
@@ -3392,7 +3392,7 @@ a.btn1-goback:hover {
 /* Customer Login Page*/
 
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 .log{
 
