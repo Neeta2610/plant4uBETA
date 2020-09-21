@@ -148,8 +148,8 @@
             <div id="orderForm" class="">
                 <div class="col-12 bottom-pad-15 no-pad-right">
                     <div class="card top-marg-15">
-                        <div class="card-body">
-                            <h5 class="card-heading bottom-marg-10">Your Orders</h5>
+                        <div class="card-body" style="padding: 0px;">
+                            <h5 class="card-heading bottom-marg-20">YOUR ORDERS</h5>
                             <div id="accordion">
                                 {{#unless ../orders}}
                                 <div class="card mb-3">
@@ -163,15 +163,15 @@
                                 <div class="card mb-3">
                                     <div class="card-header" id="headingOne">
                                         <p class="mb-0">
-                                            OrderId: {{this._id}} -
-                                            Date: {{formatDate this.orderDate "DD/MM/YYYY hh:mmA"}}
-                                            <button class="btn btn-sm btn-success float-right">
+                                            <span class="orderid"><span class="id">ORDER ID</span> <span>{{this._id}}</span></span>
+                                            <span class="float-right">DATE:- {{formatDate this.orderDate "DD/MM/YYYY hh:mmA"}}</span>
+                                            {{!-- <button class="btn btn-sm btn-success float-right">
                                                 {{this.orderStatus}}
-                                            </button>
+                                            </button> --}}
                                         </p>
                                     </div>
                                     <div id="" class="">
-                                        <div class="card-body">
+                                        <div class="card-body flexcardorder">
                                             <ul class="list-group">
                                                 {{#each this.orderProducts}}
                                                 <li class="list-product">
@@ -184,19 +184,51 @@
                                                         {{/if}}</a>
                                                     </div>
                                                     <div class="producttitle">
-                                                         <h5>{{this.title}}</h5>
-                                                    </div>
-                                                    <div class="productprice">
-                                                        {{currencySymbol @root.config.currencySymbol}}{{formatAmount this.totalItemPrice}}
-                                                    </div>
-                                                    <div class="quantity">
-                                                        <td class="qty">
-                                                            {{this.quantity}}
-                                                        </td>
+                                                         <h5 class="bottom-marg-10">{{this.title}} x <span class="text-green"><strong>{{this.quantity}}</strong></span></h5>
+                                                         	 {{currencySymbol @root.config.currencySymbol}}{{formatAmount this.totalItemPrice}}
+                                                              
                                                     </div>
                                                 </li>
                                                 {{/each}}
                                             </ul>
+                                            <ul>
+                                                <li><strong class="text-warning">Customer Information</strong></li>
+                                                <li>{{this.orderFirstname}} {{this.orderLastname}}</li>
+                                                <li>{{this.orderAddr1}}</li>
+                                                <li>{{this.orderState}}, {{this.orderPostcode}}</li>
+                                                <li>{{this.orderPhoneNumber}}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="formlevel">
+                                            {{#ifCond this.orderStatus "==" "Paid"}}
+                                            <div class="stages">                 
+                                                <label for="one" class="check">&check; <span class="titlelevel">Ordered</span></label>
+                                                <label for="two" class="active check">&check; <span class="titlelevel">Paid</span></label>
+                                                <label for="three">3 <span class="titlelevel">Shipped</span></label>
+                                                <label for="four">4 <span class="titlelevel">Delivered</span></label>
+                                            </div>
+                                                <span class="progress1 width2"><span></span></span>
+                                            {{/ifCond}} 
+                                            {{#ifCond this.orderStatus "==" "Shipped"}}
+                                            <div class="stages">                 
+                                                <label for="one"class="check">&check; <span class="titlelevel">Ordered</span></label>
+                                                <label for="two" class="check">&check;<span class="titlelevel">Paid</span></label>
+                                                <label for="three" class="active check">&check;<span class="titlelevel">Shipped</span></label>
+                                                <label for="four"> 4 <span class="titlelevel">Delivered</span></label>
+                                            </div>
+                                                <span class="progress1 width3"><span></span></span>
+                                            {{/ifCond}}
+                                            {{#ifCond this.orderStatus "==" "Completed"}}
+                                            <div class="stages">                 
+                                                <label for="one" class="check">&check; <span class="titlelevel">Ordered</span></label>
+                                                <label for="two" class="check">&check;<span class="titlelevel">Paid</span></label>
+                                                <label for="three" class="check">&check;<span class="titlelevel">Shipped</span></label>
+                                                <label for="four" class="active check">&check;<span class="titlelevel">Delivered</span></label>
+                                            </div>
+                                                <span class="progress1 width4"><span></span></span>
+                                            {{/ifCond}}             	
                                         </div>
                                     </div>
                                 </div>
@@ -210,3 +242,23 @@
         </div>
     </div>
 </div>
+<script>
+    $('.formlevel .stages label').click(function() {
+	var radioButtons = $('.formlevel input:radio');
+	var selectedIndex = radioButtons.index(radioButtons.filter(':checked'));
+	selectedIndex = selectedIndex + 1;
+});
+
+$('.formlevel button').click(function() {
+	var radioButtons = $('.formlevel input:radio');
+	var selectedIndex = radioButtons.index(radioButtons.filter(':checked'));
+
+	selectedIndex = selectedIndex + 2;
+
+	$('.formlevel input[type="radio"]:nth-of-type(' + selectedIndex + ')').prop('checked', true);
+
+	if (selectedIndex == 6) {
+		$('button').html('Submit');
+	}
+});
+</script>

@@ -2288,14 +2288,13 @@ a {
 .list-product {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
 }
 .list-product div{
   margin: 5px;
+  margin-left: 20px;
 }
 .list-product img {
-  max-height: 90px;
+  max-height: 120px;
 }
 @media screen and (max-width: 900px)
 {
@@ -3151,6 +3150,138 @@ margin-bottom: 30px;
     transition: all .5s ease;
  }
 
+#orderForm .card{
+  border: none;
+}
+#accordion .card {
+  box-shadow: 0px 0px 2px 2px rgba(150,150,150,0.6);
+  padding: 8px 0px;
+  font-family: 'Montserrat';
+  font-weight: 500;
+  font-size: 14px;
+}
+#accordion .card .orderid span{
+  padding: 8px 10px;
+  border: 1px solid rgb(219, 219, 219);
+}
+#accordion .card .orderid span.id { 
+  background-color: rgb(219, 219, 219); 
+}
+.flexcardorder {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.flexcardorder ul{
+  margin: 0px 7px;
+}
+/* level */
+.formlevel {
+  width: 80%;
+  margin: 3px auto;
+}
+.stages {
+	font-size: 0;
+	text-align: justify;
+}
+
+.stages:after {
+	content: '';
+	display: inline-block;
+	font-size: 0;
+	text-align: justify;
+	width: 100%;
+}
+
+input[type="radio"] {
+	display: none;
+}
+
+.stages label {
+	background: #ffffff;
+	border: solid 5px #c0c0c0;
+	border-radius: 50%;
+	cursor: pointer;
+	display: inline-flex;
+	font-size: 16px;
+	font-weight: 700;
+	height: 50px;
+	line-height: 50px;
+	position: relative;
+	text-align: center;
+	vertical-align: top;
+	width: 50px;
+  z-index: 1;
+  justify-content: center;
+  align-items: center;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.stages label.check {
+	color: #0cc39f !important;
+	display: inline-flex;
+	font-size: 16px;
+}
+.stages label.active{
+	border-color: #0cc39f !important;
+}
+.stages label span{
+  color: rgb(87, 87, 87) !important;
+  position: absolute;
+  top: 30px;
+  font-weight: 400;
+}
+#one:checked ~ .stages label[for="one"],
+#two:checked ~ .stages label[for="two"],
+#three:checked ~ .stages label[for="three"],
+#four:checked ~ .stages label[for="four"],
+#five:checked ~ .stages label[for="five"],
+#six:checked ~ .stages label[for="six"] {
+	border-color: #0cc39f;
+}
+#one:checked ~ .stages label,
+#two:checked ~ .stages label[for="one"] ~ label,
+#three:checked ~ .stages label[for="two"] ~ label,
+#four:checked ~ .stages label[for="three"] ~ label,
+#five:checked ~ .stages label[for="four"] ~ label,
+#six:checked ~ .stages label[for="five"] ~ label {
+	font-size: 1rem;
+}
+
+#one:checked ~ .stages label:after,
+#two:checked ~ .stages label[for="one"] ~ label:after,
+#three:checked ~ .stages label[for="two"] ~ label:after,
+#four:checked ~ .stages label[for="three"] ~ label:after,
+#five:checked ~ .stages label[for="four"] ~ label:after,
+#six:checked ~ .stages label[for="five"] ~ label:after {
+	display: none;
+}
+
+.progress1 > span {
+	background: #c0c0c0;
+	display: inline-block;
+	height: 5px;
+	transform: translateY(-3.2em);
+	transition: 0.3s;
+	width: 0;
+}
+
+.width2 span {
+	width: calc(100% / 3 * 1);
+}
+
+.width3 span {
+	width: calc(100% / 3 * 2);
+}
+
+.width4 span {
+	width: calc(100% / 3 * 3);
+}
 
 /*
 [type="checkbox"]:not(:checked),
