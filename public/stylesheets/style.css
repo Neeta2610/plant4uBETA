@@ -3175,6 +3175,21 @@ margin-bottom: 30px;
 .flexcardorder ul{
   margin: 0px 7px;
 }
+.orderid {
+  display: inline-flex;
+  overflow-x: auto;
+}
+@media screen and (max-width: 560px) {
+  .flexcardorder {
+    flex-direction: column;
+  }
+  .flexcardorder ul{
+    margin: 7px 0px;
+  }
+  .orderid {
+    font-size: 12px;
+  }
+}
 /* level */
 .formlevel {
   width: 80%;
