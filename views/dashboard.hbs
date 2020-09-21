@@ -57,7 +57,7 @@
                         {{#each dashboardData.topProducts}}
                         <li class="media my-4 align-middle">
                             {{#if this.productImage}}
-                            <img src="{{this.productImage}}" class="col-2 mr-3 img-fluid" alt="image {{this._id}}">
+                            <img src="{{this.productImage.[0].path}}" class="col-2 mr-3 img-fluid" alt="image {{this._id}}">
                             {{else}}
                             <img src="/images/placeholder.png" class="col-2 mr-3 img-fluid" alt="mage {{this._id}}">
                             {{/if}}

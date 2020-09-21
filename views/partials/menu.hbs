@@ -11,11 +11,11 @@
                 <li class="border-bottom mb-0"><a
                         class="nav-link-style d-flex align-items-center px-4 py-3 sidebar-search" data-toggle="modal"
                         data-target="#globalSearchModal" href="#">
-                        <i class="czi-search opacity-60 mr-2"></i>Search</a>
+                        <i class="fas fa-search mr-2"></i>Search</a>
                 </li>
 
                 <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3"
-                        href="/admin/dashboard"><i class="czi-list opacity-60 mr-2"></i>Dashboard</a></li>
+                        href="/admin/dashboard"><i class="fas fa-bars mr-2"></i>Dashboard</a></li>
             </ul>
             <div class="bg-secondary p-4">
                 <h3 class="font-size-sm mb-0 text-muted">Manage</h3>
@@ -23,28 +23,28 @@
             <ul class="list-unstyled mb-0">
             {{#ifCond session.isAdmin '===' true}}
                 <li class="border-bottom mb-0 d-flex"><a class="nav-link-style d-flex align-items-center px-4 py-3"
-                        href="/admin/products"><i class="czi-lable opacity-60 mr-2"></i>Products</a>
+                        href="/admin/products"><i class="fas fa-box-open opacity-60 mr-2"></i>Products</a>
                     <a class="sidebar-link-addon text-muted m-auto" href="/admin/product/new">
                     {{{feather 'plus'}}}</a></li>
             {{else}}
                 <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3"
-                        href="/admin/products"><i class="czi-lable opacity-60 mr-2"></i>Products</a></li>
+                        href="/admin/products"><i class="fas fa-box-open opacity-60 mr-2"></i>Products</a></li>
             {{/ifCond}}
 
                 <li class="border-bottom mb-0 d-flex"><a class="nav-link-style d-flex align-items-center px-4 py-3"
-                        href="/admin/orders"><i class="czi-basket opacity-60 mr-2"></i>Orders</a>
+                        href="/admin/orders"><i class="fas fa-clipboard-list opacity-60 mr-2"></i>Orders</a>
                     <a class="sidebar-link-addon text-muted m-auto" href="/admin/order/create">
                     {{{feather 'plus'}}}
                 </a>
                 </li>
 
                 <li class="mb-0 border-bottom"><a class="nav-link-style d-flex align-items-center px-4 py-3"
-                        href="/admin/customers"><i class="czi-user opacity-60 mr-2"></i>Customers</a>
+                        href="/admin/customers"><i class="fas fa-users opacity-60 mr-2"></i>Customers</a>
 
                 </li>
 
                  <li class="mb-0 d-flex"><a class="nav-link-style d-flex align-items-center px-4 py-3"
-                        href="/admin/users"><i class="czi-user-circle opacity-60 mr-2"></i>Users</a>
+                        href="/admin/users"><i class="fas fa-user opacity-60 mr-2"></i>Users</a>
                     <a class="sidebar-link-addon text-muted m-auto" href="/admin/user/new">
                     {{{feather 'plus'}}}
                 </a>            
@@ -55,20 +55,20 @@
             </div>
             <ul class="list-unstyled mb-0">
                 <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3"
-                        href="/admin/settings"><i class="czi-settings opacity-60 mr-2"></i>General Settings</a></li>
+                        href="/admin/settings"><i class="fas fa-cog opacity-60 mr-2"></i>General Settings</a></li>
                 <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3"
-                        href="/admin/settings/categories"><i class="czi-menu opacity-60 mr-2"></i>Categories</a></li>
+                        href="/admin/settings/categories"><i class="fas fa-tasks opacity-60 mr-2"></i>Categories</a></li>
                 <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3"
-                        href="/admin/settings/filters"><i class="czi-menu opacity-60 mr-2"></i>Filters</a></li>
+                        href="/admin/settings/filters"><i class="fas fa-sort opacity-60 mr-2"></i>Filters</a></li>
                 <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3"
-                        href="/admin/settings/menu"><i class="czi-menu opacity-60 mr-2"></i>Menu</a></li>
+                        href="/admin/settings/menu"><i class="fas fa-caret-square-down opacity-60 mr-2"></i>Menu</a></li>
                 <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3"
-                        href="/admin/settings/pages"><i class="czi-document opacity-60 mr-2"></i>Static Pages</a></li>
+                        href="/admin/settings/pages"><i class="fas fa-file opacity-60 mr-2"></i>Static Pages</a></li>
                 <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3"
-                        href="/admin/settings/discounts"><i class="czi-discount opacity-60 mr-2"></i>Discount Codes</a>
+                        href="/admin/settings/discounts"><i class="fas fa-tags opacity-60 mr-2"></i>Discount Codes</a>
                 </li>
                 <li class="mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3"
-                        href="/admin/logout"><i class="czi-sign-out opacity-60 mr-2"></i>Sign Out</a></li>
+                        href="/admin/logout"><i class="fas fa-sign-out-alt opacity-60 mr-2"></i>Sign Out</a></li>
             </ul>
         </div>
     </div>
