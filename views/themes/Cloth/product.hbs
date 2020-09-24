@@ -176,8 +176,12 @@
                             <div class="promooffers">
                                 <h6>Available Offers</h6>
                                 <ul>
-                                    <li><strong class="cl-green">PLANT500</strong> Get 5% off on order over 500 (max 50)</li>
-                                    <li><strong class="cl-green">FIRST234</strong> Get 20 off on first order</li>
+                                    {{#if firstoffer}}
+                                    <li><strong class="cl-green">{{firstoffer.code}}</strong> Get a Discount of {{firstoffer.value}} {{#ifCond firstoffer.type "==" "amount"}} ₹{{else}}%{{/ifCond}} if first time purchase {{#if firstoffer.minimum}}and on order above {{firstoffer.minimum}}{{/if}}</li>
+                                    {{/if}}
+                                    {{#if secondoffer}}
+                                    <li><strong class="cl-green">{{secondoffer.code}}</strong> Get a Discount of {{secondoffer.value}} {{#ifCond secondoffer.type "==" "amount"}} ₹{{else}}%{{/ifCond}} if first time purchase {{#if secondoffer.minimum}}and on order above {{secondoffer.minimum}}{{/if}}</li>
+                                    {{/if}}
                                 </ul>
                             </div>
 

@@ -1191,10 +1191,26 @@ router.get('/product/:id', async (req, res) => {
     const ordersUser = await db.orders.findOne({$and: [{ orderCustomer: getId(req.session.customerId) }, { [existvalue] : { $exists : true } }] });
     const reviewUser = await db.reviews.findOne({ $and: [{ productId: getId(product._id) }, { userId: getId(req.session.customerId) }] });
     const reviewslist = await db.reviews.find({ productId: getId(product._id) }).toArray();
+    var date = moment(new Date(), 'DD/MM/YYYY HH:mm').toDate().toString().split('GMT')[0].concat("GMT+0530 (GMT+05:30)");
+    const offers = await db.discounts.find({}).toArray();
+    var firstoffer = null;
+    var secondoffer = null;
+    for(let a in offers){
+        if(moment(new Date(date)).isBetween(new Date(offers[a].start), new Date(offers[a].end))) {
+            if(secondoffer){
+                break;
+            }
+            else if(firstoffer){
+                secondoffer = offers[a];
+            }
+            else {
+                firstoffer = offers[a];
+            }
+        }
+    }
     if(!reviewslist){
         reviewslist = false;
     }
-    
     if(reviewUser && req.session.customerPresent) {
         editreviewPermission = true;
         rdata.title = reviewUser.title;
@@ -1247,6 +1263,8 @@ router.get('/product/:id', async (req, res) => {
         result: product,
         variants,
         images: images,
+        firstoffer: firstoffer,
+        secondoffer: secondoffer,
         relatedProducts,
         productDescription: stripHtml(product.productDescription),
         metaDescription: config.cartTitle + ' - ' + product.productTitle,
