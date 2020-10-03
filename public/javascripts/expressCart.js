@@ -224,7 +224,23 @@ $(document).ready(function () {
             });
         }
     }
-
+    $('.usedropaddress').on('click',function(e){
+        e.preventDefault();
+        $.ajax({
+            method: 'POST',
+            url: '/customer/changeaddress',
+            data: {
+                id: $(this).attr('data-id')
+            }
+        })
+        .done(function(msg){
+            showNotification(msg.message, 'success');
+            location.reload();
+        })
+        .fail(function(msg){
+            showNotification(msg.responseText, 'danger');
+        });
+    });
     $('#customerLogout').on('click', function (e) {
         $.ajax({
                 method: 'POST',

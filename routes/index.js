@@ -82,30 +82,40 @@ router.post('/checkout_action', async (req, res, next) => {
             paymentStatus = 'Declined';
         } */
         let paymentMethod = 'COD';
-        var customer = {};
-        if(!req.session.customerFirstname){
+        console.log(req.body);
+        var deliveryaddress = {};
+        if(req.body.shipFirstname){
             req.session.customerFirstname = req.body.shipFirstname;
-            customer.firstName = req.session.customerFirstname;
+            deliveryaddress.firstname = req.session.customerFirstname;
         }
-        if(!req.session.customerLastname){
+        if(req.body.shipLastname){
             req.session.customerLastname = req.body.shipLastname;
-            customer.lastName = req.session.customerLastname;
+            deliveryaddress.lastname = req.session.customerLastname;
         }
-        if(!req.session.customerAddress1){
+        if(req.body.shipAddr1){
             req.session.customerAddress1 = req.body.shipAddr1;
-            customer.address1 = req.session.customerAddress1;
+            deliveryaddress.address1 = req.session.customerAddress1;
         }
-        if(!req.session.customerPostcode){
+        if(req.body.shipCity){
+            req.session.customerCity = req.body.shipCity;
+            deliveryaddress.city = req.session.customerCity;
+        }
+        if(req.body.shipPostcode){
             req.session.customerPostcode = req.body.shipPostcode;
-            customer.postcode = req.session.customerPostcode;
+            deliveryaddress.postcode = req.session.customerPostcode;
         }
-        if(!req.session.customerState){
+        if(req.body.shipState){
             req.session.customerState = req.body.shipState;
-            customer.state = req.session.customerState;
+            deliveryaddress.state = req.session.customerState;
         }
-        if(!isEmpty(customer)){
+        if(req.body.shipPhone){
+            deliveryaddress.phone = req.body.shipPhone;
+        }
+        if(!isEmpty(deliveryaddress)){
             try{
-                await db.customers.findOneAndUpdate({ _id: common.getId(req.session.customerId)},{$set: customer});
+                if(deliveryaddress){
+                    await db.customers.findOneAndUpdate({ _id: common.getId(req.session.customerId)},{$push: {deliveryaddress: deliveryaddress }});
+                }   
             }
             catch(ex){
                 req.session.message = "Error updating user";
@@ -113,6 +123,13 @@ router.post('/checkout_action', async (req, res, next) => {
                 res.redirect('/checkout/information');
                 return;
             }
+        }
+        if(!req.session.customerAddress1){
+            message = "Select A Address";
+            req.session.message = message;
+            req.session.messageType = 'danger';
+            res.redirect('/checkout/information');
+            return;
         }
         var response = pin.lookup(req.body.shipPostcode);
         if(availableDistrict.indexOf(response[0].districtName) != -1){
@@ -138,7 +155,7 @@ router.post('/checkout_action', async (req, res, next) => {
             orderLastname: req.session.customerLastname,
             orderAddr1: req.session.customerAddress1,
            // orderAddr2: req.session.customerAddress2,
-          //  orderCountry: req.session.customerCountry,
+            orderCity: req.session.customerCity,
             orderState: req.session.customerState,
             orderPostcode: req.session.customerPostcode,
             orderPhoneNumber: req.session.customerPhone,
@@ -285,7 +302,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
     
     var productlist = ``;
   
-    
+
     for(let a in order.orderProducts){
     productlist += `<tr style="border-collapse:collapse"> 
     <td align="left" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px;background-position:center top"> 
@@ -796,11 +813,11 @@ await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Comp
             items += ` Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
         }
     var sendmessage = `Your next order of `+items+` has shipped and should be delivered on `+address+`. Details: `+detailsmessage+``;
-    client.messages.create({
-        from:'whatsapp:+14155238886',
-        to:'whatsapp:+919910160442',
-        body:sendmessage
-    }).then(message=> console.log(message));
+    // client.messages.create({
+    //     from:'whatsapp:+14155238886',
+    //     to:'whatsapp:+919910160442',
+    //     body:sendmessage
+    // }).then(message=> console.log(message));
    
     res.render('success', {
         title: 'Payment complete',
@@ -822,6 +839,7 @@ router.get('/emptycart', async (req, res, next) => {
 
 router.get('/checkout/information', async (req, res, next) => {
     const config = req.app.config;
+    const db = req.app.db;
     // if there is no items in the cart then render a failure
     if(!req.session.cart){
         req.session.message = 'The are no items in your cart. Please add some items before checking out';
@@ -829,10 +847,13 @@ router.get('/checkout/information', async (req, res, next) => {
         res.redirect('/');
         return;
     }
-
     let paymentType = '';
     if(req.session.cartSubscription){
         paymentType = '_subscription';
+    }
+    var customerArray = {};
+    if(req.session.customerPresent){
+        customerArray = await db.customers.findOne({_id: getId(req.session.customerId)});
     }
     
     // render the payment page
@@ -841,6 +862,7 @@ router.get('/checkout/information', async (req, res, next) => {
         config: req.app.config,
         session: req.session,
         categories: req.app.categories,
+        customerArray: customerArray,
         paymentType,
         cartClose: false,
         page: 'checkout-information',

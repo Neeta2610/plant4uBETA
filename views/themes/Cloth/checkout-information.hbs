@@ -1,102 +1,112 @@
 {{#if @root.session.customerPresent}}
 <div class="cart-table-area section-padding-100 top-marg-150">
             <div class="container-fluid">
-              <form action="/checkout_action" method="post">
                 <div class="row">
-                    <div class="col-12 col-lg-8">
+                    <div class="col-12 col-lg-7">
                         <div class="checkout_details_area mt-50 clearfix">
 
                             <div class="cart-title checkout-title">
-                                <h2>Your Information</h2>
+                                <div class="h6">
+                                    <strong>Hello</strong> <br>
+                                    <span>Customer</span>
+                                </div>
+                                <div class="h2">
+                                    Checkout
+                                </div>
+                                 <a class="btn btn-danger" href="/customer/logout">Logout</a>
                             </div>
 
-                            
-                                <div class="row">
-                                    {{#if @root.session.customerFirstname}}
+                            <div class="deliveryaddress">
+                                Delivery Addresses
+                            </div>
+                                <div class="row top-marg-10">
+                                    <div class="addresses w-100">
+                                        {{#if customerArray.deliveryaddress}}
+                                        {{#each customerArray.deliveryaddress}}
+                                        <div class="address">
+                                        <div class="number">
+                                            {{#ifCond @root.session.customerAddress1 "==" this.address1}}
+                                            <div>
+                                            <img src="/images/tick1.png" alt="Choose Address">
+                                            </div>
+                                            {{/ifCond}}
+                                            <div>
+                                            <h4>{{this.firstname}} {{this.lastname}} {{this.phone}}</h4>
+                                            </div>
+                                        </div>
+                                        <div class="add">
+                                        {{this.address1}} {{this.city}} {{this.state}}, {{this.postcode}}
+                                        </div>
+                                        {{#ifCond @root.session.customerAddress1 "!=" this.address1}}
+                                        <div class="button">
+                                            <button class="usedropaddress" data-id="{{@key}}">Use This Address</button>
+                                        </div>
+                                        {{/ifCond}}
+                                        </div>
+                                        <hr>
+                                        {{/each}}
+                                        {{else}}
+                                        {{!-- <h5 class="text-danger pl-2 top-marg-10 bottom-marg-10 text-centre w-100">
+                                            <strong>No Delivery Address Available</strong>
+                                        </h5> --}}
+                                        <hr>
+                                        {{/if}}
+                                    </div>
+                                    <div class="newaddress">
+                                        <div class="addnewaddress col-12" id="addnew">
+                                            <i class="fas fa-plus"></i>
+                                            Add New Address
+                                            <div class="float-right down">
+                                                <i class="fas fa-sort-down"></i>
+                                            </div>
+                                        </div>
+
+                                    <div class="collapse col-12 " id="dropdownnew">
+                                        <form action="/checkout_action" method="post" class="row w-100">
                                     <div class="col-md-6 mb-3">
                                         <input type="text" class="form-control" id="shipFirstname" name="shipFirstname" placeholder="First name"
-                    value="{{@root.session.customerFirstname}}"  disabled>
+                     required>
                                     </div>
-                                    {{else}}
-                                    <div class="col-md-6 mb-3">
-                                        <input type="text" class="form-control" id="shipFirstname" name="shipFirstname" placeholder="First name"
-                    value="{{@root.session.customerFirstname}}"  required>
-                                    </div>
-                                    {{/if}}
-                                    {{#if @root.session.customerLastname}}
+                                    
                                     <div class="col-md-6 mb-3">
                                         <input type="text" class="form-control" id="shipLastname" name="shipLastname" placeholder="Last name"
-                    value="{{@root.session.customerLastname}}" disabled>
+                    required>
                                     </div>
-                                    {{else}}
-                                    <div class="col-md-6 mb-3">
-                                        <input type="text" class="form-control" id="shipLastname" name="shipLastname" placeholder="Last name"
-                    value="{{@root.session.customerLastname}}" required>
-                                    </div>
-                                    {{/if}}
-                                    {{#if @root.session.customerPhone}}
-                                    <div class="col-12 mb-3">
-                                        <input type="text" class="form-control" id="shipPhoneNumber" name="shipPhoneNumber" placeholder="Phone number"
-                    value="{{@root.session.customerPhone}}" disabled>
-                                    </div>
-                                    {{else}}
-                                    <div class="col-12 mb-3">
-                                        <input type="text" class="form-control" id="shipPhoneNumber" name="shipPhoneNumber" placeholder="Phone number"
-                    value="{{@root.session.customerPhone}}" required>
-                                    </div>
-                                    {{/if}}
-                                    {{#if @root.session.customerEmail}}
-                                    <div class="col-12 mb-3">
-                                        <input type="email" class="form-control" id="shipEmail" name="shipEmail" placeholder="Email address"
-                    value="{{@root.session.customerEmail}}" disabled>
-                                    </div>
-                                    {{else}}
-                                    <div class="col-12 mb-3">
-                                        <input type="email" class="form-control" id="shipEmail" name="shipEmail" placeholder="Email address"
-                    value="{{@root.session.customerEmail}}" required>
-                                    </div>
-                                    {{/if}}
-                                    {{#if @root.session.customerAddress1}}
+                                    
+                                    
                                     <div class="col-12 mb-3">
                                         <input type="text" class="form-control mb-3" id="shipAddr1" name="shipAddr1" placeholder="Address"
-                    value="{{@root.session.customerAddress1}}" disabled>
+                    required>
                                     </div>
-                                    {{else}}
-                                    <div class="col-12 mb-3">
-                                        <input type="text" class="form-control mb-3" id="shipAddr1" name="shipAddr1" placeholder="Address"
-                    value="{{@root.session.customerAddress1}}" required>
+                                   
+                                <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" id="shipPhone" name="shipPhone" placeholder="Phone number"
+                    required>
                                     </div>
-                                    {{/if}}
-                                    {{#if @root.session.customerPostcode}}
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" id="shipCity" name="shipCity" placeholder="City"
+                    required>
+                                    </div>
                                     <div class="col-md-6 mb-3">
                                         <input type="text" class="form-control" id="shipPostcode" name="shipPostcode" placeholder="Pin code"
-                    value="{{@root.session.customerPostcode}}" disabled>
+                    required>
                                     </div>
-                                    {{else}}
-                                    <div class="col-md-6 mb-3">
-                                        <input type="text" class="form-control" id="shipPostcode" name="shipPostcode" placeholder="Pin code"
-                    value="{{@root.session.customerPostcode}}" required>
-                                    </div>
-                                    {{/if}}
-                                    {{#if @root.session.customerState}}
+                                    
                                     <div class="col-md-6 mb-3">
                                         <input type="text" class="form-control" id="shipState" name="shipState" placeholder="State"
-                    value="{{@root.session.customerState}}" >
+                     required>
                                     </div>
-                                    {{else}}
-                                    <div class="col-md-6 mb-3">
-                                        <input type="text" class="form-control" id="shipState" name="shipState" placeholder="State"
-                    value="{{@root.session.customerState}}" required>
+                                    <div class="button">
+                                        <button class="btn btn-primary btn-block btn-shadow"  type="submit">ADD AND USE THIS</button>
                                     </div>
-                                    {{/if}}
-                                    <div class="col-12 mb-3">
-                                        <textarea name="comment" class="form-control w-100" id="comment" cols="30" rows="10" placeholder="Leave a comment about your order" disabled></textarea>
+                                    </form>
+                                    </div>
                                     </div>
                                 </div>
                         
                         </div>
                     </div>
-                    <div class="col-12 col-lg-4">
+                    <div class="col-12 col-lg-5">
                         <div class="cart-summary">
                             <h5>Cart Total</h5>
                             <ul class="summary-table">
@@ -124,14 +134,15 @@
                                     <label class="custom-control-label" for="paypal">Paypal <img class="ml-15" src="/images/paypal.png" alt=""></label>
                                 </div>
                             </div>
-
+                            <form action="/checkout_action" method="post" class="">
                             <div class="cart-btn mt-100">
                                 <button  class="btn amado-btn w-100">Place Order</button>
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-                 </form>
+                 
             </div>
         </div>
 
@@ -140,52 +151,52 @@
             <div class="container-fluid">
               <form action="/customer/register" method="post">
                 <div class="row">
-                    <div class="col-12 col-lg-8">
+                    <div class="col-12 col-lg-7">
                         <div class="checkout_details_area mt-50 clearfix">
 
                             <div class="cart-title checkout-title">
-                                <h2>Fill Information</h2>
+                                <div class="h6">
+                                    <strong>Hello</strong> <br>
+                                    <span>New User</span>
+                                </div>
+                                <div class="h2">
+                                    Checkout
+                                </div>
                                 <a class="btn btn-primary" href="#signin-modal" data-toggle="modal">Login</a>
                             </div>
 
                             
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <input type="text" class="form-control" id="shipFirstname" name="shipFirstname" placeholder="First name"
-                    value="{{@root.session.customerFirstname}}" required>
+                                        <input type="text" class="form-control" id="shipFirstname" name="shipFirstname" placeholder="First name" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <input type="text" class="form-control" id="shipLastname" name="shipLastname" placeholder="Last name"
-                    value="{{@root.session.customerLastname}}" required>
+                                        <input type="text" class="form-control" id="shipLastname" name="shipLastname" placeholder="Last name" required>
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <input type="text" class="form-control" id="shipPhoneNumber" name="shipPhoneNumber" placeholder="Phone number"
-                    value="{{@root.session.customerPhone}}" required>
+                                        <input type="text" class="form-control" id="shipPhoneNumber" name="shipPhoneNumber" placeholder="Phone number" required>
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <input type="email" class="form-control" id="shipEmail" name="shipEmail" placeholder="Email address"
-                    value="{{@root.session.customerEmail}}" required>
+                                        <input type="email" class="form-control" id="shipEmail" name="shipEmail" placeholder="Email address" required>
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <input type="text" class="form-control mb-3" id="shipAddr1" name="shipAddr1" placeholder="Address"
-                    value="{{@root.session.customerAddress1}}" required>
+                                        <input type="text" class="form-control mb-3" id="shipAddr1" name="shipAddr1" placeholder="Address" required>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <input type="text" class="form-control mb-3" id="shipCity" name="shipCity" placeholder="City" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <input type="text" class="form-control" id="shipPostcode" name="shipPostcode" placeholder="Pin code"
-                    value="{{@root.session.customerPostcode}}" required>
+                                        <input type="text" class="form-control" id="shipPostcode" name="shipPostcode" placeholder="Pin code" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <input type="text" class="form-control" id="shipState" name="shipState" value="{{@root.session.customerState}}"
+                                        <input type="text" class="form-control" id="shipState" name="shipState"
                                          placeholder="State" required>
-                                    </div>
-                                    <div class="col-12 mb-3">
-                                        <textarea name="comment" class="form-control w-100" id="comment" cols="30" rows="10" placeholder="Leave a comment about your order"></textarea>
                                     </div>
                                 </div>
                         
                         </div>
                     </div>
-                    <div class="col-12 col-lg-4">
+                    <div class="col-12 col-lg-5">
                         <div class="cart-summary">
                             <h5>Cart Total</h5>
                             <ul class="summary-table">
@@ -224,3 +235,14 @@
 <a class="btn-scroll-top" href="#top" data-scroll><span
     class="btn-scroll-top-tooltip text-muted font-size-sm mr-2">Top</span><i class="btn-scroll-top-icon czi-arrow-up">
   </i></a>
+  <script>
+      $('#addnew').on('click',()=>{
+          if($('#dropdownnew').hasClass('show')){
+              $('#dropdownnew').removeClass('show');
+          }
+          else{
+            $('#dropdownnew').addClass('show');
+          }
+      
+    });
+  </script>

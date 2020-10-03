@@ -70,6 +70,7 @@ router.post('/customer/register', async function(req, res) {
             req.session.customerFirstname = req.body.shipFirstname;
             req.session.customerLastname = req.body.shipLastname;
             req.session.customerAddress1 = req.body.shipAddr1;
+            req.session.customerCity = req.body.shipCity;
             req.session.customerState = req.body.shipState;
             req.session.customerPostcode = req.body.shipPostcode;
             req.session.customerPhone = req.body.shipPhoneNumber;
@@ -158,6 +159,22 @@ router.post('/customer/registerdirect', async (req, res)=>{
     	}
    	});
 });
+router.post('/customer/changeaddress', async (req, res)=>{
+    const db = req.app.db;
+    var customer = await db.customers.findOne({_id: getId(req.session.customerId)});
+    if(!customer){
+        res.state(400).json({message: "Customer Not Exist"});
+        return;
+    }
+    req.session.customerFirstname = customer.deliveryaddress[req.body.id].firstname;
+    req.session.customerLastname = customer.deliveryaddress[req.body.id].lastname;
+    req.session.customerAddress1 = customer.deliveryaddress[req.body.id].address1;
+    req.session.customerState = customer.deliveryaddress[req.body.id].state;
+    req.session.customerPostcode = customer.deliveryaddress[req.body.id].postcode;
+    req.session.customerCity = customer.deliveryaddress[req.body.id].city;
+    res.status(200).json({message: "Adress Changes"});
+    return;
+});
 router.post('/customer/confirm', async (req, res)=> {
 	console.log('New verify request...');
     const config = req.app.config;
@@ -188,13 +205,20 @@ router.post('/customer/confirm', async (req, res)=> {
                 };
             }
             else {
+                deliveraddress = {
+                    "firstname": req.session.customerFirstname,
+                    "lastname": req.session.customerLastname,
+                    "address1": req.session.customerAddress1,
+                    "city": req.session.customerCity,
+                    "state": req.session.customerState,
+                    "phone": req.session.customerPhone,
+                    "postcode": req.session.customerPostcode
+                }
+                var deliveryaddresses = [deliveraddress];
+                console.log(deliveryaddresses)
                 customerObj = {
                     email: req.session.customerEmail,
-                    firstName: req.session.customerFirstname,
-                    lastName: req.session.customerLastname,
-                    address1: req.session.customerAddress1,
-                    state: req.session.customerState,
-                    postcode: req.session.customerPostcode,
+                    deliveryaddress: deliveryaddresses,
                     phone: req.session.customerPhone,
                     password: bcrypt.hashSync(req.body.shipPassword, 10),
                     created: new Date()
@@ -229,12 +253,13 @@ router.post('/customer/confirm', async (req, res)=> {
                     req.session.customerId = customerReturn._id;
                     req.session.customerEmail = customerReturn.email;
                     req.session.customerPhone = customerReturn.phone;
-                    if(customerReturn.firstName){
-                        req.session.customerFirstname = customerReturn.firstName;
-                        req.session.customerLastname = customerReturn.lastName;
-                        req.session.customerAddress1 = customerReturn.address1;
-                        req.session.customerState = customerReturn.state;
-                        req.session.customerPostcode = customerReturn.postcode;
+                    if(customerReturn.deliveryaddress){
+                        req.session.customerFirstname = customerReturn.deliveryaddress[0].firstname;
+                        req.session.customerLastname = customerReturn.deliveryaddress[0].lastname;
+                        req.session.customerAddress1 = customerReturn.deliveryaddress[0].address1;
+                        req.session.customerState = customerReturn.deliveryaddress[0].state;
+                        req.session.customerPostcode = customerReturn.deliveryaddress[0].postcode;
+                        req.session.customerCity = customerReturn.deliveryaddress[0].city;
                     }
                 //    req.session.orderComment = req.body.orderComment;
     

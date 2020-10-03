@@ -347,7 +347,7 @@
       <div class="modal-body tab-content py-4 checkout_details_area">
         <form action="/customer/confirm" method="post" class="needs-validation tab-pane fade show active" autocomplete="off" novalidate id="signin-tab">
           <div class="form-group">
-            <input class="form-control" type="tel" name="pin" id="otp" placeholder="Enter the OTP send to register mobile number" required>
+            <input class="form-control bottom-marg-10" type="tel" name="pin" id="otp" placeholder="Enter the OTP send to register mobile number" required>
             <input type="hidden" name="requestId" value="{{session.requestId}}" >
             <input type="hidden" name="originalUrl" value="/customer/account">
             <div class="invalid-feedback">Please enter the OTP</div>

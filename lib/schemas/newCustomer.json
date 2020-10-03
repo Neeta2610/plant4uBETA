@@ -6,20 +6,8 @@
             "type": "string",
             "format": "emailAddress"
         },
-        "firstName": {
-            "type": "string"
-        },
-        "lastName": {
-            "type": "string"
-        },
-        "address1": {
-            "type": "string"
-        },
-        "state": {
-            "type": "string"
-        },
-        "postcode": {
-            "type": "string"
+        "deliveryaddress": {
+            "type": "array"
         },
         "phone": {
             "type": "string",
