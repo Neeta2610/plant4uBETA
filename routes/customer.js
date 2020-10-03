@@ -175,6 +175,27 @@ router.post('/customer/changeaddress', async (req, res)=>{
     res.status(200).json({message: "Adress Changes"});
     return;
 });
+router.get('/customer/changealladd', async (req, res)=>{
+    const db = req.app.db;
+    var customer = await db.customers.find({}).toArray();
+    var list1 = [];
+    for(var i = 0; i< customer.length; i++){
+        if(customer[i].firstName){
+            var deliveryaddress = {
+            "firstname": customer[i].firstName,
+            "lastname": customer[i].lastName,
+            "address1": customer[i].address1,
+            "state": customer[i].state,
+            "postcode": customer[i].postcode,
+            "phone": customer[i].phone
+            };
+            var deliveryadd = [deliveryaddress];
+            await db.customers.findOneAndUpdate({_id: getId(customer[i]._id)},{$set: {deliveryaddress: deliveryadd}});
+        }
+    }
+    await db.customers.update({}, {$unset: {firstName:1,lastName:1,address1:1,state:1,postcode:1,country:1}} , {multi: true});
+    res.redirect('/');
+});
 router.post('/customer/confirm', async (req, res)=> {
 	console.log('New verify request...');
     const config = req.app.config;
