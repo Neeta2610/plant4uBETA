@@ -3005,13 +3005,20 @@ box-shadow: 0px 0px 2px 2px rgb(200,200,200);
 .addresses .address div.button {
   margin-top: 25px;
 }
-.addresses .address div.button button{
+.addresses .address div.button button, .addresses .address div.button a{
   border: none;
   padding: 8px 16px;
   font-weight: 600;
   font-size: 15px;
   background-color: rgb(40, 144, 214);
   color: white;
+}
+.addresses .address div.button form {
+  display: inline-block;
+}
+.addresses .address div.button form .delete {
+  background-color: rgb(180, 26, 21);
+  padding: 5px 16px;
 }
 .address .number {
   display: flex;

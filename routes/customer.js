@@ -175,27 +175,27 @@ router.post('/customer/changeaddress', async (req, res)=>{
     res.status(200).json({message: "Adress Changes"});
     return;
 });
-// router.get('/customer/changealladd', async (req, res)=>{
-//     const db = req.app.db;
-//     var customer = await db.customers.find({}).toArray();
-//     var list1 = [];
-//     for(var i = 0; i< customer.length; i++){
-//         if(customer[i].firstName){
-//             var deliveryaddress = {
-//             "firstname": customer[i].firstName,
-//             "lastname": customer[i].lastName,
-//             "address1": customer[i].address1,
-//             "state": customer[i].state,
-//             "postcode": customer[i].postcode,
-//             "phone": customer[i].phone
-//             };
-//             var deliveryadd = [deliveryaddress];
-//             await db.customers.findOneAndUpdate({_id: getId(customer[i]._id)},{$set: {deliveryaddress: deliveryadd}});
-//         }
-//     }
-//     await db.customers.update({}, {$unset: {firstName:1,lastName:1,address1:1,state:1,postcode:1,country:1}} , {multi: true});
-//     res.redirect('/');
-// });
+router.get('/customer/changealladd', async (req, res)=>{
+    const db = req.app.db;
+    var customer = await db.customers.find({}).toArray();
+    var list1 = [];
+    for(var i = 0; i< customer.length; i++){
+        if(customer[i].firstName){
+            var deliveryaddress = {
+            "firstname": customer[i].firstName,
+            "lastname": customer[i].lastName,
+            "address1": customer[i].address1,
+            "state": customer[i].state,
+            "postcode": customer[i].postcode,
+            "phone": customer[i].phone
+            };
+            var deliveryadd = [deliveryaddress];
+            await db.customers.findOneAndUpdate({_id: getId(customer[i]._id)},{$set: {deliveryaddress: deliveryadd}});
+        }
+    }
+    await db.customers.update({}, {$unset: {firstName:1,lastName:1,address1:1,state:1,postcode:1,country:1}} , {multi: true});
+    res.redirect('/');
+});
 router.post('/customer/confirm', async (req, res)=> {
 	console.log('New verify request...');
     const config = req.app.config;
@@ -446,7 +446,7 @@ router.post('/customer/save', async (req, res) => {
 });
 
 // Get customer orders
-router.get('/customer/account/:page?', async (req, res) => {
+router.get('/customer/account/:page?/:index1?', async (req, res) => {
     const db = req.app.db;
     const config = req.app.config;
 
@@ -454,7 +454,7 @@ router.get('/customer/account/:page?', async (req, res) => {
         res.redirect('/customer/login');
         return;
     }
-
+    const customer = await db.customers.findOne({_id: getId(req.session.customerId)});
     const orders = await db.orders.find({
         orderCustomer: getId(req.session.customerId)
     })
@@ -464,12 +464,21 @@ router.get('/customer/account/:page?', async (req, res) => {
     if(req.params.page){
         page = req.params.page;
     }
+    var index1 = '';
+    var address = '';
+    if(req.params.index1){
+        index1 = req.params.index1;
+        address = customer.deliveryaddress[index1];
+    }
     res.render(`${config.themeViews}customer-account`, {
         title: 'Orders',
         session: req.session,
         categories: req.app.categories,
         orders: orders,
         page: page,
+        customer: customer,
+        index1: index1,
+        address: address,
         showFooter: "ShowFooter",
         message: clearSessionValue(req.session, 'message'),
         messageType: clearSessionValue(req.session, 'messageType'),
@@ -478,7 +487,38 @@ router.get('/customer/account/:page?', async (req, res) => {
         helpers: req.handlebars.helpers
     });
 });
-
+router.post('/customer/addnewaddress', async (req,res)=>{
+    const db = req.app.db;
+    var customer = await db.customers.findOne({_id: getId(req.session.customerId)});
+    if(!customer) {
+        req.session.message = "Customer Not Found";
+        req.session.messageType = "success";
+        res.redirect('/customer/login');
+        return;
+    }
+    var deliveryadd = {
+        "firstname": req.body.shipFirstname,
+        "lastname": req.body.shipLastname,
+        "phone": req.body.shipPhoneNumber,
+        "address1": req.body.shipAddr1,
+        "city": req.body.shipCity,
+        "state": req.body.shipState,
+        "postcode": req.body.shipPostcode
+    }
+    try{
+        await db.customers.findOneAndUpdate({_id: getId(req.session.customerId)},{$push: {deliveryaddress: deliveryadd}});
+        req.session.message = "Adress Inserted";
+        req.session.messageType = "success";
+        res.redirect('/customer/account/address');
+        return;
+    }catch(ex){
+        console.log(ex);
+        req.session.message = "Error Inserting Address";
+        req.session.messageType = "danger";
+        res.redirect('/customer/account/address');
+        return;
+    }
+});
 // Update a customer
 router.post('/customer/update', async (req, res) => {
     const db = req.app.db;
@@ -503,33 +543,23 @@ router.post('/customer/update', async (req, res) => {
     else{
         newpassww = customer.password;
     }
-    
     var customerObj = {
         password: newpassww,
         email: customer.email,
         phone: customer.phone
     };
-    if(req.body.firstName){
-        customerObj['firstName'] = req.body.firstName;
-        customerObj['lastName'] = req.body.lastName;
-
-        if(req.session.customerAddress1){
-            customerObj['address1'] = req.session.customerAddress1;
-            customerObj['country'] = req.session.customerCountry;
-            customerObj['state'] = req.session.customerState;
-            customerObj['postcode'] = req.session.customerPostcode;
+    if(req.body.shipFirstname){
+        var deliveryaddress = {
+            "firstname": req.body.shipFirstname,
+            "lastname": req.body.shipLastname,
+            "address1": req.body.shipAddr1,
+            "city": req.body.shipCity,
+            "state": req.body.shipState,
+            "postcode": req.body.shipPostcode,
+            "phone": req.body.shipPhoneNumber
         }
-    }
-    else if(req.body.address1){
-        if(req.session.customerFirstname){
-            customerObj['firstName'] = req.session.customerFirstname;
-            customerObj['lastName'] = req.session.customerLastname;
-        }
-
-        customerObj['address1'] = req.body.address1;
-        customerObj['country'] = req.body.country;
-        customerObj['state'] = req.body.state;
-        customerObj['postcode'] = req.body.postcode;
+        customerObj.deliveryaddress = customer.deliveryaddress;
+        customerObj.deliveryaddress[req.body.index1] = deliveryaddress;
     }
 
     const schemaResult = validateJson('editCustomer', customerObj);
@@ -558,15 +588,7 @@ router.post('/customer/update', async (req, res) => {
         .then(() => {
             // Set the customer into the session
             req.session.customerEmail = customerObj.email;
-            req.session.customerFirstname = customerObj.firstName;
-            req.session.customerLastname = customerObj.lastName;
-            req.session.customerAddress1 = customerObj.address1;
-            req.session.customerAddress2 = customerObj.address2;
-            req.session.customerCountry = customerObj.country;
-            req.session.customerState = customerObj.state;
-            req.session.customerPostcode = customerObj.postcode;
             req.session.customerPhone = customerObj.phone;
-            req.session.orderComment = req.body.orderComment;
 
             res.status(200).json({ message: 'Customer updated', customer: updatedCustomer.value });
         });
@@ -575,7 +597,30 @@ router.post('/customer/update', async (req, res) => {
         res.status(400).json({ message: 'Failed to update customer' });
     }
 });
+router.post('/customer/deleteaddress',async (req,res)=>{
+    const db = req.app.db;
+    var customer = await db.customers.findOne({_id: getId(req.session.customerId)});
+    if(!customer){
+        req.session.message = "Customer Does not exist";
+        req.session.messageType = "danger";
+        res.redirect('/customer/login');
+        return;
+    }
+    if(customer.deliveryaddress.length <= req.body.indexdelete) {
+        req.session.message = "Address Not Found";
+        req.session.messageType = "danger";
+        res.redirect('/customer/account');
+        return;
+    }
+    if(req.session.customerId && req.body.indexdelete){
+        await db.customers.findOneAndUpdate({_id: getId(req.session.customerId)},{$pull: {deliveryaddress: customer.deliveryaddress[req.body.indexdelete]}}); 
+        req.session.message = "Address Deleted Successfull";
+        req.session.messageType = "success";
+        res.redirect('/customer/account/address');
+        return;
+    }
 
+});
 // Update a customer
 router.post('/admin/customer/update', restrict, async (req, res) => {
     const db = req.app.db;

@@ -1,29 +1,43 @@
+ <form id="customer-form" class="form formAccount checkout_details_area row" role="form" data-toggle="validator" novalidate="false">
+<div class="container col-sm-6 top-marg-10">
+    <label id="userLabel" for="shipFirstname" class="container__label">First Name</label>
+    <input type="text" class="container__input customerDetails form-control" id="shipFirstname" name="shipFirstname" placeholder="First Name"
+        value="{{@root.address.firstname}}" required>
+    </div>
+<div class="container col-sm-6 top-marg-10">
+    <label id="userLabel" for="shipLastname" class="container__label">Last Name</label>
+    <input type="text" class="container__input customerDetails form-control" id="shipLastname" name="shipLastname" placeholder="Last Name"
+        value="{{@root.address.lastname}}" required>
+    </div>
 <div class="container top-marg-10">
-    <label id="userLabel" for="address" class="container__label">Address</label>
+    <label id="userLabel" for="shipAddr1" class="container__label">Address</label>
     <input type="text" class="container__input customerDetails form-control" id="shipAddr1" name="shipAddr1" placeholder="Address 1"
-        value="{{@root.session.customerAddress1}}" required>
+        value="{{@root.address.address1}}" required>
     </div>
 
 <div class="container col-sm-6 top-marg-10">
-    <label id="userLabel" for="state" class="container__label">State</label>
+    <label id="userLabel" for="shipState" class="container__label">State</label>
     <input type="text" class="container__input customerDetails form-control" id="shipState" name="shipState" placeholder="State"
-        value="{{@root.session.customerState}}" required>
+        value="{{@root.address.state}}" required>
     </div>
 
 <div class="container col-sm-6 top-marg-10">
-    <label id="userLabel" for="country" class="container__label">Country</label>
-    <input type="text" class="container__input customerDetails form-control" id="shipCountry" name="shipCountry" placeholder="India"
-        value="India" required>
+    <label id="userLabel" for="shipCity" class="container__label">City</label>
+    <input type="text" class="container__input customerDetails form-control" id="shipCity" name="shipCity" placeholder="India"
+        value="{{@root.address.city}}" required>
     </div>
 
 <div class="container col-sm-6 top-marg-10">
-    <label id="userLabel" for="pinCode" class="container__label">Pin Code</label>
+    <label id="userLabel" for="shipPostcode" class="container__label">Pin Code</label>
     <input type="text" class="container__input customerDetails form-control" id="shipPostcode" name="shipPostcode"
-        placeholder="Pin code" value="{{@root.session.customerPostcode}}" required>
+        placeholder="Pin code" value="{{@root.address.postcode}}" required>
     </div>
 
 <div class="container col-sm-6 top-marg-10">
-    <label id="userLabel" for="mobile" class="container__label">Mobile</label>
+    <label id="userLabel" for="shipPhoneNumber" class="container__label">Mobile</label>
     <input type="number" class="container__input customerDetails form-control" id="shipPhoneNumber"
-        name="shipPhoneNumber" placeholder="Phone number" value="{{@root.session.customerPhone}}" disabled>
+        name="shipPhoneNumber" placeholder="Phone number" value="{{@root.address.phone}}" required>
     </div>
+    <input type="hidden" value="{{@root.index1}}" name="index1" id="index1">
+    <button class="btn amado-btn top-marg-25 ml-auto mr-3" id="addressSave" type="button" value="submit">Submit</button>
+                </form>

@@ -610,11 +610,14 @@ $(document).ready(function () {
                     method: 'POST',
                     url: '/customer/update',
                     data: {
-                        address1: $('#shipAddr1').val(),
-                        country: $('#shipCountry').val(),
-                        state: $('#shipState').val(),
-                        postcode: $('#shipPostcode').val(),
-                        phone: $('#shipPhoneNumber').val()
+                        shipAddr1: $('#shipAddr1').val(),
+                        shipCity: $('#shipCity').val(),
+                        shipState: $('#shipState').val(),
+                        shipPostcode: $('#shipPostcode').val(),
+                        shipPhoneNumber: $('#shipPhoneNumber').val(),
+                        shipFirstname: $('#shipFirstname').val(),
+                        shipLastname: $('#shipLastname').val(),
+                        index1: $('#index1').val()
                     }
                 })
                 .done(function () {

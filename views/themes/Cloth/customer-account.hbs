@@ -72,31 +72,104 @@
                         <label id="userLabel" for="email" class="container__label">Email</label>
                         <input type="email" class="container__input customerDetails form-control" id="shipEmail" name="shipEmail"
                             placeholder="Email address" value="{{@root.session.customerEmail}}" disabled></div>
-                    <div class="container col-sm-6 top-marg-10">
-                        <label id="userLabel" for="FirstName" class="container__label">First Name</label>
-                        <input type="text" class="container__input customerDetails form-control" id="shipFirstname" name="shipFirstname"
-                            placeholder="First name" value="{{@root.session.customerFirstname}}" required>
-                        </div>
-                    <div class="container col-sm-6 top-marg-10">
-                        <label id="userLabel" for="LastName" class="container__label">Last Name</label>
-                        <input type="text" class="container__input customerDetails form-control" id="shipLastname" name="shipLastname"
-                            placeholder="Last name" value="{{@root.session.customerLastname}}" required>
-                        </div>
-                    <button class="btn amado-btn top-marg-25 ml-auto mr-3" id="customerSave" type="button" value="submit">Submit</button>
+                    <div class="container col-12 top-marg-10">
+                        <label id="userLabel" for="email" class="container__label">Phone</label>
+                        <input type="email" class="container__input customerDetails form-control" id="shipEmail" name="shipEmail"
+                            placeholder="Email address" value="{{@root.session.customerPhone}}" disabled></div>
+                    
                 </form>
             </div>
             {{/ifCond}}
             {{#ifCond page "==" "address"}}
             {{!-- address Section --}}
             <div id="addressForm" class="pagewrap formAddress">
-                <form id="customer-form" class="form formAccount checkout_details_area row" role="form" data-toggle="validator" novalidate="false">
+               
                     <div class="container col-12 profhead">
                         <h4>Address Information</h4>
                     </div>
-                    {{> themes/Cloth/shipping-form}}
+                    {{#each ../customer.deliveryaddress}}
+                    <div class="addresses">
+                        <div class="address">
+                            <div class="number">
+                                <div>
+                                <h4>{{this.firstname}} {{this.lastname}} {{this.phone}}</h4>
+                                </div>
+                            </div>
+                            <div class="add">
+                            {{this.address1}} {{this.city}} {{this.state}}, {{this.postcode}}
+                            </div>
+                            <div class="button">
+                                <a href="/customer/account/editaddress" >Edit Address</a>
+                                <form action="/customer/deleteaddress" method="post">
+                                <input type="hidden" name="indexdelete" value="{{@key}}">
+                                <button class="delete" ><i class="fas fa-trash"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    {{/each}}
+                    <div class="newaddress">
+                                        <div class="addnewaddress col-12" id="addnew">
+                                            <i class="fas fa-plus"></i>
+                                            Add New Address
+                                            <div class="float-right down">
+                                                <i class="fas fa-sort-down"></i>
+                                            </div>
+                                        </div>
 
-                    <button class="btn amado-btn top-marg-25 ml-auto mr-3" id="addressSave" type="button" value="submit">Submit</button>
-                </form>
+                                    <div class="collapse col-12 checkout_details_area" id="dropdownnew">
+                                        <form action="/customer/addnewaddress" method="post" class="row w-100 top-marg-25 bottom-marg-20">
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" id="shipFirstname" name="shipFirstname" placeholder="First name"
+                     required>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" id="shipLastname" name="shipLastname" placeholder="Last name"
+                    required>
+                                    </div>
+                                    
+                                    
+                                    <div class="col-12 mb-3">
+                                        <input type="text" class="form-control mb-3" id="shipAddr1" name="shipAddr1" placeholder="Address"
+                    required>
+                                    </div>
+                                   
+                                <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" id="shipPhone" name="shipPhone" placeholder="Phone number"
+                    required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" id="shipCity" name="shipCity" placeholder="City"
+                    required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" id="shipPostcode" name="shipPostcode" placeholder="Pin code"
+                    required>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" id="shipState" name="shipState" placeholder="State"
+                     required>
+                                    </div>
+                                    <div class="button">
+                                        <button class="btn btn-primary btn-block btn-shadow"  type="submit">ADD AND USE THIS</button>
+                                    </div>
+                                    </form>
+                                    </div>
+                                    </div>
+                    
+            </div>
+            {{/ifCond}}
+            {{#ifCond page "==" "editaddress"}}
+            <div id="editaddressForm" class="pagewrap formAddress">
+                <div class="container col-12 profhead">
+                        <h4>Edit Address</h4>
+                    </div>
+            <div class="editform">
+                {{> themes/Cloth/shipping-form}}
+            </div>
             </div>
             {{/ifCond}}
             {{#ifCond page "==" "password"}}
@@ -242,6 +315,17 @@
         </div>
     </div>
 </div>
+  <script>
+      $('#addnew').on('click',()=>{
+          if($('#dropdownnew').hasClass('show')){
+              $('#dropdownnew').removeClass('show');
+          }
+          else{
+            $('#dropdownnew').addClass('show');
+          }
+      
+    });
+  </script>
 <script>
     $('.formlevel .stages label').click(function() {
 	var radioButtons = $('.formlevel input:radio');
