@@ -470,6 +470,7 @@ router.get('/customer/account/:page?/:index1?', async (req, res) => {
         index1 = req.params.index1;
         address = customer.deliveryaddress[index1];
     }
+    console.log(index1);
     res.render(`${config.themeViews}customer-account`, {
         title: 'Orders',
         session: req.session,
@@ -499,7 +500,7 @@ router.post('/customer/addnewaddress', async (req,res)=>{
     var deliveryadd = {
         "firstname": req.body.shipFirstname,
         "lastname": req.body.shipLastname,
-        "phone": req.body.shipPhoneNumber,
+        "phone": req.body.shipPhone,
         "address1": req.body.shipAddr1,
         "city": req.body.shipCity,
         "state": req.body.shipState,

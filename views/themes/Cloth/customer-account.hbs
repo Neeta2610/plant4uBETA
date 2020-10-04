@@ -99,7 +99,7 @@
                             {{this.address1}} {{this.city}} {{this.state}}, {{this.postcode}}
                             </div>
                             <div class="button">
-                                <a href="/customer/account/editaddress" >Edit Address</a>
+                                <a href="/customer/account/editaddress/{{@key}}" >Edit Address</a>
                                 <form action="/customer/deleteaddress" method="post">
                                 <input type="hidden" name="indexdelete" value="{{@key}}">
                                 <button class="delete" ><i class="fas fa-trash"></i></button>
