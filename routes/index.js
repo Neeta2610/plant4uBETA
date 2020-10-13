@@ -967,7 +967,33 @@ router.get('/checkout/cartdata', (req, res) => {
         currencySymbol: config.currencySymbol || '$'
     });
 });
+router.post('/checkout/order/new',async (req,res)=>{
+    var amount = Number(req.session.totalCartAmount) * 100;
+    var options = {
+        amount: amount,  // amount in the smallest currency unit
+        currency: "INR",
+        receipt: "order_rcptid_11"
+      };
+      req.session.razorpayamount = amount;
+      instance.orders.create(options, function(err, order) {
+        console.log(order);
+        req.session.order_id = order.sub.id;
+      });
+      res.status(200).send({message: "Success"});
+      return;
+});
+router.post('/checkout/confirm/payment',async (req,res)=>{
+    var secret = "Secret"; // from the dashboard
+    var generated_signature = hmac_sha256(req.session.order_id + "|" + req.body.razorpay_payment_id, secret);
 
+  if (generated_signature == razorpay_signature) {
+    console.log("Payment Successfull");
+    console.log(req.body.razorpay_order_id);
+    console.log(req.body.razorpay_payment_id);
+    console.log(req.body.razorpay_signature);
+    res.redirect('/');
+  }
+});
 router.get('/checkout/payment', async (req, res) => {
     const config = req.app.config;
 

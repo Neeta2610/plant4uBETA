@@ -414,6 +414,22 @@ $(document).ready(function () {
                 showNotification(msg.responseJSON.message, 'danger');
             });
     });
+    $('#razorpay').on('click', function(e){
+        if(!e.isDefaultPrevented()) {
+            e.preventDefault();
+        }
+        $.ajax({
+            method: 'POST',
+            url: '/checkout/order/new',
+            data: {}
+        })
+        .done(function (msg){
+            location.reload();
+        })
+        .fail(function (msg){
+            showNotification(msg.responseJSON.message, 'danger');
+        });
+    });
 
     $('#adminloginForm').on('click', function (e) {
         if (!e.isDefaultPrevented()) {
