@@ -134,18 +134,17 @@
                                     <label class="custom-control-label" for="razorpay">RazorPay <br> <small>Internet Banking, Debit Card, Credit Card, UPI</small> <img class="ml-15" src="/images/paypal.png" alt=""></label>
                                 </div>
                             </div>
-                            {{#if @root.session.orderId}}
-<button id="rzp-button1">Pay</button>
+                            {{#if @root.razorpayid}}
+<button id="rzp-button1">Pay and Place Order</button>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
-    var options = {    "key": "YOUR_KEY_ID", // Enter the Key ID generated from the Dashboard
-        "amount": "{{@root.session.totalCartAmount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise    
+    var options = {    "key": "{{@root.keyId}}", // Enter the Key ID generated from the Dashboard
+        "amount": "{{@root.razoramount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise    
         "currency": "INR",
         "name": "Plant4u",
         "description": "Test Transaction",
         "image": "https://res.cloudinary.com/plant4u/image/upload/v1597585136/4_zwivhs.png",
-        "order_id": "{{@root.session.order_id}}", //Pass the `id` obtained in the previous step    
-        "account_id": "acc_Ef7ArAsdU5t0XL",    
+        "order_id": "{{@root.razorpayid}}", //Pass the `id` obtained in the previous step       
         "handler": function (response){        
                     $.ajax({
                         method: 'POST',

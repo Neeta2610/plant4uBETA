@@ -424,7 +424,16 @@ $(document).ready(function () {
             data: {}
         })
         .done(function (msg){
-            location.reload();
+            console.log(msg);
+            $.ajax({
+                method: 'POST',
+                url: '/checkout/order/set',
+                data: {
+                    order_id: msg.message
+                }
+            });
+            window.location = '/checkout/information';
+            document.getElementById('razorpayorderId').value = msg.message;
         })
         .fail(function (msg){
             showNotification(msg.responseJSON.message, 'danger');

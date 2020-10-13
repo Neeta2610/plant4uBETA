@@ -9,6 +9,7 @@ const { indexOrders } = require('../lib/indexing');
 const numeral = require('numeral');
 const mailer=require('../misc/mailer');
 const Razorpay = require('razorpay');
+var crypto = require('crypto');
 
 const accountSid = 'ACf50754e96a02279cbf13ef064765f5f8';
 const authToken = 'b940db14e31b3c95c86c87fa42dfe6ba';
@@ -862,7 +863,9 @@ router.get('/checkout/information', async (req, res, next) => {
     if(req.session.customerPresent){
         customerArray = await db.customers.findOne({_id: getId(req.session.customerId)});
     }
-    console.log(req.session.orderrazorid);
+    console.log("checkout information",req.session["razorpayamount"]);
+    var razorpayid = req.session.orderrazorid;
+    console.log("generated",req.session["orderidgenerated"],req.session["razorOrderId"]);
     // render the payment page
     res.render(`${config.themeViews}checkout-information`, {
         title: 'Checkout - Information',
@@ -870,6 +873,9 @@ router.get('/checkout/information', async (req, res, next) => {
         session: req.session,
         categories: req.app.categories,
         customerArray: customerArray,
+        razorpayid: req.session["razorOrderId"],
+        razoramount: req.session["razorpayamount"],
+        keyId: "rzp_test_viBJWa7KhFkRqr",
         paymentType,
         cartClose: false,
         page: 'checkout-information',
@@ -975,27 +981,43 @@ router.get('/checkout/cartdata', (req, res) => {
     });
 });
 router.post('/checkout/order/new',async (req,res)=>{
-    var amount = Number(req.session.totalCartAmount) * 100;
+    console.log(req.session.totalCartAmount,req.session);
+    var amount = parseInt(Number(req.session.totalCartAmount) * 100);
     var options = {
         amount: amount,  // amount in the smallest currency unit
         currency: "INR",
-        receipt: "order_rcptid_11"
+        receipt: "rcptid_11"
       };
       req.session.razorpayamount = amount;
+      console.log(options);
+      var orderid = '';
       instance.orders.create(options, function(err, order) {
+          if(err){
+              console.log(err);
+          }
         console.log(order);
-        console.log(order.id);
-        req.session.orderrazorid = order.id;
-        console.log(req.session.orderrazorid);
+        req.session.orderidgenerated = true;
+        orderid = order.id;
+        req.session.razorOrderId = order.id;
+        res.status(200).send({message: order.id});
+        return;
       });
-      res.status(200).send({message: "Success"});
-      return;
+      
 });
-router.post('/checkout/confirm/payment',async (req,res)=>{
-    var secret = "Secret"; // from the dashboard
-    var generated_signature = hmac_sha256(req.session.order_id + "|" + req.body.razorpay_payment_id, secret);
-
-  if (generated_signature == razorpay_signature) {
+router.post('/checkout/order/set', async (req,res)=>{
+    console.log("checkout set session",req.body.order_id);
+    req.session.razororderId = req.body.order_id;
+    req.session.razoridgenerated = true;
+    return;
+});
+router.post('/checkout/confirm/razorpay',async (req,res)=>{
+    var bodymessage = req.session["razorOrderId"] + "|" + req.body.razorpay_payment_id;
+    console.log(req.body);
+    var secret = "JXQVOLLSE1lsUCevwhInIsmr"; // from the dashboard
+    var generated_signature = crypto.createHmac("sha256",secret).update(bodymessage.toString()).digest('hex');
+console.log(generated_signature);
+console.log(req.body.razorpay_signature);
+  if (generated_signature == req.body.razorpay_signature) {
     console.log("Payment Successfull");
     console.log(req.body.razorpay_order_id);
     console.log(req.body.razorpay_payment_id);
