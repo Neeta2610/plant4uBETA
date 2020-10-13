@@ -134,7 +134,7 @@
                                     <label class="custom-control-label" for="razorpay">RazorPay <br> <small>Internet Banking, Debit Card, Credit Card, UPI</small> <img class="ml-15" src="/images/paypal.png" alt=""></label>
                                 </div>
                             </div>
-                            {{#if @root.session.order_id}}
+                            {{#if @root.session.orderId}}
 <button id="rzp-button1">Pay</button>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
@@ -167,7 +167,7 @@
                 e.preventDefault();
                 }
         </script>
-                            {{else}}
+                       {{else}}    
                             <form action="/checkout_action" method="post" class="">
                             <div class="cart-btn mt-100">
                                 <button  class="btn amado-btn w-100">Place Order</button>

@@ -8,6 +8,7 @@ const common = require('../lib/common');
 const { indexOrders } = require('../lib/indexing');
 const numeral = require('numeral');
 const mailer=require('../misc/mailer');
+const Razorpay = require('razorpay');
 
 const accountSid = 'ACf50754e96a02279cbf13ef064765f5f8';
 const authToken = 'b940db14e31b3c95c86c87fa42dfe6ba';
@@ -39,6 +40,12 @@ function isEmpty(obj) {
     }
     return true;
 }
+var keyid = "rzp_test_viBJWa7KhFkRqr";
+var keysecret = "JXQVOLLSE1lsUCevwhInIsmr";
+var instance = new Razorpay({
+    key_id: keyid,
+    key_secret: keysecret
+  })
 
 //This is how we take checkout action
 router.post('/checkout_action', async (req, res, next) => {
@@ -855,7 +862,7 @@ router.get('/checkout/information', async (req, res, next) => {
     if(req.session.customerPresent){
         customerArray = await db.customers.findOne({_id: getId(req.session.customerId)});
     }
-    
+    console.log(req.session.orderrazorid);
     // render the payment page
     res.render(`${config.themeViews}checkout-information`, {
         title: 'Checkout - Information',
@@ -977,7 +984,9 @@ router.post('/checkout/order/new',async (req,res)=>{
       req.session.razorpayamount = amount;
       instance.orders.create(options, function(err, order) {
         console.log(order);
-        req.session.order_id = order.sub.id;
+        console.log(order.id);
+        req.session.orderrazorid = order.id;
+        console.log(req.session.orderrazorid);
       });
       res.status(200).send({message: "Success"});
       return;
