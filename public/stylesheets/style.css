@@ -3005,7 +3005,7 @@ box-shadow: 0px 0px 2px 2px rgb(200,200,200);
 .addresses .address div.button {
   margin-top: 25px;
 }
-.addresses .address div.button button, .addresses .address div.button a{
+.addresses .address div.button button, .addresses .address div.button a, #rzp-button1{
   border: none;
   padding: 8px 16px;
   font-weight: 600;

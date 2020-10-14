@@ -125,12 +125,12 @@
                             <div class="payment-method">
                                 <!-- Cash on delivery -->
                                 <div class="custom-control custom-radio mr-sm-2">
-                                    <input type="radio" class="custom-control-input" id="cod" checked>
+                                    <input type="radio" class="custom-control-input" id="cod" {{#unless @root.session.orderidgenerated}}checked{{/unless}}>
                                     <label class="custom-control-label" for="cod">Cash on Delivery</label>
                                 </div>
                                 <!-- Paypal -->
                                 <div class="custom-control custom-radio mr-sm-2">
-                                    <input type="radio" class="custom-control-input" id="razorpay">
+                                    <input type="radio" class="custom-control-input" id="razorpay" {{#if @root.session.orderidgenerated}}checked{{/if}}>
                                     <label class="custom-control-label" for="razorpay">RazorPay <br> <small>Internet Banking, Debit Card, Credit Card, UPI</small> <img class="ml-15" src="/images/paypal.png" alt=""></label>
                                 </div>
                             </div>

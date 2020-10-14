@@ -980,6 +980,12 @@ router.get('/checkout/cartdata', (req, res) => {
         currencySymbol: config.currencySymbol || '$'
     });
 });
+router.post('/checkout/order/reset', async (req,res)=>{
+    req.session.orderidgenerated = false;
+    req.session.razorOrderId = null;
+    res.status(200).json({message: "Reset Successfull"});
+    return;
+});
 router.post('/checkout/order/new',async (req,res)=>{
     console.log(req.session.totalCartAmount,req.session);
     var amount = parseInt(Number(req.session.totalCartAmount) * 100);
@@ -1011,6 +1017,7 @@ router.post('/checkout/order/set', async (req,res)=>{
     return;
 });
 router.post('/checkout/confirm/razorpay',async (req,res)=>{
+    const db = req.app.db;
     var bodymessage = req.session["razorOrderId"] + "|" + req.body.razorpay_payment_id;
     console.log(req.body);
     var secret = "JXQVOLLSE1lsUCevwhInIsmr"; // from the dashboard
@@ -1022,7 +1029,90 @@ console.log(req.body.razorpay_signature);
     console.log(req.body.razorpay_order_id);
     console.log(req.body.razorpay_payment_id);
     console.log(req.body.razorpay_signature);
-    res.redirect('/');
+    let paymentStatus = 'Paid';
+       /* if(charge.paid !== true){
+            paymentStatus = 'Declined';
+        } */
+        let paymentMethod = 'Razor Pay';
+    const orderDoc = {
+        // orderPaymentId: charge.id,
+         orderPaymentGateway: paymentMethod,
+        // orderPaymentMessage: charge.outcome.seller_message,
+         orderTotal: req.session.totalCartAmount,
+         orderProductCount: req.session.totalCartProducts,
+         orderCustomer: common.getId(req.session.customerId),
+         orderEmail: req.session.customerEmail,
+        // orderCompany: req.session.customerCompany,
+         orderFirstname: req.session.customerFirstname,
+         orderLastname: req.session.customerLastname,
+         orderAddr1: req.session.customerAddress1,
+        // orderAddr2: req.session.customerAddress2,
+         orderCity: req.session.customerCity,
+         orderState: req.session.customerState,
+         orderPostcode: req.session.customerPostcode,
+         orderPhoneNumber: req.session.customerPhone,
+         orderPromoCode: req.session.discountCode,
+         //orderComment: req.session.orderComment,
+         orderStatus: paymentStatus,
+         orderPaymentId: req.body.razorpay_payment_id,
+         razororderId: req.session["razorOrderId"],
+         razororderIdpayment: req.body. razorpay_order_id,
+         razorpaymentSignature: req.body.razorpay_signature,
+         orderDate: new Date(),
+         orderProducts: req.session.cart,
+         orderType: 'Single'
+     };
+     
+     db.orders.insertOne(orderDoc, (err, newDoc) => {
+        if(err){
+            console.info(err.stack);
+        }
+
+        // get the new ID
+        const newId = newDoc.insertedId;
+        // add to lunr index
+        indexOrders(req.app)
+        .then(() => {
+            // if approved, send email etc
+                // set the results
+                req.session.messageType = 'success';
+                req.session.message = 'Your payment was successfully completed';
+                req.session.paymentEmailAddr = newDoc.ops[0].orderEmail;
+                req.session.paymentApproved = true;
+                req.session.paymentDetails = '<p><strong>Order ID: </strong>' + newId ;
+
+                // set payment results for email
+                const paymentResults = {
+                    message: req.session.message,
+                    messageType: req.session.messageType,
+                    paymentEmailAddr: req.session.paymentEmailAddr,
+                    paymentApproved: true,
+                    paymentDetails: req.session.paymentDetails
+                };
+
+                // clear the cart
+                if(req.session.cart){
+                    common.emptyCart(req, res, 'function');
+                }
+
+                // send the email with the response
+                // TODO: Should fix this to properly handle result
+
+                // redirect to outcome
+                res.redirect('/payment/' + newId);
+            /*else{
+                // redirect to failure
+                req.session.messageType = 'danger';
+                req.session.message = 'Your payment has declined. Please try again';
+                req.session.paymentApproved = false;
+                req.session.paymentDetails = '<p><strong>Order ID: </strong>' + newId + '</p><p><strong>Transaction ID: </strong>' + charge.id + '</p>';
+                res.redirect('/payment/' + newId);
+            } */
+        });
+    });
+  }
+  else {
+      res.status(400).json({message: "Signature Not verified. If your account is deduced please wait for 1 Day or contact us at email"})
   }
 });
 router.get('/checkout/payment', async (req, res) => {

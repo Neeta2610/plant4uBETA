@@ -414,6 +414,21 @@ $(document).ready(function () {
                 showNotification(msg.responseJSON.message, 'danger');
             });
     });
+    $('#cod').on('click',function(e){
+        e.preventDefault();
+        $.ajax({
+            method: 'POST',
+            url: '/checkout/order/reset',
+            data: {}
+        })
+        .done(function (msg){
+            window.location = '/checkout/information';
+        })
+        .fail(function (msg){
+            showNotification(msg.responseJSON.message, 'danger');
+        });
+        
+    });
     $('#razorpay').on('click', function(e){
         if(!e.isDefaultPrevented()) {
             e.preventDefault();
@@ -433,7 +448,6 @@ $(document).ready(function () {
                 }
             });
             window.location = '/checkout/information';
-            document.getElementById('razorpayorderId').value = msg.message;
         })
         .fail(function (msg){
             showNotification(msg.responseJSON.message, 'danger');
