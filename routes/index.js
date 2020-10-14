@@ -41,8 +41,8 @@ function isEmpty(obj) {
     }
     return true;
 }
-var keyid = "rzp_test_viBJWa7KhFkRqr";
-var keysecret = "JXQVOLLSE1lsUCevwhInIsmr";
+var keyid = "rzp_live_vNnLLh06qS00Rf";
+var keysecret = "k5BjcXG2c0mLEUpoKKoAUy2Z";
 var instance = new Razorpay({
     key_id: keyid,
     key_secret: keysecret
@@ -875,7 +875,7 @@ router.get('/checkout/information', async (req, res, next) => {
         customerArray: customerArray,
         razorpayid: req.session["razorOrderId"],
         razoramount: req.session["razorpayamount"],
-        keyId: "rzp_test_viBJWa7KhFkRqr",
+        keyId: "rzp_live_vNnLLh06qS00Rf",
         paymentType,
         cartClose: false,
         page: 'checkout-information',
@@ -1024,7 +1024,7 @@ router.post('/checkout/confirm/razorpay',async (req,res)=>{
     const db = req.app.db;
     var bodymessage = req.session["razorOrderId"] + "|" + req.body.razorpay_payment_id;
     console.log(req.body);
-    var secret = "JXQVOLLSE1lsUCevwhInIsmr"; // from the dashboard
+    var secret = "k5BjcXG2c0mLEUpoKKoAUy2Z"; // from the dashboard
     var generated_signature = crypto.createHmac("sha256",secret).update(bodymessage.toString()).digest('hex');
 console.log(generated_signature);
 console.log(req.body.razorpay_signature);
