@@ -811,16 +811,16 @@ router.get('/payment/:orderId', async (req, res, next) => {
 await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Complete',html)
     
 // Here we send whatsapp message to vendor whenever we have an order
-    var detailsmessage = "Name: ".concat(bold(order.orderFirstname)).concat(" ").concat(bold(order.orderLastname));
-    detailsmessage = detailsmessage.concat(" Email: ").concat(order.orderEmail);
-    detailsmessage = detailsmessage.concat(" Phone: ").concat(order.orderPhoneNumber);
-    detailsmessage = detailsmessage.concat(" Order Id: ").concat(order._id);
-    var address = "Address: ".concat(order.orderAddr1).concat(" ").concat(order.orderState).concat(" ").concat(order.orderPostcode);
-    var items = ``;
-        for(let key in order.orderProducts){
-            items += ` Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
-        }
-    var sendmessage = `Your next order of `+items+` has shipped and should be delivered on `+address+`. Details: `+detailsmessage+``;
+    // var detailsmessage = "Name: ".concat(bold(order.orderFirstname)).concat(" ").concat(bold(order.orderLastname));
+    // detailsmessage = detailsmessage.concat(" Email: ").concat(order.orderEmail);
+    // detailsmessage = detailsmessage.concat(" Phone: ").concat(order.orderPhoneNumber);
+    // detailsmessage = detailsmessage.concat(" Order Id: ").concat(order._id);
+    // var address = "Address: ".concat(order.orderAddr1).concat(" ").concat(order.orderState).concat(" ").concat(order.orderPostcode);
+    // var items = ``;
+    //     for(let key in order.orderProducts){
+    //         items += ` Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
+    //     }
+    // var sendmessage = `Your next order of `+items+` has shipped and should be delivered on `+address+`. Details: `+detailsmessage+``;
     // client.messages.create({
     //     from:'whatsapp:+14155238886',
     //     to:'whatsapp:+919910160442',
