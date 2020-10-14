@@ -988,6 +988,10 @@ router.post('/checkout/order/reset', async (req,res)=>{
 });
 router.post('/checkout/order/new',async (req,res)=>{
     console.log(req.session.totalCartAmount,req.session);
+    if(!req.session.customerAddress1) {
+        res.status(400).json({message: "Please Pick a address to continue"});
+        return;
+    }
     var amount = parseInt(Number(req.session.totalCartAmount) * 100);
     var options = {
         amount: amount,  // amount in the smallest currency unit

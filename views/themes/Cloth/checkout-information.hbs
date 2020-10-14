@@ -157,7 +157,7 @@
                     })
                     .done(function (msg) {
                         console.log(msg);
-                        window.location = msg.id;
+                        window.location = "/payment/"+msg.id;
                     })
                     .fail(function (msg){
                         console.log(msg);
