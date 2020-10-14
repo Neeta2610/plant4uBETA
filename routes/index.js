@@ -1062,7 +1062,8 @@ console.log(req.body.razorpay_signature);
          orderProducts: req.session.cart,
          orderType: 'Single'
      };
-     
+     req.session["razorOrderId"] = null;
+     req.session.orderidgenerated = false;
      db.orders.insertOne(orderDoc, (err, newDoc) => {
         if(err){
             console.info(err.stack);
