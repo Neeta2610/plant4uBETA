@@ -1099,6 +1099,8 @@ console.log(req.body.razorpay_signature);
                 // TODO: Should fix this to properly handle result
 
                 // redirect to outcome
+                res.status(200).json({id: newId});
+                return;
                 res.redirect('/payment/' + newId);
             /*else{
                 // redirect to failure

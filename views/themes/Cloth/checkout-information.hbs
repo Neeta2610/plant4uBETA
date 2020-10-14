@@ -155,6 +155,10 @@
                             razorpay_signature: response.razorpay_signature
                         }
                     })
+                    .done(function (msg) {
+                        console.log(msg);
+                        window.location = msg.id;
+                    })
                     .fail(function (msg){
                         console.log(msg);
                         showNotification(msg.responseJSON.message, 'danger');
