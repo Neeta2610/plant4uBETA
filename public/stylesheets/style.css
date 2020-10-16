@@ -1896,6 +1896,9 @@ align-items: center;}
       margin-bottom: 0;
       color: #3fbe02;
   }
+  .descriptionmain {
+    margin-top: 30px;
+  }
   .desccont h2 {
       font-size: 1.1rem;
       font-weight: 600;
@@ -1910,6 +1913,9 @@ align-items: center;}
       font-size: 1rem;
       font-family: 'helveticaneuemedium';
       color: #888;
+  }
+  .desccont .table {
+    width: auto;
   }
   .desccont .table td, .table th {
     border: 1px solid #e3e9ef !important;
