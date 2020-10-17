@@ -11,7 +11,7 @@ const mailer=require('../misc/mailer');
 const Razorpay = require('razorpay');
 var crypto = require('crypto');
 var querystring = require('querystring');
-var http = require('http');
+var http = require('https');
 
 const accountSid = 'ACf50754e96a02279cbf13ef064765f5f8';
 const authToken = 'b940db14e31b3c95c86c87fa42dfe6ba';
@@ -153,49 +153,52 @@ router.post('/checkout_action', async (req, res, next) => {
         // Dropr Test API
 
     // Build the post string from an object
-    // var post_data = querystring.stringify({
-    //     'sender_name' : 'shriom',
-    //    'sender_phone_number': 7889896521,
-    //    'service_name': 'Prime (Same day delivery)',
-    //    'vehicle_type': 'Bike',
-    //    'service_category' : 'others',
-    //    'pickup_address':'jamuna vihar khatauli',
-    //    'pickup_zipcode':251201,
-    //    'pickup_landmark':'kale ki dukan',
-    //    'drop_address' :[{'receiver_name':'DROPR Receiver','receiver_phone':'9999362362','address':'DROPR, World Trade Centre, Babar Road, Connaught Place, New Delhi - 110001, India','drop_landmark':'Movers International','drop_zipcode':'110001'}],
-    //    'max_weight':1,
-    //    'quantity':1,
-    // });
+//     var post_data = {
+//     //     sender_name : 'shriom',
+//     //    sender_phone_number: 7889896521,
+//        service_name: 'Prime (Same day delivery)',
+//        vehicle_type: 'Bike',
+//     //    service_category : 'others',
+//        pickup_address:'jamuna vihar khatauli',
+//     //    pickup_zipcode:251201,
+//     //    pickup_landmark:'kale ki dukan',
+//     // 'receiver_name':'DROPR Receiver','receiver_phone':'9999362362',
+//     // ,'drop_landmark':'Movers International','drop_zipcode':'110001'
+//        drop_address :[{'address':'DROPR, World Trade Centre, Babar Road, Connaught Place, New Delhi - 110001, India'}],
+//        max_weight:1,
+//     //    quantity:1,
+//     };
+//     post_data = JSON.stringify(post_data)
+//   console.log(post_data);
+//     // An object of options to indicate where to post to
+//     var post_options = {
+//         host: 'bsandbox.dropr.in',
+//         port: '443',
+//         path: '/business/api/price-calculator',
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json;charset=utf-8',
+//             'Content-Length': Buffer.byteLength(post_data),
+//             'Authorization':'136RMKYO45K18MFRKPFX42N5UPUDOQZC'
+//         }
+//     };
   
-    // // An object of options to indicate where to post to
-    // var post_options = {
-    //     host: 'bsandbox.dropr.in',
-    //     port: '443',
-    //     path: '/business/api/create-order',
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json;charset=utf-8',
-    //         'Content-Length': Buffer.byteLength(post_data),
-    //         'Authorization':'136RMKYO45K18MFRKPFX42N5UPUDOQZC'
-    //     }
-    // };
+//     // Set up the request
+//     var post_req = http.request(post_options, function(res) {
+//         res.setEncoding('utf8');
+//         res.on('data', function (chunk) {
+//             console.log('Response: ' + chunk);
+//         });
+//         res.on('error',function(chunk) {
+//             console.log('Error Response '+chunk);
+//         });
+//     });
   
-    // // Set up the request
-    // var post_req = http.request(post_options, function(res) {
-    //     res.setEncoding('utf8');
-    //     res.on('data', function (chunk) {
-    //         console.log('Response: ' + chunk);
-    //     });
-    //     res.on('error',function(chunk) {
-    //         console.log('Error Response '+chunk);
-    //     });
-    // });
-  
-    // // post the data
-    // post_req.write(post_data);
-    // post_req.end();
+//     // post the data
+//     post_req.write(post_data);
+//     post_req.end();
 
-    // return;
+//     return;
   
   
   //Dropr Close
@@ -915,9 +918,9 @@ router.get('/checkout/information', async (req, res, next) => {
     if(req.session.customerPresent){
         customerArray = await db.customers.findOne({_id: getId(req.session.customerId)});
     }
-    console.log("checkout information",req.session["razorpayamount"]);
+ 
     var razorpayid = req.session.orderrazorid;
-    console.log("generated",req.session["orderidgenerated"],req.session["razorOrderId"]);
+    
     // render the payment page
     res.render(`${config.themeViews}checkout-information`, {
         title: 'Checkout - Information',
@@ -1039,7 +1042,7 @@ router.post('/checkout/order/reset', async (req,res)=>{
     return;
 });
 router.post('/checkout/order/new',async (req,res)=>{
-    console.log(req.session.totalCartAmount,req.session);
+    
     if(!req.session.customerAddress1) {
         res.status(400).json({message: "Please Pick a address to continue"});
         return;
@@ -1080,7 +1083,7 @@ router.post('/checkout/confirm/razorpay',async (req,res)=>{
     var generated_signature = crypto.createHmac("sha256",secret).update(bodymessage.toString()).digest('hex');
 console.log(generated_signature);
 console.log(req.body.razorpay_signature);
-  if (generated_signature == req.body.razorpay_signature) {
+  if (req.body.razorpay_signature && generated_signature == req.body.razorpay_signature) {
     console.log("Payment Successfull");
     console.log(req.body.razorpay_order_id);
     console.log(req.body.razorpay_payment_id);
@@ -1171,7 +1174,7 @@ console.log(req.body.razorpay_signature);
     });
   }
   else {
-      res.status(400).json({message: "Signature Not verified. If your account is deduced please wait for 1 Day or contact us at email"})
+      res.status(400).json({message: "Signature Not verified. If your account is deduced please wait for 1 Day or contact us through email or phone"});
   }
 });
 router.get('/checkout/payment', async (req, res) => {
