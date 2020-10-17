@@ -153,49 +153,49 @@ router.post('/checkout_action', async (req, res, next) => {
         // Dropr Test API
 
     // Build the post string from an object
-    var post_data = querystring.stringify({
-        'sender_name' : 'shriom',
-       'sender_phone_number': 7889896521,
-       'service_name': 'Prime (Same day delivery)',
-       'vehicle_type': 'Bike',
-       'service_category' : 'others',
-       'pickup_address':'jamuna vihar khatauli',
-       'pickup_zipcode':251201,
-       'pickup_landmark':'kale ki dukan',
-       'drop_address' :[{'receiver_name':'DROPR Receiver','receiver_phone':'9999362362','address':'DROPR, World Trade Centre, Babar Road, Connaught Place, New Delhi - 110001, India','drop_landmark':'Movers International','drop_zipcode':'110001'}],
-       'max_weight':1,
-       'quantity':1,
-    });
+    // var post_data = querystring.stringify({
+    //     'sender_name' : 'shriom',
+    //    'sender_phone_number': 7889896521,
+    //    'service_name': 'Prime (Same day delivery)',
+    //    'vehicle_type': 'Bike',
+    //    'service_category' : 'others',
+    //    'pickup_address':'jamuna vihar khatauli',
+    //    'pickup_zipcode':251201,
+    //    'pickup_landmark':'kale ki dukan',
+    //    'drop_address' :[{'receiver_name':'DROPR Receiver','receiver_phone':'9999362362','address':'DROPR, World Trade Centre, Babar Road, Connaught Place, New Delhi - 110001, India','drop_landmark':'Movers International','drop_zipcode':'110001'}],
+    //    'max_weight':1,
+    //    'quantity':1,
+    // });
   
-    // An object of options to indicate where to post to
-    var post_options = {
-        host: 'bsandbox.dropr.in',
-        port: '443',
-        path: '/business/api/create-order',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-            'Content-Length': Buffer.byteLength(post_data),
-            'Authorization':'136RMKYO45K18MFRKPFX42N5UPUDOQZC'
-        }
-    };
+    // // An object of options to indicate where to post to
+    // var post_options = {
+    //     host: 'bsandbox.dropr.in',
+    //     port: '443',
+    //     path: '/business/api/create-order',
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json;charset=utf-8',
+    //         'Content-Length': Buffer.byteLength(post_data),
+    //         'Authorization':'136RMKYO45K18MFRKPFX42N5UPUDOQZC'
+    //     }
+    // };
   
-    // Set up the request
-    var post_req = http.request(post_options, function(res) {
-        res.setEncoding('utf8');
-        res.on('data', function (chunk) {
-            console.log('Response: ' + chunk);
-        });
-        res.on('error',function(chunk) {
-            console.log('Error Response '+chunk);
-        });
-    });
+    // // Set up the request
+    // var post_req = http.request(post_options, function(res) {
+    //     res.setEncoding('utf8');
+    //     res.on('data', function (chunk) {
+    //         console.log('Response: ' + chunk);
+    //     });
+    //     res.on('error',function(chunk) {
+    //         console.log('Error Response '+chunk);
+    //     });
+    // });
   
-    // post the data
-    post_req.write(post_data);
-    post_req.end();
+    // // post the data
+    // post_req.write(post_data);
+    // post_req.end();
 
-    return;
+    // return;
   
   
   //Dropr Close
