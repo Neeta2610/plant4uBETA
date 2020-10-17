@@ -10,6 +10,8 @@ const numeral = require('numeral');
 const mailer=require('../misc/mailer');
 const Razorpay = require('razorpay');
 var crypto = require('crypto');
+var querystring = require('querystring');
+var http = require('http');
 
 const accountSid = 'ACf50754e96a02279cbf13ef064765f5f8';
 const authToken = 'b940db14e31b3c95c86c87fa42dfe6ba';
@@ -147,6 +149,56 @@ router.post('/checkout_action', async (req, res, next) => {
             res.redirect('/checkout/information');
             return;
         }
+
+        // Dropr Test API
+
+    // Build the post string from an object
+    var post_data = querystring.stringify({
+        'sender_name' : 'shriom',
+       'sender_phone_number': 7889896521,
+       'service_name': 'Prime (Same day delivery)',
+       'vehicle_type': 'Bike',
+       'service_category' : 'others',
+       'pickup_address':'jamuna vihar khatauli',
+       'pickup_zipcode':251201,
+       'pickup_landmark':'kale ki dukan',
+       'drop_address' :[{'receiver_name':'DROPR Receiver','receiver_phone':'9999362362','address':'DROPR, World Trade Centre, Babar Road, Connaught Place, New Delhi - 110001, India','drop_landmark':'Movers International','drop_zipcode':'110001'}],
+       'max_weight':1,
+       'quantity':1,
+    });
+  
+    // An object of options to indicate where to post to
+    var post_options = {
+        host: 'bsandbox.dropr.in',
+        port: '443',
+        path: '/business/api/create-order',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            'Content-Length': Buffer.byteLength(post_data),
+            'Authorization':'136RMKYO45K18MFRKPFX42N5UPUDOQZC'
+        }
+    };
+  
+    // Set up the request
+    var post_req = http.request(post_options, function(res) {
+        res.setEncoding('utf8');
+        res.on('data', function (chunk) {
+            console.log('Response: ' + chunk);
+        });
+        res.on('error',function(chunk) {
+            console.log('Error Response '+chunk);
+        });
+    });
+  
+    // post the data
+    post_req.write(post_data);
+    post_req.end();
+
+    return;
+  
+  
+  //Dropr Close
         // new order doc
         const orderDoc = {
            // orderPaymentId: charge.id,
