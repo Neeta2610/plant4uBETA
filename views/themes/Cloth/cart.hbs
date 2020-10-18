@@ -84,6 +84,12 @@
                 <div class="cz-sidebar-static rounded-lg box-shadow-lg ml-lg-auto">
                     {{#if @root.session.cart}}
                     <div class="cart-contents-shipping">
+                        {{#ifCond @root.session.totalCartShipping "||" @root.session.totalCartDiscount}}
+                        <div class="text-center mb-3">
+                            Total Amount: <strong
+                                id="total-amount">{{currencySymbol @root.config.currencySymbol}}{{formatAmount @root.session.totalCartNetAmount}}</strong>
+                        </div>
+                        {{/ifCond}}
                         {{#ifCond @root.session.totalCartShipping '>' 0}}
                         <div class="text-center mb-3">
                             {{@root.session.shippingMessage}}: <strong

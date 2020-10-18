@@ -4101,6 +4101,7 @@ input[type="button"].btn-block {
   display: block;
   width: 1rem;
   height: 1rem;
+  cursor: pointer;
   content: "";
   background: no-repeat 50% / 50% 50%
 }

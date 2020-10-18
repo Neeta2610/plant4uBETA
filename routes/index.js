@@ -921,6 +921,7 @@ router.get('/checkout/information', async (req, res, next) => {
  
     var razorpayid = req.session.orderrazorid;
     
+    
     // render the payment page
     res.render(`${config.themeViews}checkout-information`, {
         title: 'Checkout - Information',
