@@ -1074,6 +1074,11 @@ padding-bottom: 30px;}
   text-align: center;
   font-family: 'helveticaneuemedium';
 }
+@media screen and (max-width: 560px) {
+  .Categories h3, .imagesoffer1upper h3 {
+    font-size: 20px;
+  }
+}
 hr{
   margin-top: 20px;
 }
@@ -1273,6 +1278,9 @@ align-items: center;}
         }
         .single-product-wrapper .product-description .ratings-cart .cart a {
           padding: 0px;
+        }
+        .single-product-wrapper .product-description .product-meta-data a h6 {
+          font-size: 15px;
         }
       }
   .single-product-wrapper:hover .product-img .hover-img {
