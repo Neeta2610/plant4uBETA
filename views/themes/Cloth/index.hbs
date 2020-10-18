@@ -97,11 +97,11 @@
                                     {{/if}}
                                 </div>
                                 <!-- Ratings & Cart -->
-                                <div class="ratings-cart d-flex justify-content-between text-right">
+                                <div class="ratings-cart d-flex flex-wrap justify-content-between text-right">
                                      <p class="product-price">{{#if productDiscountPrice}} <span>{{currencySymbol @root.config.currencySymbol}}{{formatAmount productDiscountPrice}}</span> {{/if}} {{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</p>
                                     <div class="cart">
                                         {{#if this.productStock}}
-                                        <a class="btn-round" data-toggle="tooltip" data-placement="left" title="Add to Cart" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}">ADD TO CART</a>
+                                        <a class="btn-round" data-toggle="tooltip" data-placement="left" title="Add to Cart" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}"><img src="/images/cart.png" alt=""></a>
                                         {{else}}
                                         <a class="">OUT OF STOCK</a>
                                         {{/if}}
@@ -472,11 +472,11 @@
                                     {{/if}}
                                 </div>
                                 <!-- Ratings & Cart -->
-                                <div class="ratings-cart d-flex justify-content-between text-right">
+                                <div class="ratings-cart d-flex flex-wrap justify-content-between text-right">
                                      <p class="product-price">{{#if productDiscountPrice}} <span>{{currencySymbol @root.config.currencySymbol}}{{formatAmount productDiscountPrice}}</span> {{/if}} {{currencySymbol @root.config.currencySymbol}}{{formatAmount productPrice}}</p>
                                     <div class="cart">
                                         {{#if this.productStock}}
-                                        <a class="btn-round" data-toggle="tooltip" data-placement="left" title="Add to Cart" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}">ADD TO CART</a>
+                                        <a class="btn-round" data-toggle="tooltip" data-placement="left" title="Add to Cart" data-id="{{this._id}}" data-link="{{this.productPermalink}}" data-has-variants="{{checkProductVariants this.variants}}"><img src="/images/cart.png" alt=""></a>
                                         {{else}}
                                         <a class="">OUT OF STOCK</a>
                                         {{/if}}
