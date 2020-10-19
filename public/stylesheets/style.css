@@ -3936,6 +3936,14 @@ a.btn1-goback:hover {
   .about-crew h6{
     width: 80%;
   }
+  .about-container {
+    width: 90%;
+  }
+}
+@media screen and (max-width: 560px) {
+  .crew-images .crew-details {
+    width: 90%;
+  }
 }
 
 /* Privacy Page */
