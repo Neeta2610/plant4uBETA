@@ -87,7 +87,7 @@ router.post('/checkout_action', async (req, res, next) => {
         }
    */
         // order status
-        let paymentStatus = 'Paid';
+        let orderStatus = 'Pending';
        /* if(charge.paid !== true){
             paymentStatus = 'Declined';
         } */
@@ -152,60 +152,14 @@ router.post('/checkout_action', async (req, res, next) => {
 
         // Dropr Test API
 
-    // Build the post string from an object
-//     var post_data = {
-//     //     sender_name : 'shriom',
-//     //    sender_phone_number: 7889896521,
-//        service_name: 'Prime (Same day delivery)',
-//        vehicle_type: 'Bike',
-//     //    service_category : 'others',
-//        pickup_address:'jamuna vihar khatauli',
-//     //    pickup_zipcode:251201,
-//     //    pickup_landmark:'kale ki dukan',
-//     // 'receiver_name':'DROPR Receiver','receiver_phone':'9999362362',
-//     // ,'drop_landmark':'Movers International','drop_zipcode':'110001'
-//        drop_address :[{'address':'DROPR, World Trade Centre, Babar Road, Connaught Place, New Delhi - 110001, India'}],
-//        max_weight:1,
-//     //    quantity:1,
-//     };
-//     post_data = JSON.stringify(post_data)
-//   console.log(post_data);
-//     // An object of options to indicate where to post to
-//     var post_options = {
-//         host: 'bsandbox.dropr.in',
-//         port: '443',
-//         path: '/business/api/price-calculator',
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json;charset=utf-8',
-//             'Content-Length': Buffer.byteLength(post_data),
-//             'Authorization':'136RMKYO45K18MFRKPFX42N5UPUDOQZC'
-//         }
-//     };
-  
-//     // Set up the request
-//     var post_req = http.request(post_options, function(res) {
-//         res.setEncoding('utf8');
-//         res.on('data', function (chunk) {
-//             console.log('Response: ' + chunk);
-//         });
-//         res.on('error',function(chunk) {
-//             console.log('Error Response '+chunk);
-//         });
-//     });
-  
-//     // post the data
-//     post_req.write(post_data);
-//     post_req.end();
-
-//     return;
-  
+   
   
   //Dropr Close
         // new order doc
         const orderDoc = {
            // orderPaymentId: charge.id,
             orderPaymentGateway: paymentMethod,
+            orderPaymentStatus: "Paid",
            // orderPaymentMessage: charge.outcome.seller_message,
             orderTotal: req.session.totalCartAmount,
             orderShipping: req.session.totalCartShipping,
@@ -224,12 +178,12 @@ router.post('/checkout_action', async (req, res, next) => {
             orderPhoneNumber: req.session.customerPhone,
             orderPromoCode: req.session.discountCode,
             //orderComment: req.session.orderComment,
-            orderStatus: paymentStatus,
+            orderStatus: orderStatus,
             orderDate: new Date(),
             orderProducts: req.session.cart,
             orderType: 'Single'
         };
-
+    
         // insert order into DB
         db.orders.insertOne(orderDoc, (err, newDoc) => {
             if(err){
@@ -295,7 +249,12 @@ router.get('/payment/:orderId', async (req, res, next) => {
         res.render('error', { title: 'Not found', message: 'Order not found', helpers: req.handlebars.helpers, config });
         return;
     }
-
+    if(order.orderStatus != 'Pending') {
+        req.message = "Already Paid";
+        req.messageType = "success";
+        res.redirect('/');
+        return;
+    }
     // If stock management is turned on payment approved update stock level
     if(config.trackStock && req.session.paymentApproved){
         // Check to see if already updated to avoid duplicate updating of stock
@@ -870,7 +829,7 @@ await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Comp
     detailsmessage = detailsmessage.concat(" Email: ").concat(order.orderEmail);
     detailsmessage = detailsmessage.concat(" Phone: ").concat(order.orderPhoneNumber);
     detailsmessage = detailsmessage.concat(" Order Id: ").concat(order._id);
-    var address = "Address: ".concat(order.orderAddr1).concat(" ").concat(order.orderState).concat(" ").concat(order.orderPostcode);
+    var address = "Address: ".concat(order.orderAddr1).concat(" ").concat(order.orderCity).concat(" ").concat(order.orderState).concat(" ").concat(order.orderPostcode);
     var items = ``;
         for(let key in order.orderProducts){
             items += ` Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
@@ -881,7 +840,58 @@ await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Comp
         to:'whatsapp:+919910160442',
         body:sendmessage
     }).then(message=> console.log(message));
-   
+
+    var dropaddress = "".concat(order.orderAddr1).concat(" ").concat(order.orderCity).concat(" ").concat(order.orderState).concat(" -").concat(order.orderPostcode).concat(" ,India");
+    var post_data = {
+        sender_name : 'Plant4u',
+        sender_phone_number: '7889896521',
+        service_name: 'Prime',
+        vehicle_type: 'Bike',
+        service_category : 'others',
+        pickup_address:'GreenHome Care Nursery Khasra 18 Amarpali Princli State Gate no.2 Ke Adjacent sec 76 Noida',
+        pickup_zipcode:'201301',
+        pickup_landmark:'Amarpali Pricli State gate no 2',
+        drop_address :[{'receiver_name':order.orderFirstname,'receiver_phone':order.orderPhoneNumber,'drop_landmark':order.orderCity,'address':dropaddress,'drop_zipcode':order.orderPostcode}],
+        max_weight:'1',
+        quantity:'1',
+     };
+   post_data = JSON.stringify(post_data);
+
+   // An object of options to indicate where to post to
+   var post_options = {
+       host: 'bslive.dropr.in',
+       port: '443',
+       path: '/business/api/create-order',
+       method: 'POST',
+       headers: {
+           'Content-Type': 'application/json;charset=utf-8',
+           'Content-Length': Buffer.byteLength(post_data),
+           'Authorization':'136RMKYO45K18MFRKPFX42N5UPUDOQZC'
+       }
+   };
+ 
+   // Set up the request
+   var post_req = http.request(post_options, function(res) {
+       res.setEncoding('utf8');
+       var message = "";
+       res.on('data', function (chunk) {
+           message += chunk;
+       });
+       res.on('error',function(chunk) {
+           console.log('Error Response '+chunk);
+           await db.orders.findOneAndUpdate({_id: common.getId(order._id)},{$set: {droprId: chunk}});
+       });
+       res.on('end',function(){
+           var dropid = returnresponse.res_data.booking_id;
+           await db.orders.findOneAndUpdate({_id: common.getId(order._id)},{$set: {droprId: dropid}});
+       });
+   });
+ 
+   // post the data
+   post_req.write(post_data);
+   post_req.end();
+  
+   await db.orders.findOneAndUpdate({_id: common.getId(order._id)},{$set: {orderStatus: "Paid"}});
     res.render('success', {
         title: 'Payment complete',
         config: req.app.config,
@@ -1089,7 +1099,7 @@ console.log(req.body.razorpay_signature);
     console.log(req.body.razorpay_order_id);
     console.log(req.body.razorpay_payment_id);
     console.log(req.body.razorpay_signature);
-    let paymentStatus = 'Paid';
+    let orderStatus = 'Pending';
        /* if(charge.paid !== true){
             paymentStatus = 'Declined';
         } */
@@ -1097,6 +1107,7 @@ console.log(req.body.razorpay_signature);
     const orderDoc = {
         // orderPaymentId: charge.id,
          orderPaymentGateway: paymentMethod,
+         orderPaymentStatus: "Paid",
         // orderPaymentMessage: charge.outcome.seller_message,
          orderTotal: req.session.totalCartAmount,
          orderProductCount: req.session.totalCartProducts,
@@ -1113,7 +1124,7 @@ console.log(req.body.razorpay_signature);
          orderPhoneNumber: req.session.customerPhone,
          orderPromoCode: req.session.discountCode,
          //orderComment: req.session.orderComment,
-         orderStatus: paymentStatus,
+         orderStatus: orderStatus,
          orderPaymentId: req.body.razorpay_payment_id,
          razororderId: req.session["razorOrderId"],
          razororderIdpayment: req.body. razorpay_order_id,
