@@ -1306,6 +1306,11 @@ align-items: center;}
         max-width: 100%;
         overflow-y: hidden;
       }
+      .tags .newarrival, .tags .discount {
+        width: 32px;
+        height: 32px;
+        font-size: 10px;
+      }
     }
 
 /* Product Card Design 2 */
@@ -1376,6 +1381,17 @@ align-items: center;}
 @media screen and (max-width: 798px){
   .second-product-wrapper .product-description2 .product-meta-data .product-price {
     font-size: 13px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .second-product-wrapper .titlename a h6 strong {
+    font-size: 14px;
+  }
+  .second-product-wrapper .btnview {
+    display: none;
+  }
+  .second-product-wrapper .btncart {
+    width: 100%;
   }
 }
 .third-product-wrapper {
