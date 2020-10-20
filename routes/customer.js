@@ -4,6 +4,7 @@ const router = express.Router();
 const colors = require('colors');
 const randtoken = require('rand-token');
 const bcrypt = require('bcryptjs');
+var http = require('https');
 const {
     getId,
     clearSessionValue,
@@ -449,6 +450,7 @@ router.post('/customer/save', async (req, res) => {
 router.get('/customer/account/:page?/:index1?', async (req, res) => {
     const db = req.app.db;
     const config = req.app.config;
+
 
     if(!req.session.customerPresent){
         res.redirect('/customer/login');

@@ -274,6 +274,14 @@
                                         </div>
                                     </div>
                                     <div>
+                                        {{#if this.droprId}}
+                                        <div class="trackid">
+                                            Tracking Id - <span>{{this.droprId}}</span>
+                                            <div class="float-right trackinginfo mr-4">
+                                                <a href="https://dropr.in/track" target="_blank">More Tracking Info >></a>
+                                            </div>
+                                        </div>
+                                        {{/if}}
                                         <div class="formlevel">
                                             {{#ifCond this.orderStatus "==" "Paid"}}
                                             <div class="stages">                 

@@ -835,11 +835,11 @@ await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Comp
             items += ` Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
         }
     var sendmessage = `Your next order of `+items+` has shipped and should be delivered on `+address+`. Details: `+detailsmessage+``;
-    // client.messages.create({
-    //     from:'whatsapp:+14155238886',
-    //     to:'whatsapp:+919910160442',
-    //     body:sendmessage
-    // }).then(message=> console.log(message));
+    client.messages.create({
+        from:'whatsapp:+14155238886',
+        to:'whatsapp:+919910160442',
+        body:sendmessage
+    }).then(message=> console.log(message));
 
     var dropaddress = "".concat(order.orderAddr1).concat(" ").concat(order.orderCity).concat(" ").concat(order.orderState).concat(" -").concat(order.orderPostcode).concat(" ,India");
     var post_data = {
@@ -882,8 +882,14 @@ await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Comp
            await db.orders.findOneAndUpdate({_id: common.getId(order._id)},{$set: {droprId: chunk}});
        });
        res.on('end',async function(){
+           var returnresponse = JSON.parse(message);
            var dropid = returnresponse.res_data.booking_id;
-           await db.orders.findOneAndUpdate({_id: common.getId(order._id)},{$set: {droprId: dropid}});
+           try{
+            var k = await db.orders.findOneAndUpdate({_id: common.getId(order._id)},{$set: {droprId: dropid}});
+           }catch(ex){
+               console.log(ex);
+           }
+           
        });
    });
  
