@@ -835,11 +835,11 @@ await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Comp
             items += ` Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
         }
     var sendmessage = `Your next order of `+items+` has shipped and should be delivered on `+address+`. Details: `+detailsmessage+``;
-    client.messages.create({
-        from:'whatsapp:+14155238886',
-        to:'whatsapp:+919910160442',
-        body:sendmessage
-    }).then(message=> console.log(message));
+    // client.messages.create({
+    //     from:'whatsapp:+14155238886',
+    //     to:'whatsapp:+919910160442',
+    //     body:sendmessage
+    // }).then(message=> console.log(message));
 
     var dropaddress = "".concat(order.orderAddr1).concat(" ").concat(order.orderCity).concat(" ").concat(order.orderState).concat(" -").concat(order.orderPostcode).concat(" ,India");
     var post_data = {
@@ -859,7 +859,7 @@ await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Comp
 
    // An object of options to indicate where to post to
    var post_options = {
-       host: 'bslive.dropr.in',
+       host: 'bsandbox.dropr.in',
        port: '443',
        path: '/business/api/create-order',
        method: 'POST',
@@ -877,11 +877,11 @@ await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Comp
        res.on('data', function (chunk) {
            message += chunk;
        });
-       res.on('error',function(chunk) {
+       res.on('error',async function(chunk) {
            console.log('Error Response '+chunk);
            await db.orders.findOneAndUpdate({_id: common.getId(order._id)},{$set: {droprId: chunk}});
        });
-       res.on('end',function(){
+       res.on('end',async function(){
            var dropid = returnresponse.res_data.booking_id;
            await db.orders.findOneAndUpdate({_id: common.getId(order._id)},{$set: {droprId: dropid}});
        });
