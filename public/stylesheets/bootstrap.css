@@ -6829,16 +6829,21 @@ a.close.disabled {
 .carousel-control-prev,
 .carousel-control-next {
   position: absolute;
-  top: 0;
+  top: 45%;
   bottom: 0;
   z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 15%;
+  width: 40px;
+  height: 40px;
   color: #fff;
   text-align: center;
-  opacity: .5;
+  opacity: .8;
+  background-color: #1ba12d;
+  border-radius: 25%;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
   transition: opacity 0.15s ease
 }
 
@@ -6861,11 +6866,11 @@ a.close.disabled {
 }
 
 .carousel-control-prev {
-  left: 3%;
+  left: 1%;
 }
 
 .carousel-control-next {
-  right: 3%
+  right: 1%
 }
 
 .carousel-control-prev-icon,
