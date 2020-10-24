@@ -12,6 +12,8 @@ const Razorpay = require('razorpay');
 var crypto = require('crypto');
 var querystring = require('querystring');
 var http = require('https');
+const PDFDocument = require("pdfkit");
+const fs = require("fs");
 
 const accountSid = 'ACf50754e96a02279cbf13ef064765f5f8';
 const authToken = 'b940db14e31b3c95c86c87fa42dfe6ba';
@@ -238,11 +240,96 @@ router.post('/checkout_action', async (req, res, next) => {
 function bold(string){
     return `*`+string+`*`;
 }
+
+function pdfgenerate(invoice,path) {
+      
+      function generateHeader(doc) {
+        doc
+          .image("public/images/logo.png", 50, 45, { width: 50 })
+          .fillColor("#444444")
+          .fontSize(20)
+          .text("ACME Inc.", 110, 57)
+          .fontSize(10)
+          .text("123 Main Street", 200, 65, { align: "right" })
+          .text("New York, NY, 10025", 200, 80, { align: "right" })
+          .moveDown();
+      }
+      
+      function generateFooter(doc) {
+        doc
+          .fontSize(10)
+          .text(
+            "Payment is due within 15 days. Thank you for your business.",
+            50,
+            780,
+            { align: "center", width: 500 }
+          );
+      }
+
+      function generateCustomerInformation(doc, invoice) {
+        const shipping = invoice.shipping;
+      
+        doc
+          .text(`Invoice Number: ${invoice.invoice_nr}`, 50, 200)
+          .text(`Invoice Date: ${new Date()}`, 50, 215)
+          .text(`Balance Due: ${invoice.subtotal - invoice.paid}`, 50, 130)
+      
+          .text(shipping.name, 300, 200)
+          .text(shipping.address, 300, 215)
+          .text(`${shipping.city}, ${shipping.state}, ${shipping.country}`, 300, 130)
+          .moveDown();
+      }
+      function generateTableRow(doc, y, c1, c2, c3, c4, c5) {
+        doc
+          .fontSize(10)
+          .text(c1, 50, y)
+          .text(c2, 150, y)
+          .text(c3, 280, y, { width: 90, align: "right" })
+          .text(c4, 370, y, { width: 90, align: "right" })
+          .text(c5, 0, y, { align: "right" });
+      }
+      function generateInvoiceTable(doc, invoice) {
+        let i,
+          invoiceTableTop = 330;
+      
+        for (i = 0; i < invoice.items.length; i++) {
+          const item = invoice.items[i];
+          const position = invoiceTableTop + (i + 1) * 30;
+          generateTableRow(
+            doc,
+            position,
+            item.item,
+            item.description,
+            item.amount / item.quantity,
+            item.quantity,
+            item.amount
+          );
+        }
+      }
+      
+    let doc = new PDFDocument({ margin: 50 });
+
+    generateHeader(doc);
+    generateCustomerInformation(doc, invoice);
+    generateInvoiceTable(doc, invoice);
+    generateFooter(doc);
+
+    doc.end();
+    doc.pipe(fs.createWriteStream(path));
+    console.log("Writing success");
+}
 // These is the customer facing routes
+var cloudinarypdf = require('cloudinary').v2;
+
+cloudinarypdf.config({ 
+    cloud_name: 'pdfmanagement', 
+    api_key: '228719351649744', 
+    api_secret: 'nrOR7AepWxSysLvAs-cmvll5pbE' 
+  });
 router.get('/payment/:orderId', async (req, res, next) => {
     const db = req.app.db;
     const config = req.app.config;
-
+    
     // Get the order
     const order = await db.orders.findOne({ _id: getId(req.params.orderId) });
     if(!order){
@@ -822,25 +909,6 @@ router.get('/payment/:orderId', async (req, res, next) => {
     </html>
     `;
 
-await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Complete',html)
-    
-// Here we send whatsapp message to vendor whenever we have an order
-    var detailsmessage = "Name: ".concat(bold(order.orderFirstname)).concat(" ").concat(bold(order.orderLastname));
-    detailsmessage = detailsmessage.concat(" Email: ").concat(order.orderEmail);
-    detailsmessage = detailsmessage.concat(" Phone: ").concat(order.orderPhoneNumber);
-    detailsmessage = detailsmessage.concat(" Order Id: ").concat(order._id);
-    var address = "Address: ".concat(order.orderAddr1).concat(" ").concat(order.orderCity).concat(" ").concat(order.orderState).concat(" ").concat(order.orderPostcode);
-    var items = ``;
-        for(let key in order.orderProducts){
-            items += ` Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
-        }
-    var sendmessage = `Your next order of `+items+` has shipped and should be delivered on `+address+`. Details: `+detailsmessage+``;
-    client.messages.create({
-        from:'whatsapp:+14155238886',
-        to:'whatsapp:+919910160442',
-        body:sendmessage
-    }).then(message=> console.log(message));
-
     var dropaddress = "".concat(order.orderAddr1).concat(" ").concat(order.orderCity).concat(" ").concat(order.orderState).concat(" -").concat(order.orderPostcode).concat(" ,India");
     var post_data = {
         sender_name : 'Plant4u',
@@ -898,6 +966,76 @@ await mailer.sendEmail('admin@plant4u.com',req.session.customerEmail,'Order Comp
    post_req.end();
   
    await db.orders.findOneAndUpdate({_id: common.getId(order._id)},{$set: {orderStatus: "Paid"}});
+
+    const invoice = {
+        shipping: {
+          name: "John Doe",
+          address: "1234 Main Street",
+          city: "San Francisco",
+          state: "CA",
+          country: "US",
+          postal_code: 94111
+        },
+        items: [
+          {
+            item: "TC 100",
+            description: "Toner Cartridge",
+            quantity: 2,
+            amount: 6000
+          },
+          {
+            item: "USB_EXT",
+            description: "USB Cable Extender",
+            quantity: 1,
+            amount: 2000
+          }
+        ],
+        subtotal: 8000,
+        paid: 0,
+        invoice_nr: 1234
+      };
+      var path = `public/uploads/`+order._id+`.pdf`;
+      var filename = order._id + `.pdf`;
+      pdfgenerate(invoice,path);
+await mailer.sendEmail('orderconfirm@plant4u.in',req.session.customerEmail,'Order Complete','Confirmation Email',[{
+    filename: filename,
+    path: path,
+    contentType: 'application/pdf'
+  }]
+  );
+  cloudinarypdf.config(name='cloud_name',key="pdfmanagement");
+    cloudinarypdf.config(name='api_key',key="228719351649744");
+    cloudinarypdf.config(name="api_secret",key="nrOR7AepWxSysLvAs-cmvll5pbE");
+  cloudinary.uploader.upload(path, 
+    async function(error, result) {
+        if(error) {
+            console.log(error);
+            fs.unlinkSync(path);
+        }
+        else {
+            console.log(result);
+            fs.unlinkSync(path);
+        }
+    });
+    
+// Here we send whatsapp message to vendor whenever we have an order
+    var detailsmessage = "Name: ".concat(bold(order.orderFirstname)).concat(" ").concat(bold(order.orderLastname));
+    detailsmessage = detailsmessage.concat(" Email: ").concat(order.orderEmail);
+    detailsmessage = detailsmessage.concat(" Phone: ").concat(order.orderPhoneNumber);
+    detailsmessage = detailsmessage.concat(" Order Id: ").concat(order._id);
+    var address = "Address: ".concat(order.orderAddr1).concat(" ").concat(order.orderCity).concat(" ").concat(order.orderState).concat(" ").concat(order.orderPostcode);
+    var items = ``;
+        for(let key in order.orderProducts){
+            items += ` Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
+        }
+    var sendmessage = `Your next order of `+items+` has shipped and should be delivered on `+address+`. Details: `+detailsmessage+``;
+    // client.messages.create({
+    //     from:'whatsapp:+14155238886',
+    //     to:'whatsapp:+919910160442',
+    //     body:sendmessage
+    // }).then(message=> console.log(message));
+
+    
     res.render('success', {
         title: 'Payment complete',
         config: req.app.config,
@@ -2211,37 +2349,37 @@ router.get('/lang/:locale', (req, res) => {
 });
 
 // return sitemap
-router.get('/sitemap.xml', (req, res, next) => {
-    const sm = require('sitemap');
-    const config = req.app.config;
+// router.get('/sitemap.xml', (req, res, next) => {
+//     const sm = require('sitemap');
+//     const config = req.app.config;
 
-    addSitemapProducts(req, res, (err, products) => {
-        if(err){
-            console.error(colors.red('Error generating sitemap.xml', err));
-        }
-        const sitemap = sm.createSitemap(
-            {
-                hostname: config.baseUrl,
-                cacheTime: 600000,
-                urls: [
-                    { url: '/', changefreq: 'weekly', priority: 1.0 }
-                ]
-            });
+//     addSitemapProducts(req, res, (err, products) => {
+//         if(err){
+//             console.error(colors.red('Error generating sitemap.xml', err));
+//         }
+//         const sitemap = sm.createSitemap(
+//             {
+//                 hostname: config.baseUrl,
+//                 cacheTime: 600000,
+//                 urls: [
+//                     { url: '/', changefreq: 'weekly', priority: 1.0 }
+//                 ]
+//             });
 
-        const currentUrls = sitemap.urls;
-        const mergedUrls = currentUrls.concat(products);
-        sitemap.urls = mergedUrls;
-        // render the sitemap
-        sitemap.toXML((err, xml) => {
-            if(err){
-                return res.status(500).end();
-            }
-            res.header('Content-Type', 'application/xml');
-            res.send(xml);
-            return true;
-        });
-    });
-});
+//         const currentUrls = sitemap.urls;
+//         const mergedUrls = currentUrls.concat(products);
+//         sitemap.urls = mergedUrls;
+//         // render the sitemap
+//         sitemap.toXML((err, xml) => {
+//             if(err){
+//                 return res.status(500).end();
+//             }
+//             res.header('Content-Type', 'application/xml');
+//             res.send(xml);
+//             return true;
+//         });
+//     });
+// });
 
 router.get('/page/:pageNum', async (req, res, next) => {
     const db = req.app.db;

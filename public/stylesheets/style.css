@@ -460,6 +460,38 @@ input[type=number]::-webkit-outer-spin-button {
   text-align: center;
   font-size: 22px;
 }
+.container404 {
+  margin-top: 40px;
+}
+.container404 .text{
+  margin-top: 100px;
+}
+.container404 h1 {
+  font-size: 55px;
+  font-weight: bold;
+}
+.container404 h3 {
+  margin-top: 20px;
+  font-weight: 600;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+.container404 h4 {
+  margin-top: 100px;
+  color: #53920b;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+.container404 h4 i {
+  font-size: 25px;
+  margin-left: 15px;
+}
+.gif404 {
+  background: url('/images/404.gif');
+  background-blend-mode: screen;
+  height: 500px;
+}
 
 .input-group .form-control {
   z-index: 1;

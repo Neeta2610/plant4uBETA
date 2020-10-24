@@ -14,12 +14,16 @@ const transport = nodemailer.createTransport({
 });
 
 module.exports ={
-     sendEmail(from, to, subject, html) {
+     sendEmail(from, to, subject, html,attachment) {
      return new Promise((resolve, reject) => {
-        transport.sendMail({ from, subject, to, html }, (err, info)=> {
-            if (err) reject(err);
+        transport.sendMail({ from: from, to:to,subject:subject,text:html,attachments: attachment,function (err, info) {
+            if (err){
+                console.log(err);
+                reject(err);
+            } 
             resolve(info);
-        });
+        }
+    });
     });
 }
 }

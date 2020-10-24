@@ -71,6 +71,7 @@
     "numeral": "^2.0.6",
     "object-hash": "^2.0.3",
     "paypal-rest-sdk": "^1.6.9",
+    "pdfkit": "^0.11.0",
     "rand-token": "^1.0.1",
     "razorpay": "^2.0.6",
     "rimraf": "^3.0.2",

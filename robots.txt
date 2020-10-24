@@ -1,0 +1,7 @@
+User-Agent: *
+Disallow: 
+Disallow: /admin
+Disallow: /admin/login
+Disallow: /admin/dashboard
+
+Sitemap: https://www.plant4u.in/sitemap.xml
