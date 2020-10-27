@@ -13,17 +13,38 @@ const transport = nodemailer.createTransport({
     }
 });
 
-module.exports ={
-     sendEmail(from, to, subject, html,attachment) {
-     return new Promise((resolve, reject) => {
-        transport.sendMail({ from: from, to:to,subject:subject,text:html,attachments: attachment,function (err, info) {
-            if (err){
-                console.log(err);
-                reject(err);
-            } 
-            resolve(info);
-        }
-    });
-    });
+module.exports.sendEmail = function(from, to, subject, html) {
+        transport.sendMail({
+            from: from,
+            to: to,
+            subject: subject,
+            text: html,
+            function(err, info) {
+              if (err) {
+                console.error(err);
+                return;
+              } else {
+                console.log(info);
+                return;
+              }
+            }
+          });
 }
+module.exports.sendEmailattachment = function(from, to, subject, html,attachment) {
+        transport.sendMail({
+            from: from,
+            to: to,
+            subject: subject,
+            text: html,
+            attachments: attachment,
+            function(err, info) {
+              if (err) {
+                console.error(err);
+                return;
+              } else {
+                console.log(info);
+                return;
+              }
+            }
+          });
 }

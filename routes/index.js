@@ -37,6 +37,13 @@ const {
 } = require('../lib/common');
 const countryList = getCountryList();
 var pin = require('india-pincode-lookup');
+var cloudinarypdf = require('cloudinary').v2;
+
+cloudinarypdf.config({ 
+    cloud_name: 'pdfmanagement', 
+    api_key: '228719351649744', 
+    api_secret: 'nrOR7AepWxSysLvAs-cmvll5pbE' 
+  });
 
 function isEmpty(obj) {
     for(var key in obj) {
@@ -245,52 +252,73 @@ function pdfgenerate(invoice,path) {
       
       function generateHeader(doc) {
         doc
-          .image("public/images/logo.png", 50, 45, { width: 50 })
+          .image("public/images/logo.png",200,20, { width: 160 })
           .fillColor("#444444")
-          .fontSize(20)
-          .text("ACME Inc.", 110, 57)
+          .font('Helvetica-Bold')
           .fontSize(10)
-          .text("123 Main Street", 200, 65, { align: "right" })
-          .text("New York, NY, 10025", 200, 80, { align: "right" })
+          .text("Sold By: Plant4u Botanicals Pvt Ltd",10,85)
+          .fontSize(10)
+          .text("Contact Information", 200, 75, { align: "right" })
+          .font('Helvetica')
+          .text("Email: administrator@plant4u.in", 400, 90, { align: "right" })
+          .moveTo(10,135)
+          .lineTo(600,135)
+          .stroke()
           .moveDown();
-      }
-      
-      function generateFooter(doc) {
-        doc
-          .fontSize(10)
-          .text(
-            "Payment is due within 15 days. Thank you for your business.",
-            50,
-            780,
-            { align: "center", width: 500 }
-          );
       }
 
       function generateCustomerInformation(doc, invoice) {
         const shipping = invoice.shipping;
       
         doc
-          .text(`Invoice Number: ${invoice.invoice_nr}`, 50, 200)
-          .text(`Invoice Date: ${new Date()}`, 50, 215)
-          .text(`Balance Due: ${invoice.subtotal - invoice.paid}`, 50, 130)
-      
-          .text(shipping.name, 300, 200)
-          .text(shipping.address, 300, 215)
-          .text(`${shipping.city}, ${shipping.state}, ${shipping.country}`, 300, 130)
-          .moveDown();
+            .fontSize(11)
+            .font('Helvetica-Bold')
+            .text("Order ID:",20,150)
+          .text(` ${invoice.orderId}`, 70, 150)
+          .text(`Order Date:`, 20, 165)
+          .font('Helvetica')
+          .text(`${invoice.orderDate}`, 85, 165)
+          .font('Helvetica-Bold')
+          .text(`PAN: `, 20, 180)
+          .font('Helvetica')
+          .text(`AALCP4866D`, 50, 180)
+          .font('Helvetica-Bold')
+          .text(`CIN: `, 20, 195)
+          .font('Helvetica')
+          .text(`U01100UP2020PTC135701`, 50, 195)
+          .font('Helvetica-Bold')
+          .text('Ship To: ',400,150)
+          .text(`${invoice.shipping.name}`, 440,150, {width: 200})
+          .font('Helvetica')
+          .text(`${invoice.shipping.address}`,400,165,{width: 220})
+          .text(`${invoice.shipping.city} ,${invoice.shipping.state} -${invoice.shipping.postcode}, ${invoice.shipping.phone}`)
+          .font('Helvetica')
+          .moveDown()
+          .moveTo(10,230)
+          .lineTo(600,230)
+          .stroke();
       }
-      function generateTableRow(doc, y, c1, c2, c3, c4, c5) {
+      function generateTableRow(doc, y, c1, c2, c3, c4) {
         doc
           .fontSize(10)
-          .text(c1, 50, y)
-          .text(c2, 150, y)
-          .text(c3, 280, y, { width: 90, align: "right" })
-          .text(c4, 370, y, { width: 90, align: "right" })
-          .text(c5, 0, y, { align: "right" });
+          .text(c1, 50, y, {width: 150})
+          .text(c2, 206, y)
+          .text(c3, 322, y, { width: 90})
+          .text(c4, 438, y, { width: 90})
       }
       function generateInvoiceTable(doc, invoice) {
         let i,
-          invoiceTableTop = 330;
+          invoiceTableTop = 260;
+
+          doc
+          .font('Helvetica-Bold')
+          .text('Product Name',50,250)
+          .text('Price',206,250)
+          .text('Quantity',322,250)
+          .text('Total Price',438,250)
+          .moveTo(10,270)
+          .lineTo(600,270)
+          .stroke();
       
         for (i = 0; i < invoice.items.length; i++) {
           const item = invoice.items[i];
@@ -299,12 +327,30 @@ function pdfgenerate(invoice,path) {
             doc,
             position,
             item.item,
-            item.description,
             item.amount / item.quantity,
             item.quantity,
             item.amount
           );
         }
+        var finishposition = invoiceTableTop + (invoice.items.length)*30;
+        doc
+        .moveTo(10,finishposition + 30)
+        .lineTo(600,finishposition + 30)
+        .stroke()
+        .fontSize(14)
+        .font('Helvetica')
+        .text(`Total Amount: ${invoice.totalamount}`,400,finishposition + 40,{align: 'right'})
+        .text(`Shipping Amount: ${invoice.shippingprice}`,390,finishposition + 55,{align: 'right'})
+        .text(`Discount ${invoice.discount}`,390,finishposition + 70,{align: 'right'})
+        .font('Helvetica-Bold')
+        .fontSize(15)
+        .text(`Grand Total ${invoice.subtotal}`,390,finishposition + 85,{align: 'right'})
+        .moveTo(10,finishposition+105)
+        .lineTo(600,finishposition+105)
+        .stroke()
+        .font('Helvetica')
+        .fontSize(13)
+        .text('This is Electronically generated invoice no stamp required',140,finishposition + 125);
       }
       
     let doc = new PDFDocument({ margin: 50 });
@@ -312,20 +358,74 @@ function pdfgenerate(invoice,path) {
     generateHeader(doc);
     generateCustomerInformation(doc, invoice);
     generateInvoiceTable(doc, invoice);
-    generateFooter(doc);
 
     doc.end();
     doc.pipe(fs.createWriteStream(path));
-    console.log("Writing success");
+    return 0;
 }
-// These is the customer facing routes
-var cloudinarypdf = require('cloudinary').v2;
+// router.get('/pdfgenerate',async (req,res)=>{
+//     var db = req.app.db;
+    
+//     var order = await db.orders.findOne({_id: common.getId("5f3e01c6909e041c0db631f4")});
+//     var invoice = {
+//         shipping: {
+//           name: order.orderFirstname + ` `+ order.orderLastname,
+//           address: order.orderAddr1,
+//           city: order.orderCity,
+//           state: order.orderState,
+//           postcode: order.orderPostcode,
+//           phone: order.orderPhoneNumber
+//         },
+//         items: [
+//         ],
+//         orderId: order._id,
+//         orderDate: new Date(order.orderDate).toDateString(),
+//         shippingprice: order.orderShipping,
+//         subtotal: parseInt(order.orderTotal),
+//         totalcount: order.orderProductCount,
+//         paid: 0,
+//         invoice_nr: 1234
+//       };
+//       var totalamount = 0;
+//       for(let a in order.orderProducts) {
+//         var orderitem = {
+//             item: order.orderProducts[a].title,
+//             quantity: order.orderProducts[a].quantity,
+//             amount: order.orderProducts[a].totalItemPrice
+//           };
+//           totalamount = totalamount + parseInt(orderitem.amount);
+//           invoice.items.push(orderitem);
+//       }
+//       invoice.totalamount = totalamount;
+//       invoice.discount = totalamount - invoice.subtotal - invoice.shipping;
+//       if(invoice.discount > 0) {
+//         invoice.discount = parseInt(invoice.discount);
+//       }
+//       else {
+//           invoice.discount = 0;
+//       }
+//       var path = `public/uploads/`+order._id+`.pdf`;
+//       var filename = order._id;
+//       pdfgenerate(invoice,path);
 
-cloudinarypdf.config({ 
-    cloud_name: 'pdfmanagement', 
-    api_key: '228719351649744', 
-    api_secret: 'nrOR7AepWxSysLvAs-cmvll5pbE' 
-  });
+//       cloudinarypdf.config(name='cloud_name',key="pdfmanagement");
+//     cloudinarypdf.config(name='api_key',key="228719351649744");
+//     cloudinarypdf.config(name="api_secret",key="nrOR7AepWxSysLvAs-cmvll5pbE");
+//   cloudinarypdf.uploader.upload(path, {public_id: filename,resource_type: 'raw'},
+//     async function(error, result) {
+//         if(error) {
+//             console.log(error);
+//             fs.unlinkSync(path);
+//         }
+//         else {
+//             console.log(result);
+//             fs.unlinkSync(path);
+//         }
+//     });
+
+// });
+// These is the customer facing routes
+
 router.get('/payment/:orderId', async (req, res, next) => {
     const db = req.app.db;
     const config = req.app.config;
@@ -965,39 +1065,50 @@ router.get('/payment/:orderId', async (req, res, next) => {
    post_req.write(post_data);
    post_req.end();
   
-   await db.orders.findOneAndUpdate({_id: common.getId(order._id)},{$set: {orderStatus: "Paid"}});
-
-    const invoice = {
-        shipping: {
-          name: "John Doe",
-          address: "1234 Main Street",
-          city: "San Francisco",
-          state: "CA",
-          country: "US",
-          postal_code: 94111
-        },
-        items: [
-          {
-            item: "TC 100",
-            description: "Toner Cartridge",
-            quantity: 2,
-            amount: 6000
-          },
-          {
-            item: "USB_EXT",
-            description: "USB Cable Extender",
-            quantity: 1,
-            amount: 2000
-          }
-        ],
-        subtotal: 8000,
-        paid: 0,
-        invoice_nr: 1234
+   console.log("drop id");
+   var invoice = {
+    shipping: {
+      name: order.orderFirstname + ` `+ order.orderLastname,
+      address: order.orderAddr1,
+      city: order.orderCity,
+      state: order.orderState,
+      postcode: order.orderPostcode,
+      phone: order.orderPhoneNumber
+    },
+    items: [
+    ],
+    orderId: order._id,
+    orderDate: new Date(order.orderDate).toDateString(),
+    shippingprice: order.orderShipping,
+    subtotal: parseInt(order.orderTotal),
+    totalcount: order.orderProductCount,
+    paid: 0,
+    invoice_nr: 1234
+  };
+  var totalamount = 0;
+  for(let a in order.orderProducts) {
+    var orderitem = {
+        item: order.orderProducts[a].title,
+        quantity: order.orderProducts[a].quantity,
+        amount: order.orderProducts[a].totalItemPrice
       };
-      var path = `public/uploads/`+order._id+`.pdf`;
-      var filename = order._id + `.pdf`;
-      pdfgenerate(invoice,path);
-await mailer.sendEmail('orderconfirm@plant4u.in',req.session.customerEmail,'Order Complete','Confirmation Email',[{
+      totalamount = totalamount + parseInt(orderitem.amount);
+      invoice.items.push(orderitem);
+  }
+  invoice.totalamount = totalamount;
+  invoice.discount = totalamount - invoice.subtotal - invoice.shipping;
+  if(invoice.discount > 0) {
+    invoice.discount = parseInt(invoice.discount);
+  }
+  else {
+      invoice.discount = 0;
+  }
+  var path = `public/uploads/`+order._id+`.pdf`;
+  var filename = order._id +`.pdf`;
+  var k = pdfgenerate(invoice,path);
+  console.log("pdfgenerated");
+  await mailer.sendEmail('orderconfirm@plant4u.in',req.session.customerEmail,'Order Complete',html);
+  await mailer.sendEmailattachment('orderconfirm@plant4u.in','sarthakkaushik1999@gmail.com','Order Placed','New Order Placed with Plant4u and here is invoice for that order',[{
     filename: filename,
     path: path,
     contentType: 'application/pdf'
@@ -1006,7 +1117,7 @@ await mailer.sendEmail('orderconfirm@plant4u.in',req.session.customerEmail,'Orde
   cloudinarypdf.config(name='cloud_name',key="pdfmanagement");
     cloudinarypdf.config(name='api_key',key="228719351649744");
     cloudinarypdf.config(name="api_secret",key="nrOR7AepWxSysLvAs-cmvll5pbE");
-  cloudinary.uploader.upload(path, 
+  cloudinarypdf.uploader.upload(path,  {public_id: order._id,resource_type: 'raw'},
     async function(error, result) {
         if(error) {
             console.log(error);
@@ -1035,7 +1146,7 @@ await mailer.sendEmail('orderconfirm@plant4u.in',req.session.customerEmail,'Orde
     //     body:sendmessage
     // }).then(message=> console.log(message));
 
-    
+    await db.orders.findOneAndUpdate({_id: common.getId(order._id)},{$set: {orderStatus: "Paid"}});
     res.render('success', {
         title: 'Payment complete',
         config: req.app.config,

@@ -1366,7 +1366,7 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
         console.log("original name\n \n");
         console.log(path.resolve(__filename),"\n",path.resolve(__dirname));
         
-        cloudinary.uploader.upload(file.path, 
+        cloudinary.uploader.upload(file.path,
         async function(error, result) {
             if(result){
                 var json_String = JSON.stringify(result);
