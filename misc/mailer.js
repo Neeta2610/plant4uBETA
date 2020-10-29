@@ -18,7 +18,7 @@ module.exports.sendEmail = function(from, to, subject, html) {
             from: from,
             to: to,
             subject: subject,
-            text: html,
+            html: html,
             function(err, info) {
               if (err) {
                 console.error(err);
