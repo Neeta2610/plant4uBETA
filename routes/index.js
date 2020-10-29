@@ -2599,6 +2599,14 @@ router.get('/:page?', async (req, res, next) => {
     productsIndex.search(mainproductterm).forEach((id) => {
         resultproduct.push(getId(id.ref));
     });
+    var marblestatus = [];
+    productsIndex.search("patthar").forEach((id)=>{
+        marblestatus.push(getId(id.ref));
+    });
+    var pattharproduct = await db.products.aggregate([
+        {$match: {_id: {$in: marblestatus},productStock: {$gt: 0}}},
+        {$limit: 4}
+    ]).toArray();
     // if no page is specified, just render page 1 of the cart
     if(!req.params.page){
         Promise.all([
@@ -2619,6 +2627,7 @@ router.get('/:page?', async (req, res, next) => {
                     topProducts: topProducts,
                     plant4uspecial: plant4uspecial,
                     packplants: packplants,
+                    pattharproduct: pattharproduct,
                     session: req.session,
                     categories: req.app.categories,
                     message: clearSessionValue(req.session, 'message'),
