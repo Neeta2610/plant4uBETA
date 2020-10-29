@@ -1027,7 +1027,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
 
    // An object of options to indicate where to post to
    var post_options = {
-       host: 'bsandbox.dropr.in',
+       host: 'bslive.dropr.in',
        port: '443',
        path: '/business/api/create-order',
        method: 'POST',
@@ -1108,7 +1108,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
   var k = pdfgenerate(invoice,path);
   console.log("pdfgenerated");
   await mailer.sendEmail('orderconfirm@plant4u.in',req.session.customerEmail,'Order Complete',html);
-  await mailer.sendEmailattachment('orderconfirm@plant4u.in','sarthakkaushik1999@gmail.com','Order Placed','New Order Placed with Plant4u and here is invoice for that order',[{
+  await mailer.sendEmailattachment('orderconfirm@plant4u.in','greenhomecare.india@gmail.com','Order Placed','New Order Placed with Plant4u and here is invoice for that order',[{
     filename: filename,
     path: path,
     contentType: 'application/pdf'
@@ -1140,11 +1140,11 @@ router.get('/payment/:orderId', async (req, res, next) => {
             items += ` Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
         }
     var sendmessage = `Your next order of `+items+` has shipped and should be delivered on `+address+`. Details: `+detailsmessage+``;
-    // client.messages.create({
-    //     from:'whatsapp:+14155238886',
-    //     to:'whatsapp:+919910160442',
-    //     body:sendmessage
-    // }).then(message=> console.log(message));
+    client.messages.create({
+        from:'whatsapp:+14155238886',
+        to:'whatsapp:+919910160442',
+        body:sendmessage
+    }).then(message=> console.log(message));
 
     await db.orders.findOneAndUpdate({_id: common.getId(order._id)},{$set: {orderStatus: "Paid"}});
     res.render('success', {
