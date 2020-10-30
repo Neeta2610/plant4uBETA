@@ -588,10 +588,12 @@ header
   }
   .header-area {
     background-color: #f7f7f7;
-    padding: 0px 15px;
     height: 80px;
     box-shadow: none;
     text-align: center;
+  }
+  .header-area .main-nav .slide {
+    transform: translateX(0%) !important;
   }
   .header-area .container {
     padding: 0px;
@@ -609,11 +611,14 @@ header
     float: none;
     width: 100%;
     margin-top: 0px !important;
-    display: none;
-    -webkit-transition: all 0s ease 0s;
-    -moz-transition: all 0s ease 0s;
-    -o-transition: all 0s ease 0s;
-    transition: all 0s ease 0s;
+    display: block !important;
+    position: fixed;
+    height: 100%;
+    transform: translateX(100%);
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
     margin-left: 0px;
   }
   .header-area .main-nav .nav li:first-child {

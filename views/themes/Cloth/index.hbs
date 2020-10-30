@@ -713,6 +713,41 @@
 {{/each}}
   </div>
 </div>
+<div class="query-form">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 feedback-heading">
+                <h3>Feedback Form</h3>
+    <h4>You can send us any improvement ie. Any new product you want, Any service you want improved, Any new Service</h4>
+    </div>
+    <form method="post" name="feedback-form" class="checkout_details_area col-12 col-md-10 mx-auto row">
+        <div class="form-group col-12 col-md-6 col-lg-6">
+            <input class="form-control" type="text" id="feedbackname" name="name"
+                placeholder="Your Name" required>
+        </div>
+        <div class="form-group col-12 col-md-6 col-lg-6">
+            <input class="form-control" type="email" id="feedbackemail" name="email"
+                placeholder="Your Email" required>
+        </div>
+        <div class="form-group col-12">
+            <input class="form-control" type="text" id="feedbackmessage" name="message"
+                placeholder="Feedback Message" required>
+        </div>
+        <div class="success-response col-12">
+            Your Query has been Recorded
+        </div>
+        <div class="error-response col-12">
+            We encounter Some error sending your message
+        </div>
+        <div class="form-group col-12 submitbutton">
+            <button type="submit" class="mx-auto amado-btn">Send Query</button>
+        </div>
+        
+    </form>
+            
+        </div>
+    </div>
+</div>
 
 <div class="prefooter">
 <p><strong>Plant4u- India&rsquo;s Best Online Nursery</strong></p>
@@ -734,3 +769,25 @@
 
 
 </div>
+<script>
+    
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzDONsdjO_C6z7f6ePMuU28wB7467FxVLX1lIJIaSYNWi5PPw/exec'
+  const form = document.forms['feedback-form']
+
+  form.addEventListener('submit', e => {
+    e.preventDefault()
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => {
+          $('#feedbackname').val("");
+          $('#feedbackemail').val("");
+          $('#feedbackmessage').val("");
+          $('.success-response')[0].style.display = 'block';
+      })
+      .catch(error => {
+          $('#feedbackname').val("");
+          $('#feedbackemail').val("");
+          $('#feedbackmessage').val("");
+          $('.error-response')[0].style.display = 'block';
+      })
+  })
+</script>
