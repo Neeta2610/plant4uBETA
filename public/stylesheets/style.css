@@ -2711,9 +2711,19 @@ justify-content: start;}
   font-family: 'helveticaneuemedium';
 }
 .product-results h1{
-  font-size: 16px;
+  font-size: 25px;
+  font-weight: bold;
+  text-transform: capitalize;
+  font-family: 'helveticaneuebold';
   color: #555555;
   margin: auto 10px;
+  padding-bottom: 15px;
+}
+.product-results h1 hr {
+  width: 160px;
+  height: 2px;
+  border-radius: 1px;
+  background-color: #fbb710;
 }
 .product-results h1 strong{
   color: #28a745;

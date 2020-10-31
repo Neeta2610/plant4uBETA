@@ -87,9 +87,9 @@
         </div>
         </div>
             {{#ifCond @root.paginateUrl '==' 'category'}}
-            <h1>{{ @root.__ "Category" }} - <strong>{{@root.searchTerm}}</strong></h1>
+            <h1>{{ @root.__ "Category" }} - <strong>{{@root.searchTerm}}</strong> <hr></h1>
             {{else}}
-            <h1>{{ @root.__ "Search results" }} - <strong>{{@root.searchTerm}}</strong></h1>
+            <h1>{{ @root.__ "Search results" }} - <strong>{{@root.searchTerm}}</strong> <hr></h1>
             {{/ifCond}}
         </div>
     {{/if}}
