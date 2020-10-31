@@ -624,6 +624,7 @@ header
   .header-area .main-nav .nav li:first-child {
     border-top: 1px solid #eee;
   }
+  
   .header-area .main-nav .nav li {
     width: 100%;
     background: #fff;
@@ -654,6 +655,9 @@ header
     width: 100%;
     box-shadow: none;
     height: 0px;
+  }
+  .header-area .main-nav .nav li.submenu ul li {
+    width: auto;
   }
   .header-area .main-nav .nav li.submenu ul li a {
     font-size: 12px;
