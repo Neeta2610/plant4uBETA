@@ -1413,7 +1413,7 @@ align-items: center;}
 .second-product-wrapper .titlename {
   margin: 10px auto;
   text-align: center;
-  max-height: 50px;
+  max-height: 45px;
   overflow-y: hidden;
 }
 .second-product-wrapper .titlename a h4{
