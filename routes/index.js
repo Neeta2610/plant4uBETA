@@ -2578,22 +2578,31 @@ router.get('/:page?', async (req, res, next) => {
     const numberProducts = config.productsPerPage ? config.productsPerPage : 8;
     var packplants = await db.products.aggregate([
         { $match: {isPack: true, productStock: { $gt: 0 }}},
-        { $limit: 8}
+        { $limit: 4}
     ]).toArray();
     var temptopProducts = [];
     productsIndex.search("BestBuy").forEach((id) => {
         temptopProducts.push(getId(id.ref));
     });
-    var topProducts = await db.products.aggregate({$match: {_id: { $in: temptopProducts},isPack: false, productStock: { $gt: 0}}}, { $limit: 8}).toArray();
+    var topProducts = await db.products.aggregate({$match: {_id: { $in: temptopProducts},isPack: false, productStock: { $gt: 0}}}, { $limit: 4}).toArray();
     var lunrIdArray = [];
     var resultproduct = [];
     var searchTerm = "Arotic";
+    var diwaliterm = "diwali";
+    var diwalilist = [];
+    productsIndex.search(diwaliterm).forEach((id) =>{
+        diwalilist.push(getId(id.ref));
+    });
     productsIndex.search(searchTerm).forEach((id) => {
         lunrIdArray.push(getId(id.ref));
     });
     var plant4uspecial = await db.products.aggregate([
         {$match: {_id: { $in: lunrIdArray },isPack: false, productStock: { $gt: 0}}},
-        { $limit: 8}
+        { $limit: 4 }
+    ]).toArray();
+    var diwaliproducts = await db.products.aggregate([
+        {$match: {_id: { $in: diwalilist},isPack: false, productsStock: { $gt: 0}}},
+        { $limit: 8 }
     ]).toArray();
     var mainproductterm = "NewArrival";
     productsIndex.search(mainproductterm).forEach((id) => {
@@ -2627,6 +2636,7 @@ router.get('/:page?', async (req, res, next) => {
                     topProducts: topProducts,
                     plant4uspecial: plant4uspecial,
                     packplants: packplants,
+                    diwaliproducts: diwaliproducts,
                     pattharproduct: pattharproduct,
                     session: req.session,
                     categories: req.app.categories,
