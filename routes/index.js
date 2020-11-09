@@ -18,7 +18,7 @@ const fs = require("fs");
 const accountSid = 'ACf50754e96a02279cbf13ef064765f5f8';
 const authToken = 'b940db14e31b3c95c86c87fa42dfe6ba';
 const client = require('twilio')(accountSid, authToken);
-const availableDistrict = ["Central Delhi","East Delhi","New Delhi","North Delhi","North East Delhi","North West Delhi","South Delhi","South West Delhi","West Delhi","Ghaziabad"];
+const availableDistrict = ["Central Delhi","East Delhi","New Delhi","North Delhi","North East Delhi","North West Delhi","South Delhi","South West Delhi","West Delhi","Ghaziabad","Gurgaon"];
 const {
     getId,
     hooker,
@@ -1332,8 +1332,7 @@ router.post('/checkout/order/new',async (req,res)=>{
         req.session.razorOrderId = order.id;
         res.status(200).send({message: order.id});
         return;
-      });
-      
+      });     
 });
 router.post('/checkout/order/set', async (req,res)=>{
     console.log("checkout set session",req.body.order_id);
@@ -1658,6 +1657,7 @@ router.post('/product/pinavailability', (req,res) =>{
         return;
     }
     var response = pin.lookup(req.body.pincode);
+    console.log(response);
     if(response.length > 0){
         if(availableDistrict.indexOf(response[0].districtName) != -1){
             res.status(200).json({message: "Available At Your Location"});
