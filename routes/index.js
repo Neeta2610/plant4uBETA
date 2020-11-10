@@ -436,9 +436,15 @@ router.get('/payment/:orderId', async (req, res, next) => {
         res.render('error', { title: 'Not found', message: 'Order not found', helpers: req.handlebars.helpers, config });
         return;
     }
+    if(order.orderStatus == 'Failed') {
+        req.session.message = "Payement Failed";
+        req.session.messageType = "danger";
+        res.redirect('/customer/account/orders');
+        return;
+    }
     if(order.orderStatus != 'Pending') {
-        req.message = "Already Paid";
-        req.messageType = "success";
+        req.session.message = "Already Paid";
+        req.session.messageType = "success";
         res.redirect('/');
         return;
     }
@@ -1346,14 +1352,14 @@ router.post('/checkout/confirm/razorpay',async (req,res)=>{
     console.log(req.body);
     var secret = "k5BjcXG2c0mLEUpoKKoAUy2Z"; // from the dashboard
     var generated_signature = crypto.createHmac("sha256",secret).update(bodymessage.toString()).digest('hex');
-console.log(generated_signature);
-console.log(req.body.razorpay_signature);
-  if (req.body.razorpay_signature && generated_signature == req.body.razorpay_signature) {
-    console.log("Payment Successfull");
-    console.log(req.body.razorpay_order_id);
-    console.log(req.body.razorpay_payment_id);
+    console.log(generated_signature);
     console.log(req.body.razorpay_signature);
-    let orderStatus = 'Pending';
+    var paymentStatus = "Failed";
+    var orderStatus = 'Failed';
+  if (req.body.razorpay_signature && generated_signature == req.body.razorpay_signature) {    
+    paymentStatus = "Paid";
+orderStatus = 'Pending'; }
+    
        /* if(charge.paid !== true){
             paymentStatus = 'Declined';
         } */
@@ -1361,7 +1367,7 @@ console.log(req.body.razorpay_signature);
     const orderDoc = {
         // orderPaymentId: charge.id,
          orderPaymentGateway: paymentMethod,
-         orderPaymentStatus: "Paid",
+         orderPaymentStatus: paymentStatus,
         // orderPaymentMessage: charge.outcome.seller_message,
          orderTotal: req.session.totalCartAmount,
          orderProductCount: req.session.totalCartProducts,
@@ -1401,8 +1407,14 @@ console.log(req.body.razorpay_signature);
         .then(() => {
             // if approved, send email etc
                 // set the results
-                req.session.messageType = 'success';
-                req.session.message = 'Your payment was successfully completed';
+                if(paymentStatus == 'Paid') {
+                    req.session.messageType = 'success';
+                    req.session.message = 'Your payment was successfully completed';
+                }
+                else {
+                    req.session.messageType = 'danger';
+                    req.session.message = 'Payment is failed if price deduced inform us';
+                }
                 req.session.paymentEmailAddr = newDoc.ops[0].orderEmail;
                 req.session.paymentApproved = true;
                 req.session.paymentDetails = '<p><strong>Order ID: </strong>' + newId ;
@@ -1421,27 +1433,10 @@ console.log(req.body.razorpay_signature);
                     common.emptyCart(req, res, 'function');
                 }
 
-                // send the email with the response
-                // TODO: Should fix this to properly handle result
-
-                // redirect to outcome
                 res.status(200).json({id: newId});
                 return;
-                res.redirect('/payment/' + newId);
-            /*else{
-                // redirect to failure
-                req.session.messageType = 'danger';
-                req.session.message = 'Your payment has declined. Please try again';
-                req.session.paymentApproved = false;
-                req.session.paymentDetails = '<p><strong>Order ID: </strong>' + newId + '</p><p><strong>Transaction ID: </strong>' + charge.id + '</p>';
-                res.redirect('/payment/' + newId);
-            } */
         });
     });
-  }
-  else {
-      res.status(400).json({message: "Signature Not verified. If your account is deduced please wait for 1 Day or contact us through email or phone"});
-  }
 });
 router.get('/checkout/payment', async (req, res) => {
     const config = req.app.config;

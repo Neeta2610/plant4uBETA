@@ -3442,6 +3442,12 @@ input[type="radio"] {
 .stages label.active{
 	border-color: #0cc39f !important;
 }
+.stages label.cancel {
+  color: rgb(172, 9, 9) !important;
+  display: inline-flex;
+  font-size: 16px;
+  border-color: rgb(172, 9, 9) !important;
+}
 .stages label span{
   color: rgb(87, 87, 87) !important;
   position: absolute;

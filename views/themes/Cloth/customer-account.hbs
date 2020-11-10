@@ -283,6 +283,15 @@
                                         </div>
                                         {{/if}}
                                         <div class="formlevel">
+                                            {{#ifCond this.orderStatus "==" "Failed"}}
+                                            <div class="stages">                 
+                                                <label for="one" class="check">&check; <span class="titlelevel">Ordered</span></label>
+                                                <label for="two" class="cancel">&check; <span class="titlelevel">Failed</span></label>
+                                                <label for="three">3 <span class="titlelevel">Shipped</span></label>
+                                                <label for="four">4 <span class="titlelevel">Delivered</span></label>
+                                            </div>
+                                                <span class="progress1 width2"><span></span></span>
+                                            {{/ifCond}}
                                             {{#ifCond this.orderStatus "==" "Paid"}}
                                             <div class="stages">                 
                                                 <label for="one" class="check">&check; <span class="titlelevel">Ordered</span></label>
