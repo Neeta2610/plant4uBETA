@@ -49,7 +49,6 @@
             </li>
             <li class="list-group-item"><strong> {{ @root.__ "Order date" }}: </strong><span class="float-right">{{formatDate result.orderDate "DD/MM/YYYY hh:mmA"}}</span></li>
             <li class="list-group-item"><strong> {{ @root.__ "Order ID" }}: </strong><span class="float-right">{{result._id}}</span></li>
-            <li class="list-group-item"><strong> {{ @root.__ "Payment Gateway ref" }}: </strong><span class="float-right">{{result.orderPaymentId}}</span></li>
             <li class="list-group-item"><strong> {{ @root.__ "Payment Gateway" }}: </strong><span class="float-right">{{result.orderPaymentGateway}}</span></li>
             {{#if result.orderExpectedBtc }}
             <li class="list-group-item"><strong> {{ @root.__ "Order Expected BTC" }}: </strong><span class="float-right">{{result.orderExpectedBtc}}</span></li>
@@ -73,7 +72,7 @@
             <li class="list-group-item"><strong> {{ @root.__ "Order type" }}: </strong><span class="float-right">{{result.orderType}}</span></li>
             <li class="list-group-item"><strong> {{ @root.__ "Order comment" }}: </strong><span class="float-right">{{result.orderComment}}</span></li>
             <li class="list-group-item"><strong> {{ @root.__ "Payment ID" }}: </strong><span class="float-right">{{result.orderPaymentId}}</span></li>
-            <li class="list-group-item"><strong> {{ @root.__ "Payment ID" }}: </strong><span class="float-right">{{result.orderPaymentId}}</span></li>
+            <li class="list-group-item"><strong> {{ @root.__ "Razor Order ID" }}: </strong><span class="float-right">{{result.razororderId}}</span></li>
             <li class="list-group-item"><strong> {{ @root.__ "Razor Payment Order Id" }}: </strong><span class="float-right">{{result.razororderIdpayment}}</span></li>
             <li class="list-group-item"><strong> {{ @root.__ "Razor Payment Signature" }}: </strong><span class="float-right">{{result.razorpaymentSignature}}</span></li>
 
