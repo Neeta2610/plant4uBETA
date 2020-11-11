@@ -2,7 +2,7 @@
     "cartTitle": "Plant4U",
     "cartDescription": "Plant4u CMS",
     "cartLogo": "https://res.cloudinary.com/plant4u/image/upload/v1597585136/4_zwivhs.png",
-    "baseUrl": "http://localhost:1111",
+    "baseUrl": "https://www.plant4u.in",
     "emailHost": "smtp-mail.outlook.com",
     "emailPort": 587,
     "emailSecure": false,
