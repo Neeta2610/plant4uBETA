@@ -1348,7 +1348,7 @@ router.post('/checkout/order/set', async (req,res)=>{
 });
 router.post('/checkout/confirm/razorpay',async (req,res)=>{
     const db = req.app.db;
-    var bodymessage = req.session["razorOrderId"] + "|" + req.body.razorpay_payment_id;
+    var bodymessage = req.session["razorOrderId"] + `|` + req.body.razorpay_payment_id;
     console.log(req.body);
     var secret = "k5BjcXG2c0mLEUpoKKoAUy2Z"; // from the dashboard
     var generated_signature = crypto.createHmac("sha256",secret).update(bodymessage.toString()).digest('hex');
@@ -1385,6 +1385,7 @@ orderStatus = 'Pending'; }
          orderPromoCode: req.session.discountCode,
          //orderComment: req.session.orderComment,
          orderStatus: orderStatus,
+         generatedSignature: generated_signature,
          orderPaymentId: req.body.razorpay_payment_id,
          razororderId: req.session["razorOrderId"],
          razororderIdpayment: req.body. razorpay_order_id,
