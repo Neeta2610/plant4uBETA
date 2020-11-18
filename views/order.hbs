@@ -67,7 +67,7 @@
             <li class="list-group-item"><strong> {{ @root.__ "Order total amount" }}: </strong><span class="float-right">{{currencySymbol config.currencySymbol}}{{formatAmount result.orderTotal}}</span></li>
             <li class="list-group-item"><strong> {{ @root.__ "Email address" }}: </strong><span class="float-right">{{result.orderEmail}}</span></li>
             <li class="list-group-item"><strong> {{ @root.__ "Name" }}: </strong><span class="float-right">{{result.orderFirstname}} {{result.orderLastname}}</span></li>
-            <li class="list-group-item"><strong> {{ @root.__ "Address" }}: </strong><span class="float-right">{{result.orderAddr1}}, {{result.orderState}}, {{result.orderPostcode}}</span></li>
+            <li class="list-group-item"><strong> {{ @root.__ "Address" }}: </strong><span class="float-right">{{result.orderAddr1}}, {{result.orderCity}} {{result.orderState}}, {{result.orderPostcode}}</span></li>
             <li class="list-group-item"><strong> {{ @root.__ "Phone number" }}: </strong><span class="float-right">{{result.orderPhoneNumber}}</span></li>
             <li class="list-group-item"><strong> {{ @root.__ "Order type" }}: </strong><span class="float-right">{{result.orderType}}</span></li>
             <li class="list-group-item"><strong> {{ @root.__ "Order comment" }}: </strong><span class="float-right">{{result.orderComment}}</span></li>

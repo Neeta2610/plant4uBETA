@@ -91,5 +91,10 @@
 	"Category": "Category",
 	"No images have been uploaded for this product": "No images have been uploaded for this product",
 	"No products found": "No products found",
-	"Search results": "Search results"
+	"Search results": "Search results",
+	"Payment ID": "Payment ID",
+	"Razor Order ID": "Razor Order ID",
+	"Razor Payment Order Id": "Razor Payment Order Id",
+	"Razor Payment Signature": "Razor Payment Signature",
+	"Tracking Id": "Tracking Id"
 }
