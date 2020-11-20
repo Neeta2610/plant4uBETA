@@ -28,6 +28,7 @@ router.get('/admin/users', restrict, async (req, res) => {
     });
 });
 
+
 // edit user
 router.get('/admin/user/edit/:id', restrict, async (req, res) => {
     const db = req.app.db;
@@ -239,6 +240,244 @@ router.post('/admin/user/insert', restrict, async (req, res) => {
     }catch(ex){
         console.error(colors.red('Failed to insert user: ' + ex));
         res.status(400).json({ message: 'New user creation failed' });
+    }
+});
+
+// Vendor Section
+router.get('/admin/vendors', restrict, async (req, res) => {
+    const db = req.app.db;
+    const vendors = await db.vendors.find({}, { projection: { vendorPassword: 0 } }).toArray();
+
+    if(req.apiAuthenticated){
+        res.status(200).json(vendors);
+        return;
+    }
+
+    res.render('vendors', {
+        title: 'vendors',
+        vendors: vendors,
+        admin: true,
+        config: req.app.config,
+        isAdmin: req.session.isAdmin,
+        helpers: req.handlebars.helpers,
+        session: req.session,
+        message: common.clearSessionValue(req.session, 'message'),
+        messageType: common.clearSessionValue(req.session, 'messageType')
+    });
+});
+
+
+// edit vendor
+router.get('/admin/vendor/edit/:id', restrict, async (req, res) => {
+    const db = req.app.db;
+    const vendor = await db.vendors.findOne({ _id: common.getId(req.params.id) });
+
+    // Check vendor is found
+    if(!vendor){
+        if(req.apiAuthenticated){
+            res.status(400).json({ message: 'vendor not found' });
+            return;
+        }
+
+        req.session.message = 'vendor not found';
+        req.session.messageType = 'danger';
+        res.redirect('/admin/vendors');
+        return;
+    }
+
+    // if the vendor we want to edit is not the current logged in vendor and the current vendor is not
+    // an admin we render an access denied message
+    if(vendor.vendorEmail !== req.session.vendor && req.session.isAdmin === false){
+        if(req.apiAuthenticated){
+            res.status(400).json({ message: 'Access denied' });
+            return;
+        }
+
+        req.session.message = 'Access denied';
+        req.session.messageType = 'danger';
+        res.redirect('/admin/vendors');
+        return;
+    }
+
+    res.render('vendor-edit', {
+        title: 'vendor edit',
+        vendor: vendor,
+        admin: true,
+        session: req.session,
+        message: common.clearSessionValue(req.session, 'message'),
+        messageType: common.clearSessionValue(req.session, 'messageType'),
+        helpers: req.handlebars.helpers,
+        config: req.app.config
+    });
+});
+
+// vendors new
+router.get('/admin/vendor/new', restrict, (req, res) => {
+    res.render('vendor-new', {
+        title: 'vendor - New',
+        admin: true,
+        session: req.session,
+        helpers: req.handlebars.helpers,
+        message: common.clearSessionValue(req.session, 'message'),
+        messageType: common.clearSessionValue(req.session, 'messageType'),
+        config: req.app.config
+    });
+});
+
+// delete a vendor
+router.post('/admin/vendor/delete', restrict, async (req, res) => {
+    const db = req.app.db;
+
+    // vendorId
+    if(req.session.isAdmin !== true){
+        res.status(400).json({ message: 'Access denied' });
+        return;
+    }
+
+    // Cannot delete your own account
+    if(req.session.vendorId === req.body.vendorId){
+        res.status(400).json({ message: 'Unable to delete own vendor account' });
+        return;
+    }
+
+    const vendor = await db.vendors.findOne({ _id: common.getId(req.body.vendorId) });
+
+    // If vendor is not found
+    if(!vendor){
+        res.status(400).json({ message: 'vendor not found.' });
+        return;
+    }
+
+    // Cannot delete the original vendor/owner
+    if(vendor.isOwner){
+        res.status(400).json({ message: 'Access denied.' });
+        return;
+    }
+
+    try{
+        await db.vendors.deleteOne({ _id: common.getId(req.body.vendorId) }, {});
+        res.status(200).json({ message: 'vendor deleted.' });
+        return;
+    }catch(ex){
+        console.log('Failed to delete vendor', ex);
+        res.status(200).json({ message: 'Cannot delete vendor' });
+        return;
+    };
+});
+
+// update a vendor
+router.post('/admin/vendor/update', restrict, async (req, res) => {
+    const db = req.app.db;
+
+    let isAdmin = req.body.vendorAdmin === 'on';
+
+    // get the vendor we want to update
+    const vendor = await db.vendors.findOne({ _id: common.getId(req.body.vendorId) });
+
+    // If vendor not found
+    if(!vendor){
+        res.status(400).json({ message: 'vendor not found' });
+        return;
+    }
+
+    // If the current vendor changing own account ensure isAdmin retains existing
+    if(vendor.vendorEmail === req.session.vendor){
+        isAdmin = vendor.isAdmin;
+    }
+
+    // if the vendor we want to edit is not the current logged in vendor and the current vendor is not
+    // an admin we render an access denied message
+    if(vendor.vendorEmail !== req.session.vendor && req.session.isAdmin === false){
+        res.status(400).json({ message: 'Access denied' });
+        return;
+    }
+
+    // create the update doc
+    const updateDoc = {};
+    updateDoc.isAdmin = isAdmin;
+    if(req.body.vendorsName){
+        updateDoc.vendorsName = req.body.vendorsName;
+    }
+    if(req.body.vendorEmail){
+        updateDoc.vendorEmail = req.body.vendorEmail;
+    }
+    if(req.body.vendorPassword){
+        updateDoc.vendorPassword = bcrypt.hashSync(req.body.vendorPassword);
+    }
+
+    // Validate update vendor
+    const schemaResult = validateJson('editvendor', updateDoc);
+    if(!schemaResult.result){
+        res.status(400).json({
+            message: 'Failed to create vendor. Check inputs.',
+            error: schemaResult.errors
+        });
+        return;
+    }
+
+    try{
+        const updatedvendor = await db.vendors.findOneAndUpdate(
+            { _id: common.getId(req.body.vendorId) },
+            {
+                $set: updateDoc
+            }, { multi: false, returnOriginal: false }
+        );
+
+        const returnvendor = updatedvendor.value;
+        delete returnvendor.vendorPassword;
+        delete returnvendor.apiKey;
+        res.status(200).json({ message: 'vendor account updated', vendor: updatedvendor.value });
+        return;
+    }catch(ex){
+        console.error(colors.red('Failed updating vendor: ' + ex));
+        res.status(400).json({ message: 'Failed to update vendor' });
+    }
+});
+
+// insert a vendor
+router.post('/admin/vendor/insert', restrict, async (req, res) => {
+    const db = req.app.db;
+
+    // Check number of vendors
+    const vendorCount = await db.vendors.countDocuments({});
+    let isAdmin = false;
+
+    // if no vendors, setup vendor as admin
+    if(vendorCount === 0){
+        isAdmin = true;
+    }
+
+    const vendorObj = {
+        userName: req.body.userName,
+        userEmail: req.body.userEmail,
+        userPhone: req.body.userPhone,
+        userPassword: bcrypt.hashSync(req.body.userPassword, 10)
+    };
+
+    // Validate new vendor
+    // const schemaResult = validateJson('newvendor', vendorObj);
+    // if(!schemaResult.result){
+    //     res.status(400).json({ message: 'Failed to create vendor. Check inputs.', error: schemaResult.errors });
+    //     return;
+    // }
+
+    // check for existing vendor
+    const vendor = await db.vendors.findOne({ userEmail: req.body.userEmail });
+    if(vendor){
+        console.error(colors.red('Failed to insert vendor, possibly already exists'));
+        res.status(400).json({ message: 'A vendor with that email address already exists' });
+        return;
+    }
+    // email is ok to be used.
+    try{
+        const newvendor = await db.vendors.insertOne(vendorObj);
+        res.status(200).json({
+            message: 'vendor account inserted',
+            vendorId: newvendor.insertedId
+        });
+    }catch(ex){
+        console.error(colors.red('Failed to insert vendor: ' + ex));
+        res.status(400).json({ message: 'New vendor creation failed' });
     }
 });
 

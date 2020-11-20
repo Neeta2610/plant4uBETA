@@ -96,5 +96,16 @@
 	"Razor Order ID": "Razor Order ID",
 	"Razor Payment Order Id": "Razor Payment Order Id",
 	"Razor Payment Signature": "Razor Payment Signature",
-	"Tracking Id": "Tracking Id"
+	"Tracking Id": "Tracking Id",
+	"Create": "Create",
+	"New User": "New User",
+	"Users": "Users",
+	"New user": "New user",
+	"User Phone": "User Phone",
+	"User": "User",
+	"Role": "Role",
+	"Update": "Update",
+	"User edit": "User edit",
+	"User is admin?": "User is admin?",
+	"Generate": "Generate"
 }

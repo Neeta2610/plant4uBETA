@@ -137,6 +137,9 @@ $(document).ready(function (){
     $(document).on('click', '#btnUserAdd', function(e){
         $('#userNewForm').submit();
     });
+    $(document).on('click', '#btnVendorAdd', function(e){
+        $('#vendorNewForm').submit();
+    });
 
     $('#userNewForm').validator().on('submit', function(e){
         if(!e.isDefaultPrevented()){
@@ -152,6 +155,27 @@ $(document).ready(function (){
             })
             .done(function(msg){
                 showNotification(msg.message, 'success', false, '/admin/user/edit/' + msg.userId);
+            })
+            .fail(function(msg){
+                showNotification(msg.responseJSON.message, 'danger');
+            });
+        }
+    });
+    $('#vendorNewForm').validator().on('submit', function(e){
+        if(!e.isDefaultPrevented()){
+            e.preventDefault();
+            $.ajax({
+                method: 'POST',
+                url: '/admin/vendor/insert',
+                data: {
+                    usersName: $('#usersName').val(),
+                    userEmail: $('#userEmail').val(),
+                    userPhone: $('#userPhone').val(),
+                    userPassword: $('#userPassword').val()
+                }
+            })
+            .done(function(msg){
+                showNotification(msg.message, 'success', false, '/admin/vendor/edit/' + msg.userId);
             })
             .fail(function(msg){
                 showNotification(msg.responseJSON.message, 'danger');
