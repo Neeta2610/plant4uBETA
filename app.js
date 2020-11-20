@@ -215,9 +215,13 @@ handlebars = handlebars.create({
             return moment(new Date()).isBetween(new Date(start), new Date(end));
         },
         ifCond: (v1, operator, v2, options) => {
+            if(typeof(v1) == 'object' && typeof(v2) == 'object') {
+                v1 = String(v1);
+                v2 = String(v2);
+            }
             switch(operator){
                 case '==':
-                    return (v1 === v2) ? options.fn(this) : options.inverse(this);
+                        return (v1 == v2) ? options.fn(this) : options.inverse(this);
                 case '!=':
                     return (v1 !== v2) ? options.fn(this) : options.inverse(this);
                 case '===':

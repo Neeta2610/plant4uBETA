@@ -200,6 +200,7 @@ router.get('/admin/product/edit/:id', restrict, checkAccess, async (req, res) =>
     const images = product.productImage;
     const filter = await db.filters.find({}).toArray();
     
+    const vendors = await db.vendors.find({}).toArray();
     if(!product){
         // If API request, return json
         if(req.apiAuthenticated){
@@ -219,12 +220,14 @@ router.get('/admin/product/edit/:id', restrict, checkAccess, async (req, res) =>
         res.status(200).json(product);
         return;
     }
-
+console.log(product);
+console.log(vendors);
     res.render('product-edit', {
         title: 'Edit product',
         result: product,
         images: images,
         filters: filter,
+        vendors: vendors,
         admin: true,
         session: req.session,
         message: common.clearSessionValue(req.session, 'message'),
@@ -374,6 +377,7 @@ router.post('/admin/product/update', restrict, checkAccess, async (req, res) => 
         productPrice: parseFloat(req.body.productPrice),
         productDiscountPrice: parseFloat(req.body.productDiscountPrice),
         isPack: common.convertBool(req.body.isPack),
+        productVendor: common.getId(req.body.productVendor),
         productpackList: req.body.productpackList,
         productminiDescription: common.cleanHtml(req.body.productminiDescription),
         productDescription: common.cleanHtml(req.body.productDescription),

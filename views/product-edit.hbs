@@ -47,6 +47,16 @@
                     </select>
                 </div>
             </div>
+             <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="productVendor" class="control-label">{{ @root.__ "Product Vendor" }}</label>
+                    <select class="form-control" id="productVendor">
+                        {{#each vendors}}
+                        <option value="{{this._id}}" {{#ifCond this._id "==" @root.result.productVendor}}selected{{/ifCond}}>{{this.userName}}</option>
+                         {{/each}}
+                    </select>
+                </div>
+            </div>
             <div class="col-12">
                 <div class="form-group">
                     <label for="productpackList" class="control-label">{{ @root.__ "Product Pack List" }} *</label>

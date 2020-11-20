@@ -168,7 +168,7 @@ $(document).ready(function (){
                 method: 'POST',
                 url: '/admin/vendor/insert',
                 data: {
-                    usersName: $('#usersName').val(),
+                    userName: $('#usersName').val(),
                     userEmail: $('#userEmail').val(),
                     userPhone: $('#userPhone').val(),
                     userPassword: $('#userPassword').val()
@@ -284,6 +284,7 @@ $(document).ready(function (){
                     productPrice: $('#productPrice').val(),
                     productDiscountPrice: $('#productDiscountPrice').val(),
                     isPack: $('#isPack').val(),
+                    productVendor: $('#productVendor').val(),
                     productpackList: $('#productpackList').val(),
                     productPublished: $('#productPublished').val(),
                     productStock: $('#productStock').val(),
