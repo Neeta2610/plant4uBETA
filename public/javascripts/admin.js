@@ -171,6 +171,7 @@ $(document).ready(function (){
                     userName: $('#usersName').val(),
                     userEmail: $('#userEmail').val(),
                     userPhone: $('#userPhone').val(),
+                    userAddress: $('$userAddress').val(),
                     userPassword: $('#userPassword').val()
                 }
             })
@@ -200,6 +201,23 @@ $(document).ready(function (){
             });
         }
     });
+    $('.vendorDelete').on('click', function(){
+        if(confirm('Are you sure you want to delete?')){
+            $.ajax({
+                method: 'POST',
+                url: '/admin/vendor/delete',
+                data: {
+                    vendorId: $(this).attr('data-id')
+                }
+            })
+            .done(function(msg){
+                showNotification(msg.message, 'success', true);
+            })
+            .fail(function(msg){
+                showNotification(msg.responseJSON.message, 'danger');
+            });
+        }
+    });
 
     $(document).on('click', '#btnUserEdit', function(e){
         $('#userEditForm').submit();
@@ -217,6 +235,33 @@ $(document).ready(function (){
                     userEmail: $('#userEmail').val(),
                     userPassword: $('#userPassword').val(),
                     userAdmin: $('#userPassword').is(':checked')
+                }
+            })
+            .done(function(msg){
+                showNotification(msg.message, 'success');
+            })
+            .fail(function(msg){
+                showNotification(msg.responseJSON.message, 'danger');
+            });
+        }
+    });
+    $(document).on('click', '#btnVendorEdit', function(e){
+        $('#vendorEditForm').submit();
+    });
+
+    $('#vendorEditForm').validator().on('submit', function(e){
+        if(!e.isDefaultPrevented()){
+            e.preventDefault();
+            $.ajax({
+                method: 'POST',
+                url: '/admin/vendor/update',
+                data: {
+                    userId: $('#userId').val(),
+                    usersName: $('#usersName').val(),
+                    userEmail: $('#userEmail').val(),
+                    userPhone: $('#userPhone').val(),
+                    userPassword: $('#userPassword').val(),
+                    userAddress: $('#userAddress').val()
                 }
             })
             .done(function(msg){

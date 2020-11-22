@@ -301,7 +301,7 @@ router.get('/admin/vendor/edit/:id', restrict, async (req, res) => {
 
     res.render('vendor-edit', {
         title: 'vendor edit',
-        vendor: vendor,
+        user: vendor,
         admin: true,
         session: req.session,
         message: common.clearSessionValue(req.session, 'message'),
@@ -334,11 +334,7 @@ router.post('/admin/vendor/delete', restrict, async (req, res) => {
         return;
     }
 
-    // Cannot delete your own account
-    if(req.session.vendorId === req.body.vendorId){
-        res.status(400).json({ message: 'Unable to delete own vendor account' });
-        return;
-    }
+    
 
     const vendor = await db.vendors.findOne({ _id: common.getId(req.body.vendorId) });
 
@@ -369,10 +365,10 @@ router.post('/admin/vendor/delete', restrict, async (req, res) => {
 router.post('/admin/vendor/update', restrict, async (req, res) => {
     const db = req.app.db;
 
-    let isAdmin = req.body.vendorAdmin === 'on';
+    
 
     // get the vendor we want to update
-    const vendor = await db.vendors.findOne({ _id: common.getId(req.body.vendorId) });
+    const vendor = await db.vendors.findOne({ _id: common.getId(req.body.userId) });
 
     // If vendor not found
     if(!vendor){
@@ -380,52 +376,33 @@ router.post('/admin/vendor/update', restrict, async (req, res) => {
         return;
     }
 
-    // If the current vendor changing own account ensure isAdmin retains existing
-    if(vendor.vendorEmail === req.session.vendor){
-        isAdmin = vendor.isAdmin;
-    }
-
-    // if the vendor we want to edit is not the current logged in vendor and the current vendor is not
-    // an admin we render an access denied message
-    if(vendor.vendorEmail !== req.session.vendor && req.session.isAdmin === false){
-        res.status(400).json({ message: 'Access denied' });
-        return;
-    }
 
     // create the update doc
     const updateDoc = {};
-    updateDoc.isAdmin = isAdmin;
-    if(req.body.vendorsName){
-        updateDoc.vendorsName = req.body.vendorsName;
+  
+    if(req.body.userName){
+        updateDoc.userName = req.body.userName;
     }
-    if(req.body.vendorEmail){
-        updateDoc.vendorEmail = req.body.vendorEmail;
+    if(req.body.userEmail){
+        updateDoc.userEmail = req.body.userEmail;
     }
-    if(req.body.vendorPassword){
-        updateDoc.vendorPassword = bcrypt.hashSync(req.body.vendorPassword);
+    if(req.body.userPhone){
+        updateDoc.userPhone = req.body.userPhone;
     }
-
-    // Validate update vendor
-    const schemaResult = validateJson('editvendor', updateDoc);
-    if(!schemaResult.result){
-        res.status(400).json({
-            message: 'Failed to create vendor. Check inputs.',
-            error: schemaResult.errors
-        });
-        return;
+    if(req.body.userAddress){
+        updateDoc.userAddress = req.body.userAddress;
+    }
+    if(req.body.userPassword){
+        updateDoc.userPassword = bcrypt.hashSync(req.body.userPassword);
     }
 
     try{
         const updatedvendor = await db.vendors.findOneAndUpdate(
-            { _id: common.getId(req.body.vendorId) },
+            { _id: common.getId(req.body.userId) },
             {
                 $set: updateDoc
             }, { multi: false, returnOriginal: false }
         );
-
-        const returnvendor = updatedvendor.value;
-        delete returnvendor.vendorPassword;
-        delete returnvendor.apiKey;
         res.status(200).json({ message: 'vendor account updated', vendor: updatedvendor.value });
         return;
     }catch(ex){
