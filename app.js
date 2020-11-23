@@ -212,7 +212,7 @@ handlebars = handlebars.create({
             if(url.startsWith("http"))
             {
                 var split1 = url.split("upload/");
-                var finalurl = split1[0]+`w_283,f_auto,q_auto`+split1[1];
+                var finalurl = split1[0]+`upload/w_283,f_auto,q_auto/`+split1[1];
                 return finalurl;
             }else
                 {
