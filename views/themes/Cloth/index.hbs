@@ -26,9 +26,9 @@
                             <div class="product-img">
                                 {{#if productImage}}
                                 
-                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <img src="{{#compressImage this.productImage.[0].path}}{{this}}{{/compressImage}}" alt="First Uploaded Image">
                                     <!-- Hover Thumb -->
-                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                    {{#if this.productImage.[1]}}<img class="hover-img" src="{{#compressImage this.productImage.[1].path}}{{this}}{{/compressImage}}" alt="Second Image">{{/if}}
                                 {{else}}
                                     <img src="/images/p5.jpeg" alt="First Image">
                                     <!-- Hover Thumb -->
@@ -58,9 +58,9 @@
                             <div class="product-img">
                                 {{#if productImage}}
                                 
-                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <img src="{{#compressImage this.productImage.[0].path}}{{this}}{{/compressImage}}" alt="First Uploaded Image">
                                     <!-- Hover Thumb -->
-                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                    {{#if this.productImage.[1]}}<img class="hover-img" src="{{#compressImage this.productImage.[1].path}}{{this}}{{/compressImage}}" alt="Second Image">{{/if}}
                                 {{else}}
                                     <img src="/images/p5.jpeg" alt="First Image">
                                     <!-- Hover Thumb -->
@@ -130,9 +130,9 @@
                             <div class="product-img">
                                 {{#if productImage}}
                                 
-                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <img src="{{#compressImage this.productImage.[0].path}}{{this}}{{/compressImage}}" alt="First Uploaded Image">
                                     <!-- Hover Thumb -->
-                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                    {{#if this.productImage.[1]}}<img class="hover-img" src="{{#compressImage this.productImage.[1].path}}{{this}}{{/compressImage}}" alt="Second Image">{{/if}}
                                 {{else}}
                                     <img src="/images/p5.jpeg" alt="First Image">
                                     <!-- Hover Thumb -->
@@ -162,9 +162,9 @@
                             <div class="product-img">
                                 {{#if productImage}}
                                 
-                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <img src="{{#compressImage this.productImage.[0].path}}{{this}}{{/compressImage}}" alt="First Uploaded Image">
                                     <!-- Hover Thumb -->
-                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                    {{#if this.productImage.[1]}}<img class="hover-img" src="{{#compressImage this.productImage.[1].path}}{{this}}{{/compressImage}}" alt="Second Image">{{/if}}
                                 {{else}}
                                     <img src="/images/p5.jpeg" alt="First Image">
                                     <!-- Hover Thumb -->
@@ -250,9 +250,9 @@
                             <div class="product-img">
                                 {{#if productImage}}
                                 
-                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <img src="{{#compressImage this.productImage.[0].path}}{{this}}{{/compressImage}}" alt="First Uploaded Image">
                                     <!-- Hover Thumb -->
-                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                    {{#if this.productImage.[1]}}<img class="hover-img" src="{{#compressImage this.productImage.[1].path}}{{this}}{{/compressImage}}" alt="Second Image">{{/if}}
                                 {{else}}
                                     <img src="/images/p5.jpeg" alt="First Image">
                                     <!-- Hover Thumb -->
@@ -277,9 +277,9 @@
                             <div class="product-img">
                                 {{#if productImage}}
                                 
-                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <img src="{{#compressImage this.productImage.[0].path}}{{this}}{{/compressImage}}" alt="First Uploaded Image">
                                     <!-- Hover Thumb -->
-                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                    {{#if this.productImage.[1]}}<img class="hover-img" src="{{#compressImage this.productImage.[1].path}}{{this}}{{/compressImage}}" alt="Second Image">{{/if}}
                                 {{else}}
                                     <img src="/images/p5.jpeg" alt="First Image">
                                     <!-- Hover Thumb -->
@@ -505,9 +505,9 @@
                             <div class="product-img">
                                 {{#if productImage}}
                                 
-                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <img src="{{#compressImage this.productImage.[0].path}}{{this}}{{/compressImage}}" alt="First Uploaded Image">
                                     <!-- Hover Thumb -->
-                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                    {{#if this.productImage.[1]}}<img class="hover-img" src="{{#compressImage this.productImage.[1].path}}{{this}}{{/compressImage}}" alt="Second Image">{{/if}}
                                 {{else}}
                                     <img src="/images/p5.jpeg" alt="First Image">
                                     <!-- Hover Thumb -->
@@ -537,9 +537,9 @@
                             <div class="product-img">
                                 {{#if productImage}}
                                 
-                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <img src="{{#compressImage this.productImage.[0].path}}{{this}}{{/compressImage}}" alt="First Uploaded Image">
                                     <!-- Hover Thumb -->
-                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                    {{#if this.productImage.[1]}}<img class="hover-img" src="{{#compressImage this.productImage.[1].path}}{{this}}{{/compressImage}}" alt="Second Image">{{/if}}
                                 {{else}}
                                     <img src="/images/p5.jpeg" alt="First Image">
                                     <!-- Hover Thumb -->
@@ -613,9 +613,9 @@
                             <div class="product-img">
                                 {{#if productImage}}
                                 
-                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <img src="{{#compressImage this.productImage.[0].path}}{{this}}{{/compressImage}}" alt="First Uploaded Image">
                                     <!-- Hover Thumb -->
-                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                    {{#if this.productImage.[1]}}<img class="hover-img" src="{{#compressImage this.productImage.[1].path}}{{this}}{{/compressImage}}" alt="Second Image">{{/if}}
                                 {{else}}
                                     <img src="/images/pack3.jpg" alt="First Image">
                                     <!-- Hover Thumb -->
@@ -637,9 +637,9 @@
                             <div class="product-img">
                                 {{#if productImage}}
                                 
-                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <img src="{{#compressImage this.productImage.[0].path}}{{this}}{{/compressImage}}" alt="First Uploaded Image">
                                     <!-- Hover Thumb -->
-                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                    {{#if this.productImage.[1]}}<img class="hover-img" src="{{#compressImage this.productImage.[1].path}}{{this}}{{/compressImage}}" alt="Second Image">{{/if}}
                                 {{else}}
                                     <img src="/images/pack3.jpg" alt="First Image">
                                     <!-- Hover Thumb -->
@@ -730,9 +730,9 @@
                             <div class="product-img">
                                 {{#if productImage}}
                                 
-                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <img src="{{#compressImage this.productImage.[0].path}}{{this}}{{/compressImage}}" alt="First Uploaded Image">
                                     <!-- Hover Thumb -->
-                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                    {{#if this.productImage.[1]}}<img class="hover-img" src="{{#compressImage this.productImage.[1].path}}{{this}}{{/compressImage}}" alt="Second Image">{{/if}}
                                 {{else}}
                                     <img src="/images/p5.jpeg" alt="First Image">
                                     <!-- Hover Thumb -->
@@ -762,9 +762,9 @@
                             <div class="product-img">
                                 {{#if productImage}}
                                 
-                                    <img src="{{this.productImage.[0].path}}" alt="First Uploaded Image">
+                                    <img src="{{#compressImage this.productImage.[0].path}}{{this}}{{/compressImage}}" alt="First Uploaded Image">
                                     <!-- Hover Thumb -->
-                                    <img class="hover-img" src="{{this.productImage.[1].path}}" alt="Second Image">
+                                    {{#if this.productImage.[1]}}<img class="hover-img" src="{{#compressImage this.productImage.[1].path}}{{this}}{{/compressImage}}" alt="Second Image">{{/if}}
                                 {{else}}
                                     <img src="/images/p5.jpeg" alt="First Image">
                                     <!-- Hover Thumb -->

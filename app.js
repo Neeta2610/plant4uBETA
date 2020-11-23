@@ -208,6 +208,17 @@ handlebars = handlebars.create({
             }
             return null;
         },
+        compressImage: (url) => {
+            if(url.startsWith("http"))
+            {
+                var split1 = url.split("upload/");
+                var finalurl = split1[0]+`w_283,f_auto,q_auto`+split1[1];
+                return finalurl;
+            }else
+                {
+                    return url;
+                }
+        },
         formatDate: (date, format) => {
             return moment(date).format(format);
         },
