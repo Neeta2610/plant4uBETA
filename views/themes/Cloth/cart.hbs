@@ -49,6 +49,9 @@
                                             {{else}}
                                             <img src="/images/p5.jpeg" alt="{{this.title}} product image"></a>
                                             {{/if}}</a>
+                                            {{#if this.free}}
+                                            <span class="freetag">Free</span>
+                                            {{/if}}
                                         </td>
                                         <td class="cart_product_desc">
                                             <h5>{{this.title}}</h5>

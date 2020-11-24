@@ -1621,6 +1621,12 @@ align-items: center;}
         width: calc(100% - 5px);
         max-width: calc(100% - 5px); 
       }
+      .cart-table-area .cart_product_img .freetag {
+        position: absolute;
+        padding: 5px 10px;
+        background-color: #02820f;
+        color: white;
+      }
         @media only screen and (min-width: 992px) and (max-width: 1199px) {
             .cart-table-area {
             -webkit-box-flex: 0;
@@ -1691,6 +1697,7 @@ align-items: center;}
                 .cart-table-area table tbody tr td h5 {
                 font-size: 16px;
                 color: #252525; }
+
                 @media only screen and (min-width: 992px) and (max-width: 1199px) {
                     .cart-table-area table tbody tr td h5 {
                     font-size: 14px; } }
