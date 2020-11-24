@@ -2586,9 +2586,10 @@ router.get('/:page?', async (req, res, next) => {
     var searchTerm = "Arotic";
     var diwaliterm = "diwali";
     var diwalilist = [];
-    productsIndex.search(diwaliterm).forEach((id) =>{
+    productsIndex.search("diwali").forEach((id) =>{
         diwalilist.push(getId(id.ref));
     });
+    
     productsIndex.search(searchTerm).forEach((id) => {
         lunrIdArray.push(getId(id.ref));
     });
@@ -2597,9 +2598,10 @@ router.get('/:page?', async (req, res, next) => {
         { $limit: 4 }
     ]).toArray();
     var diwaliproducts = await db.products.aggregate([
-        {$match: {_id: { $in: diwalilist},isPack: false, productsStock: { $gt: 0}}},
+        {$match: {_id: { $in: diwalilist},isPack: false, productStock: { $gt: 0}}},
         { $limit: 8 }
     ]).toArray();
+    
     var mainproductterm = "NewArrival";
     productsIndex.search(mainproductterm).forEach((id) => {
         resultproduct.push(getId(id.ref));
