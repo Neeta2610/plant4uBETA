@@ -110,7 +110,9 @@
                                 
                                     <img src="{{#compressImage this.productImage.[0].path}}{{this}}{{/compressImage}}" alt="First Uploaded Image">
                                     <!-- Hover Thumb -->
+                                    {{#if this.productImage.[1]}}
                                     <img class="hover-img" src="{{#compressImage this.productImage.[1].path}}{{this}}{{/compressImage}}" alt="Second Image">
+                                    {{/if}}
                                 {{else}}
                                     <img src="/images/p5.jpeg" alt="First Image">
                                     <!-- Hover Thumb -->
@@ -134,7 +136,9 @@
                                 
                                     <img src="{{#compressImage this.productImage.[0].path}}{{this}}{{/compressImage}}" alt="First Uploaded Image">
                                     <!-- Hover Thumb -->
+                                    {{#if this.productImage.[1]}}
                                     <img class="hover-img" src="{{#compressImage this.productImage.[1].path}}{{this}}{{/compressImage}}" alt="Second Image">
+                                    {{/if}}
                                 {{else}}
                                     <img src="/images/p5.jpeg" alt="First Image">
                                     <!-- Hover Thumb -->
