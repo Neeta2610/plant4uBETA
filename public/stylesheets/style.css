@@ -1626,6 +1626,7 @@ align-items: center;}
         padding: 5px 10px;
         background-color: #02820f;
         color: white;
+        left: 0px;
       }
         @media only screen and (min-width: 992px) and (max-width: 1199px) {
             .cart-table-area {
