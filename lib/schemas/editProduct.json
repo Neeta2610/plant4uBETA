@@ -51,6 +51,9 @@
         },
         "productStockDisable": {
             "type": "boolean"
+        },
+        "productOffer": {
+            "type": "string"
         }
     },
     "errorMessage": {

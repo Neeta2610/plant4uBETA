@@ -4,7 +4,10 @@
     Buy Plants in Pack to Get Exiting Offers
 </div>
 <div class="covidwarning">
-    <img src="/images/safedeliverygif.gif" alt="Safe Delivery Gif">
+     <video loop autoplay>
+  <source src="/images/safedeliverygif.mp4" type="video/mp4">
+  <source src="/images/safed.png" type="image/png">
+</video> 
     <img src="/images/safedelivery.png" alt="Safe Delivery">
 </div>
 <div class="Categories">
@@ -50,6 +53,11 @@
                                         {{/discount}}% Off
                                     </div>
                                     {{/if}}
+                                    {{#if this.productOffer}}
+                                    <div class="offer">
+                                        {{this.productOffer}}
+                                    </div>
+                                    {{/if}}
                                 </div>
                             </div>
                             </a>
@@ -72,6 +80,11 @@
                                         {{#discount productPrice productDiscountPrice}}
                                             {{this}}
                                         {{/discount}}% Off
+                                    </div>
+                                    {{/if}}
+                                    {{#if this.productOffer}}
+                                    <div class="offer">
+                                        {{this.productOffer}}
                                     </div>
                                     {{/if}}
                                 </div>

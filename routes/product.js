@@ -385,9 +385,10 @@ router.post('/admin/product/update', restrict, checkAccess, async (req, res) => 
         productTags: req.body.productTags,
         productComment: common.checkboxBool(req.body.productComment),
         productStock: common.safeParseInt(req.body.productStock) || null,
-        productStockDisable: common.convertBool(req.body.productStockDisable)
+        productStockDisable: common.convertBool(req.body.productStockDisable),
+        productOffer: req.body.productOffer
     };
-    console.log(productDoc.productminiDescription);
+    
     // Validate the body again schema
     const schemaValidate = validateJson('editProduct', productDoc);
     if(!schemaValidate.result){

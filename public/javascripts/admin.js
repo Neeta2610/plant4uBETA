@@ -339,7 +339,8 @@ $(document).ready(function (){
                     productPermalink: $('#productPermalink').val(),
                     productSubscription: $('#productSubscription').val(),
                     productComment: $('#productComment').is(':checked'),
-                    productTags: $('#productTags').val()
+                    productTags: $('#productTags').val(),
+                    productOffer: $('#productOffer').val()
                 }
             })
             .done(function(msg){

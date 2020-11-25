@@ -1265,14 +1265,14 @@ width: 338px;  */ }
     right: 7px;
     z-index: 12;
   }
-  .tags .newarrival,.tags .discount {
-    width: 40px;
-    height: 40px;
+  .tags .newarrival,.tags .discount, .tags .offer {
+    width: 41px;
+    height: 41px;
     border-radius: 50%;
     color: white;
     margin-top: 7px;
     text-align: center;
-    font-size: 12px;
+    font-size: 11px;
     align-items: center;
     display: flex;
     justify-content: center;
@@ -1284,6 +1284,9 @@ width: 338px;  */ }
   }
   .tags .discount{
     background-color: #d63030;
+  }
+  .tags .offer {
+    background-color: rgb(202, 136, 12);
   }
     .single-product-wrapper .product-img img {
       width: 100%;
