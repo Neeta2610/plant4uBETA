@@ -2006,6 +2006,10 @@ router.post('/product/removefromcart', async (req, res, next) => {
     // remove item from cart
     delete req.session.cart[req.body.cartId];
 
+    if(Object.keys(req.session.cart).length == 1 && req.session.cart["freepot"]) {
+        delete req.session.cart["freepot"];
+    }
+
     // If not items in cart, empty it
     if(Object.keys(req.session.cart).length === 0){
         return emptyCart(req, res, 'json');
