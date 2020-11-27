@@ -1742,11 +1742,9 @@ router.get('/product/:id', async (req, res) => {
         const productTitleWords = product.productTitle.split(' ');
         // const searchWords = productTags.concat(productTitleWords);
         const searchWords = productTitleWords;
-        searchWords.forEach((word) => {
-            productsIndex.search(word).forEach((id) => {
+            productsIndex.search(product.productTitle).forEach((id) => {
                 lunrIdArray.push(getId(id.ref));
             });
-        });
         relatedProducts = await db.products.find({
             _id: { $in: lunrIdArray, $ne: product._id },
             productPublished: true
