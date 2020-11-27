@@ -1738,9 +1738,10 @@ router.get('/product/:id', async (req, res) => {
     let relatedProducts = {};
     if(config.showRelatedProducts){
         const lunrIdArray = [];
-        const productTags = product.productTags.split(',');
+        // const productTags = product.productTags.split(',');
         const productTitleWords = product.productTitle.split(' ');
-        const searchWords = productTags.concat(productTitleWords);
+        // const searchWords = productTags.concat(productTitleWords);
+        const searchWords = productTitleWords;
         searchWords.forEach((word) => {
             productsIndex.search(word).forEach((id) => {
                 lunrIdArray.push(getId(id.ref));
