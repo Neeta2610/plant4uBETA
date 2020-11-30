@@ -2,9 +2,12 @@
 $(document).ready(function () {
   // Add specific code to this theme here
     
-  window.onscroll = function() {myFunction()};
+  
 
   var navbar = document.getElementsByClassName("header-area");
+  if(navbar[0]) {
+    window.onscroll = function() {myFunction()};
+  }
   function myFunction() {
     if (window.pageYOffset >= 20) {
       navbar[0].classList.add("sticky")
