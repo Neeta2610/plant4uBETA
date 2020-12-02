@@ -1209,6 +1209,8 @@ router.post('/admin/settings/discount/update', restrict, checkAccess, async (req
         minimum:parseInt(req.body.minimum),
         onceUser: common.convertBool(req.body.onceUser),
         new:req.body.new,
+        isHide: common.convertBool(req.body.hide),
+        onceUsed: common.convertBool(req.body.onlyonce),
         start: moment(req.body.start , 'DD/MM/YYYY HH:mm').toDate().toString().split('GMT')[0].concat("GMT+0530 (GMT+05:30)"),
         end: moment(req.body.end, 'DD/MM/YYYY HH:mm').toDate().toString().split('GMT')[0].concat("GMT+0530 (GMT+05:30)")
     };
@@ -1278,6 +1280,8 @@ router.post('/admin/settings/discount/create', csrfProtection, restrict, checkAc
         value: parseInt(req.body.value),
         minimum:parseInt(req.body.minimum),
         new:req.body.new,
+        isHide: common.convertBool(req.body.hide),
+        onceUsed: common.convertBool(req.body.onlyonce),
         onceUser: common.convertBool(req.body.onceUser),
         start: moment(req.body.start, 'DD/MM/YYYY HH:mm').toDate().toString().split('GMT')[0].concat("GMT+0530 (GMT+05:30)"),
         end: moment(req.body.end, 'DD/MM/YYYY HH:mm').toDate().toString().split('GMT')[0].concat("GMT+0530 (GMT+05:30)")

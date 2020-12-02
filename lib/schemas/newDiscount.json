@@ -33,6 +33,12 @@
         },
         "end": {
             "type": "string"
+        },
+        "onceUse":{
+            "type": "boolean"
+        },
+        "isHide":{
+            "type": "boolean"
         }
     },
     "required": [

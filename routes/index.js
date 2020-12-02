@@ -1258,17 +1258,23 @@ router.get('/checkout/shipping', async (req, res, next) => {
         showFooter: 'showFooter'
     });
 });
-
+router.get('/updateljlsueouonljs',async (req,res)=>{
+    const db = req.app.db;
+    const config = req.app.config;
+    await db.discounts.update({},{isHide: false,onceUsed: false});
+    console.log("updated");
+    return;
+});
 
 router.get('/checkout/cart',async (req, res) => {
     const config = req.app.config;
     const db = req.app.db;
     var newuserdiscount = [];
-    var discounts = await db.discounts.find({new: "No",minimum: {$gt : 0}}).toArray();
+    var discounts = await db.discounts.find({isHide: false,new: "No",minimum: {$gt : 0}}).toArray();
     var discounts2 = [];
     var ordes = await db.orders.findOne({orderCustomer: getId(req.session.customerId)});
     if(!ordes && req.session.customerPresent) {
-        newuserdiscount = await db.discounts.find({new: "Yes"}).toArray();
+        newuserdiscount = await db.discounts.find({isHide: false,new: "Yes"}).toArray();
     }
     for(var i=0;i<discounts.length;i++){
         if(discounts[i].onceUser) {
@@ -1585,6 +1591,15 @@ router.post('/checkout/adddiscountcode', async (req, res) => {
            res.redirect('/checkout/cart');
            return;
        }
+   }
+   if(discount.onceUsed) {
+    const usersList = await db.orders.findOne({ orderPromoCode: discount.code });
+    if(usersList) {
+        req.session.message = "Code Already applied in different order, once used only";
+        req.session.messageType = 'danger';
+        res.redirect('/checkout/cart');
+        return;
+    }
    }
 
     // Set the discount code

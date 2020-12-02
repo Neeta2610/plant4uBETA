@@ -680,7 +680,9 @@ $(document).ready(function (){
                     minimum: $('#discountMinimum').val(),
                     new:$('#discountYes').val(),
                     start: $('#discountStart').val(),
-                    end: $('#discountEnd').val()
+                    end: $('#discountEnd').val(),
+                    hide: $('#hide').val(),
+                    onlyonce: $('#onceUsed').val()
                 }
             })
             .done(function(msg){
@@ -707,7 +709,9 @@ $(document).ready(function (){
                     minimum: $('#discountMinimum').val(),
                     new:$('#discountYes').val(),
                     start: $('#discountStart').val(),
-                    end: $('#discountEnd').val()
+                    end: $('#discountEnd').val(),
+                    hide: $('#hide').val(),
+                    onlyonce: $('#onceUsed').val()
                 }
             })
             .done(function(msg){

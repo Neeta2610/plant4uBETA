@@ -42,6 +42,24 @@
                     </select>
                 </div>
             </div>
+        <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="hide" class="control-label">Hide</label>
+                    <select class="form-control" id="hide">
+                        <option value="false" {{#unless result.isHide}}selected{{/unless}}>{{ @root.__ "No" }}</option>
+                         <option value="true" {{#if result.isHide}}selected{{/if}}>{{ @root.__ "Yes" }}</option>
+                    </select>
+                </div>
+            </div>
+        <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="onceUsed" class="control-label">Only once used</label>
+                    <select class="form-control" id="onceUsed">
+                        <option value="false" {{#unless result.onceUsed}}selected{{/unless}}>{{ @root.__ "No" }}</option>
+                         <option value="true" {{#if result.onceUsed}}selected{{/if}}>{{ @root.__ "Yes" }}</option>
+                    </select>
+                </div>
+            </div>
         <div class="col-12">
             <div class="form-group">
                 <label for="discountValue" class="control-label">{{ @root.__ "Discount value" }} *</label>
