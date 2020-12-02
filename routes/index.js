@@ -1258,13 +1258,7 @@ router.get('/checkout/shipping', async (req, res, next) => {
         showFooter: 'showFooter'
     });
 });
-router.get('/updateljlsueouonljs',async (req,res)=>{
-    const db = req.app.db;
-    const config = req.app.config;
-    await db.discounts.update({},{isHide: false,onceUsed: false});
-    console.log("updated");
-    return;
-});
+
 
 router.get('/checkout/cart',async (req, res) => {
     const config = req.app.config;
