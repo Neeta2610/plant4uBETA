@@ -391,7 +391,7 @@ app.use(session({
     cookie: {
         path: '/',
         httpOnly: true,
-        maxAge: 900000
+        maxAge: 3600000
     },
     store: store
 }));
