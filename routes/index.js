@@ -2206,7 +2206,8 @@ router.post('/product/addtocart', async (req, res, next) => {
 // search products
 router.get('/search/:searchTerm/:pageNum?', async (req, res) => {
     const db = req.app.db;
-    const searchTerm = req.params.searchTerm;
+    var searchTerm = req.params.searchTerm;
+    var searchTerm2 = searchTerm;
     const productsIndex = req.app.productsIndex;
     const config = req.app.config;
     const numberProducts = config.productsPerPage ? config.productsPerPage : 6;
@@ -2215,10 +2216,26 @@ router.get('/search/:searchTerm/:pageNum?', async (req, res) => {
     const filters = await db.filters.find({}).toArray();
     var lunrIdArray = [];
     var queryString = "";
+    var listtemop = searchTerm.split(' ');
+    var listtemop1 = [];
+    for(var i = 0;i <listtemop.length;i++) {
+        if(listtemop[i].length > 1) {
+            if(listtemop[i].toLowerCase() != 'plant'){
+                listtemop1.push(listtemop[i]);
+            }
+        }
+    }
+    if(listtemop.length > 1) {
+        searchTerm = listtemop1.join(" ");
+    }
     productsIndex.search(searchTerm).forEach((id) => {
         lunrIdArray.push(getId(id.ref));
     });
-
+    if(lunrIdArray.length == 0) {
+        productsIndex.search(searchTerm2).forEach((id) => {
+            lunrIdArray.push(getId(id.ref));
+        });
+    }
     let pageNum = 1;
     if(req.params.pageNum){
         pageNum = req.params.pageNum;
@@ -2291,7 +2308,7 @@ router.get('/search/:searchTerm/:pageNum?', async (req, res) => {
             appliedfilters: appliedfilters,
             appliedprice: appliedprice,
             metaDescription: req.app.config.cartTitle + ' - Search term: ' + searchTerm,
-            searchTerm: searchTerm,
+            searchTerm: searchTerm2,
             message: clearSessionValue(req.session, 'message'),
             messageType: clearSessionValue(req.session, 'messageType'),
             productsPerPage: numberProducts,
