@@ -257,7 +257,7 @@ $(document).ready(function (){
                 url: '/admin/vendor/update',
                 data: {
                     userId: $('#userId').val(),
-                    usersName: $('#usersName').val(),
+                    userName: $('#usersName').val(),
                     userEmail: $('#userEmail').val(),
                     userPhone: $('#userPhone').val(),
                     userPassword: $('#userPassword').val(),

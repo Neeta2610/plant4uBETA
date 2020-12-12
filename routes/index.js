@@ -59,463 +59,24 @@ var instance = new Razorpay({
     key_secret: keysecret
   })
 
-//This is how we take checkout action
-router.post('/checkout_action', async (req, res, next) => {
-    const db = req.app.db;
-    const config = req.app.config;
- //   const stripeConfig = common.getPaymentConfig();
-
-    // Create the Stripe payload
-   /* const chargePayload = {
-        amount: numeral(req.session.totalCartAmount).format('0.00').replace('.', ''),
-        currency: stripeConfig.stripeCurrency.toLowerCase(),
-        source: req.body.stripeToken,
-        description: stripeConfig.stripeDescription,
-        shipping: {
-            name: `${req.session.customerFirstname} ${req.session.customerFirstname}`,
-            address: {
-                line1: req.session.customerAddress1,
-                line2: req.session.customerAddress2,
-                postal_code: req.session.customerPostcode,
-                state: req.session.customerState,
-                country: req.session.customerCountry
-            }
-        }
-    };  */
-
-    // charge via stripe
-   /* stripe.charges.create(chargePayload, (err, charge) => {
-        if(err){
-            console.info(err.stack);
-            req.session.messageType = 'danger';
-            req.session.message = 'Your payment has declined. Please try again';
-            req.session.paymentApproved = false;
-            req.session.paymentDetails = '';
-            res.redirect('/checkout/payment');
-            return;
-        }
-   */
-        // order status
-        let orderStatus = 'Pending';
-       /* if(charge.paid !== true){
-            paymentStatus = 'Declined';
-        } */
-        let paymentMethod = 'COD';
-        console.log(req.body);
-        var deliveryaddress = {};
-        if(req.body.shipFirstname){
-            req.session.customerFirstname = req.body.shipFirstname;
-            deliveryaddress.firstname = req.session.customerFirstname;
-        }
-        if(req.body.shipLastname){
-            req.session.customerLastname = req.body.shipLastname;
-            deliveryaddress.lastname = req.session.customerLastname;
-        }
-        if(req.body.shipAddr1){
-            req.session.customerAddress1 = req.body.shipAddr1;
-            deliveryaddress.address1 = req.session.customerAddress1;
-        }
-        if(req.body.shipCity){
-            req.session.customerCity = req.body.shipCity;
-            deliveryaddress.city = req.session.customerCity;
-        }
-        if(req.body.shipPostcode){
-            req.session.customerPostcode = req.body.shipPostcode;
-            deliveryaddress.postcode = req.session.customerPostcode;
-        }
-        if(req.body.shipState){
-            req.session.customerState = req.body.shipState;
-            deliveryaddress.state = req.session.customerState;
-        }
-        if(req.body.shipPhone){
-            deliveryaddress.phone = req.body.shipPhone;
-        }
-        if(!isEmpty(deliveryaddress)){
-            try{
-                if(deliveryaddress){
-                    await db.customers.findOneAndUpdate({ _id: common.getId(req.session.customerId)},{$push: {deliveryaddress: deliveryaddress }});
-                }   
-            }
-            catch(ex){
-                req.session.message = "Error updating user";
-                req.session.messageType = 'danger';
-                res.redirect('/checkout/information');
-                return;
-            }
-        }
-        if(!req.session.customerAddress1){
-            message = "Select A Address";
-            req.session.message = message;
-            req.session.messageType = 'danger';
-            res.redirect('/checkout/information');
-            return;
-        }
-        var response = pin.lookup(req.body.shipPostcode);
-        if(availableDistrict.indexOf(response[0].districtName) != -1){
-            message = "Delivery Not Available At This Location";
-            req.session.message = message;
-            req.session.messageType = 'danger';
-            res.redirect('/checkout/information');
-            return;
-        }
-
-        // Dropr Test API
-
-   
-  
-  //Dropr Close
-        // new order doc
-        const orderDoc = {
-           // orderPaymentId: charge.id,
-            orderPaymentGateway: paymentMethod,
-            orderPaymentStatus: "Paid",
-           // orderPaymentMessage: charge.outcome.seller_message,
-            orderTotal: req.session.totalCartAmount,
-            orderShipping: req.session.totalCartShipping,
-            orderItemCount: req.session.totalCartItems,
-            orderProductCount: req.session.totalCartProducts,
-            orderCustomer: common.getId(req.session.customerId),
-            orderEmail: req.session.customerEmail,
-           // orderCompany: req.session.customerCompany,
-            orderFirstname: req.session.customerFirstname,
-            orderLastname: req.session.customerLastname,
-            orderAddr1: req.session.customerAddress1,
-           // orderAddr2: req.session.customerAddress2,
-            orderCity: req.session.customerCity,
-            orderState: req.session.customerState,
-            orderPostcode: req.session.customerPostcode,
-            orderPhoneNumber: req.session.customerPhone,
-            orderPromoCode: req.session.discountCode,
-            //orderComment: req.session.orderComment,
-            orderStatus: orderStatus,
-            orderDate: new Date(),
-            orderProducts: req.session.cart,
-            orderType: 'Single'
-        };
-    
-        // insert order into DB
-        db.orders.insertOne(orderDoc, (err, newDoc) => {
-            if(err){
-                console.info(err.stack);
-            }
-
-            // get the new ID
-            const newId = newDoc.insertedId;
-
-            // add to lunr index
-            indexOrders(req.app)
-            .then(() => {
-                // if approved, send email etc
-                    // set the results
-                    req.session.messageType = 'success';
-                    req.session.message = 'Your payment was successfully completed';
-                    req.session.paymentEmailAddr = newDoc.ops[0].orderEmail;
-                    req.session.paymentApproved = true;
-                    req.session.paymentDetails = '<p><strong>Order ID: </strong>' + newId ;
-
-                    // set payment results for email
-                    const paymentResults = {
-                        message: req.session.message,
-                        messageType: req.session.messageType,
-                        paymentEmailAddr: req.session.paymentEmailAddr,
-                        paymentApproved: true,
-                        paymentDetails: req.session.paymentDetails
-                    };
-
-                    // clear the cart
-                    if(req.session.cart){
-                        common.emptyCart(req, res, 'function');
-                    }
-
-                    // send the email with the response
-                    // TODO: Should fix this to properly handle result
-
-                    // redirect to outcome
-                    res.redirect('/payment/' + newId);
-                /*else{
-                    // redirect to failure
-                    req.session.messageType = 'danger';
-                    req.session.message = 'Your payment has declined. Please try again';
-                    req.session.paymentApproved = false;
-                    req.session.paymentDetails = '<p><strong>Order ID: </strong>' + newId + '</p><p><strong>Transaction ID: </strong>' + charge.id + '</p>';
-                    res.redirect('/payment/' + newId);
-                } */
-            });
-        });
-    });
-// });
-function bold(string){
-    return `*`+string+`*`;
-}
-
-function pdfgenerate(invoice,path) {
-      
-      function generateHeader(doc) {
-        doc
-          .image("public/images/logo.png",200,20, { width: 160 })
-          .fillColor("#444444")
-          .font('Helvetica-Bold')
-          .fontSize(10)
-          .text("Sold By: Plant4u Botanicals Pvt Ltd",10,85)
-          .fontSize(10)
-          .text("Contact Information", 200, 75, { align: "right" })
-          .font('Helvetica')
-          .text("Email: administrator@plant4u.in", 400, 90, { align: "right" })
-          .moveTo(10,135)
-          .lineTo(600,135)
-          .stroke()
-          .moveDown();
-      }
-
-      function generateCustomerInformation(doc, invoice) {
-        const shipping = invoice.shipping;
-      
-        doc
-            .fontSize(11)
-            .font('Helvetica-Bold')
-            .text("Order ID:",20,150)
-          .text(` ${invoice.orderId}`, 70, 150)
-          .text(`Order Date:`, 20, 165)
-          .font('Helvetica')
-          .text(`${invoice.orderDate}`, 85, 165)
-          .font('Helvetica-Bold')
-          .text(`PAN: `, 20, 180)
-          .font('Helvetica')
-          .text(`AALCP4866D`, 50, 180)
-          .font('Helvetica-Bold')
-          .text(`CIN: `, 20, 195)
-          .font('Helvetica')
-          .text(`U01100UP2020PTC135701`, 50, 195)
-          .font('Helvetica-Bold')
-          .text('Ship To: ',400,150)
-          .text(`${invoice.shipping.name}`, 440,150, {width: 200})
-          .font('Helvetica')
-          .text(`${invoice.shipping.address}`,400,165,{width: 220})
-          .text(`${invoice.shipping.city} ,${invoice.shipping.state} -${invoice.shipping.postcode}, ${invoice.shipping.phone}`)
-          .font('Helvetica')
-          .moveDown()
-          .moveTo(10,230)
-          .lineTo(600,230)
-          .stroke();
-      }
-      function generateTableRow(doc, y, c1, c2, c3, c4) {
-        doc
-          .fontSize(10)
-          .text(c1, 50, y, {width: 150})
-          .text(c2, 206, y)
-          .text(c3, 322, y, { width: 90})
-          .text(c4, 438, y, { width: 90})
-      }
-      function generateInvoiceTable(doc, invoice) {
-        let i,
-          invoiceTableTop = 260;
-
-          doc
-          .font('Helvetica-Bold')
-          .text('Product Name',50,250)
-          .text('Price',206,250)
-          .text('Quantity',322,250)
-          .text('Total Price',438,250)
-          .moveTo(10,270)
-          .lineTo(600,270)
-          .stroke();
-      
-        for (i = 0; i < invoice.items.length; i++) {
-          const item = invoice.items[i];
-          const position = invoiceTableTop + (i + 1) * 30;
-          generateTableRow(
-            doc,
-            position,
-            item.item,
-            item.amount / item.quantity,
-            item.quantity,
-            item.amount
-          );
-        }
-        var finishposition = invoiceTableTop + (invoice.items.length)*30;
-        doc
-        .moveTo(10,finishposition + 30)
-        .lineTo(600,finishposition + 30)
-        .stroke()
-        .fontSize(14)
-        .font('Helvetica')
-        .text(`Total Amount: ${invoice.totalamount}`,200,finishposition + 40,{align: 'right'})
-        .text(`Shipping Amount: ${invoice.shippingprice}`,200,finishposition + 55,{align: 'right'})
-        .text(`Discount: ${invoice.discount}`,200,finishposition + 70,{align: 'right'})
-        .font('Helvetica-Bold')
-        .fontSize(15)
-        .text(`Grand Total ${invoice.subtotal}`,200,finishposition + 90,{align: 'right'})
-        .moveTo(10,finishposition+105)
-        .lineTo(600,finishposition+105)
-        .stroke()
-        .font('Helvetica')
-        .fontSize(13)
-        .text('This is Electronically generated invoice no stamp required',140,finishposition + 125);
-      }
-      
-    let doc = new PDFDocument({ margin: 50 });
-
-    generateHeader(doc);
-    generateCustomerInformation(doc, invoice);
-    generateInvoiceTable(doc, invoice);
-
-    doc.end();
-    doc.pipe(fs.createWriteStream(path));
-    return 0;
-}
-// router.get('/pdfgenerate',async (req,res)=>{
-//     var db = req.app.db;
-    
-//     var order = await db.orders.findOne({_id: common.getId("5f3e01c6909e041c0db631f4")});
-//     var invoice = {
-//         shipping: {
-//           name: order.orderFirstname + ` `+ order.orderLastname,
-//           address: order.orderAddr1,
-//           city: order.orderCity,
-//           state: order.orderState,
-//           postcode: order.orderPostcode,
-//           phone: order.orderPhoneNumber
-//         },
-//         items: [
-//         ],
-//         orderId: order._id,
-//         orderDate: new Date(order.orderDate).toDateString(),
-//         shippingprice: order.orderShipping,
-//         subtotal: parseInt(order.orderTotal),
-//         totalcount: order.orderProductCount,
-//         paid: 0,
-//         invoice_nr: 1234
-//       };
-//       var totalamount = 0;
-//       for(let a in order.orderProducts) {
-//         var orderitem = {
-//             item: order.orderProducts[a].title,
-//             quantity: order.orderProducts[a].quantity,
-//             amount: order.orderProducts[a].totalItemPrice
-//           };
-//           totalamount = totalamount + parseInt(orderitem.amount);
-//           invoice.items.push(orderitem);
-//       }
-//       invoice.totalamount = totalamount;
-//       invoice.discount = totalamount - invoice.subtotal - invoice.shipping;
-//       if(invoice.discount > 0) {
-//         invoice.discount = parseInt(invoice.discount);
-//       }
-//       else {
-//           invoice.discount = 0;
-//       }
-//       var path = `public/uploads/`+order._id+`.pdf`;
-//       var filename = order._id;
-//       pdfgenerate(invoice,path);
-
-//       cloudinarypdf.config(name='cloud_name',key="pdfmanagement");
-//     cloudinarypdf.config(name='api_key',key="228719351649744");
-//     cloudinarypdf.config(name="api_secret",key="nrOR7AepWxSysLvAs-cmvll5pbE");
-//   cloudinarypdf.uploader.upload(path, {public_id: filename,resource_type: 'raw'},
-//     async function(error, result) {
-//         if(error) {
-//             console.log(error);
-//             fs.unlinkSync(path);
-//         }
-//         else {
-//             console.log(result);
-//             fs.unlinkSync(path);
-//         }
-//     });
-
-// });
-// These is the customer facing routes
-
-router.get('/payment/:orderId', async (req, res, next) => {
-    const db = req.app.db;
-    const config = req.app.config;
-    
-    // Get the order
-    const order = await db.orders.findOne({ _id: getId(req.params.orderId) });
-    if(!order){
-        res.render('error', { title: 'Not found', message: 'Order not found', helpers: req.handlebars.helpers, config });
-        return;
-    }
-    if(order.orderStatus == 'Failed') {
-        req.session.message = "Payement Failed";
-        req.session.messageType = "danger";
-        res.redirect('/customer/account/orders');
-        return;
-    }
-    if(order.orderStatus != 'Pending') {
-        req.session.message = "Already Paid";
-        req.session.messageType = "success";
-        res.redirect('/');
-        return;
-    }
-    // If stock management is turned on payment approved update stock level
-    if(config.trackStock && req.session.paymentApproved){
-        // Check to see if already updated to avoid duplicate updating of stock
-        if(order.productStockUpdated !== true){
-            Object.keys(order.orderProducts).forEach(async (productKey) => {
-                const product = order.orderProducts[productKey];
-                const dbProduct = await db.products.findOne({ _id: getId(product.productId) });
-                let productCurrentStock = dbProduct.productStock;
-
-                // If variant, get the stock from the variant
-                if(product.variantId){
-                    const variant = await db.variants.findOne({
-                        _id: getId(product.variantId),
-                        product: getId(product._id)
-                    });
-                    if(variant){
-                        productCurrentStock = variant.stock;
-                    }else{
-                        productCurrentStock = 0;
-                    }
-                }
-
-                // Calc the new stock level
-                let newStockLevel = productCurrentStock - product.quantity;
-                if(newStockLevel < 1){
-                    newStockLevel = 0;
-                }
-
-                // Update stock
-                if(product.variantId){
-                    // Update variant stock
-                    await db.variants.updateOne({
-                        _id: getId(product.variantId)
-                    }, {
-                        $set: {
-                            stock: newStockLevel
-                        }
-                    }, { multi: false });
-                }else{
-                    // Update product stock
-                    await db.products.updateOne({
-                        _id: getId(product.productId)
-                    }, {
-                        $set: {
-                            productStock: newStockLevel
-                        }
-                    }, { multi: false });
-                }
-
-                // Add stock updated flag to order
-                await db.orders.updateOne({
-                    _id: getId(order._id)
-                }, {
-                    $set: {
-                        productStockUpdated: true
-                    }
-                }, { multi: false });
-            });
-            console.info('Updated stock levels');
-        }
-    }
-
-    // If hooks are configured, send hook
-    if(config.orderHook){
-        await hooker(order);
-    };
-    
+  function orderCompleted(orderlist){
+        
     var productlist = ``;
+  var order = JSON.parse(JSON.stringify(orderlist[0]));
+  var totalcount = 0;
+  var totalamount = 0;
+  var allproducts = {};
+  for (var i = 0;i<orderlist.length;i++) {
+    totalcount = totalcount + orderlist[i].orderItemCount;
+    totalamount = totalamount + orderlist[i].orderTotal;
+    for(let j in orderlist[i].orderProducts) {
+      allproducts[j] = orderlist[i].orderProducts[j];
+    }
+  }
+  order.orderItemCount = totalcount;
+  order.orderProductCount = totalcount;
+  order.orderTotal = totalamount;
+  order.orderProducts = allproducts;
   
 
     for(let a in order.orderProducts){
@@ -563,8 +124,7 @@ router.get('/payment/:orderId', async (req, res, next) => {
      <!--[if mso]></td></tr></table><![endif]--></td> 
    </tr>`;
 }
-    let paymentView = `${config.themeViews}payment-complete`;
-    if(order.orderPaymentGateway === 'Blockonomics') paymentView = `${config.themeViews}payment-complete-blockonomics`;
+    
 
     const html=`<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" style="width:100%;font-family:arial, 'helvetica neue', helvetica, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0">
@@ -1014,151 +574,608 @@ router.get('/payment/:orderId', async (req, res, next) => {
      </body>
     </html>
     `;
+    return html;
+}
+//This is how we take checkout action
+router.post('/checkout_action', async (req, res, next) => {
+    const db = req.app.db;
+    const config = req.app.config;
+ //   const stripeConfig = common.getPaymentConfig();
 
-    var dropaddress = "".concat(order.orderAddr1).concat(" ").concat(order.orderCity).concat(" ").concat(order.orderState).concat(" -").concat(order.orderPostcode).concat(" ,India");
-    var post_data = {
-        sender_name : 'Plant4u',
-        sender_phone_number: '7889896521',
-        service_name: 'Prime',
-        vehicle_type: 'Bike',
-        service_category : 'others',
-        pickup_address:'GreenHome Care Nursery Khasra 18 Amarpali Princli State Gate no.2 Ke Adjacent sec 76 Noida',
-        pickup_zipcode:'201301',
-        pickup_landmark:'Amarpali Pricli State gate no 2',
-        drop_address :[{'receiver_name':order.orderFirstname,'receiver_phone':order.orderPhoneNumber,'drop_landmark':order.orderCity,'address':dropaddress,'drop_zipcode':order.orderPostcode}],
-        max_weight:'1',
-        quantity:'1',
-     };
-   post_data = JSON.stringify(post_data);
+    // Create the Stripe payload
+   /* const chargePayload = {
+        amount: numeral(req.session.totalCartAmount).format('0.00').replace('.', ''),
+        currency: stripeConfig.stripeCurrency.toLowerCase(),
+        source: req.body.stripeToken,
+        description: stripeConfig.stripeDescription,
+        shipping: {
+            name: `${req.session.customerFirstname} ${req.session.customerFirstname}`,
+            address: {
+                line1: req.session.customerAddress1,
+                line2: req.session.customerAddress2,
+                postal_code: req.session.customerPostcode,
+                state: req.session.customerState,
+                country: req.session.customerCountry
+            }
+        }
+    };  */
 
-   // An object of options to indicate where to post to
-   var post_options = {
-       host: 'bslive.dropr.in',
-       port: '443',
-       path: '/business/api/create-order',
-       method: 'POST',
-       headers: {
-           'Content-Type': 'application/json;charset=utf-8',
-           'Content-Length': Buffer.byteLength(post_data),
-           'Authorization':'136RMKYO45K18MFRKPFX42N5UPUDOQZC'
-       }
-   };
- 
-   // Set up the request
-   var post_req = http.request(post_options, function(res) {
-       res.setEncoding('utf8');
-       var message = "";
-       res.on('data', function (chunk) {
-           message += chunk;
-       });
-       res.on('error',async function(chunk) {
-           console.log('Error Response '+chunk);
-           await db.orders.findOneAndUpdate({_id: common.getId(order._id)},{$set: {droprId: chunk}});
-       });
-       res.on('end',async function(){
-           var returnresponse = JSON.parse(message);
-           var dropid = returnresponse.res_data.booking_id;
-           try{
-            var k = await db.orders.findOneAndUpdate({_id: common.getId(order._id)},{$set: {droprId: dropid}});
-           }catch(ex){
-               console.log(ex);
-           }
-           
-       });
-   });
- 
-   // post the data
-   post_req.write(post_data);
-   post_req.end();
+    // charge via stripe
+   /* stripe.charges.create(chargePayload, (err, charge) => {
+        if(err){
+            console.info(err.stack);
+            req.session.messageType = 'danger';
+            req.session.message = 'Your payment has declined. Please try again';
+            req.session.paymentApproved = false;
+            req.session.paymentDetails = '';
+            res.redirect('/checkout/payment');
+            return;
+        }
+   */
+        // order status
+        let orderStatus = 'Pending';
+       /* if(charge.paid !== true){
+            paymentStatus = 'Declined';
+        } */
+        let paymentMethod = 'COD';
+        console.log(req.body);
+        var deliveryaddress = {};
+        if(req.body.shipFirstname){
+            req.session.customerFirstname = req.body.shipFirstname;
+            deliveryaddress.firstname = req.session.customerFirstname;
+        }
+        if(req.body.shipLastname){
+            req.session.customerLastname = req.body.shipLastname;
+            deliveryaddress.lastname = req.session.customerLastname;
+        }
+        if(req.body.shipAddr1){
+            req.session.customerAddress1 = req.body.shipAddr1;
+            deliveryaddress.address1 = req.session.customerAddress1;
+        }
+        if(req.body.shipCity){
+            req.session.customerCity = req.body.shipCity;
+            deliveryaddress.city = req.session.customerCity;
+        }
+        if(req.body.shipPostcode){
+            req.session.customerPostcode = req.body.shipPostcode;
+            deliveryaddress.postcode = req.session.customerPostcode;
+        }
+        if(req.body.shipState){
+            req.session.customerState = req.body.shipState;
+            deliveryaddress.state = req.session.customerState;
+        }
+        if(req.body.shipPhone){
+            deliveryaddress.phone = req.body.shipPhone;
+        }
+        if(!isEmpty(deliveryaddress)){
+            try{
+                if(deliveryaddress){
+                    await db.customers.findOneAndUpdate({ _id: common.getId(req.session.customerId)},{$push: {deliveryaddress: deliveryaddress }});
+                }   
+            }
+            catch(ex){
+                req.session.message = "Error updating user";
+                req.session.messageType = 'danger';
+                res.redirect('/checkout/information');
+                return;
+            }
+        }
+        if(!req.session.customerAddress1){
+            message = "Select A Address";
+            req.session.message = message;
+            req.session.messageType = 'danger';
+            res.redirect('/checkout/information');
+            return;
+        }
+        var response = pin.lookup(req.body.shipPostcode);
+        if(availableDistrict.indexOf(response[0].districtName) != -1){
+            message = "Delivery Not Available At This Location";
+            req.session.message = message;
+            req.session.messageType = 'danger';
+            res.redirect('/checkout/information');
+            return;
+        }
+
+        // Dropr Test API
+
+   
   
-   console.log("drop id");
-   var invoice = {
-    shipping: {
-      name: order.orderFirstname + ` `+ order.orderLastname,
-      address: order.orderAddr1,
-      city: order.orderCity,
-      state: order.orderState,
-      postcode: order.orderPostcode,
-      phone: order.orderPhoneNumber
-    },
-    items: [
-    ],
-    orderId: order._id,
-    orderDate: new Date(order.orderDate).toDateString(),
-    shippingprice: order.orderShipping,
-    subtotal: parseInt(order.orderTotal),
-    totalcount: order.orderProductCount,
-    paid: 0,
-    invoice_nr: 1234
-  };
-  var totalamount = 0;
-  for(let a in order.orderProducts) {
-    var orderitem = {
-        item: order.orderProducts[a].title,
-        quantity: order.orderProducts[a].quantity,
-        amount: order.orderProducts[a].totalItemPrice
-      };
-      totalamount = totalamount + parseInt(orderitem.amount);
-      invoice.items.push(orderitem);
-  }
-  invoice.totalamount = totalamount;
-  invoice.discount = totalamount - invoice.subtotal - invoice.shipping;
-  if(invoice.discount > 0) {
-    invoice.discount = parseInt(invoice.discount);
-  }
-  else {
-      invoice.discount = 0;
-  }
-  var path = `public/uploads/`+order._id+`.pdf`;
-  var filename = order._id +`.pdf`;
-  var k = pdfgenerate(invoice,path);
-  console.log("pdfgenerated");
-  await mailer.sendEmail('orderconfirm@plant4u.in',req.session.customerEmail,'Order Complete',html);
-  await mailer.sendEmailattachment('orderconfirm@plant4u.in','greenhomecare.india@gmail.com','Order Placed','New Order Placed with Plant4u and here is invoice for that order',[{
-    filename: filename,
-    path: path,
-    contentType: 'application/pdf'
-  }]
-  );
-  cloudinarypdf.config(name='cloud_name',key="pdfmanagement");
-    cloudinarypdf.config(name='api_key',key="228719351649744");
-    cloudinarypdf.config(name="api_secret",key="nrOR7AepWxSysLvAs-cmvll5pbE");
-  cloudinarypdf.uploader.upload(path,  {public_id: order._id,resource_type: 'raw'},
-    async function(error, result) {
-        if(error) {
-            console.log(error);
-            fs.unlinkSync(path);
+  //Dropr Close
+        // new order doc
+        var orderDoc = {
+           // orderPaymentId: charge.id,
+            orderPaymentGateway: paymentMethod,
+            orderPaymentStatus: "Paid",
+           // orderPaymentMessage: charge.outcome.seller_message,
+            orderTotal: req.session.totalCartAmount,
+            orderShipping: req.session.totalCartShipping,
+            orderItemCount: req.session.totalCartItems,
+            orderProductCount: req.session.totalCartProducts,
+            orderCustomer: common.getId(req.session.customerId),
+            orderEmail: req.session.customerEmail,
+           // orderCompany: req.session.customerCompany,
+            orderFirstname: req.session.customerFirstname,
+            orderLastname: req.session.customerLastname,
+            orderAddr1: req.session.customerAddress1,
+           // orderAddr2: req.session.customerAddress2,
+            orderCity: req.session.customerCity,
+            orderState: req.session.customerState,
+            orderPostcode: req.session.customerPostcode,
+            orderPhoneNumber: req.session.customerPhone,
+            orderPromoCode: req.session.discountCode,
+            //orderComment: req.session.orderComment,
+            orderStatus: orderStatus,
+            orderDate: new Date(),
+            orderProducts: req.session.cart,
+            orderType: 'Single'
+        };
+        var vendorlist = [];
+        var vendorprod = {};
+        for(let a in req.session.cart){
+            if(vendorlist.includes(String(req.session.cart[a].vendor))){
+                vendorprod[String(req.session.cart[a].vendor)][a] = req.session.cart[a];
+            }
+            else {
+                vendorlist.push(String(req.session.cart[a].vendor));
+                vendorprod[String(req.session.cart[a].vendor)] = {};
+                vendorprod[String(req.session.cart[a].vendor)][a] = req.session.cart[a];
+            }
+        }
+        if(vendorlist.length > 1) {
+            var testobj = orderDoc;
+            orderDoc = []
+            for(var i=0;i<vendorlist.length;i++) {
+                let testdoc = JSON.parse(JSON.stringify(testobj));
+                testdoc.orderProducts = vendorprod[vendorlist[i]]
+                testdoc.orderVendor = vendorlist[i];
+                var vend = await db.vendors.findOne({_id: common.getId(vendorlist[i])});
+                testdoc.orderVendorName = vend.userName;
+                testdoc.orderVendorPhone = vend.userPhone;
+                testdoc.orderVendorEmail = vend.userEmail;
+                testdoc.orderVendorAddress = vend.userAddress;
+                var quantity = 0;
+                var totalprice = 0;
+                for(let z in vendorprod[vendorlist[i]]) {
+                    quantity += vendorprod[vendorlist[i]][z].quantity;
+                    totalprice += vendorprod[vendorlist[i]][z].totalItemPrice;
+                }
+                testdoc.orderItemCount = quantity;
+                orderProductCount = quantity;
+                testdoc.orderTotal = totalprice;
+                orderDoc.push(testdoc);
+            }
+        }
+
+       
+       
+        // insert order into DB
+        if(vendorlist.length == 1){
+            db.orders.insertOne(orderDoc, (err, newDoc) => {
+                if(err){
+                    console.info(err.stack);
+                }
+    
+                // get the new ID
+                const newId = newDoc.insertedId;
+                console.log(newDoc);
+                // add to lunr index
+                indexOrders(req.app)
+                .then(() => {
+                    // if approved, send email etc
+                        // set the results
+                        req.session.messageType = 'success';
+                        req.session.message = 'Your payment was successfully completed';
+                        req.session.paymentEmailAddr = newDoc.ops[0].orderEmail;
+                        req.session.paymentApproved = true;
+                        req.session.paymentDetails = '<p><strong>Order ID: </strong>' + newId ;
+    
+                        // set payment results for email
+                        const paymentResults = {
+                            message: req.session.message,
+                            messageType: req.session.messageType,
+                            paymentEmailAddr: req.session.paymentEmailAddr,
+                            paymentApproved: true,
+                            paymentDetails: req.session.paymentDetails
+                        };
+    
+                        // clear the cart
+                        if(req.session.cart){
+                            common.emptyCart(req, res, 'function');
+                        }
+    
+                        // send the email with the response
+                        // TODO: Should fix this to properly handle result
+    
+                        // redirect to outcome
+                        console.log(newId);
+                        res.redirect('/payment/' + newId);
+                    /*else{
+                        // redirect to failure
+                        req.session.messageType = 'danger';
+                        req.session.message = 'Your payment has declined. Please try again';
+                        req.session.paymentApproved = false;
+                        req.session.paymentDetails = '<p><strong>Order ID: </strong>' + newId + '</p><p><strong>Transaction ID: </strong>' + charge.id + '</p>';
+                        res.redirect('/payment/' + newId);
+                    } */
+                });
+            });
         }
         else {
-            console.log(result);
-            fs.unlinkSync(path);
+            try{
+                var newDoc = await db.orders.insertMany(orderDoc);
+                
+                console.log("new Doc",newDoc);
+                
+    
+                // get the new ID
+                const newId = newDoc.insertedIds;
+               
+                // add to lunr index
+                indexOrders(req.app)
+                .then(() => {
+                    // if approved, send email etc
+                        // set the results
+                        req.session.messageType = 'success';
+                        req.session.message = 'Your payment was successfully completed';
+                        req.session.paymentEmailAddr = newDoc.ops[0].orderEmail;
+                        req.session.paymentApproved = true;
+                        req.session.paymentDetails = '<p><strong>Order ID: </strong>' + newId ;
+    
+                        // set payment results for email
+                        const paymentResults = {
+                            message: req.session.message,
+                            messageType: req.session.messageType,
+                            paymentEmailAddr: req.session.paymentEmailAddr,
+                            paymentApproved: true,
+                            paymentDetails: req.session.paymentDetails
+                        };
+    
+                        // clear the cart
+                        // if(req.session.cart){
+                        //     common.emptyCart(req, res, 'function');
+                        // }
+    
+                        // send the email with the response
+                        // TODO: Should fix this to properly handle result
+    
+                        // redirect to outcome
+                        console.log(newId);
+                        var newIdstrng = newId['0'] +`&&`+newId['1'];
+                        for(var i=2;i<newDoc.insertedCount;i++){
+                            newIdstrng = newIdstrng + `&&` +newId[String(i)];
+                        }
+                        res.redirect('/payment/' + newIdstrng);
+                    /*else{
+                        // redirect to failure
+                        req.session.messageType = 'danger';
+                        req.session.message = 'Your payment has declined. Please try again';
+                        req.session.paymentApproved = false;
+                        req.session.paymentDetails = '<p><strong>Order ID: </strong>' + newId + '</p><p><strong>Transaction ID: </strong>' + charge.id + '</p>';
+                        res.redirect('/payment/' + newId);
+                    } */
+                });
+            }catch(ex){
+                console.log(ex);
+                message = ex;
+                req.session.message = message;
+                req.session.messageType = 'danger';
+                res.redirect('/checkout/information');
+                return;
+            }
         }
+        
     });
+// });
+function bold(string){
+    return `*`+string+`*`;
+}
+
+function pdfgenerate(invoice,path) {
+      
+      function generateHeader(doc) {
+        doc
+          .image("public/images/logo.png",200,20, { width: 160 })
+          .fillColor("#444444")
+          .font('Helvetica-Bold')
+          .fontSize(10)
+          .text("Sold By: Plant4u Botanicals Pvt Ltd",10,85)
+          .fontSize(10)
+          .text("Contact Information", 200, 75, { align: "right" })
+          .font('Helvetica')
+          .text("Email: administrator@plant4u.in", 400, 90, { align: "right" })
+          .moveTo(10,135)
+          .lineTo(600,135)
+          .stroke()
+          .moveDown();
+      }
+
+      function generateCustomerInformation(doc, invoice) {
+        const shipping = invoice.shipping;
+      
+        doc
+            .fontSize(11)
+            .font('Helvetica-Bold')
+            .text("Order ID:",20,150)
+          .text(` ${invoice.orderId}`, 70, 150)
+          .text(`Order Date:`, 20, 165)
+          .font('Helvetica')
+          .text(`${invoice.orderDate}`, 85, 165)
+          .font('Helvetica-Bold')
+          .text(`PAN: `, 20, 180)
+          .font('Helvetica')
+          .text(`AALCP4866D`, 50, 180)
+          .font('Helvetica-Bold')
+          .text(`CIN: `, 20, 195)
+          .font('Helvetica')
+          .text(`U01100UP2020PTC135701`, 50, 195)
+          .font('Helvetica-Bold')
+          .text('Ship To: ',400,150)
+          .text(`${invoice.shipping.name}`, 440,150, {width: 200})
+          .font('Helvetica')
+          .text(`${invoice.shipping.address}`,400,165,{width: 220})
+          .text(`${invoice.shipping.city} ,${invoice.shipping.state} -${invoice.shipping.postcode}, ${invoice.shipping.phone}`)
+          .font('Helvetica')
+          .moveDown()
+          .moveTo(10,230)
+          .lineTo(600,230)
+          .stroke();
+      }
+      function generateTableRow(doc, y, c1, c2, c3, c4) {
+        doc
+          .fontSize(10)
+          .text(c1, 50, y, {width: 150})
+          .text(c2, 206, y)
+          .text(c3, 322, y, { width: 90})
+          .text(c4, 438, y, { width: 90})
+      }
+      function generateInvoiceTable(doc, invoice) {
+        let i,
+          invoiceTableTop = 260;
+
+          doc
+          .font('Helvetica-Bold')
+          .text('Product Name',50,250)
+          .text('Price',206,250)
+          .text('Quantity',322,250)
+          .text('Total Price',438,250)
+          .moveTo(10,270)
+          .lineTo(600,270)
+          .stroke();
+      
+        for (i = 0; i < invoice.items.length; i++) {
+          const item = invoice.items[i];
+          const position = invoiceTableTop + (i + 1) * 30;
+          generateTableRow(
+            doc,
+            position,
+            item.item,
+            item.amount / item.quantity,
+            item.quantity,
+            item.amount
+          );
+        }
+        var finishposition = invoiceTableTop + (invoice.items.length)*30;
+        doc
+        .moveTo(10,finishposition + 30)
+        .lineTo(600,finishposition + 30)
+        .stroke()
+        .fontSize(14)
+        .font('Helvetica')
+        .text(`Total Amount: ${invoice.totalamount}`,200,finishposition + 40,{align: 'right'})
+        .text(`Shipping Amount: ${invoice.shippingprice}`,200,finishposition + 55,{align: 'right'})
+        .text(`Discount: ${invoice.discount}`,200,finishposition + 70,{align: 'right'})
+        .font('Helvetica-Bold')
+        .fontSize(15)
+        .text(`Grand Total ${invoice.subtotal}`,200,finishposition + 90,{align: 'right'})
+        .moveTo(10,finishposition+105)
+        .lineTo(600,finishposition+105)
+        .stroke()
+        .font('Helvetica')
+        .fontSize(13)
+        .text('This is Electronically generated invoice no stamp required',140,finishposition + 125);
+      }
+      
+    let doc = new PDFDocument({ margin: 50 });
+
+    generateHeader(doc);
+    generateCustomerInformation(doc, invoice);
+    generateInvoiceTable(doc, invoice);
+
+    doc.end();
+    doc.pipe(fs.createWriteStream(path));
+    return 0;
+}
+
+// These is the customer facing routes
+
+router.get('/payment/:orderId', async (req, res, next) => {
+    const db = req.app.db;
+    const config = req.app.config;
+
+    console.log("req params",req.params.orderId);
+    var orderIds = req.params.orderId.split('&&');
+    
+    var orderlist = [];
+    // Get the order
+    for(var ordi = 0;ordi<orderIds.length;ordi++) {
+        const order = await db.orders.findOne({ _id: getId(orderIds[ordi]) });
+        orderlist.push(order);
+    if(!order){
+        res.render('error', { title: 'Not found', message: 'Order not found', helpers: req.handlebars.helpers, config });
+        return;
+    }
+    if(order.orderStatus == 'Failed') {
+        req.session.message = "Payment Failed";
+        req.session.messageType = "danger";
+        res.redirect('/customer/account/orders');
+        return;
+    }
+    if(order.orderStatus != 'Pending') {
+        req.session.message = "Already Paid";
+        req.session.messageType = "success";
+        res.redirect('/');
+        return;
+    }
+    // If stock management is turned on payment approved update stock level
+    if(config.trackStock && req.session.paymentApproved){
+        // Check to see if already updated to avoid duplicate updating of stock
+        if(order.productStockUpdated !== true){
+            Object.keys(order.orderProducts).forEach(async (productKey) => {
+                const product = order.orderProducts[productKey];
+                const dbProduct = await db.products.findOne({ _id: getId(product.productId) });
+                let productCurrentStock = dbProduct.productStock;
+
+                // If variant, get the stock from the variant
+                if(product.variantId){
+                    const variant = await db.variants.findOne({
+                        _id: getId(product.variantId),
+                        product: getId(product._id)
+                    });
+                    if(variant){
+                        productCurrentStock = variant.stock;
+                    }else{
+                        productCurrentStock = 0;
+                    }
+                }
+
+                // Calc the new stock level
+                let newStockLevel = productCurrentStock - product.quantity;
+                if(newStockLevel < 1){
+                    newStockLevel = 0;
+                }
+
+                // Update stock
+                if(product.variantId){
+                    // Update variant stock
+                    await db.variants.updateOne({
+                        _id: getId(product.variantId)
+                    }, {
+                        $set: {
+                            stock: newStockLevel
+                        }
+                    }, { multi: false });
+                }else{
+                    // Update product stock
+                    await db.products.updateOne({
+                        _id: getId(product.productId)
+                    }, {
+                        $set: {
+                            productStock: newStockLevel
+                        }
+                    }, { multi: false });
+                }
+
+                // Add stock updated flag to order
+                await db.orders.updateOne({
+                    _id: getId(order._id)
+                }, {
+                    $set: {
+                        productStockUpdated: true
+                    }
+                }, { multi: false });
+            });
+            console.info('Updated stock levels');
+        }
+    }
+
+    // If hooks are configured, send hook
+    if(config.orderHook){
+        await hooker(order);
+    };
+
+   
+
+//    var invoice = {
+//     shipping: {
+//       name: order.orderFirstname + ` `+ order.orderLastname,
+//       address: order.orderAddr1,
+//       city: order.orderCity,
+//       state: order.orderState,
+//       postcode: order.orderPostcode,
+//       phone: order.orderPhoneNumber
+//     },
+//     items: [
+//     ],
+//     orderId: order._id,
+//     orderDate: new Date(order.orderDate).toDateString(),
+//     shippingprice: order.orderShipping,
+//     subtotal: parseInt(order.orderTotal),
+//     totalcount: order.orderProductCount,
+//     paid: 0,
+//     invoice_nr: 1234
+//   };
+//   var totalamount = 0;
+//   for(let a in order.orderProducts) {
+//     var orderitem = {
+//         item: order.orderProducts[a].title,
+//         quantity: order.orderProducts[a].quantity,
+//         amount: order.orderProducts[a].totalItemPrice
+//       };
+//       totalamount = totalamount + parseInt(orderitem.amount);
+//       invoice.items.push(orderitem);
+//   }
+//   invoice.totalamount = totalamount;
+//   invoice.discount = totalamount - invoice.subtotal - invoice.shipping;
+//   if(invoice.discount > 0) {
+//     invoice.discount = parseInt(invoice.discount);
+//   }
+//   else {
+//       invoice.discount = 0;
+//   }
+//   var path = `public/uploads/`+order._id+`.pdf`;
+//   var filename = order._id +`.pdf`;
+//   var k = pdfgenerate(invoice,path);
+//   console.log("pdfgenerated");
+
+//   await mailer.sendEmailattachment('orderconfirm@plant4u.in',order.orderVendorEmail,'Order Placed','New Order Placed with Plant4u and here is invoice for that order',[{
+//     filename: filename,
+//     path: path,
+//     contentType: 'application/pdf'
+//   }]
+//   );
+//   cloudinarypdf.config(name='cloud_name',key="pdfmanagement");
+//     cloudinarypdf.config(name='api_key',key="228719351649744");
+//     cloudinarypdf.config(name="api_secret",key="nrOR7AepWxSysLvAs-cmvll5pbE");
+//   cloudinarypdf.uploader.upload(path,  {public_id: order._id,resource_type: 'raw'},
+//     async function(error, result) {
+//         if(error) {
+//             console.log(error);
+//             fs.unlinkSync(path);
+//         }
+//         else {
+//             console.log(result);
+//             fs.unlinkSync(path);
+//         }
+//     });
     
 // Here we send whatsapp message to vendor whenever we have an order
-    var detailsmessage = "Name: ".concat(bold(order.orderFirstname)).concat(" ").concat(bold(order.orderLastname));
-    detailsmessage = detailsmessage.concat(" Email: ").concat(order.orderEmail);
-    detailsmessage = detailsmessage.concat(" Phone: ").concat(order.orderPhoneNumber);
-    detailsmessage = detailsmessage.concat(" Order Id: ").concat(order._id);
-    var address = "Address: ".concat(order.orderAddr1).concat(" ").concat(order.orderCity).concat(" ").concat(order.orderState).concat(" ").concat(order.orderPostcode);
-    var items = ``;
-        for(let key in order.orderProducts){
-            items += ` Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
-        }
-    var sendmessage = `Your next order of `+items+` has shipped and should be delivered on `+address+`. Details: `+detailsmessage+``;
-    client.messages.create({
-        from:'whatsapp:+14155238886',
-        to:'whatsapp:+919910160442',
-        body:sendmessage
-    }).then(message=> console.log(message));
+    // var detailsmessage = "Name: ".concat(bold(order.orderFirstname)).concat(" ").concat(bold(order.orderLastname));
+    // detailsmessage = detailsmessage.concat(" Email: ").concat(order.orderEmail);
+    // detailsmessage = detailsmessage.concat(" Phone: ").concat(order.orderPhoneNumber);
+    // detailsmessage = detailsmessage.concat(" Order Id: ").concat(order._id);
+    // var address = "Address: ".concat(order.orderAddr1).concat(" ").concat(order.orderCity).concat(" ").concat(order.orderState).concat(" ").concat(order.orderPostcode);
+    // var items = ``;
+    //     for(let key in order.orderProducts){
+    //         items += ` Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
+    //     }
+    // var sendmessage = `Your next order of `+items+` has shipped and should be delivered on `+address+`. Details: `+detailsmessage+``;
+    // var whatsend = `whatsapp:+91`+order.orderVendorPhone;
+    // client.messages.create({
+    //     from:'whatsapp:+14155238886',
+    //     to:whatsend,
+    //     body:sendmessage
+    // }).then(message=> console.log(message));
 
     await db.orders.findOneAndUpdate({_id: common.getId(order._id)},{$set: {orderStatus: "Paid"}});
-    res.render('success', {
+    }
+    var html = orderCompleted(orderlist);
+    await mailer.sendEmail('orderconfirm@plant4u.in',req.session.customerEmail,'Order Complete',html); 
+       res.render('success', {
         title: 'Payment complete',
         config: req.app.config,
         session: req.session,
         categories: req.app.categories,
-        result: order,
+        result: orderlist,
         message: clearSessionValue(req.session, 'message'),
         messageType: clearSessionValue(req.session, 'messageType'),
         helpers: req.handlebars.helpers,
@@ -1174,6 +1191,7 @@ router.get('/emptycart', async (req, res, next) => {
 router.get('/checkout/information', async (req, res, next) => {
     const config = req.app.config;
     const db = req.app.db;
+    
     // if there is no items in the cart then render a failure
     if(!req.session.cart){
         req.session.message = 'The are no items in your cart. Please add some items before checking out';
@@ -1396,48 +1414,147 @@ orderStatus = 'Pending'; }
      };
      req.session["razorOrderId"] = null;
      req.session.orderidgenerated = false;
-     db.orders.insertOne(orderDoc, (err, newDoc) => {
-        if(err){
-            console.info(err.stack);
+
+     var vendorlist = [];
+        var vendorprod = {};
+        for(let a in req.session.cart){
+            if(vendorlist.includes(String(req.session.cart[a].vendor))){
+                vendorprod[String(req.session.cart[a].vendor)][a] = req.session.cart[a];
+            }
+            else {
+                vendorlist.push(String(req.session.cart[a].vendor));
+                vendorprod[String(req.session.cart[a].vendor)] = {};
+                vendorprod[String(req.session.cart[a].vendor)][a] = req.session.cart[a];
+            }
         }
-
-        // get the new ID
-        const newId = newDoc.insertedId;
-        // add to lunr index
-        indexOrders(req.app)
-        .then(() => {
-            // if approved, send email etc
-                // set the results
-                if(paymentStatus == 'Paid') {
-                    req.session.messageType = 'success';
-                    req.session.message = 'Your payment was successfully completed';
+        if(vendorlist.length > 1) {
+            var testobj = orderDoc;
+            orderDoc = []
+            for(var i=0;i<vendorlist.length;i++) {
+                let testdoc = JSON.parse(JSON.stringify(testobj));
+                testdoc.orderProducts = vendorprod[vendorlist[i]]
+                testdoc.orderVendor = vendorlist[i];
+                var vend = await db.vendors.findOne({_id: common.getId(vendorlist[i])});
+                testdoc.orderVendorName = vend.userName;
+                testdoc.orderVendorPhone = vend.userPhone;
+                testdoc.orderVendorEmail = vend.userEmail;
+                testdoc.orderVendorAddress = vend.userAddress;
+                var quantity = 0;
+                var totalprice = 0;
+                for(let z in vendorprod[vendorlist[i]]) {
+                    quantity += vendorprod[vendorlist[i]][z].quantity;
+                    totalprice += vendorprod[vendorlist[i]][z].totalItemPrice;
                 }
-                else {
-                    req.session.messageType = 'danger';
-                    req.session.message = 'Payment is failed if price deduced inform us';
+                testdoc.orderItemCount = quantity;
+                orderProductCount = quantity;
+                testdoc.orderTotal = totalprice;
+                orderDoc.push(testdoc);
+            }
+        }
+        if(vendorlist.length == 1) {
+            db.orders.insertOne(orderDoc, (err, newDoc) => {
+                if(err){
+                    console.info(err.stack);
                 }
-                req.session.paymentEmailAddr = newDoc.ops[0].orderEmail;
-                req.session.paymentApproved = true;
-                req.session.paymentDetails = '<p><strong>Order ID: </strong>' + newId ;
-
-                // set payment results for email
-                const paymentResults = {
-                    message: req.session.message,
-                    messageType: req.session.messageType,
-                    paymentEmailAddr: req.session.paymentEmailAddr,
-                    paymentApproved: true,
-                    paymentDetails: req.session.paymentDetails
-                };
-
-                // clear the cart
-                if(req.session.cart){
-                    common.emptyCart(req, res, 'function');
-                }
-
-                res.status(200).json({id: newId});
+        
+                // get the new ID
+                const newId = newDoc.insertedId;
+                // add to lunr index
+                indexOrders(req.app)
+                .then(() => {
+                    // if approved, send email etc
+                        // set the results
+                        if(paymentStatus == 'Paid') {
+                            req.session.messageType = 'success';
+                            req.session.message = 'Your payment was successfully completed';
+                        }
+                        else {
+                            req.session.messageType = 'danger';
+                            req.session.message = 'Payment is failed if price deduced inform us';
+                        }
+                        req.session.paymentEmailAddr = newDoc.ops[0].orderEmail;
+                        req.session.paymentApproved = true;
+                        req.session.paymentDetails = '<p><strong>Order ID: </strong>' + newId ;
+        
+                        // set payment results for email
+                        const paymentResults = {
+                            message: req.session.message,
+                            messageType: req.session.messageType,
+                            paymentEmailAddr: req.session.paymentEmailAddr,
+                            paymentApproved: true,
+                            paymentDetails: req.session.paymentDetails
+                        };
+        
+                        // clear the cart
+                        if(req.session.cart){
+                            common.emptyCart(req, res, 'function');
+                        }
+        
+                        res.status(200).json({id: newId});
+                        return;
+                });
+            });
+        }else {
+            try{
+                var newDoc = await db.orders.insertMany(orderDoc);
+                
+                console.log("new Doc",newDoc);
+                
+    
+                // get the new ID
+                const newId = newDoc.insertedIds;
+               
+                // add to lunr index
+                indexOrders(req.app)
+                .then(() => {
+                    // if approved, send email etc
+                        // set the results
+                        req.session.messageType = 'success';
+                        req.session.message = 'Your payment was successfully completed';
+                        req.session.paymentEmailAddr = newDoc.ops[0].orderEmail;
+                        req.session.paymentApproved = true;
+                        req.session.paymentDetails = '<p><strong>Order ID: </strong>' + newId ;
+    
+                        // set payment results for email
+                        const paymentResults = {
+                            message: req.session.message,
+                            messageType: req.session.messageType,
+                            paymentEmailAddr: req.session.paymentEmailAddr,
+                            paymentApproved: true,
+                            paymentDetails: req.session.paymentDetails
+                        };
+    
+                        // clear the cart
+                        // if(req.session.cart){
+                        //     common.emptyCart(req, res, 'function');
+                        // }
+    
+                        // send the email with the response
+                        // TODO: Should fix this to properly handle result
+    
+                        // redirect to outcome
+                        console.log(newId);
+                        var newIdstrng = newId['0'] +`&&`+newId['1'];
+                        for(var i=2;i<newDoc.insertedCount;i++){
+                            newIdstrng = newIdstrng + `&&` +newId[String(i)];
+                        }
+                        res.status(200).json({id: newIdstrng});
+                    /*else{
+                        // redirect to failure
+                        req.session.messageType = 'danger';
+                        req.session.message = 'Your payment has declined. Please try again';
+                        req.session.paymentApproved = false;
+                        req.session.paymentDetails = '<p><strong>Order ID: </strong>' + newId + '</p><p><strong>Transaction ID: </strong>' + charge.id + '</p>';
+                        res.redirect('/payment/' + newId);
+                    } */
+                });
+            }catch(ex){
+                console.log(ex);
+                res.status(400).json({message: ex});
                 return;
-        });
-    });
+            }
+        }
+     
 });
 router.get('/checkout/payment', async (req, res) => {
     const config = req.app.config;
@@ -2167,6 +2284,7 @@ router.post('/product/addtocart', async (req, res, next) => {
         productObj.productSubscription = product.productSubscription;
         productObj.variantId = productVariantId;
         productObj.variantTitle = productVariantTitle;
+        productObj.vendor = product.productVendor;
         if(product.productPermalink){
             productObj.link = product.productPermalink;
         }else{

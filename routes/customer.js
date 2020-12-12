@@ -462,6 +462,7 @@ router.get('/customer/account/:page?/:index1?', async (req, res) => {
     })
     .sort({ orderDate: -1 })
     .toArray();
+    console.log(orders);
     var page = '';
     if(req.params.page){
         page = req.params.page;
