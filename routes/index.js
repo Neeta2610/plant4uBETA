@@ -59,6 +59,523 @@ var instance = new Razorpay({
     key_secret: keysecret
   })
 
+  function orderCompleted(orderlist){
+        
+    var productlist = ``;
+  var order = JSON.parse(JSON.stringify(orderlist[0]));
+  var totalcount = 0;
+  var totalamount = 0;
+  var allproducts = {};
+  for (var i = 0;i<orderlist.length;i++) {
+    totalcount = totalcount + orderlist[i].orderItemCount;
+    totalamount = totalamount + orderlist[i].orderTotal;
+    for(let j in orderlist[i].orderProducts) {
+      allproducts[j] = orderlist[i].orderProducts[j];
+    }
+  }
+  order.orderItemCount = totalcount;
+  order.orderProductCount = totalcount;
+  order.orderTotal = totalamount;
+  order.orderProducts = allproducts;
+  
+
+    for(let a in order.orderProducts){
+    productlist += `<tr style="border-collapse:collapse"> 
+    <td align="left" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px;background-position:center top"> 
+     <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:154px" valign="top"><![endif]--> 
+     <table cellpadding="0" cellspacing="0" class="es-left" align="left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left"> 
+      <tbody>
+       <tr style="border-collapse:collapse"> 
+        <td class="es-m-p20b" align="left" style="padding:0;Margin:0;width:154px"> 
+         <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-position:left top"> 
+          <tbody>
+           <tr style="border-collapse:collapse"> 
+            <td align="center" style="padding:0;Margin:0;font-size:0"><a target="_blank" href="`+order.orderProducts[a].productImage[0].path+`" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#659C35"><img class="adapt-img" src="`+order.orderProducts[a].productImage[0].path+`" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="154"></a></td> 
+           </tr> 
+          </tbody>
+         </table></td> 
+       </tr> 
+      </tbody>
+     </table> 
+     <!--[if mso]></td><td style="width:20px"></td><td style="width:386px" valign="top"><![endif]--> 
+     <table cellpadding="0" cellspacing="0" class="es-right" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right"> 
+      <tbody>
+       <tr style="border-collapse:collapse"> 
+        <td align="left" style="padding:0;Margin:0;width:386px"> 
+         <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+          <tbody>
+           <tr style="border-collapse:collapse"> 
+            <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong>`+order.orderProducts[a].title+`</strong></h3></td> 
+           </tr> 
+           <tr style="border-collapse:collapse"> 
+            <td align="left" style="padding:0;Margin:0;padding-top:5px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">Love from </p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333"><strong>Plant4u</strong></p></td> 
+           </tr> 
+           <tr style="border-collapse:collapse"> 
+            <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong><span style="color:#000000">Qty:</span>`+order.orderProducts[a].quantity+`;</strong></h3></td> 
+           </tr> 
+           <tr style="border-collapse:collapse"> 
+            <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong><span style="color:#000000">Price:</span>&nbsp;`+order.orderProducts[a].totalItemPrice+`</strong></h3></td> 
+           </tr> 
+          </tbody>
+         </table></td> 
+       </tr> 
+      </tbody>
+     </table> 
+     <!--[if mso]></td></tr></table><![endif]--></td> 
+   </tr>`;
+}
+    
+
+    const html=`<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" style="width:100%;font-family:arial, 'helvetica neue', helvetica, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0">
+     <head>
+      <meta http-equiv="Content-Security-Policy" content="script-src 'none'; connect-src 'none'; object-src 'none'; form-action 'none';"> 
+      <meta charset="UTF-8"> 
+      <meta content="width=device-width, initial-scale=1" name="viewport"> 
+      <meta name="x-apple-disable-message-reformatting"> 
+      <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+      <meta content="telephone=no" name="format-detection"> 
+      <title>Order Newsletter</title> 
+      <!--[if (mso 16)]>
+        <style type="text/css">
+        a {text-decoration: none;}
+        </style>
+        <![endif]--> 
+      <!--[if gte mso 9]><style>sup { font-size: 100% !important; }</style><![endif]--> 
+      <!--[if gte mso 9]>
+    <xml>
+        <o:OfficeDocumentSettings>
+        <o:AllowPNG></o:AllowPNG>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+    </xml>
+    <![endif]--> 
+      <style type="text/css">
+    @media only screen and (max-width:600px) {p, ul li, ol li, a { font-size:14px!important; line-height:150%!important } h1 { font-size:30px!important; text-align:center; line-height:120%!important } h2 { font-size:22px!important; text-align:center; line-height:120%!important } h3 { font-size:20px!important; text-align:center; line-height:120%!important } h1 a { font-size:30px!important } h2 a { font-size:22px!important } h3 a { font-size:20px!important } .es-menu td a { font-size:16px!important } .es-header-body p, .es-header-body ul li, .es-header-body ol li, .es-header-body a { font-size:16px!important } .es-footer-body p, .es-footer-body ul li, .es-footer-body ol li, .es-footer-body a { font-size:14px!important } .es-infoblock p, .es-infoblock ul li, .es-infoblock ol li, .es-infoblock a { font-size:12px!important } *[class="gmail-fix"] { display:none!important } .es-m-txt-c, .es-m-txt-c h1, .es-m-txt-c h2, .es-m-txt-c h3 { text-align:center!important } .es-m-txt-r, .es-m-txt-r h1, .es-m-txt-r h2, .es-m-txt-r h3 { text-align:right!important } .es-m-txt-l, .es-m-txt-l h1, .es-m-txt-l h2, .es-m-txt-l h3 { text-align:left!important } .es-m-txt-r img, .es-m-txt-c img, .es-m-txt-l img { display:inline!important } .es-button-border { display:block!important } a.es-button { font-size:20px!important; display:block!important; border-left-width:0px!important; border-right-width:0px!important } .es-btn-fw { border-width:10px 0px!important; text-align:center!important } .es-adaptive table, .es-btn-fw, .es-btn-fw-brdr, .es-left, .es-right { width:100%!important } .es-content table, .es-header table, .es-footer table, .es-content, .es-footer, .es-header { width:100%!important; max-width:600px!important } .es-adapt-td { display:block!important; width:100%!important } .adapt-img { width:100%!important; height:auto!important } .es-m-p0 { padding:0px!important } .es-m-p0r { padding-right:0px!important } .es-m-p0l { padding-left:0px!important } .es-m-p0t { padding-top:0px!important } .es-m-p0b { padding-bottom:0!important } .es-m-p20b { padding-bottom:20px!important } .es-mobile-hidden, .es-hidden { display:none!important } tr.es-desk-hidden, td.es-desk-hidden, table.es-desk-hidden { display:table-row!important; width:auto!important; overflow:visible!important; float:none!important; max-height:inherit!important; line-height:inherit!important } .es-desk-menu-hidden { display:table-cell!important } table.es-table-not-adapt, .esd-block-html table { width:auto!important } table.es-social { display:inline-block!important } table.es-social td { display:inline-block!important } }
+    #outlook a {
+        padding:0;
+    }
+    .ExternalClass {
+        width:100%;
+    }
+    .ExternalClass,
+    .ExternalClass p,
+    .ExternalClass span,
+    .ExternalClass font,
+    .ExternalClass td,
+    .ExternalClass div {
+        line-height:100%;
+    }
+    .es-button {
+        mso-style-priority:100!important;
+        text-decoration:none!important;
+    }
+    a[x-apple-data-detectors] {
+        color:inherit!important;
+        text-decoration:none!important;
+        font-size:inherit!important;
+        font-family:inherit!important;
+        font-weight:inherit!important;
+        line-height:inherit!important;
+    }
+    .es-desk-hidden {
+        display:none;
+        float:left;
+        overflow:hidden;
+        width:0;
+        max-height:0;
+        line-height:0;
+        mso-hide:all;
+    }
+    td .es-button-border:hover a.es-button-1556804085234 {
+        background:#7dbf44!important;
+        border-color:#7dbf44!important;
+    }
+    td .es-button-border-1556804085253:hover {
+        background:#7dbf44!important;
+    }
+    .es-button-border:hover a.es-button {
+        background:#7dbf44!important;
+        border-color:#7dbf44!important;
+    }
+    .es-button-border:hover {
+        background:#7dbf44!important;
+        border-color:#7dbf44 #7dbf44 #7dbf44 #7dbf44!important;
+    }
+    td .es-button-border:hover a.es-button-1556806949166 {
+        background:#7dbf44!important;
+        border-color:#7dbf44!important;
+    }
+    td .es-button-border-1556806949166:hover {
+        background:#7dbf44!important;
+    }
+    </style> 
+     <body style="width:100%;font-family:arial, 'helvetica neue', helvetica, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0"> 
+      <div class="es-wrapper-color" style="background-color:#F6F6F6"> 
+       <!--[if gte mso 9]>
+                <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
+                    <v:fill type="tile" color="#f6f6f6"></v:fill>
+                </v:background>
+            <![endif]--> 
+       <table class="es-wrapper" width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;padding:0;Margin:0;width:100%;height:100%;background-repeat:repeat;background-position:center top"> 
+        <tbody>
+         <tr style="border-collapse:collapse"> 
+          <td valign="top" style="padding:0;Margin:0"> 
+           <table cellpadding="0" cellspacing="0" class="es-header" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;background-color:transparent;background-repeat:repeat;background-position:center top"> 
+            <tbody>
+             <tr style="border-collapse:collapse"> 
+              <td align="center" style="padding:0;Margin:0"> 
+               <table class="es-header-body" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px"> 
+                <tbody>
+                 <tr style="border-collapse:collapse"> 
+                  <td style="Margin:0;padding-bottom:10px;padding-top:20px;padding-left:20px;padding-right:20px;background-position:center center" align="left"> 
+                   <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:270px" valign="top"><![endif]--> 
+                   <table class="es-left" cellspacing="0" cellpadding="0" align="left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left"> 
+                    <tbody>
+                     <tr style="border-collapse:collapse"> 
+                      <td class="es-m-p20b" align="left" style="padding:0;Margin:0;width:270px"> 
+                       <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+                        <tbody>
+                         <tr style="border-collapse:collapse"> 
+                          <td align="left" style="padding:0;Margin:0;padding-bottom:5px;font-size:0"><a target="_blank" href="https://plant4u.in" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:16px;text-decoration:none;color:#659C35"><img src="https://res.cloudinary.com/plant4u/image/upload/v1597585136/4_zwivhs.png" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" class="adapt-img" width="125"></a></td> 
+                         </tr> 
+                        </tbody>
+                       </table></td> 
+                     </tr> 
+                    </tbody>
+                   </table> 
+                   <!--[if mso]></td><td style="width:20px"></td><td style="width:270px" valign="top"><![endif]--> 
+                   <table class="es-right" cellspacing="0" cellpadding="0" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right"> 
+                    <tbody>
+                     <tr style="border-collapse:collapse"> 
+                      <td align="left" style="padding:0;Margin:0;width:270px"> 
+                       <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+                        <tbody>
+                         <tr style="border-collapse:collapse"> 
+                          <td style="padding:0;Margin:0"> 
+                           <table class="es-menu" width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+                            <tbody>
+                             <tr class="links" style="border-collapse:collapse"> 
+                              <td style="Margin:0;padding-left:5px;padding-right:5px;padding-top:10px;padding-bottom:10px;border:0" width="33.33%" valign="top" bgcolor="transparent" align="center"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:16px;text-decoration:none;display:block;color:#659C35" href="https://plant4u.in/customer/account">Account</a></td> 
+                              <td style="Margin:0;padding-left:5px;padding-right:5px;padding-top:10px;padding-bottom:10px;border:0" width="33.33%" valign="top" bgcolor="transparent" align="center"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:16px;text-decoration:none;display:block;color:#659C35" href="/https://plant4u.in/plant4uspecial">Plant4uSpecial</a></td> 
+                              <td style="Margin:0;padding-left:5px;padding-right:5px;padding-top:10px;padding-bottom:10px;border:0" width="33.33%" valign="top" bgcolor="transparent" align="center"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:16px;text-decoration:none;display:block;color:#659C35" href="https://plant4u.in/customer/contact">Contact</a></td> 
+                             </tr> 
+                            </tbody>
+                           </table></td> 
+                         </tr> 
+                        </tbody>
+                       </table></td> 
+                     </tr> 
+                    </tbody>
+                   </table> 
+                   <!--[if mso]></td></tr></table><![endif]--></td> 
+                 </tr> 
+                </tbody>
+               </table></td> 
+             </tr> 
+            </tbody>
+           </table> 
+           <table cellpadding="0" cellspacing="0" class="es-content" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%"> 
+            <tbody>
+             <tr style="border-collapse:collapse"> 
+              <td align="center" style="padding:0;Margin:0"> 
+               <table bgcolor="#ffffff" class="es-content-body" align="center" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px"> 
+                <tbody>
+                 <tr style="border-collapse:collapse"> 
+                  <td align="left" style="padding:0;Margin:0;background-position:center top"> 
+                   <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+                    <tbody>
+                     <tr style="border-collapse:collapse"> 
+                      <td align="center" valign="top" style="padding:0;Margin:0;width:600px"> 
+                       <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+                        <tbody>
+                         <tr style="border-collapse:collapse"> 
+                          <td align="center" style="padding:0;Margin:0;position:relative"><a target="_blank" href="https://plant4u.in" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#659C35"><img class="adapt-img" src="https://res.cloudinary.com/plant4u/image/upload/v1599285264/thankyouorder_oonj7l.jpg" alt title width="600" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a></td> 
+                         </tr> 
+                        </tbody>
+                       </table></td> 
+                     </tr> 
+                    </tbody>
+                   </table></td> 
+                 </tr> 
+                </tbody>
+               </table></td> 
+             </tr> 
+            </tbody>
+           </table> 
+           <table cellpadding="0" cellspacing="0" class="es-content" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%"> 
+            <tbody>
+             <tr style="border-collapse:collapse"> 
+              <td align="center" style="padding:0;Margin:0"> 
+               <table bgcolor="#ffffff" class="es-content-body" align="center" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px"> 
+                <tbody>
+                 <tr style="border-collapse:collapse"> 
+                  <td align="left" style="padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px;background-position:center top"> 
+                   <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+                    <tbody>
+                     <tr style="border-collapse:collapse"> 
+                      <td align="center" valign="top" style="padding:0;Margin:0;width:560px"> 
+                       <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+                        <tbody>
+                         <tr style="border-collapse:collapse"> 
+                          <td align="center" style="padding:0;Margin:0"><h2 style="Margin:0;line-height:31px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:26px;font-style:normal;font-weight:bold;color:#659C35">Your order is on its way</h2></td> 
+                         </tr> 
+                         <tr style="border-collapse:collapse"> 
+                          <td align="center" style="padding:0;Margin:0;padding-top:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">Rest Assured, your order is placed and should be delivered to you shortly. Delivery of healty and fresh plant is our responsibility</p></td> 
+                         </tr> 
+                         <tr style="border-collapse:collapse"> 
+                          <td align="center" style="Margin:0;padding-left:10px;padding-right:10px;padding-top:20px;padding-bottom:20px"><span class="es-button-border" style="border-style:solid;border-color:#659C35;background:#659C35;border-width:0px;display:inline-block;border-radius:0px;width:auto"><a href="https://plant4u.in/customer/acccount" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:18px;color:#FFFFFF;border-style:solid;border-color:#659C35;border-width:10px 20px;display:inline-block;background:#659C35;border-radius:0px;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center">View order status</a></span></td> 
+                         </tr> 
+                        </tbody>
+                       </table></td> 
+                     </tr> 
+                    </tbody>
+                   </table></td> 
+                 </tr> 
+                 <tr style="border-collapse:collapse"> 
+                  <td align="left" style="Margin:0;padding-bottom:10px;padding-top:20px;padding-left:20px;padding-right:20px;background-position:center top"> 
+                   <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:280px" valign="top"><![endif]--> 
+                   <table class="es-left" cellspacing="0" cellpadding="0" align="left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left"> 
+                    <tbody>
+                     <tr style="border-collapse:collapse"> 
+                      <td class="es-m-p20b" align="left" style="padding:0;Margin:0;width:280px"> 
+                       <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:separate;border-spacing:0px;border-left:1px solid transparent;border-top:1px solid transparent;border-bottom:1px solid transparent;background-color:#EFEFEF;background-position:center top" width="100%" cellspacing="0" cellpadding="0" bgcolor="#efefef"> 
+                        <tbody>
+                         <tr style="border-collapse:collapse"> 
+                          <td align="left" style="Margin:0;padding-bottom:10px;padding-top:20px;padding-left:20px;padding-right:20px"><h4 style="Margin:0;line-height:120%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#659C35">SUMMARY:</h4></td> 
+                         </tr> 
+                         <tr style="border-collapse:collapse"> 
+                          <td align="left" style="padding:0;Margin:0;padding-bottom:20px;padding-left:20px;padding-right:20px"> 
+                           <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:100%" class="cke_show_border" cellspacing="1" cellpadding="1" border="0" align="left"> 
+                            <tbody>
+                             <tr style="border-collapse:collapse"> 
+                              <td style="padding:0;Margin:0;font-size:14px;line-height:21px">Order #:</td> 
+                              <td style="padding:0;Margin:0"><strong><span style="font-size:14px;line-height:21px">`+order._id+`</span></strong></td> 
+                             </tr> 
+                             <tr style="border-collapse:collapse"> 
+                              <td style="padding:0;Margin:0;font-size:14px;line-height:21px">Order Date:</td> 
+                              <td style="padding:0;Margin:0"><strong><span style="font-size:14px;line-height:21px">`+order.orderDate+`</span></strong></td> 
+                             </tr> 
+                             <tr style="border-collapse:collapse"> 
+                              <td style="padding:0;Margin:0;font-size:14px;line-height:21px">Order Total:</td> 
+                              <td style="padding:0;Margin:0"><strong><span style="font-size:14px;line-height:21px">`+order.orderTotal+`</span></strong></td> 
+                             </tr> 
+                            </tbody>
+                           </table><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333"><br></p></td> 
+                         </tr> 
+                        </tbody>
+                       </table></td> 
+                     </tr> 
+                    </tbody>
+                   </table> 
+                   <!--[if mso]></td><td style="width:0px"></td><td style="width:280px" valign="top"><![endif]--> 
+                   <table class="es-right" cellspacing="0" cellpadding="0" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right"> 
+                    <tbody>
+                     <tr style="border-collapse:collapse"> 
+                      <td align="left" style="padding:0;Margin:0;width:280px"> 
+                       <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:separate;border-spacing:0px;border-left:1px solid transparent;border-right:1px solid transparent;border-top:1px solid transparent;border-bottom:1px solid transparent;background-color:#EFEFEF;background-position:center top" width="100%" cellspacing="0" cellpadding="0" bgcolor="#efefef"> 
+                        <tbody>
+                         <tr style="border-collapse:collapse"> 
+                          <td align="left" style="Margin:0;padding-bottom:10px;padding-top:20px;padding-left:20px;padding-right:20px"><h4 style="Margin:0;line-height:120%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#659C35">SHIPPING ADDRESS:</h4></td> 
+                         </tr> 
+                         <tr style="border-collapse:collapse"> 
+                          <td align="left" style="padding:0;Margin:0;padding-bottom:20px;padding-left:20px;padding-right:20px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">`+order.orderAddr1+`</p></td> 
+                         </tr> 
+                        </tbody>
+                       </table></td> 
+                     </tr> 
+                    </tbody>
+                   </table> 
+                   <!--[if mso]></td></tr></table><![endif]--></td> 
+                 </tr> 
+                </tbody>
+               </table></td> 
+             </tr> 
+            </tbody>
+           </table> 
+           <table cellpadding="0" cellspacing="0" class="es-content" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%"> 
+            <tbody>
+             <tr style="border-collapse:collapse"> 
+              <td align="center" style="padding:0;Margin:0"> 
+               <table bgcolor="#ffffff" class="es-content-body" align="center" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px"> 
+                <tbody>
+                `+productlist+`
+                </tbody>
+               </table></td> 
+             </tr> 
+            </tbody>
+           </table> 
+           <table cellpadding="0" cellspacing="0" class="es-content" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%"> 
+            <tbody>
+             <tr style="border-collapse:collapse"> 
+              <td align="center" style="padding:0;Margin:0"> 
+               <table bgcolor="#ffffff" class="es-content-body" align="center" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px"> 
+                <tbody>
+                 <tr style="border-collapse:collapse"> 
+                  <td align="left" style="padding:0;Margin:0;padding-top:15px;padding-left:20px;padding-right:20px;background-position:center top"> 
+                   <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+                    <tbody>
+                     <tr style="border-collapse:collapse"> 
+                      <td align="center" valign="top" style="padding:0;Margin:0;width:560px"> 
+                       <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;border-top:1px solid #CCCCCC;border-bottom:1px solid #CCCCCC;background-position:center top"> 
+                        <tbody>
+                         <tr style="border-collapse:collapse"> 
+                          <td align="left" style="padding:0;Margin:0;padding-top:10px"> 
+                           <table border="0" cellspacing="1" cellpadding="1" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:500px" class="cke_show_border"> 
+                            <tbody>
+                             <tr style="border-collapse:collapse"> 
+                              <td style="padding:0;Margin:0"><h4 style="Margin:0;line-height:200%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#333333">Flat-rate Shipping:</h4></td> 
+                              <td style="padding:0;Margin:0;color:#FF0000"><strong>`+order.orderShipping+`</strong></td> 
+                             </tr> 
+                             <tr style="border-collapse:collapse"> 
+                              <td style="padding:0;Margin:0"><h4 style="Margin:0;line-height:200%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#333333">Discount:</h4></td> 
+                              <td style="padding:0;Margin:0;color:#FF0000"><strong>0.00</strong></td> 
+                             </tr> 
+                             <tr style="border-collapse:collapse"> 
+                              <td style="padding:0;Margin:0"><h4 style="Margin:0;line-height:200%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#333333">Order Total:</h4></td> 
+                              <td style="padding:0;Margin:0;color:#659C35"><strong>`+order.orderTotal+`</strong></td> 
+                             </tr> 
+                            </tbody>
+                           </table></td> 
+                         </tr> 
+                        </tbody>
+                       </table></td> 
+                     </tr> 
+                    </tbody>
+                   </table></td> 
+                 </tr> 
+                 <tr style="border-collapse:collapse"> 
+                  <td align="left" style="Margin:0;padding-left:20px;padding-right:20px;padding-top:30px;padding-bottom:30px;background-position:left top"> 
+                   <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:270px" valign="top"><![endif]--> 
+                   <table class="es-left" cellspacing="0" cellpadding="0" align="left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left"> 
+                    <tbody>
+                     <tr style="border-collapse:collapse"> 
+                      <td class="es-m-p20b" align="left" style="padding:0;Margin:0;width:270px"> 
+                       <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-position:center center"> 
+                        <tbody>
+                         <tr style="border-collapse:collapse"> 
+                          <td align="left" style="padding:0;Margin:0"><h4 style="Margin:0;line-height:120%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#659C35">Contact Us:</h4></td> 
+                         </tr> 
+                         <tr style="border-collapse:collapse"> 
+                          <td align="left" style="padding:0;Margin:0;padding-top:10px;padding-bottom:15px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">We deliver healthy plant at your doorstep.</p></td> 
+                         </tr> 
+                         <tr style="border-collapse:collapse"> 
+                          <td style="padding:0;Margin:0"> 
+                           <table class="es-table-not-adapt" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+                            <tbody>
+                             <tr style="border-collapse:collapse"> 
+                              <td valign="top" align="left" style="padding:0;Margin:0;padding-top:5px;padding-bottom:5px;padding-right:10px;font-size:0"><img src="https://tlr.stripocdn.email/content/guids/CABINET_45fbd8c6c971a605c8e5debe242aebf1/images/30981556869899567.png" alt width="16" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></td> 
+                              <td align="left" style="padding:0;Margin:0"> 
+                               <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+                                <tbody>
+                                 <tr style="border-collapse:collapse"> 
+                                  <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333"><a target="_blank" href="mailto:help@mail.com" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#333333">plant4uteam@mail.com</a></p></td> 
+                                 </tr> 
+                                </tbody>
+                               </table></td> 
+                             </tr> 
+                             <tr style="border-collapse:collapse"> 
+                              <td valign="top" align="left" style="padding:0;Margin:0;padding-top:5px;padding-bottom:5px;padding-right:10px;font-size:0"><img src="https://tlr.stripocdn.email/content/guids/CABINET_45fbd8c6c971a605c8e5debe242aebf1/images/58031556869792224.png" alt width="16" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></td> 
+                              <td align="left" style="padding:0;Margin:0"> 
+                               <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+                                <tbody>
+                                 <tr style="border-collapse:collapse"> 
+                                  <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333"><a target="_blank" href="tel:+14155555553" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#333333">+14155555553</a></p></td> 
+                                 </tr> 
+                                </tbody>
+                               </table></td> 
+                             </tr> 
+                             <tr style="border-collapse:collapse"> 
+                              <td valign="top" align="left" style="padding:0;Margin:0;padding-top:5px;padding-bottom:5px;padding-right:10px;font-size:0"><img src="https://tlr.stripocdn.email/content/guids/CABINET_45fbd8c6c971a605c8e5debe242aebf1/images/78111556870146007.png" alt width="16" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></td> 
+                              <td align="left" style="padding:0;Margin:0"> 
+                               <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+                                <tbody>
+                                 <tr style="border-collapse:collapse"> 
+                                  <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">Delhi</p></td> 
+                                 </tr> 
+                                </tbody>
+                               </table></td> 
+                             </tr> 
+                            </tbody>
+                           </table></td> 
+                         </tr> 
+                         <tr style="border-collapse:collapse"> 
+                          <td align="left" style="padding:0;Margin:0;padding-top:15px"><span class="es-button-border" style="border-style:solid;border-color:#659C35;background:#659C35;border-width:0px;display:inline-block;border-radius:0px;width:auto"><a href="https://plant4u.in" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:18px;color:#FFFFFF;border-style:solid;border-color:#659C35;border-width:10px 20px 10px 20px;display:inline-block;background:#659C35;border-radius:0px;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center">GET IT NOW</a></span></td> 
+                         </tr> 
+                        </tbody>
+                       </table></td> 
+                     </tr> 
+                    </tbody>
+                   </table> 
+                   <!--[if mso]></td><td style="width:20px"></td><td style="width:270px" valign="top"><![endif]--> 
+                   <table class="es-right" cellspacing="0" cellpadding="0" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right"> 
+                    <tbody>
+                     <tr style="border-collapse:collapse"> 
+                      <td align="left" style="padding:0;Margin:0;width:270px"> 
+                       <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+                        <tbody>
+                         <tr style="border-collapse:collapse"> 
+                          <td align="center" style="padding:0;Margin:0;font-size:0"><img class="adapt-img" src="https://tlr.stripocdn.email/content/guids/CABINET_45fbd8c6c971a605c8e5debe242aebf1/images/52821556874243897.jpg" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="270"></td> 
+                         </tr> 
+                        </tbody>
+                       </table></td> 
+                     </tr> 
+                    </tbody>
+                   </table> 
+                   <!--[if mso]></td></tr></table><![endif]--></td> 
+                 </tr> 
+                </tbody>
+               </table></td> 
+             </tr> 
+            </tbody>
+           </table> 
+           <table cellpadding="0" cellspacing="0" class="es-footer" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;background-color:transparent;background-repeat:repeat;background-position:center top"> 
+            <tbody>
+             <tr style="border-collapse:collapse"> 
+              <td align="center" style="padding:0;Margin:0"> 
+               <table class="es-footer-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#333333;width:600px" cellspacing="0" cellpadding="0" bgcolor="#333333" align="center"> 
+                <tbody>
+                 <tr style="border-collapse:collapse"> 
+                  <td style="padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px;background-position:center center;background-color:#659C35" bgcolor="#659C35" align="left"> 
+                   <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+                    <tbody>
+                     <tr style="border-collapse:collapse"> 
+                      <td valign="top" align="center" style="padding:0;Margin:0;width:560px"> 
+                       <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+                        <tbody>
+                         <tr style="border-collapse:collapse"> 
+                          <td style="padding:0;Margin:0"> 
+                           <table class="es-menu" width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
+                            <tbody>
+                             <tr class="links" style="border-collapse:collapse"> 
+                              <td style="Margin:0;padding-left:5px;padding-right:5px;padding-top:0px;padding-bottom:0px;border:0" width="33.33%" valign="top" bgcolor="transparent" align="center"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;display:block;color:#FFFFFF" href="https://plant4u.in/customer/account">Account</a></td> 
+                              <td style="Margin:0;padding-left:5px;padding-right:5px;padding-top:0px;padding-bottom:0px;border:0;border-left:1px solid #FFFFFF" width="33.33%" valign="top" bgcolor="transparent" align="center"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;display:block;color:#FFFFFF" href="https://plant4u.in/plant4uspecial">Plant4uSpecial</a></td> 
+                              <td style="Margin:0;padding-left:5px;padding-right:5px;padding-top:0px;padding-bottom:0px;border:0;border-left:1px solid #FFFFFF" width="33.33%" valign="top" bgcolor="transparent" align="center"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;display:block;color:#FFFFFF" href="https://plant4u.in/customer/contact">Contact</a></td> 
+                             </tr> 
+                            </tbody>
+                           </table></td> 
+                         </tr> 
+                        </tbody>
+                       </table></td> 
+                     </tr> 
+                    </tbody>
+                   </table></td> 
+                 </tr> 
+                </tbody>
+               </table></td> 
+             </tr> 
+            </tbody>
+           </table> 
+           </td> 
+         </tr> 
+        </tbody>
+       </table> 
+      </div>  
+     </body>
+    </html>
+    `;
+    return html;
+}
 //This is how we take checkout action
 router.post('/checkout_action', async (req, res, next) => {
     const db = req.app.db;
@@ -565,595 +1082,95 @@ router.get('/payment/:orderId', async (req, res, next) => {
     if(config.orderHook){
         await hooker(order);
     };
-    
-//     var productlist = ``;
-  
-
-//     for(let a in order.orderProducts){
-//     productlist += `<tr style="border-collapse:collapse"> 
-//     <td align="left" style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px;background-position:center top"> 
-//      <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:154px" valign="top"><![endif]--> 
-//      <table cellpadding="0" cellspacing="0" class="es-left" align="left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left"> 
-//       <tbody>
-//        <tr style="border-collapse:collapse"> 
-//         <td class="es-m-p20b" align="left" style="padding:0;Margin:0;width:154px"> 
-//          <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-position:left top"> 
-//           <tbody>
-//            <tr style="border-collapse:collapse"> 
-//             <td align="center" style="padding:0;Margin:0;font-size:0"><a target="_blank" href="`+order.orderProducts[a].productImage[0].path+`" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#659C35"><img class="adapt-img" src="`+order.orderProducts[a].productImage[0].path+`" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="154"></a></td> 
-//            </tr> 
-//           </tbody>
-//          </table></td> 
-//        </tr> 
-//       </tbody>
-//      </table> 
-//      <!--[if mso]></td><td style="width:20px"></td><td style="width:386px" valign="top"><![endif]--> 
-//      <table cellpadding="0" cellspacing="0" class="es-right" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right"> 
-//       <tbody>
-//        <tr style="border-collapse:collapse"> 
-//         <td align="left" style="padding:0;Margin:0;width:386px"> 
-//          <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-//           <tbody>
-//            <tr style="border-collapse:collapse"> 
-//             <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong>`+order.orderProducts[a].title+`</strong></h3></td> 
-//            </tr> 
-//            <tr style="border-collapse:collapse"> 
-//             <td align="left" style="padding:0;Margin:0;padding-top:5px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">Love from </p><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333"><strong>Plant4u</strong></p></td> 
-//            </tr> 
-//            <tr style="border-collapse:collapse"> 
-//             <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong><span style="color:#000000">Qty:</span>`+order.orderProducts[a].quantity+`;</strong></h3></td> 
-//            </tr> 
-//            <tr style="border-collapse:collapse"> 
-//             <td align="left" class="es-m-txt-l" style="padding:0;Margin:0;padding-top:10px"><h3 style="Margin:0;line-height:23px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:19px;font-style:normal;font-weight:normal;color:#659C35"><strong><span style="color:#000000">Price:</span>&nbsp;`+order.orderProducts[a].totalItemPrice+`</strong></h3></td> 
-//            </tr> 
-//           </tbody>
-//          </table></td> 
-//        </tr> 
-//       </tbody>
-//      </table> 
-//      <!--[if mso]></td></tr></table><![endif]--></td> 
-//    </tr>`;
-// }
-//     let paymentView = `${config.themeViews}payment-complete`;
-//     if(order.orderPaymentGateway === 'Blockonomics') paymentView = `${config.themeViews}payment-complete-blockonomics`;
-
-//     const html=`<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-//     <html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" style="width:100%;font-family:arial, 'helvetica neue', helvetica, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0">
-//      <head>
-//       <meta http-equiv="Content-Security-Policy" content="script-src 'none'; connect-src 'none'; object-src 'none'; form-action 'none';"> 
-//       <meta charset="UTF-8"> 
-//       <meta content="width=device-width, initial-scale=1" name="viewport"> 
-//       <meta name="x-apple-disable-message-reformatting"> 
-//       <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
-//       <meta content="telephone=no" name="format-detection"> 
-//       <title>Order Newsletter</title> 
-//       <!--[if (mso 16)]>
-//         <style type="text/css">
-//         a {text-decoration: none;}
-//         </style>
-//         <![endif]--> 
-//       <!--[if gte mso 9]><style>sup { font-size: 100% !important; }</style><![endif]--> 
-//       <!--[if gte mso 9]>
-//     <xml>
-//         <o:OfficeDocumentSettings>
-//         <o:AllowPNG></o:AllowPNG>
-//         <o:PixelsPerInch>96</o:PixelsPerInch>
-//         </o:OfficeDocumentSettings>
-//     </xml>
-//     <![endif]--> 
-//       <style type="text/css">
-//     @media only screen and (max-width:600px) {p, ul li, ol li, a { font-size:14px!important; line-height:150%!important } h1 { font-size:30px!important; text-align:center; line-height:120%!important } h2 { font-size:22px!important; text-align:center; line-height:120%!important } h3 { font-size:20px!important; text-align:center; line-height:120%!important } h1 a { font-size:30px!important } h2 a { font-size:22px!important } h3 a { font-size:20px!important } .es-menu td a { font-size:16px!important } .es-header-body p, .es-header-body ul li, .es-header-body ol li, .es-header-body a { font-size:16px!important } .es-footer-body p, .es-footer-body ul li, .es-footer-body ol li, .es-footer-body a { font-size:14px!important } .es-infoblock p, .es-infoblock ul li, .es-infoblock ol li, .es-infoblock a { font-size:12px!important } *[class="gmail-fix"] { display:none!important } .es-m-txt-c, .es-m-txt-c h1, .es-m-txt-c h2, .es-m-txt-c h3 { text-align:center!important } .es-m-txt-r, .es-m-txt-r h1, .es-m-txt-r h2, .es-m-txt-r h3 { text-align:right!important } .es-m-txt-l, .es-m-txt-l h1, .es-m-txt-l h2, .es-m-txt-l h3 { text-align:left!important } .es-m-txt-r img, .es-m-txt-c img, .es-m-txt-l img { display:inline!important } .es-button-border { display:block!important } a.es-button { font-size:20px!important; display:block!important; border-left-width:0px!important; border-right-width:0px!important } .es-btn-fw { border-width:10px 0px!important; text-align:center!important } .es-adaptive table, .es-btn-fw, .es-btn-fw-brdr, .es-left, .es-right { width:100%!important } .es-content table, .es-header table, .es-footer table, .es-content, .es-footer, .es-header { width:100%!important; max-width:600px!important } .es-adapt-td { display:block!important; width:100%!important } .adapt-img { width:100%!important; height:auto!important } .es-m-p0 { padding:0px!important } .es-m-p0r { padding-right:0px!important } .es-m-p0l { padding-left:0px!important } .es-m-p0t { padding-top:0px!important } .es-m-p0b { padding-bottom:0!important } .es-m-p20b { padding-bottom:20px!important } .es-mobile-hidden, .es-hidden { display:none!important } tr.es-desk-hidden, td.es-desk-hidden, table.es-desk-hidden { display:table-row!important; width:auto!important; overflow:visible!important; float:none!important; max-height:inherit!important; line-height:inherit!important } .es-desk-menu-hidden { display:table-cell!important } table.es-table-not-adapt, .esd-block-html table { width:auto!important } table.es-social { display:inline-block!important } table.es-social td { display:inline-block!important } }
-//     #outlook a {
-//         padding:0;
-//     }
-//     .ExternalClass {
-//         width:100%;
-//     }
-//     .ExternalClass,
-//     .ExternalClass p,
-//     .ExternalClass span,
-//     .ExternalClass font,
-//     .ExternalClass td,
-//     .ExternalClass div {
-//         line-height:100%;
-//     }
-//     .es-button {
-//         mso-style-priority:100!important;
-//         text-decoration:none!important;
-//     }
-//     a[x-apple-data-detectors] {
-//         color:inherit!important;
-//         text-decoration:none!important;
-//         font-size:inherit!important;
-//         font-family:inherit!important;
-//         font-weight:inherit!important;
-//         line-height:inherit!important;
-//     }
-//     .es-desk-hidden {
-//         display:none;
-//         float:left;
-//         overflow:hidden;
-//         width:0;
-//         max-height:0;
-//         line-height:0;
-//         mso-hide:all;
-//     }
-//     td .es-button-border:hover a.es-button-1556804085234 {
-//         background:#7dbf44!important;
-//         border-color:#7dbf44!important;
-//     }
-//     td .es-button-border-1556804085253:hover {
-//         background:#7dbf44!important;
-//     }
-//     .es-button-border:hover a.es-button {
-//         background:#7dbf44!important;
-//         border-color:#7dbf44!important;
-//     }
-//     .es-button-border:hover {
-//         background:#7dbf44!important;
-//         border-color:#7dbf44 #7dbf44 #7dbf44 #7dbf44!important;
-//     }
-//     td .es-button-border:hover a.es-button-1556806949166 {
-//         background:#7dbf44!important;
-//         border-color:#7dbf44!important;
-//     }
-//     td .es-button-border-1556806949166:hover {
-//         background:#7dbf44!important;
-//     }
-//     </style> 
-//      <body style="width:100%;font-family:arial, 'helvetica neue', helvetica, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0"> 
-//       <div class="es-wrapper-color" style="background-color:#F6F6F6"> 
-//        <!--[if gte mso 9]>
-//                 <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
-//                     <v:fill type="tile" color="#f6f6f6"></v:fill>
-//                 </v:background>
-//             <![endif]--> 
-//        <table class="es-wrapper" width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;padding:0;Margin:0;width:100%;height:100%;background-repeat:repeat;background-position:center top"> 
-//         <tbody>
-//          <tr style="border-collapse:collapse"> 
-//           <td valign="top" style="padding:0;Margin:0"> 
-//            <table cellpadding="0" cellspacing="0" class="es-header" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;background-color:transparent;background-repeat:repeat;background-position:center top"> 
-//             <tbody>
-//              <tr style="border-collapse:collapse"> 
-//               <td align="center" style="padding:0;Margin:0"> 
-//                <table class="es-header-body" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px"> 
-//                 <tbody>
-//                  <tr style="border-collapse:collapse"> 
-//                   <td style="Margin:0;padding-bottom:10px;padding-top:20px;padding-left:20px;padding-right:20px;background-position:center center" align="left"> 
-//                    <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:270px" valign="top"><![endif]--> 
-//                    <table class="es-left" cellspacing="0" cellpadding="0" align="left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left"> 
-//                     <tbody>
-//                      <tr style="border-collapse:collapse"> 
-//                       <td class="es-m-p20b" align="left" style="padding:0;Margin:0;width:270px"> 
-//                        <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-//                         <tbody>
-//                          <tr style="border-collapse:collapse"> 
-//                           <td align="left" style="padding:0;Margin:0;padding-bottom:5px;font-size:0"><a target="_blank" href="https://plant4u.in" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:16px;text-decoration:none;color:#659C35"><img src="https://res.cloudinary.com/plant4u/image/upload/v1597585136/4_zwivhs.png" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" class="adapt-img" width="125"></a></td> 
-//                          </tr> 
-//                         </tbody>
-//                        </table></td> 
-//                      </tr> 
-//                     </tbody>
-//                    </table> 
-//                    <!--[if mso]></td><td style="width:20px"></td><td style="width:270px" valign="top"><![endif]--> 
-//                    <table class="es-right" cellspacing="0" cellpadding="0" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right"> 
-//                     <tbody>
-//                      <tr style="border-collapse:collapse"> 
-//                       <td align="left" style="padding:0;Margin:0;width:270px"> 
-//                        <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-//                         <tbody>
-//                          <tr style="border-collapse:collapse"> 
-//                           <td style="padding:0;Margin:0"> 
-//                            <table class="es-menu" width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-//                             <tbody>
-//                              <tr class="links" style="border-collapse:collapse"> 
-//                               <td style="Margin:0;padding-left:5px;padding-right:5px;padding-top:10px;padding-bottom:10px;border:0" width="33.33%" valign="top" bgcolor="transparent" align="center"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:16px;text-decoration:none;display:block;color:#659C35" href="https://plant4u.in/customer/account">Account</a></td> 
-//                               <td style="Margin:0;padding-left:5px;padding-right:5px;padding-top:10px;padding-bottom:10px;border:0" width="33.33%" valign="top" bgcolor="transparent" align="center"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:16px;text-decoration:none;display:block;color:#659C35" href="/https://plant4u.in/plant4uspecial">Plant4uSpecial</a></td> 
-//                               <td style="Margin:0;padding-left:5px;padding-right:5px;padding-top:10px;padding-bottom:10px;border:0" width="33.33%" valign="top" bgcolor="transparent" align="center"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:16px;text-decoration:none;display:block;color:#659C35" href="https://plant4u.in/customer/contact">Contact</a></td> 
-//                              </tr> 
-//                             </tbody>
-//                            </table></td> 
-//                          </tr> 
-//                         </tbody>
-//                        </table></td> 
-//                      </tr> 
-//                     </tbody>
-//                    </table> 
-//                    <!--[if mso]></td></tr></table><![endif]--></td> 
-//                  </tr> 
-//                 </tbody>
-//                </table></td> 
-//              </tr> 
-//             </tbody>
-//            </table> 
-//            <table cellpadding="0" cellspacing="0" class="es-content" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%"> 
-//             <tbody>
-//              <tr style="border-collapse:collapse"> 
-//               <td align="center" style="padding:0;Margin:0"> 
-//                <table bgcolor="#ffffff" class="es-content-body" align="center" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px"> 
-//                 <tbody>
-//                  <tr style="border-collapse:collapse"> 
-//                   <td align="left" style="padding:0;Margin:0;background-position:center top"> 
-//                    <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-//                     <tbody>
-//                      <tr style="border-collapse:collapse"> 
-//                       <td align="center" valign="top" style="padding:0;Margin:0;width:600px"> 
-//                        <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-//                         <tbody>
-//                          <tr style="border-collapse:collapse"> 
-//                           <td align="center" style="padding:0;Margin:0;position:relative"><a target="_blank" href="https://plant4u.in" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#659C35"><img class="adapt-img" src="https://res.cloudinary.com/plant4u/image/upload/v1599285264/thankyouorder_oonj7l.jpg" alt title width="600" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></a></td> 
-//                          </tr> 
-//                         </tbody>
-//                        </table></td> 
-//                      </tr> 
-//                     </tbody>
-//                    </table></td> 
-//                  </tr> 
-//                 </tbody>
-//                </table></td> 
-//              </tr> 
-//             </tbody>
-//            </table> 
-//            <table cellpadding="0" cellspacing="0" class="es-content" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%"> 
-//             <tbody>
-//              <tr style="border-collapse:collapse"> 
-//               <td align="center" style="padding:0;Margin:0"> 
-//                <table bgcolor="#ffffff" class="es-content-body" align="center" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px"> 
-//                 <tbody>
-//                  <tr style="border-collapse:collapse"> 
-//                   <td align="left" style="padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px;background-position:center top"> 
-//                    <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-//                     <tbody>
-//                      <tr style="border-collapse:collapse"> 
-//                       <td align="center" valign="top" style="padding:0;Margin:0;width:560px"> 
-//                        <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-//                         <tbody>
-//                          <tr style="border-collapse:collapse"> 
-//                           <td align="center" style="padding:0;Margin:0"><h2 style="Margin:0;line-height:31px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:26px;font-style:normal;font-weight:bold;color:#659C35">Your order is on its way</h2></td> 
-//                          </tr> 
-//                          <tr style="border-collapse:collapse"> 
-//                           <td align="center" style="padding:0;Margin:0;padding-top:10px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">Rest Assured, your order is placed and should be delivered to you shortly. Delivery of healty and fresh plant is our responsibility</p></td> 
-//                          </tr> 
-//                          <tr style="border-collapse:collapse"> 
-//                           <td align="center" style="Margin:0;padding-left:10px;padding-right:10px;padding-top:20px;padding-bottom:20px"><span class="es-button-border" style="border-style:solid;border-color:#659C35;background:#659C35;border-width:0px;display:inline-block;border-radius:0px;width:auto"><a href="https://plant4u.in/customer/acccount" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:18px;color:#FFFFFF;border-style:solid;border-color:#659C35;border-width:10px 20px;display:inline-block;background:#659C35;border-radius:0px;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center">View order status</a></span></td> 
-//                          </tr> 
-//                         </tbody>
-//                        </table></td> 
-//                      </tr> 
-//                     </tbody>
-//                    </table></td> 
-//                  </tr> 
-//                  <tr style="border-collapse:collapse"> 
-//                   <td align="left" style="Margin:0;padding-bottom:10px;padding-top:20px;padding-left:20px;padding-right:20px;background-position:center top"> 
-//                    <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:280px" valign="top"><![endif]--> 
-//                    <table class="es-left" cellspacing="0" cellpadding="0" align="left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left"> 
-//                     <tbody>
-//                      <tr style="border-collapse:collapse"> 
-//                       <td class="es-m-p20b" align="left" style="padding:0;Margin:0;width:280px"> 
-//                        <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:separate;border-spacing:0px;border-left:1px solid transparent;border-top:1px solid transparent;border-bottom:1px solid transparent;background-color:#EFEFEF;background-position:center top" width="100%" cellspacing="0" cellpadding="0" bgcolor="#efefef"> 
-//                         <tbody>
-//                          <tr style="border-collapse:collapse"> 
-//                           <td align="left" style="Margin:0;padding-bottom:10px;padding-top:20px;padding-left:20px;padding-right:20px"><h4 style="Margin:0;line-height:120%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#659C35">SUMMARY:</h4></td> 
-//                          </tr> 
-//                          <tr style="border-collapse:collapse"> 
-//                           <td align="left" style="padding:0;Margin:0;padding-bottom:20px;padding-left:20px;padding-right:20px"> 
-//                            <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:100%" class="cke_show_border" cellspacing="1" cellpadding="1" border="0" align="left"> 
-//                             <tbody>
-//                              <tr style="border-collapse:collapse"> 
-//                               <td style="padding:0;Margin:0;font-size:14px;line-height:21px">Order #:</td> 
-//                               <td style="padding:0;Margin:0"><strong><span style="font-size:14px;line-height:21px">`+order._id+`</span></strong></td> 
-//                              </tr> 
-//                              <tr style="border-collapse:collapse"> 
-//                               <td style="padding:0;Margin:0;font-size:14px;line-height:21px">Order Date:</td> 
-//                               <td style="padding:0;Margin:0"><strong><span style="font-size:14px;line-height:21px">`+order.orderDate+`</span></strong></td> 
-//                              </tr> 
-//                              <tr style="border-collapse:collapse"> 
-//                               <td style="padding:0;Margin:0;font-size:14px;line-height:21px">Order Total:</td> 
-//                               <td style="padding:0;Margin:0"><strong><span style="font-size:14px;line-height:21px">`+order.orderTotal+`</span></strong></td> 
-//                              </tr> 
-//                             </tbody>
-//                            </table><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333"><br></p></td> 
-//                          </tr> 
-//                         </tbody>
-//                        </table></td> 
-//                      </tr> 
-//                     </tbody>
-//                    </table> 
-//                    <!--[if mso]></td><td style="width:0px"></td><td style="width:280px" valign="top"><![endif]--> 
-//                    <table class="es-right" cellspacing="0" cellpadding="0" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right"> 
-//                     <tbody>
-//                      <tr style="border-collapse:collapse"> 
-//                       <td align="left" style="padding:0;Margin:0;width:280px"> 
-//                        <table style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:separate;border-spacing:0px;border-left:1px solid transparent;border-right:1px solid transparent;border-top:1px solid transparent;border-bottom:1px solid transparent;background-color:#EFEFEF;background-position:center top" width="100%" cellspacing="0" cellpadding="0" bgcolor="#efefef"> 
-//                         <tbody>
-//                          <tr style="border-collapse:collapse"> 
-//                           <td align="left" style="Margin:0;padding-bottom:10px;padding-top:20px;padding-left:20px;padding-right:20px"><h4 style="Margin:0;line-height:120%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#659C35">SHIPPING ADDRESS:</h4></td> 
-//                          </tr> 
-//                          <tr style="border-collapse:collapse"> 
-//                           <td align="left" style="padding:0;Margin:0;padding-bottom:20px;padding-left:20px;padding-right:20px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">`+order.orderAddr1+`</p></td> 
-//                          </tr> 
-//                         </tbody>
-//                        </table></td> 
-//                      </tr> 
-//                     </tbody>
-//                    </table> 
-//                    <!--[if mso]></td></tr></table><![endif]--></td> 
-//                  </tr> 
-//                 </tbody>
-//                </table></td> 
-//              </tr> 
-//             </tbody>
-//            </table> 
-//            <table cellpadding="0" cellspacing="0" class="es-content" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%"> 
-//             <tbody>
-//              <tr style="border-collapse:collapse"> 
-//               <td align="center" style="padding:0;Margin:0"> 
-//                <table bgcolor="#ffffff" class="es-content-body" align="center" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px"> 
-//                 <tbody>
-//                 `+productlist+`
-//                 </tbody>
-//                </table></td> 
-//              </tr> 
-//             </tbody>
-//            </table> 
-//            <table cellpadding="0" cellspacing="0" class="es-content" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%"> 
-//             <tbody>
-//              <tr style="border-collapse:collapse"> 
-//               <td align="center" style="padding:0;Margin:0"> 
-//                <table bgcolor="#ffffff" class="es-content-body" align="center" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px"> 
-//                 <tbody>
-//                  <tr style="border-collapse:collapse"> 
-//                   <td align="left" style="padding:0;Margin:0;padding-top:15px;padding-left:20px;padding-right:20px;background-position:center top"> 
-//                    <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-//                     <tbody>
-//                      <tr style="border-collapse:collapse"> 
-//                       <td align="center" valign="top" style="padding:0;Margin:0;width:560px"> 
-//                        <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;border-top:1px solid #CCCCCC;border-bottom:1px solid #CCCCCC;background-position:center top"> 
-//                         <tbody>
-//                          <tr style="border-collapse:collapse"> 
-//                           <td align="left" style="padding:0;Margin:0;padding-top:10px"> 
-//                            <table border="0" cellspacing="1" cellpadding="1" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;width:500px" class="cke_show_border"> 
-//                             <tbody>
-//                              <tr style="border-collapse:collapse"> 
-//                               <td style="padding:0;Margin:0"><h4 style="Margin:0;line-height:200%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#333333">Flat-rate Shipping:</h4></td> 
-//                               <td style="padding:0;Margin:0;color:#FF0000"><strong>`+order.orderShipping+`</strong></td> 
-//                              </tr> 
-//                              <tr style="border-collapse:collapse"> 
-//                               <td style="padding:0;Margin:0"><h4 style="Margin:0;line-height:200%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#333333">Discount:</h4></td> 
-//                               <td style="padding:0;Margin:0;color:#FF0000"><strong>0.00</strong></td> 
-//                              </tr> 
-//                              <tr style="border-collapse:collapse"> 
-//                               <td style="padding:0;Margin:0"><h4 style="Margin:0;line-height:200%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#333333">Order Total:</h4></td> 
-//                               <td style="padding:0;Margin:0;color:#659C35"><strong>`+order.orderTotal+`</strong></td> 
-//                              </tr> 
-//                             </tbody>
-//                            </table></td> 
-//                          </tr> 
-//                         </tbody>
-//                        </table></td> 
-//                      </tr> 
-//                     </tbody>
-//                    </table></td> 
-//                  </tr> 
-//                  <tr style="border-collapse:collapse"> 
-//                   <td align="left" style="Margin:0;padding-left:20px;padding-right:20px;padding-top:30px;padding-bottom:30px;background-position:left top"> 
-//                    <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:270px" valign="top"><![endif]--> 
-//                    <table class="es-left" cellspacing="0" cellpadding="0" align="left" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:left"> 
-//                     <tbody>
-//                      <tr style="border-collapse:collapse"> 
-//                       <td class="es-m-p20b" align="left" style="padding:0;Margin:0;width:270px"> 
-//                        <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-position:center center"> 
-//                         <tbody>
-//                          <tr style="border-collapse:collapse"> 
-//                           <td align="left" style="padding:0;Margin:0"><h4 style="Margin:0;line-height:120%;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;color:#659C35">Contact Us:</h4></td> 
-//                          </tr> 
-//                          <tr style="border-collapse:collapse"> 
-//                           <td align="left" style="padding:0;Margin:0;padding-top:10px;padding-bottom:15px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">We deliver healthy plant at your doorstep.</p></td> 
-//                          </tr> 
-//                          <tr style="border-collapse:collapse"> 
-//                           <td style="padding:0;Margin:0"> 
-//                            <table class="es-table-not-adapt" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-//                             <tbody>
-//                              <tr style="border-collapse:collapse"> 
-//                               <td valign="top" align="left" style="padding:0;Margin:0;padding-top:5px;padding-bottom:5px;padding-right:10px;font-size:0"><img src="https://tlr.stripocdn.email/content/guids/CABINET_45fbd8c6c971a605c8e5debe242aebf1/images/30981556869899567.png" alt width="16" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></td> 
-//                               <td align="left" style="padding:0;Margin:0"> 
-//                                <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-//                                 <tbody>
-//                                  <tr style="border-collapse:collapse"> 
-//                                   <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333"><a target="_blank" href="mailto:help@mail.com" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#333333">plant4uteam@mail.com</a></p></td> 
-//                                  </tr> 
-//                                 </tbody>
-//                                </table></td> 
-//                              </tr> 
-//                              <tr style="border-collapse:collapse"> 
-//                               <td valign="top" align="left" style="padding:0;Margin:0;padding-top:5px;padding-bottom:5px;padding-right:10px;font-size:0"><img src="https://tlr.stripocdn.email/content/guids/CABINET_45fbd8c6c971a605c8e5debe242aebf1/images/58031556869792224.png" alt width="16" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></td> 
-//                               <td align="left" style="padding:0;Margin:0"> 
-//                                <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-//                                 <tbody>
-//                                  <tr style="border-collapse:collapse"> 
-//                                   <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333"><a target="_blank" href="tel:+14155555553" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;color:#333333">+14155555553</a></p></td> 
-//                                  </tr> 
-//                                 </tbody>
-//                                </table></td> 
-//                              </tr> 
-//                              <tr style="border-collapse:collapse"> 
-//                               <td valign="top" align="left" style="padding:0;Margin:0;padding-top:5px;padding-bottom:5px;padding-right:10px;font-size:0"><img src="https://tlr.stripocdn.email/content/guids/CABINET_45fbd8c6c971a605c8e5debe242aebf1/images/78111556870146007.png" alt width="16" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic"></td> 
-//                               <td align="left" style="padding:0;Margin:0"> 
-//                                <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-//                                 <tbody>
-//                                  <tr style="border-collapse:collapse"> 
-//                                   <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333">Delhi</p></td> 
-//                                  </tr> 
-//                                 </tbody>
-//                                </table></td> 
-//                              </tr> 
-//                             </tbody>
-//                            </table></td> 
-//                          </tr> 
-//                          <tr style="border-collapse:collapse"> 
-//                           <td align="left" style="padding:0;Margin:0;padding-top:15px"><span class="es-button-border" style="border-style:solid;border-color:#659C35;background:#659C35;border-width:0px;display:inline-block;border-radius:0px;width:auto"><a href="https://plant4u.in" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:18px;color:#FFFFFF;border-style:solid;border-color:#659C35;border-width:10px 20px 10px 20px;display:inline-block;background:#659C35;border-radius:0px;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center">GET IT NOW</a></span></td> 
-//                          </tr> 
-//                         </tbody>
-//                        </table></td> 
-//                      </tr> 
-//                     </tbody>
-//                    </table> 
-//                    <!--[if mso]></td><td style="width:20px"></td><td style="width:270px" valign="top"><![endif]--> 
-//                    <table class="es-right" cellspacing="0" cellpadding="0" align="right" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;float:right"> 
-//                     <tbody>
-//                      <tr style="border-collapse:collapse"> 
-//                       <td align="left" style="padding:0;Margin:0;width:270px"> 
-//                        <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-//                         <tbody>
-//                          <tr style="border-collapse:collapse"> 
-//                           <td align="center" style="padding:0;Margin:0;font-size:0"><img class="adapt-img" src="https://tlr.stripocdn.email/content/guids/CABINET_45fbd8c6c971a605c8e5debe242aebf1/images/52821556874243897.jpg" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic" width="270"></td> 
-//                          </tr> 
-//                         </tbody>
-//                        </table></td> 
-//                      </tr> 
-//                     </tbody>
-//                    </table> 
-//                    <!--[if mso]></td></tr></table><![endif]--></td> 
-//                  </tr> 
-//                 </tbody>
-//                </table></td> 
-//              </tr> 
-//             </tbody>
-//            </table> 
-//            <table cellpadding="0" cellspacing="0" class="es-footer" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%;background-color:transparent;background-repeat:repeat;background-position:center top"> 
-//             <tbody>
-//              <tr style="border-collapse:collapse"> 
-//               <td align="center" style="padding:0;Margin:0"> 
-//                <table class="es-footer-body" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#333333;width:600px" cellspacing="0" cellpadding="0" bgcolor="#333333" align="center"> 
-//                 <tbody>
-//                  <tr style="border-collapse:collapse"> 
-//                   <td style="padding:0;Margin:0;padding-top:20px;padding-left:20px;padding-right:20px;background-position:center center;background-color:#659C35" bgcolor="#659C35" align="left"> 
-//                    <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-//                     <tbody>
-//                      <tr style="border-collapse:collapse"> 
-//                       <td valign="top" align="center" style="padding:0;Margin:0;width:560px"> 
-//                        <table width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-//                         <tbody>
-//                          <tr style="border-collapse:collapse"> 
-//                           <td style="padding:0;Margin:0"> 
-//                            <table class="es-menu" width="100%" cellspacing="0" cellpadding="0" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
-//                             <tbody>
-//                              <tr class="links" style="border-collapse:collapse"> 
-//                               <td style="Margin:0;padding-left:5px;padding-right:5px;padding-top:0px;padding-bottom:0px;border:0" width="33.33%" valign="top" bgcolor="transparent" align="center"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;display:block;color:#FFFFFF" href="https://plant4u.in/customer/account">Account</a></td> 
-//                               <td style="Margin:0;padding-left:5px;padding-right:5px;padding-top:0px;padding-bottom:0px;border:0;border-left:1px solid #FFFFFF" width="33.33%" valign="top" bgcolor="transparent" align="center"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;display:block;color:#FFFFFF" href="https://plant4u.in/plant4uspecial">Plant4uSpecial</a></td> 
-//                               <td style="Margin:0;padding-left:5px;padding-right:5px;padding-top:0px;padding-bottom:0px;border:0;border-left:1px solid #FFFFFF" width="33.33%" valign="top" bgcolor="transparent" align="center"><a target="_blank" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:14px;text-decoration:none;display:block;color:#FFFFFF" href="https://plant4u.in/customer/contact">Contact</a></td> 
-//                              </tr> 
-//                             </tbody>
-//                            </table></td> 
-//                          </tr> 
-//                         </tbody>
-//                        </table></td> 
-//                      </tr> 
-//                     </tbody>
-//                    </table></td> 
-//                  </tr> 
-//                 </tbody>
-//                </table></td> 
-//              </tr> 
-//             </tbody>
-//            </table> 
-//            </td> 
-//          </tr> 
-//         </tbody>
-//        </table> 
-//       </div>  
-//      </body>
-//     </html>
-//     `;
-
-var html = "Order Completed";
 
    
 
-   var invoice = {
-    shipping: {
-      name: order.orderFirstname + ` `+ order.orderLastname,
-      address: order.orderAddr1,
-      city: order.orderCity,
-      state: order.orderState,
-      postcode: order.orderPostcode,
-      phone: order.orderPhoneNumber
-    },
-    items: [
-    ],
-    orderId: order._id,
-    orderDate: new Date(order.orderDate).toDateString(),
-    shippingprice: order.orderShipping,
-    subtotal: parseInt(order.orderTotal),
-    totalcount: order.orderProductCount,
-    paid: 0,
-    invoice_nr: 1234
-  };
-  var totalamount = 0;
-  for(let a in order.orderProducts) {
-    var orderitem = {
-        item: order.orderProducts[a].title,
-        quantity: order.orderProducts[a].quantity,
-        amount: order.orderProducts[a].totalItemPrice
-      };
-      totalamount = totalamount + parseInt(orderitem.amount);
-      invoice.items.push(orderitem);
-  }
-  invoice.totalamount = totalamount;
-  invoice.discount = totalamount - invoice.subtotal - invoice.shipping;
-  if(invoice.discount > 0) {
-    invoice.discount = parseInt(invoice.discount);
-  }
-  else {
-      invoice.discount = 0;
-  }
-  var path = `public/uploads/`+order._id+`.pdf`;
-  var filename = order._id +`.pdf`;
-  var k = pdfgenerate(invoice,path);
-  console.log("pdfgenerated");
-  await mailer.sendEmail('orderconfirm@plant4u.in',req.session.customerEmail,'Order Complete',html);
-  await mailer.sendEmailattachment('orderconfirm@plant4u.in',order.orderVendorEmail,'Order Placed','New Order Placed with Plant4u and here is invoice for that order',[{
-    filename: filename,
-    path: path,
-    contentType: 'application/pdf'
-  }]
-  );
-  cloudinarypdf.config(name='cloud_name',key="pdfmanagement");
-    cloudinarypdf.config(name='api_key',key="228719351649744");
-    cloudinarypdf.config(name="api_secret",key="nrOR7AepWxSysLvAs-cmvll5pbE");
-  cloudinarypdf.uploader.upload(path,  {public_id: order._id,resource_type: 'raw'},
-    async function(error, result) {
-        if(error) {
-            console.log(error);
-            fs.unlinkSync(path);
-        }
-        else {
-            console.log(result);
-            fs.unlinkSync(path);
-        }
-    });
+//    var invoice = {
+//     shipping: {
+//       name: order.orderFirstname + ` `+ order.orderLastname,
+//       address: order.orderAddr1,
+//       city: order.orderCity,
+//       state: order.orderState,
+//       postcode: order.orderPostcode,
+//       phone: order.orderPhoneNumber
+//     },
+//     items: [
+//     ],
+//     orderId: order._id,
+//     orderDate: new Date(order.orderDate).toDateString(),
+//     shippingprice: order.orderShipping,
+//     subtotal: parseInt(order.orderTotal),
+//     totalcount: order.orderProductCount,
+//     paid: 0,
+//     invoice_nr: 1234
+//   };
+//   var totalamount = 0;
+//   for(let a in order.orderProducts) {
+//     var orderitem = {
+//         item: order.orderProducts[a].title,
+//         quantity: order.orderProducts[a].quantity,
+//         amount: order.orderProducts[a].totalItemPrice
+//       };
+//       totalamount = totalamount + parseInt(orderitem.amount);
+//       invoice.items.push(orderitem);
+//   }
+//   invoice.totalamount = totalamount;
+//   invoice.discount = totalamount - invoice.subtotal - invoice.shipping;
+//   if(invoice.discount > 0) {
+//     invoice.discount = parseInt(invoice.discount);
+//   }
+//   else {
+//       invoice.discount = 0;
+//   }
+//   var path = `public/uploads/`+order._id+`.pdf`;
+//   var filename = order._id +`.pdf`;
+//   var k = pdfgenerate(invoice,path);
+//   console.log("pdfgenerated");
+
+//   await mailer.sendEmailattachment('orderconfirm@plant4u.in',order.orderVendorEmail,'Order Placed','New Order Placed with Plant4u and here is invoice for that order',[{
+//     filename: filename,
+//     path: path,
+//     contentType: 'application/pdf'
+//   }]
+//   );
+//   cloudinarypdf.config(name='cloud_name',key="pdfmanagement");
+//     cloudinarypdf.config(name='api_key',key="228719351649744");
+//     cloudinarypdf.config(name="api_secret",key="nrOR7AepWxSysLvAs-cmvll5pbE");
+//   cloudinarypdf.uploader.upload(path,  {public_id: order._id,resource_type: 'raw'},
+//     async function(error, result) {
+//         if(error) {
+//             console.log(error);
+//             fs.unlinkSync(path);
+//         }
+//         else {
+//             console.log(result);
+//             fs.unlinkSync(path);
+//         }
+//     });
     
 // Here we send whatsapp message to vendor whenever we have an order
-    var detailsmessage = "Name: ".concat(bold(order.orderFirstname)).concat(" ").concat(bold(order.orderLastname));
-    detailsmessage = detailsmessage.concat(" Email: ").concat(order.orderEmail);
-    detailsmessage = detailsmessage.concat(" Phone: ").concat(order.orderPhoneNumber);
-    detailsmessage = detailsmessage.concat(" Order Id: ").concat(order._id);
-    var address = "Address: ".concat(order.orderAddr1).concat(" ").concat(order.orderCity).concat(" ").concat(order.orderState).concat(" ").concat(order.orderPostcode);
-    var items = ``;
-        for(let key in order.orderProducts){
-            items += ` Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
-        }
-    var sendmessage = `Your next order of `+items+` has shipped and should be delivered on `+address+`. Details: `+detailsmessage+``;
-    var whatsend = `whatsapp:+91`+order.orderVendorPhone;
-    client.messages.create({
-        from:'whatsapp:+14155238886',
-        to:whatsend,
-        body:sendmessage
-    }).then(message=> console.log(message));
+    // var detailsmessage = "Name: ".concat(bold(order.orderFirstname)).concat(" ").concat(bold(order.orderLastname));
+    // detailsmessage = detailsmessage.concat(" Email: ").concat(order.orderEmail);
+    // detailsmessage = detailsmessage.concat(" Phone: ").concat(order.orderPhoneNumber);
+    // detailsmessage = detailsmessage.concat(" Order Id: ").concat(order._id);
+    // var address = "Address: ".concat(order.orderAddr1).concat(" ").concat(order.orderCity).concat(" ").concat(order.orderState).concat(" ").concat(order.orderPostcode);
+    // var items = ``;
+    //     for(let key in order.orderProducts){
+    //         items += ` Product:- `+bold(order.orderProducts[key].title)+`, Quantity:- `+bold(order.orderProducts[key].quantity.toString())+``;
+    //     }
+    // var sendmessage = `Your next order of `+items+` has shipped and should be delivered on `+address+`. Details: `+detailsmessage+``;
+    // var whatsend = `whatsapp:+91`+order.orderVendorPhone;
+    // client.messages.create({
+    //     from:'whatsapp:+14155238886',
+    //     to:whatsend,
+    //     body:sendmessage
+    // }).then(message=> console.log(message));
 
     await db.orders.findOneAndUpdate({_id: common.getId(order._id)},{$set: {orderStatus: "Paid"}});
     }
-    res.render('success', {
+    var html = orderCompleted(orderlist);
+    await mailer.sendEmail('orderconfirm@plant4u.in',req.session.customerEmail,'Order Complete',html); 
+       res.render('success', {
         title: 'Payment complete',
         config: req.app.config,
         session: req.session,

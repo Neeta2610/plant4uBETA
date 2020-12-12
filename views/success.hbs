@@ -19,14 +19,14 @@
       </div>
       <div class="emailinfo float-right col-12 col-sm-6">
       <h6>User Info</h6>
-      <p>{{result.orderEmail}}</p>
-      <p>{{result.orderPhoneNumber}}</p>
-      <p>OrderId: {{result._id}}</p>
+      <p>{{result.[0].orderEmail}}</p>
+      <p>{{result.[0].orderPhoneNumber}}</p>
+      <p>OrderId: {{#each result}}{{this._id}} <br>{{/each}}</p>
     </div>
     <div class="shippingaddress float-right col-12 col-sm-6">
       <h6>Shipping Address</h6>
-      <p>{{result.orderAddr1}} {{result.orderState}}</p>
-      <p>{{result.orderPostcode}}</p>
+      <p>{{result.[0].orderAddr1}} {{result.[0].orderCity}} ,{{result.[0].orderState}}</p>
+      <p>{{result.[0].orderPostcode}}</p>
     </div>
     <div class="cart-table-area col-12 col-lg-8  mx-auto top-marg-25 text-start cart-table-area">
       <table class="table table-responsive">
@@ -39,7 +39,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {{#each result.orderProducts}}
+                                  {{#each result}}
+                                {{#each this.orderProducts}}
                                     <tr class="align-items-center">
                                         <td class="cart_product_img">
                                             <a href="/product/{{this.link}}">
@@ -60,6 +61,7 @@
                                         </td>
                                     </tr>
                                 {{/each}} 
+                                {{/each}}
                                 </tbody>
                             </table>
     </div>
