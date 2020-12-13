@@ -403,7 +403,6 @@ src="https://www.facebook.com/tr?id=373556083750569&ev=PageView&noscript=1"
 </div>
 {{/if}}
 
-
     <header class="header-area header-sticky">
         <div class="container">
             <div class="row">
@@ -526,7 +525,9 @@ src="https://www.facebook.com/tr?id=373556083750569&ev=PageView&noscript=1"
             value="{{@root.config.maxQuantity}}">{{/if}}
         <div id="notify_message"></div>
         {{#if showFooter}}
-        
+        <div class="Click-here">
+        <img src="/images/compass.png" alt="">
+        </div> 
     <a href="https://api.whatsapp.com/send?phone=917889896521" class="whatsappicon" target="__blank"><img src="/images/whatsapp.png" alt="Whatapp"></a>
                {{!-- newsletter section --}}
         <section class="newsletter-area top-pad-100">
@@ -635,7 +636,33 @@ src="https://www.facebook.com/tr?id=373556083750569&ev=PageView&noscript=1"
             </div>
         </div>
     </footer>
-        
+               
+<div class="custom-model-main model-open pinmodal">
+    <div class="custom-model-inner">        
+    <div class="close-btn">×</div>
+        <div class="custom-model-wrap">
+            <div class="pop-up-content-wrap">
+               <div class="upperpin">
+                   <div>
+                       <img src="/images/location.png" alt="">
+                   </div>
+                   <div class="text">
+                       Get Fast Delivery and Fresh Plants Based on your location
+                   </div>
+               </div>
+               <div class="d-flex upperlowerpin">
+                <div class="lowerpin form-group">
+                   <input type="text" class="form-control" id="currentpin" placeholder="Enter Pincode">
+               </div>
+               <div class="form-group lowerpin2">
+                   <button class="btn btn-primary">Submit</button>
+               </div>
+               </div>
+            </div>
+        </div>  
+    </div>  
+    <div class="bg-overlay"></div>
+</div> 
         {{/if}}
         <script src="/javascripts/pushy.min.js"></script>
         <script src="/javascripts/owl.carousel.min.js"></script>
@@ -707,6 +734,14 @@ src="https://www.facebook.com/tr?id=373556083750569&ev=PageView&noscript=1"
                     }
                 }
             })
+        </script>
+        <script>
+            $(".Click-here").on('click', function() {
+  $(".custom-model-main").addClass('model-open');
+}); 
+$(".close-btn, .bg-overlay").click(function(){
+  $(".custom-model-main").removeClass('model-open');
+});
         </script>
     </body>
 
