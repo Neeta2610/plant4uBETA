@@ -265,6 +265,7 @@
                                                 {{/each}}
                                             </ul>
                                             <ul>
+                                                <li><strong>Total Amount: </strong>{{this.orderTotal}}, <strong>Shipping: </strong>{{this.orderShipping}}</li>
                                                 <li><strong class="text-warning">Customer Information</strong></li>
                                                 <li>{{this.orderFirstname}} {{this.orderLastname}}</li>
                                                 <li>{{this.orderAddr1}} {{this.orderCity}}</li>
@@ -274,12 +275,9 @@
                                         </div>
                                     </div>
                                     <div>
-                                        {{#if this.droprId}}
+                                        {{#if this.orderPromoCode}}
                                         <div class="trackid">
-                                            Tracking Id - <span>{{this.droprId}}</span>
-                                            <div class="float-right trackinginfo mr-4">
-                                                <a href="https://dropr.in/track" target="_blank">More Tracking Info >></a>
-                                            </div>
+                                            Promo Code - <span>{{this.orderPromoCode}}</span>
                                         </div>
                                         {{/if}}
                                         <div class="formlevel">

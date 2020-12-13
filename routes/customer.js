@@ -457,12 +457,12 @@ router.get('/customer/account/:page?/:index1?', async (req, res) => {
         return;
     }
     const customer = await db.customers.findOne({_id: getId(req.session.customerId)});
-    const orders = await db.orders.find({
-        orderCustomer: getId(req.session.customerId)
-    })
-    .sort({ orderDate: -1 })
-    .toArray();
-    console.log(orders);
+    
+console.log(req.session.customerId);
+var orders = await db.orders.find({$or :[{orderCustomer: customer._id}, {orderCustomer: String(customer._id)}]}).sort({ orderDate: -1 }).toArray();
+
+
+    console.log(orders.length);
     var page = '';
     if(req.params.page){
         page = req.params.page;

@@ -723,7 +723,8 @@ router.post('/checkout_action', async (req, res, next) => {
         }
         if(vendorlist.length > 1) {
             var testobj = orderDoc;
-            orderDoc = []
+            orderDoc = [];
+            var ordertotal1 = testobj.orderTotal;
             for(var i=0;i<vendorlist.length;i++) {
                 let testdoc = JSON.parse(JSON.stringify(testobj));
                 testdoc.orderProducts = vendorprod[vendorlist[i]]
@@ -742,7 +743,17 @@ router.post('/checkout_action', async (req, res, next) => {
                 testdoc.orderItemCount = quantity;
                 orderProductCount = quantity;
                 testdoc.orderTotal = totalprice;
+                if(ordertotal1 > totalprice) {
+                    ordertotal1 = ordertotal1 - totalprice;
+                }
+                else {
+                    testdoc.orderTotal = ordertotal1;
+                    ordertotal1 = 0;
+                }
                 orderDoc.push(testdoc);
+            }
+            if(ordertotal1 > 0) {
+                orderDoc[0].orderTotal = orderDoc[0].orderTotal + ordertotal1;
             }
         }
 
@@ -831,9 +842,9 @@ router.post('/checkout_action', async (req, res, next) => {
                         };
     
                         // clear the cart
-                        // if(req.session.cart){
-                        //     common.emptyCart(req, res, 'function');
-                        // }
+                        if(req.session.cart){
+                            common.emptyCart(req, res, 'function');
+                        }
     
                         // send the email with the response
                         // TODO: Should fix this to properly handle result
