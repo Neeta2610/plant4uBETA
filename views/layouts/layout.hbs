@@ -637,7 +637,7 @@ src="https://www.facebook.com/tr?id=373556083750569&ev=PageView&noscript=1"
         </div>
     </footer>
                
-<div class="custom-model-main model-open pinmodal">
+<div class="custom-model-main {{#unless @root.session.locationpincode}}model-open{{/unless}} pinmodal">
     <div class="custom-model-inner">        
     <div class="close-btn">×</div>
         <div class="custom-model-wrap">
@@ -655,7 +655,7 @@ src="https://www.facebook.com/tr?id=373556083750569&ev=PageView&noscript=1"
                    <input type="text" class="form-control" id="currentpin" placeholder="Enter Pincode">
                </div>
                <div class="form-group lowerpin2">
-                   <button class="btn btn-primary">Submit</button>
+                   <button class="btn btn-primary" id="changepinlocation">Submit</button>
                </div>
                </div>
             </div>

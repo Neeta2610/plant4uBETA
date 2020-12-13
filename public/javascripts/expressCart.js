@@ -429,6 +429,23 @@ $(document).ready(function () {
         });
         
     });
+    $('#changepinlocation').on('click',function(e){
+        e.preventDefault();
+        $.ajax({
+            method: 'POST',
+            url: '/setpinlocation',
+            data: {
+                pincode: $('#currentpin').val()
+            }
+        })
+        .done(function(msg){
+            showNotification(msg.message, 'success');
+        })
+        .fail(function(msg){
+            showNotification(msg.responseJSON.message, 'danger');
+        });
+
+});
     $('#razorpay').on('click', function(e){
         if(!e.isDefaultPrevented()) {
             e.preventDefault();

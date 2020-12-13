@@ -1333,7 +1333,27 @@ router.delete('/admin/settings/discount/delete', restrict, checkAccess, async (r
         res.status(400).json({ message: 'Error deleting discount code. Please try again.' });
     }
 });
-
+router.post('/setpinlocation',(req,res)=>{
+    if(!req.body.pincode) {
+        res.status(400).json({message: "Enter Correct Pincode"});
+        return;
+    }
+    var pincode = req.body.pincode;
+    if(pincode.length != 6) {
+        res.status(400).json({message: "Pincode Length is Not 6"});
+        return;
+    }
+    try {
+        pincode = Number(pincode);
+        req.session.locationpincode = pincode;
+        res.status(200).json({message: "Pincode is set"});
+        return;
+    }
+    catch (ex) {
+        res.status(400).json({message: "Pincode Should be Number"});
+        return;
+    }
+});
 // upload the file
 const upload = multer({ dest: 'public/uploads/' });
 router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFile'), async (req, res) => {

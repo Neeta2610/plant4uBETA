@@ -722,7 +722,7 @@ $(document).ready(function (){
             });
         }
     });
-
+  
     $('#discountStart').datetimepicker({
         uiLibrary: 'bootstrap4',
         footer: true,
