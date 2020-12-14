@@ -20,8 +20,9 @@ const { validateJson } = require('../lib/schema');
 const { restrict } = require('../lib/auth');
 
 //*********************************//
-
-const authy = require('authy')('XZZ8npIOx0PTZI6JfNFLAawZJFwWDshz');
+//Xq2Yr2K2EPubuImr5ArTSaUJxC6grUv1
+//XZZ8npIOx0PTZI6JfNFLAawZJFwWDshz
+const authy = require('authy')('Xq2Yr2K2EPubuImr5ArTSaUJxC6grUv1');
 
 const apiLimiter = rateLimit({
     windowMs: 300000, // 5 minutes
