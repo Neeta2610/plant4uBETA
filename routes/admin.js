@@ -34,7 +34,8 @@ function isEmpty(obj) {
     }
     return true;
 }
-
+var nurserypin = fs.readFileSync('csvjson.json');
+let nurserydata = JSON.parse(nurserypin);
 // Admin section
 router.get('/admin', restrict, (req, res, next) => {
     res.redirect('/admin/dashboard');
@@ -1346,6 +1347,12 @@ router.post('/setpinlocation',(req,res)=>{
     try {
         pincode = Number(pincode);
         req.session.locationpincode = pincode;
+        for(var i=0;i<nurserydata.length;i++) {
+            if(nurserydata["pincode"] == pincode) {
+                req.session.nurseryid = nurserydata[id];
+                break;
+            }
+        }
         res.status(200).json({message: "Pincode is set"});
         return;
     }

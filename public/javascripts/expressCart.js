@@ -440,6 +440,7 @@ $(document).ready(function () {
         })
         .done(function(msg){
             showNotification(msg.message, 'success');
+            location.reload();
         })
         .fail(function(msg){
             showNotification(msg.responseJSON.message, 'danger');

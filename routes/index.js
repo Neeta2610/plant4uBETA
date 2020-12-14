@@ -2729,16 +2729,33 @@ router.get('/:page?', async (req, res, next) => {
     const db = req.app.db;
     const config = req.app.config;
     var productsIndex = req.app.productsIndex;
+    var nurseryId = req.session.nurseryId;
+    
     const numberProducts = config.productsPerPage ? config.productsPerPage : 8;
-    var packplants = await db.products.aggregate([
-        { $match: {isPack: true, productStock: { $gt: 0 }}},
-        { $limit: 4}
-    ]).toArray();
+    var packplants;
+    if(nurseryId) {
+        packplants = await db.products.aggregate([
+            { $match: {isPack: true, productStock: { $gt: 0 },productVendor: common.getId(nurseryId)}},
+            { $limit: 4}
+        ]).toArray();
+    }
+    if(!packplants || packplants.length < 4) {
+        packplants = await db.products.aggregate([
+            { $match: {isPack: true, productStock: { $gt: 0 }}},
+            { $limit: 4}
+        ]).toArray();
+    }
     var temptopProducts = [];
     productsIndex.search("BestBuy").forEach((id) => {
         temptopProducts.push(getId(id.ref));
     });
-    var topProducts = await db.products.aggregate({$match: {_id: { $in: temptopProducts},isPack: false, productStock: { $gt: 0}}}, { $limit: 4}).toArray();
+    var topProducts;
+    if(nurseryId){
+        topProducts = await db.products.aggregate({$match: {_id: { $in: temptopProducts},isPack: false, productStock: { $gt: 0},productVendor: common.getId(nurseryId)}}, { $limit: 4}).toArray();
+    }
+    if(!topProducts || topProducts.length < 4){
+        topProducts = await db.products.aggregate({$match: {_id: { $in: temptopProducts},isPack: false, productStock: { $gt: 0}}}, { $limit: 4}).toArray();
+    }
     var lunrIdArray = [];
     var resultproduct = [];
     var searchTerm = "Arotic";
@@ -2751,14 +2768,31 @@ router.get('/:page?', async (req, res, next) => {
     productsIndex.search(searchTerm).forEach((id) => {
         lunrIdArray.push(getId(id.ref));
     });
-    var plant4uspecial = await db.products.aggregate([
-        {$match: {_id: { $in: lunrIdArray },isPack: false, productStock: { $gt: 0}}},
-        { $limit: 4 }
-    ]).toArray();
-    var diwaliproducts = await db.products.aggregate([
-        {$match: {_id: { $in: diwalilist},isPack: false, productStock: { $gt: 0}}},
-        { $limit: 8 }
-    ]).toArray();
+    var plant4uspecial;
+    var diwaliproducts;
+    if(nurseryId) {
+        plant4uspecial = await db.products.aggregate([
+            {$match: {_id: { $in: lunrIdArray },isPack: false, productStock: { $gt: 0},productVendor: common.getId(nurseryId)}},
+            { $limit: 4 }
+        ]).toArray();
+        diwaliproducts = await db.products.aggregate([
+            {$match: {_id: { $in: diwalilist},isPack: false, productStock: { $gt: 0},productVendor: common.getId(nurseryId)}},
+            { $limit: 8 }
+        ]).toArray();
+    }
+    if(!plant4uspecial || plant4uspecial.length < 4){
+        plant4uspecial = await db.products.aggregate([
+            {$match: {_id: { $in: lunrIdArray },isPack: false, productStock: { $gt: 0}}},
+            { $limit: 4 }
+        ]).toArray();
+    }
+    if(!diwaliproducts || diwaliproducts.length < 8){
+        diwaliproducts = await db.products.aggregate([
+            {$match: {_id: { $in: diwalilist},isPack: false, productStock: { $gt: 0}}},
+            { $limit: 8 }
+        ]).toArray();
+    }
+    
     
     var mainproductterm = "NewArrival";
     productsIndex.search(mainproductterm).forEach((id) => {
@@ -2773,9 +2807,20 @@ router.get('/:page?', async (req, res, next) => {
         {$limit: 4}
     ]).toArray();
     // if no page is specified, just render page 1 of the cart
+    var resulpro;
+    var resultproduct2 = [];
+    if(nurseryId){
+        resulpro = await db.products.find({_id: {$in: resultproduct},productVendor: common.getId(nurseryId)})
+        resulpro.forEach((id)=>{
+            resultproduct2.push(common.getId(id._id));
+        });
+    }
+    if(!resulpro || resulpro.length < 7){
+        resultproduct2 = resultproduct;
+    }
     if(!req.params.page){
         Promise.all([
-            paginateProducts(true, db, 1, {_id: { $in: resultproduct },isPack: false}, getSort()),
+            paginateProducts(true, db, 1, {_id: { $in: resultproduct2 },isPack: false}, getSort()),
             getMenu(db)
         ])
             .then(async([results, menu]) => {
