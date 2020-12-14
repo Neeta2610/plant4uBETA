@@ -2397,8 +2397,21 @@ router.get('/search/:searchTerm/:pageNum?', async (req, res) => {
             queryString += "&"+"price"+req.query.price;
         }
     }
+    var nurseryId = req.session.nurseryId;
+    var resultproduct = lunrIdArray;
+    var resulpro;
+    var resultproduct2 = [];
+    if(nurseryId){
+        resulpro = await db.products.find({_id: {$in: resultproduct},productVendor: common.getId(nurseryId)})
+        resulpro.forEach((id)=>{
+            resultproduct2.push(common.getId(id._id));
+        });
+    }
+    if(!resulpro || resulpro.length < 2){
+        resultproduct2 = resultproduct;
+    }
     Promise.all([
-        paginateProducts(true, db, pageNum, { _id: { $in: lunrIdArray } }, getSort(),21),
+        paginateProducts(true, db, pageNum, { _id: { $in: resultproduct2 } }, getSort(),21),
         getMenu(db)
     ])
     .then(([results, menu]) => {
@@ -2508,9 +2521,21 @@ router.get('/category/:cat/:pageNum?',async (req, res) => {
         }
 
     }
-
+    var nurseryId = req.session.nurseryId;
+    var resultproduct = lunrIdArray;
+    var resulpro;
+    var resultproduct2 = [];
+    if(nurseryId){
+        resulpro = await db.products.find({_id: {$in: resultproduct},productVendor: common.getId(nurseryId)})
+        resulpro.forEach((id)=>{
+            resultproduct2.push(common.getId(id._id));
+        });
+    }
+    if(!resulpro || resulpro.length < 2){
+        resultproduct2 = resultproduct;
+    }
     Promise.all([
-        paginateProducts(true, db, pageNum, { _id: { $in: lunrIdArray } }, getSort(),21),
+        paginateProducts(true, db, pageNum, { _id: { $in: resultproduct2 } }, getSort(),21),
         getMenu(db)
     ])
         .then(([results, menu]) => {
