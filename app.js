@@ -219,6 +219,9 @@ handlebars = handlebars.create({
                     return url;
                 }
         },
+        urlType: (url,options) =>{
+            return url.endsWith('.mp4') ? options.fn(this): options.inverse(this);
+        },
         formatDate: (date, format) => {
             return moment(date).format(format);
         },

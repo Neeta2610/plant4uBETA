@@ -1397,7 +1397,7 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
         console.log("original name\n \n");
         console.log(path.resolve(__filename),"\n",path.resolve(__dirname));
         
-        cloudinary.uploader.upload(file.path,
+        cloudinary.uploader.upload(file.path,{ resource_type: "auto" },
         async function(error, result) {
             if(result){
                 var json_String = JSON.stringify(result);
@@ -1423,6 +1423,7 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
                 res.status(200).json({ message:  str});
             }
             else {
+                console.log(error);
                 fs.unlinkSync(file.path);
                 res.status(400).json({ message: 'File upload error. Please try again.' });
                 return;

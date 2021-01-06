@@ -226,13 +226,22 @@
                     {{#if images}}
                     <div class="row">
                         {{#each images}}
+                        {{#urlType this.path}}
+                        <div class="col-sm-3">
+                             <video width="320" height="240" controls>
+                            <source src="{{../this.path}}" type="video/mp4">
+                            Your browser does not support the video tag.
+                            </video> 
+                        </div>
+                        {{else}}
                         <div class="col-sm-3">
                             <div>
-                                <a data-id="{{this.id}}" data-path="{{this.path}}" class="btn-delete-image btn btn-outline-danger">{{ @root.__ "Delete" }}</a>
-                                    <a data-id="{{this.id}}" class="set-as-main-image btn btn-outline-success">{{ @root.__ "Set as main image" }}</a>
+                                <a data-id="{{../this.id}}" data-path="{{../this.path}}" class="btn-delete-image btn btn-outline-danger">{{ @root.__ "Delete" }}</a>
+                                    <a data-id="{{../this.id}}" class="set-as-main-image btn btn-outline-success">{{ @root.__ "Set as main image" }}</a>
                             </div>
-                            <img src="{{this.path}}" class="product-main-image img-fluid">
+                            <img src="{{../this.path}}" class="product-main-image img-fluid">
                         </div>
+                        {{/urlType}}
                         {{/each}}
                     </div>
                     {{else}}
