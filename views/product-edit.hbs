@@ -258,7 +258,7 @@
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" id="uploadForm" enctype="multipart/form-data"></form>
+            <form method="post" action="/admin/file/upload" id="uploadForm" enctype="multipart/form-data">
             <div class="modal-header">
                 <button type="button" class="close marg-left-5" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title" id="myModalLabel">{{ @root.__ "Product image upload" }}</h4>
@@ -272,8 +272,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" id="uploadButton" class="btn btn-outline-primary">{{ @root.__ "Upload" }}</button>
+                <button type="submit" id="" class="btn btn-outline-primary">{{ @root.__ "Upload" }}</button>
             </div>
+            </form>
         </div>
     </div>
 </div>

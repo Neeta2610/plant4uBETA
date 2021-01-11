@@ -1383,8 +1383,11 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
             fs.unlinkSync(file.path);
 
             // Return error
-            res.status(400).json({ message: 'File type not allowed or too large. Please try again.' });
-            return;
+            req.session.message = 'File Type Not Allowed or too large';
+        req.session.messageType = 'danger';
+        res.redirect('/admin/product/edit/'+req.body.productId);
+        return;
+     
         }
 
         // get the product form the DB
@@ -1394,8 +1397,10 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
             fs.unlinkSync(file.path);
 
             // Return error
-            res.status(400).json({ message: 'Product Not found. Please try again.' });
-            return;
+            req.session.message = 'Product Not Found';
+        req.session.messageType = 'danger';
+        res.redirect('/admin/product/edit/'+req.body.productId);
+        return;
         }
         var origpath = path.resolve(file.path,file.originalname);
         console.log(origpath);
@@ -1425,20 +1430,28 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
                 }
                 fs.unlinkSync(file.path);
                 var str = "File uploaded successfully";
-                res.status(200).json({ message:  str});
+                req.session.message = str;
+        req.session.messageType = 'success';
+        res.redirect('/admin/product/edit/'+req.body.productId);
+        return;
             }
             else {
                 console.log(error);
                 fs.unlinkSync(file.path);
-                res.status(400).json({ message: error });
-                return;
+                req.session.message = error;
+        req.session.messageType = 'danger';
+        res.redirect('/admin/product/edit/'+req.body.productId);
+        return;
             }
         });
         // Return success message
         return;
     }
     // Return error
-    res.status(400).json({ message: 'File Not Found error. Please try again.' });
+    req.session.message = 'File Not Found';
+        req.session.messageType = 'danger';
+        res.redirect('/admin/product/edit/'+req.body.productId);
+        return;
 });
 
 // delete a file via ajax request
