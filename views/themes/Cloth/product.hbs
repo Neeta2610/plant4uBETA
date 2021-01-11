@@ -56,10 +56,10 @@
                                     {{#if result.productImage}}
                                     {{#each result.productImage}}
                                     {{#urlType this.path}}
-                                    <li class="active" data-target="#product_details_slider" data-slide-to="{{@index}}" style="background-image: url({{#convertImage ../this.path}}{{this}}{{/convertImage}});">
+                                    <li class="{{#ifCond @index "==" 0}}active{{/ifCond}}" data-target="#product_details_slider" data-slide-to="{{@index}}" style="background-image: url({{#convertImage ../this.path}}{{this}}{{/convertImage}});">
                                     </li>
                                     {{else}}
-                                    <li class="active" data-target="#product_details_slider" data-slide-to="{{@index}}" style="background-image: url({{../this.path}});">
+                                    <li class="{{#ifCond @index "==" 0}}active{{/ifCond}}" data-target="#product_details_slider" data-slide-to="{{@index}}" style="background-image: url({{../this.path}});">
                                     </li>
                                     {{/urlType}}
                                     {{/each}}
