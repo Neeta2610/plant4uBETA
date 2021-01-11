@@ -1086,7 +1086,7 @@ $(document).ready(function (){
             showNotification(msg.message, 'success', true);
         })
         .fail(function(msg){
-            showNotification(msg.responseJSON.message, 'danger');
+            showNotification(msg.message, 'danger');
         });
     });
 

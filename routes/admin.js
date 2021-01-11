@@ -1373,6 +1373,7 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
         const mimeType = mime.lookup(file.originalname);
 
         // Check for allowed mime type and file size
+        console.log(file.size);
         if(!common.allowedMimeType.includes(mimeType) || file.size > common.fileSizeLimit){
             // Remove temp file
             fs.unlinkSync(file.path);
