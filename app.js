@@ -222,6 +222,9 @@ handlebars = handlebars.create({
         urlType: (url,options) =>{
             return url.endsWith('.mp4') ? options.fn(this): options.inverse(this);
         },
+        convertImage: (url) =>{
+            return url.replace('.mp4','.jpg');
+        },
         formatDate: (date, format) => {
             return moment(date).format(format);
         },
@@ -343,6 +346,12 @@ handlebars = handlebars.create({
         fixTags: (html) => {
             html = html.replace(/&gt;/g, '>');
             html = html.replace(/&lt;/g, '<');
+            return html;
+        },
+        fixMini: (html) => {
+            html = html.split("\\n");
+            console.log(html);
+        
             return html;
         },
         feather: (icon) => {

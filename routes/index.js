@@ -37,6 +37,12 @@ const {
 } = require('../lib/common');
 const countryList = getCountryList();
 var pin = require('india-pincode-lookup');
+var cloudinary = require('cloudinary').v2;
+cloudinary.config({ 
+    cloud_name: 'plant4u', 
+    api_key: '125951334984627', 
+    api_secret: 'fIREsPkXsg5cpWyksHDnoykVHYM' 
+  });
 var cloudinarypdf = require('cloudinary').v2;
 
 cloudinarypdf.config({ 
@@ -1888,6 +1894,9 @@ router.get('/product/:id', async (req, res) => {
         }).limit(4).toArray();
     }
 
+    // Video  preview
+   
+    
     res.render(`${config.themeViews}product`, {
         title: product.productTitle,
         result: product,
