@@ -1077,9 +1077,6 @@ $(document).ready(function (){
         $.ajax({
             method: 'POST',
             url: '/admin/file/upload',
-            processData: false,
-            contentType: false,
-            cache: false,
             data: formData
         })
         .done(function(msg){

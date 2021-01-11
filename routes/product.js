@@ -197,7 +197,7 @@ router.get('/admin/product/edit/:id', restrict, checkAccess, async (req, res) =>
     const db = req.app.db;
 
     const product = await db.products.findOne({ _id: common.getId(req.params.id) });
-    const images = product.productImage;
+    
     const filter = await db.filters.find({}).toArray();
     
     const vendors = await db.vendors.find({}).toArray();

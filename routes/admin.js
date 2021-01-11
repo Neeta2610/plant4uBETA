@@ -1362,7 +1362,10 @@ router.post('/setpinlocation',(req,res)=>{
     }
 });
 // upload the file
-const upload = multer({ dest: 'public/uploads/' });
+const upload = multer({ dest: 'public/uploads/', onError : function(err, next) {
+    console.log('error', err);
+    next(err);
+  } });
 router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFile'), async (req, res) => {
     const db = req.app.db;
     console.log("inside req file");
