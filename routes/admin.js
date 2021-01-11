@@ -1426,7 +1426,7 @@ router.post('/admin/file/upload', restrict, checkAccess, upload.single('uploadFi
             else {
                 console.log(error);
                 fs.unlinkSync(file.path);
-                res.status(400).json({ message: 'File upload error. Please try again.' });
+                res.status(400).json({ message: error });
                 return;
             }
         });
