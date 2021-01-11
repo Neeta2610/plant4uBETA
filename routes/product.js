@@ -220,8 +220,7 @@ router.get('/admin/product/edit/:id', restrict, checkAccess, async (req, res) =>
         res.status(200).json(product);
         return;
     }
-console.log(product);
-console.log(vendors);
+
     res.render('product-edit', {
         title: 'Edit product',
         result: product,
